@@ -44,17 +44,17 @@ jobs:
     - name: Build executable (Windows)
       if: matrix.platform == 'windows'
       run: |
-        pyinstaller --onefile --windowed --name P-Type --icon=icon.ico P-Type.py
+        pyinstaller --onefile --windowed --name P-Type --icon=icon.ico ptype.py
 
     - name: Build executable (macOS)
       if: matrix.platform == 'macos'
       run: |
-        pyinstaller --onefile --windowed --name P-Type --icon=icon.ico P-Type.py
+        pyinstaller --onefile --windowed --name P-Type --icon=icon.ico ptype.py
 
     - name: Build executable (Linux)
       if: matrix.platform == 'linux'
       run: |
-        pyinstaller --onefile --name P-Type --icon=icon.ico P-Type.py
+        pyinstaller --onefile --name P-Type --icon=icon.ico ptype.py
 
     - name: Create app bundle (macOS)
       if: matrix.platform == 'macos'
