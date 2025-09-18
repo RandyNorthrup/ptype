@@ -3,7 +3,7 @@
 <div align="center">
 
 ![P-Type Logo](https://img.shields.io/badge/P--Type-v2.2-blue?style=for-the-badge&logo=python)
-![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey?style=for-the-badge&logo=windows)
+![Platform](https://img.shields.io/badge/Platform-Cross--Platform-lightgrey?style=for-the-badge)
 ![Python](https://img.shields.io/badge/Python-3.11+-green?style=for-the-badge&logo=python)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
@@ -70,19 +70,28 @@
 
 ## 💻 System Requirements
 
-- **OS**: Windows 10 or later
+- **OS**: Windows 10+, macOS 10.14+, or Linux (Ubuntu 18.04+)
 - **Memory**: 100 MB RAM
 - **Storage**: 50 MB free disk space
 - **Optional**: Sound card for audio effects
 
 ## 📦 Installation
 
-### Option 1: Download Executable (Recommended)
-1. Go to [Releases](https://github.com/randy-moore/ptype/releases)
-2. Download the latest `P-Type.exe`
-3. Run the executable - no installation required!
+### Option 1: Windows Direct Download (Fastest)
+1. Download `P-Type.exe` directly from this repository
+2. Double-click to run - no installation required!
+3. **That's it!** The game runs immediately on Windows 10+
 
-### Option 2: Run from Source
+### Option 2: Cross-Platform Release Download
+1. Go to [Releases](https://github.com/RandyNorthrup/ptype/releases)
+2. Choose your platform:
+   - **Windows**: Download `P-Type.exe` and run directly
+   - **macOS**: Download `P-Type-macOS.zip`, extract, and run `P-Type.app`
+   - **Linux**: Download `P-Type-Linux`, make executable (`chmod +x P-Type-Linux`), and run
+3. **macOS Users**: If you get a security warning, right-click the app and select "Open"
+4. **Linux Users**: You may need to install audio libraries: `sudo apt-get install python3-pygame`
+
+### Option 3: Run from Source
 ```bash
 # Clone the repository
 git clone https://github.com/randy-moore/ptype.git
