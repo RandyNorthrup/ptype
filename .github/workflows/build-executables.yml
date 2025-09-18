@@ -44,56 +44,25 @@ jobs:
     - name: Build executable (Windows)
       if: matrix.platform == 'windows'
       run: |
-        pyinstaller --onefile --windowed --name P-Type --icon=icon.ico ptype.py
+        pyinstaller --onefile --windowed --name P-Type ptype.py
 
     - name: Build executable (macOS)
       if: matrix.platform == 'macos'
       run: |
-        pyinstaller --onefile --windowed --name P-Type --icon=icon.ico ptype.py
+        pyinstaller --windowed --name P-Type ptype.py
 
     - name: Build executable (Linux)
       if: matrix.platform == 'linux'
       run: |
-        pyinstaller --onefile --name P-Type --icon=icon.ico ptype.py
+        pyinstaller --onefile --name P-Type ptype.py
 
     - name: Create app bundle (macOS)
       if: matrix.platform == 'macos'
       run: |
-        # Create a proper macOS app bundle structure
-        mkdir -p P-Type.app/Contents/MacOS
-        mkdir -p P-Type.app/Contents/Resources
-        cp dist/P-Type P-Type.app/Contents/MacOS/
-        
-        # Create Info.plist
-        cat > P-Type.app/Contents/Info.plist << 'EOF'
-        <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-        <plist version="1.0">
-        <dict>
-            <key>CFBundleExecutable</key>
-            <string>P-Type</string>
-            <key>CFBundleIdentifier</key>
-            <string>com.randynorthrup.ptype</string>
-            <key>CFBundleName</key>
-            <string>P-Type</string>
-            <key>CFBundleVersion</key>
-            <string>1.0.0</string>
-            <key>CFBundleShortVersionString</key>
-            <string>1.0.0</string>
-            <key>CFBundleInfoDictionaryVersion</key>
-            <string>6.0</string>
-            <key>CFBundlePackageType</key>
-            <string>APPL</string>
-            <key>NSHighResolutionCapable</key>
-            <true/>
-            <key>LSMinimumSystemVersion</key>
-            <string>10.14.0</string>
-        </dict>
-        </plist>
-        EOF
-        
-        # Create a ZIP file of the app bundle
-        zip -r P-Type-macOS.zip P-Type.app
+        # PyInstaller already created the .app bundle in dist/
+        # Just zip it for distribution
+        cd dist
+        zip -r ../P-Type-macOS.zip P-Type.app
 
     - name: Upload artifact (Windows/Linux)
       if: matrix.platform != 'macos'
