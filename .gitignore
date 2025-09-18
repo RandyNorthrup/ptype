@@ -86,3 +86,6 @@ P-Type.spec
 
 # Windows specific
 *.exe.config
+
+# Allow our specific executable
+!P-Type.exe
