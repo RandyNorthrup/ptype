@@ -97,14 +97,14 @@ jobs:
 
     - name: Upload artifact (Windows/Linux)
       if: matrix.platform != 'macos'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.artifact_name }}
         path: dist/${{ matrix.executable_name }}
 
     - name: Upload artifact (macOS)
       if: matrix.platform == 'macos'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.artifact_name }}
         path: P-Type-macOS.zip
@@ -119,16 +119,16 @@ jobs:
       uses: actions/checkout@v4
     
     - name: Download all artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts/
     
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ github.ref }}
-        release_name: P-Type ${{ github.ref }}
+        tag_name: ${{ github.ref_name }}
+        name: P-Type ${{ github.ref_name }}
         draft: false
         prerelease: false
         body: |
@@ -148,33 +148,7 @@ jobs:
           - Cross-platform typing game
           - Smooth gameplay and sound effects
           - Multiple difficulty levels
-    
-    - name: Upload Windows Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: P-Type-Windows/P-Type.exe
-        asset_name: P-Type.exe
-        asset_content_type: application/octet-stream
-    
-    - name: Upload macOS Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: P-Type-macOS/P-Type-macOS.zip
-        asset_name: P-Type-macOS.zip
-        asset_content_type: application/zip
-    
-    - name: Upload Linux Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: P-Type-Linux/P-Type
-        asset_name: P-Type-Linux
-        asset_content_type: application/octet-stream
+        files: |
+          artifacts/P-Type-Windows/P-Type.exe
+          artifacts/P-Type-macOS/P-Type-macOS.zip
+          artifacts/P-Type-Linux/P-Type
