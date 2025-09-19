@@ -99,6 +99,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write  # Required for creating releases
     
     steps:
     - uses: actions/download-artifact@v4
@@ -111,15 +113,25 @@ jobs:
           PType-macOS/PType-macOS.tar.gz
           PType-Linux/PType-Linux.tar.gz
         body: |
-          # P-Type - The Typing Game
+          # P-Type v1.1.0 - Enhanced Boss Edition
           
-          ## Downloads
+          ## 🔥 What's New
+          - **100-level progression system** (expanded from 20 levels)
+          - **Enhanced boss AI** with aggressive player tracking
+          - **Level-scaled damage** (30-80 HP based on progression)
+          - **Improved rendering** - boss words always visible
+          - **Sound effects fixed** in compiled builds
+          
+          ## 📥 Downloads
           - **Windows**: PType-Windows.zip
           - **macOS**: PType-macOS.tar.gz  
           - **Linux**: PType-Linux.tar.gz
           
-          ## Features
+          ## 🎮 Features
           - 500+ word dictionary
           - 7 programming languages
-          - Boss battles
-          - 20 difficulty levels
+          - Aggressive boss battles
+          - 100 difficulty levels (20-400 WPM)
+          - Save/load system
+          - Multiple player profiles
+          - Achievement system
