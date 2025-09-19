@@ -3,6 +3,7 @@
 
 # Core game engine
 pygame>=2.5.0
+numpy>=1.24.0  # Required for sound effect generation
 
 # Build dependencies (optional - only needed for building executable)
 pyinstaller>=6.0.0
