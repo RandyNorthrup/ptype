@@ -9,7 +9,7 @@ Features:
 - Normal mode with standard English dictionary words
 - Programming training mode with 7 languages (Python, JavaScript, Java, C#, C++, CSS, HTML)
 - Boss battles with challenging words at the end of each level
-- 20 difficulty levels with progressive speed (20-300 WPM)
+- 100 difficulty levels with progressive speed (20-400 WPM)
 - Ship collision mechanics with visual effects
 - High scores and detailed statistics tracking
 - Customizable audio settings
@@ -37,8 +37,8 @@ os.environ['SDL_VIDEODRIVER'] = 'windows'  # Force Windows video driver
 os.environ['SDL_VIDEO_ALLOW_SCREENSAVER'] = '1'
 
 # Version Information
-VERSION = "1.0.0"
-VERSION_NAME = "Launch Edition"
+VERSION = "1.1.0"
+VERSION_NAME = "Enhanced Boss Edition"
 RELEASE_DATE = "2025-01-19"
 
 # Initialize Pygame

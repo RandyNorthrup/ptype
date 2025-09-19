@@ -5,6 +5,53 @@ All notable changes to P-Type - The Typing Game will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-01-19
+
+### 🚀 Major Update - Enhanced Boss System & Extended Gameplay
+
+#### Added
+- **100-Level Progression System**
+  - Expanded from 20 to 100 levels for extended gameplay
+  - Maximum WPM increased from 300 to 400
+  - Smoother difficulty curve across all levels
+
+- **Enhanced Boss AI**
+  - Aggressive movement patterns that actively hunt the player
+  - Horizontal tracking with smooth lag for fairness
+  - Dynamic target recalculation (5% chance per frame)
+  - Boss-specific movement properties
+
+- **Improved Boss Features**
+  - Level-scaled collision damage (30 HP at level 1, 80 HP at level 100)
+  - Better speed scaling for 100-level progression
+  - Programming mode boss speed adjustments based on code length
+  - Boss level stored for accurate damage calculation
+
+- **Visual Improvements**
+  - Fixed z-order rendering for boss words (always on top)
+  - Shield effects render behind everything
+  - Active indicator rings render behind ship
+  - Words render on top of all effects for maximum visibility
+
+#### Fixed
+- Sound effects not working in compiled builds (added numpy dependency)
+- Boss words being obscured by forcefield/shield effects
+- Boss movement not targeting player correctly
+- Data directory missing in GitHub Actions builds
+- PyInstaller build failures due to missing directories
+
+#### Changed
+- Boss speed calculations completely redesigned for 100 levels
+- Boss collision damage now scales with progression
+- Settings now stored in user home directory (~/.ptype/)
+- Build workflow includes numpy for sound generation
+
+#### Technical
+- Added numpy>=1.24.0 as core dependency
+- Updated GitHub Actions workflow for proper builds
+- Added hidden imports for PyInstaller (numpy)
+- Created empty data directory during builds
+
 ## [1.0.0] - 2025-01-19
 
 ### 🎉 Initial Release - Launch Edition

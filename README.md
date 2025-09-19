@@ -16,8 +16,12 @@ A modern typing game designed specifically for programmers to improve their codi
 - **Dual Game Modes**
   - **Normal Mode**: Traditional typing with English words
   - **Programming Mode**: Practice with real code snippets from 7 programming languages
-- **20 Progressive Difficulty Levels**: From 20 WPM to 300 WPM
-- **Boss Battles**: Challenging boss enemies at the end of each level
+- **100 Progressive Difficulty Levels**: From 20 WPM to 400 WPM
+- **Enhanced Boss Battles**: 
+  - Aggressive AI that actively hunts the player
+  - Level-scaled damage (30-80 HP)
+  - Smart movement patterns with horizontal tracking
+  - Proper z-order rendering for word visibility
 - **Shield System**: Build shields by defeating bosses at full health
 - **EMP Weapon**: Special ability to clear nearby enemies
 
@@ -52,6 +56,7 @@ A modern typing game designed specifically for programmers to improve their codi
 - **Operating System**: Windows 10/11, macOS 10.14+, or Linux
 - **Memory**: 2GB RAM minimum
 - **Display**: 800x600 minimum resolution (1920x1080 recommended)
+- **Dependencies**: pygame>=2.5.0, numpy>=1.24.0
 
 ## 🛠️ Installation
 
@@ -108,7 +113,7 @@ Download the pre-built executable from the releases page (no Python required).
 | Accuracy Master | Maintain high accuracy | 95% accuracy in a game |
 | Boss Slayer | Defeat your first boss | Defeat 1 boss |
 | Halfway There | Progress through levels | Reach level 10 |
-| Master Typist | Complete the game | Reach level 20 |
+| Master Typist | Complete the game | Reach level 100 |
 | Perfection | Type without mistakes | 10 perfect words in a row |
 | Marathon Runner | Extended play session | Play for 30 minutes |
 | Polyglot | Master all languages | Play all 7 programming languages |
@@ -146,18 +151,20 @@ PType/
 
 ## 🔧 Configuration
 
-Settings are stored in `data/ptype_settings.json` and can be modified in-game:
+Settings are stored in `~/.ptype/` directory (user home folder) and can be modified in-game:
 
 - **Sound Volume**: 0.0 to 1.0
 - **Music Volume**: 0.0 to 1.0
 - **Window Size**: Automatically saved
 - **Current Profile**: Active player profile
+- **Save Files**: Persistent game saves per mode/language combination
 
 ## 🐛 Known Issues
 
 - Maximize button disabled on Windows to prevent UI scaling issues
 - Some special characters in programming mode may not display correctly on certain systems
 - Background music requires MP3 file in assets/sounds/
+- Boss words may appear very long in programming mode (intentional for challenge)
 
 ## 🤝 Contributing
 
