@@ -1,0 +1,29 @@
+{
+  "name": "ptype-game",
+  "version": "1.0.0",
+  "description": "P-Type - The Typing Game: A modern typing game with programming language training",
+  "main": "ptype.py",
+  "author": "Randy Northrup",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/PType.git"
+  },
+  "keywords": [
+    "typing",
+    "game",
+    "python",
+    "pygame",
+    "education",
+    "programming",
+    "typing-game"
+  ],
+  "engines": {
+    "python": ">=3.11"
+  },
+  "scripts": {
+    "start": "python ptype.py",
+    "build": "python build.py",
+    "test": "python -m pytest tests/"
+  }
+}

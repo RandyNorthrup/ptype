@@ -1,218 +1,219 @@
-# P-Type - Programming Typing Challenge
+# P-Type - The Typing Game
 
-<div align="center">
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/yourusername/PType/releases)
+[![Python](https://img.shields.io/badge/python-3.11+-green.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 
-![P-Type Logo](https://img.shields.io/badge/P--Type-v2.2-blue?style=for-the-badge&logo=python)
-![Platform](https://img.shields.io/badge/Platform-Cross--Platform-lightgrey?style=for-the-badge)
-![Python](https://img.shields.io/badge/Python-3.11+-green?style=for-the-badge&logo=python)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
+![Python](https://img.shields.io/badge/python-3.8%2B-brightgreen.svg)
+![License](https://img.shields.io/badge/license-MIT-purple.svg)
 
-**A modern typing game designed for programmers and typing enthusiasts**
+A modern typing game designed specifically for programmers to improve their coding speed and accuracy across multiple programming languages.
 
-🎮 **[Download Latest Release](https://github.com/randy-moore/ptype/releases)** 🎮
+## 🎮 Features
 
-</div>
+### Core Gameplay
+- **Dual Game Modes**
+  - **Normal Mode**: Traditional typing with English words
+  - **Programming Mode**: Practice with real code snippets from 7 programming languages
+- **20 Progressive Difficulty Levels**: From 20 WPM to 300 WPM
+- **Boss Battles**: Challenging boss enemies at the end of each level
+- **Shield System**: Build shields by defeating bosses at full health
+- **EMP Weapon**: Special ability to clear nearby enemies
 
-## 🚀 Features
+### Programming Language Support
+- **Python**: 245+ patterns including keywords, built-ins, and common libraries
+- **Java**: 265+ patterns from basic syntax to Spring Boot
+- **JavaScript**: 262+ patterns including ES6+ and React
+- **C#**: 277+ patterns covering .NET and modern C# features
+- **C++**: 276+ patterns from STL to modern C++20
+- **CSS**: 248+ patterns including modern CSS3 and Grid/Flexbox
+- **HTML**: 289+ patterns including HTML5 and accessibility
 
-### 🎨 **Fully Responsive UI**
-- Adapts to any window size while maintaining perfect proportions
-- Automatic UI recalculation on window resize
-- Consistent centering and spacing across all screen resolutions
-- Portrait aspect ratio maintained at all window sizes
+### Modern UI & Graphics
+- **3D-Style Ships**: Enhanced visual effects with glow and pulse animations
+- **Laser Beam Effects**: Visual feedback for each keystroke
+- **Particle Explosions**: Dynamic destruction effects
+- **Responsive Design**: Adaptive UI that scales to any window size
+- **Custom Logo**: Professional branding with glow effects
+- **Dark Theme**: Eye-friendly dark color scheme
 
-### 🎮 **Game Modes**
-- **Normal Mode**: Master standard English vocabulary and tech terms
-- **Programming Mode**: Learn syntax while improving typing speed
-- 7 Programming languages supported: Python, JavaScript, Java, C#, C++, CSS, HTML
-- Progressive difficulty from beginner to advanced levels
+### Player Features
+- **Multiple Profiles**: Create and manage different player profiles
+- **Persistent Progress**: Save games for each mode/language combination
+- **Achievement System**: 12 unlockable achievements
+- **Detailed Statistics**: Track WPM, accuracy, and performance by mode
+- **High Score Tracking**: Compete for the best scores
+- **Background Music**: Ambient soundtrack with volume control
 
-### 🏆 **Advanced Features**
-- 📈 20 progressive difficulty levels (20-300 WPM target speed)
-- 👑 Epic boss battles with challenging words at level completion
-- 🎯 Real-time collision mechanics with visual effects
-- 📊 Detailed statistics and high score tracking
-- ⚙️ Customizable audio settings
-- 🎨 Modern 3D ship graphics with smooth animations
-- 🖱️ Smart dropdown menus with scrolling support
-- ⌨️ Full keyboard support including special characters
+## 📋 Requirements
 
-### 🪟 **Professional Windows Integration**
-- Proper windowed application with title bar and controls
-- Resizable window with automatic UI adaptation
-- Taskbar integration and system compatibility
-- Clean exit options in both menu and pause screens
+- **Python**: 3.8 or higher
+- **Operating System**: Windows 10/11, macOS 10.14+, or Linux
+- **Memory**: 2GB RAM minimum
+- **Display**: 800x600 minimum resolution (1920x1080 recommended)
 
-## 📸 Screenshots
+## 🛠️ Installation
 
-*Screenshots coming soon - the game features a beautiful space-themed interface with modern UI elements.*
+### From Source
 
-## 🎯 How to Play
-
-1. **Choose Your Mode**:
-   - **Normal Mode**: Focus on general typing skills with tech vocabulary
-   - **Programming Mode**: Practice coding syntax in your preferred language
-
-2. **Select Difficulty**:
-   - **Beginner**: Basic keywords and simple terms
-   - **Intermediate**: Common patterns and moderate complexity
-   - **Advanced**: Complex expressions and frameworks
-
-3. **Destroy Enemy Ships**:
-   - Type the words displayed on enemy ships to destroy them
-   - Use ← → arrow keys to switch between multiple targets
-   - Avoid collisions and don't let too many ships escape!
-
-4. **Face Boss Battles**:
-   - Complete levels to unlock challenging boss encounters
-   - Boss ships require longer, more complex phrases
-   - Defeat bosses to progress to higher difficulty levels
-
-## 💻 System Requirements
-
-- **OS**: Windows 10+, macOS 10.14+, or Linux (Ubuntu 18.04+)
-- **Memory**: 100 MB RAM
-- **Storage**: 50 MB free disk space
-- **Optional**: Sound card for audio effects
-
-## 📦 Installation
-
-### Option 1: Windows Direct Download (Fastest)
-1. Download `P-Type.exe` directly from this repository
-2. Double-click to run - no installation required!
-3. **That's it!** The game runs immediately on Windows 10+
-
-### Option 2: Cross-Platform Release Download
-1. Go to [Releases](https://github.com/RandyNorthrup/ptype/releases)
-2. Choose your platform:
-   - **Windows**: Download `P-Type.exe` and run directly
-   - **macOS**: Download `P-Type-macOS.zip`, extract, and run `P-Type.app`
-   - **Linux**: Download `P-Type-Linux`, make executable (`chmod +x P-Type-Linux`), and run
-3. **macOS Users**: If you get a security warning, right-click the app and select "Open"
-4. **Linux Users**: You may need to install audio libraries: `sudo apt-get install python3-pygame`
-
-### Option 3: Run from Source
+1. **Clone or download the repository**:
 ```bash
-# Clone the repository
-git clone https://github.com/randy-moore/ptype.git
+git clone https://github.com/yourusername/ptype.git
 cd ptype
+```
 
-# Install dependencies
-pip install pygame
+2. **Install dependencies**:
+```bash
+pip install -r requirements.txt
+```
 
-# Run the game
+3. **Run the game**:
+```bash
 python ptype.py
 ```
 
-## 🎮 Controls
+### Windows Executable
 
-| Key | Action |
-|-----|--------|
-| **Type letters/words** | Target and destroy enemy ships |
-| **← →** | Switch between active enemy ships |
-| **ESC** | Pause game / Access settings |
-| **F11** | Toggle maximize window |
-| **Mouse** | Navigate menus and dropdowns |
+Download the pre-built executable from the releases page (no Python required).
 
-## 🛠️ Development
+## 🎯 How to Play
 
-### Building from Source
+### Basic Controls
+- **Type**: Match the words/code on enemy ships
+- **Tab**: Switch between enemy targets
+- **Space**: Activate EMP weapon (when charged)
+- **Esc**: Pause game
+- **F11**: Toggle fullscreen (where supported)
 
-```bash
-# Install build dependencies
-pip install pyinstaller pygame
+### Gameplay Tips
+1. **Focus on Accuracy**: Perfect words (no mistakes) grant bonus points and healing
+2. **Manage Your Health**: Collisions damage health, completed words restore it
+3. **Use Shield Wisely**: Defeat bosses at full health to build shield buffer
+4. **Strategic EMP**: Save EMP for overwhelming situations
+5. **Learn Patterns**: Each programming language has unique patterns to master
 
-# Build executable
-python build_executable.py
+### Scoring System
+- **Base Points**: Word length × 10 × current level
+- **Boss Bonus**: Triple points for boss defeats
+- **Perfect Word Bonus**: +50 points for words with no mistakes
+- **Accuracy Multiplier**: Higher accuracy yields better scores
+
+## 🏆 Achievements
+
+| Achievement | Description | Requirement |
+|------------|-------------|-------------|
+| First Steps | Type your first word | Complete 1 word |
+| Speed Demon | Reach high typing speed | Achieve 100 WPM |
+| Accuracy Master | Maintain high accuracy | 95% accuracy in a game |
+| Boss Slayer | Defeat your first boss | Defeat 1 boss |
+| Halfway There | Progress through levels | Reach level 10 |
+| Master Typist | Complete the game | Reach level 20 |
+| Perfection | Type without mistakes | 10 perfect words in a row |
+| Marathon Runner | Extended play session | Play for 30 minutes |
+| Polyglot | Master all languages | Play all 7 programming languages |
+| High Scorer | Achieve high score | Score 10,000+ points |
+| Veteran | Experienced player | Complete 50 games |
+| Word Master | Type many words | Type 1,000 total words |
+
+## 📁 Project Structure
+
 ```
-
-### Project Structure
-```
-ptype/
+PType/
 ├── ptype.py              # Main game file
-├── build_executable.py   # Build script for creating executable
-├── ptype.manifest        # Windows application manifest
+├── requirements.txt      # Python dependencies
 ├── README.md            # This file
 ├── LICENSE              # MIT License
-└── dist/                # Built executables (created after build)
-    ├── P-Type.exe       # Main executable
-    ├── README.txt       # User documentation
-    └── Launch P-Type.bat # User-friendly launcher
+│
+├── assets/              # Game assets
+│   ├── images/         # Image files
+│   │   └── ptype_logo.png
+│   └── sounds/         # Audio files
+│       └── game_music.mp3
+│
+├── data/               # User data (created at runtime)
+│   ├── ptype_settings.json
+│   ├── ptype_profiles.json
+│   └── ptype_scores.json
+│
+├── docs/               # Documentation
+│   ├── CHANGELOG.md
+│   └── CONTRIBUTING.md
+│
+└── tests/              # Test files
+    └── test_*.py
 ```
 
-### Technology Stack
-- **Python 3.11+**: Core game engine
-- **Pygame 2.5+**: Graphics and input handling
-- **PyInstaller**: Executable compilation
-- **Modern UI**: Custom responsive interface system
+## 🔧 Configuration
 
-## 🎯 Game Statistics
+Settings are stored in `data/ptype_settings.json` and can be modified in-game:
 
-Track your progress with detailed statistics:
-- **Words Per Minute (WPM)**: Real-time typing speed
-- **Accuracy**: Percentage of correct keystrokes
-- **High Scores**: Best scores for each mode and language
-- **Progress**: Level completion and boss defeats
-- **Time Played**: Total game time tracking
+- **Sound Volume**: 0.0 to 1.0
+- **Music Volume**: 0.0 to 1.0
+- **Window Size**: Automatically saved
+- **Current Profile**: Active player profile
 
-## 🏆 Achievement System
+## 🐛 Known Issues
 
-*Coming Soon*: Unlock achievements for:
-- Reaching typing speed milestones
-- Completing all levels in different modes
-- Defeating boss battles
-- Maintaining high accuracy scores
-- Mastering different programming languages
+- Maximize button disabled on Windows to prevent UI scaling issues
+- Some special characters in programming mode may not display correctly on certain systems
+- Background music requires MP3 file in assets/sounds/
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+Contributions are welcome! Please see `docs/CONTRIBUTING.md` for guidelines.
 
 ### Development Setup
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Test thoroughly
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
 
-## 📋 Todo / Roadmap
+1. Install development dependencies:
+```bash
+pip install -r requirements-dev.txt
+```
 
-- [ ] Add more programming languages (Rust, Go, TypeScript)
-- [ ] Implement online leaderboards
-- [ ] Add custom word lists support
-- [ ] Create achievement system
-- [ ] Add sound effects and background music
-- [ ] Implement multiplayer mode
-- [ ] Add themes and customization options
-- [ ] Create mobile version
+2. Run tests:
+```bash
+pytest tests/
+```
 
-## 📄 License
+3. Format code:
+```bash
+black ptype.py
+```
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 📜 License
+
+This project is licensed under the MIT License - see the `LICENSE` file for details.
+
+## 👨‍💻 Author
+
+Created by Randy - A passionate developer focused on creating educational and entertaining programming tools.
 
 ## 🙏 Acknowledgments
 
-- **Pygame Community** - For the excellent game development framework
-- **Python Community** - For the robust programming language
-- **Typography Enthusiasts** - For inspiration in creating an engaging typing experience
+- Pygame community for the excellent game development framework
+- All contributors who have helped improve the game
+- The programming community for inspiration and feedback
 
-## 📞 Support
+## 📊 Version History
 
-- **Issues**: [GitHub Issues](https://github.com/randy-moore/ptype/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/randy-moore/ptype/discussions)
+- **v2.0.0** (Current)
+  - Added 200+ patterns per programming language
+  - Implemented boss battles with special mechanics
+  - Added shield system and EMP weapon
+  - Complete UI overhaul with responsive design
+  - Multi-profile support with persistent saves
+  - Achievement system
+  - Background music support
 
-## 🌟 Star History
+- **v1.0.0** (Initial Release)
+  - Basic typing game functionality
+  - Support for 7 programming languages
+  - Simple scoring system
 
-[![Star History Chart](https://api.star-history.com/svg?repos=randy-moore/ptype&type=Date)](https://star-history.com/#randy-moore/ptype&Date)
+## 📧 Contact
+
+For bugs, suggestions, or questions, please open an issue on the project repository.
 
 ---
 
-<div align="center">
-
-**Made with ❤️ for the programming and typing community**
-
-[⬆ Back to Top](#p-type---programming-typing-challenge)
-
-</div>
+**Enjoy improving your typing speed while learning programming patterns!** 🎮👨‍💻

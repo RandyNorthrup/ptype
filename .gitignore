@@ -1,91 +1,100 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Game Data (user-specific - these contain player profiles and scores)
+data/ptype_profiles.json
+data/ptype_scores.json
+data/ptype_settings.json
+!data/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
 
 # Distribution / packaging
 .Python
-build/
 develop-eggs/
-dist/
 downloads/
-eggs/
-.eggs/
 lib/
 lib64/
 parts/
 sdist/
 var/
 wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+pip-wheel-metadata/
+share/python-wheels/
 
 # PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
-*.spec
+ptype.spec
+build/
+dist/
+*.exe
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
-
-# Virtual environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Game-specific files
-*.json
-game_settings.json
-high_scores.json
+# Documentation build
+docs/_build/
 
 # Temporary files
 *.tmp
 *.bak
-*.log
+*.backup
+temp/
+tmp/
 
-# Build artifacts (keep dist folder out of git since it's generated)
-# dist/ is already covered above
+# OS specific
+Thumbs.db
+desktop.ini
+.DS_Store
+.AppleDouble
+.LSOverride
 
-# PyInstaller generated spec files (we have our own)
-P-Type.spec
+# User save files (if stored locally instead of home directory)
+*.save
+saves/
 
-# Windows specific
-*.exe.config
+# Compiled assets
+*.pyc
+*.pyo
 
-# Allow our specific executable
-!P-Type.exe
+# Build script (local use only)
+build.py
+create_*.py
+
+# Keep directory structure
+!.gitkeep
+!data/.gitkeep
+!assets/.gitkeep
+!assets/images/.gitkeep
+!assets/sounds/.gitkeep
+!src/.gitkeep
+!docs/.gitkeep
