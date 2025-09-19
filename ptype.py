@@ -51,8 +51,8 @@ SCREEN_HEIGHT = 800  # Default height
 MIN_WINDOW_WIDTH = 600  # Same as SCREEN_WIDTH since width is fixed
 MIN_WINDOW_HEIGHT = 800  # Minimum height for all UI elements to fit properly
 FPS = 60
-MAX_LEVELS = 20
-MAX_WPM = 300
+MAX_LEVELS = 100  # Scaled up from 20 to 100 levels
+MAX_WPM = 400  # Increased max WPM for 100 levels
 BASE_WPM = 20
 MAX_MISSED_SHIPS = 3
 
@@ -1964,8 +1964,9 @@ class ModernEnemy:
 class BossEnemy(ModernEnemy):
     """Boss enemy - larger, more challenging ship that appears at level completion"""
     def __init__(self, word: str, level: int, player_x: int = SCREEN_WIDTH // 2, game_mode: GameMode = GameMode.NORMAL):
-        # Store game mode before parent init
+        # Store game mode and level before parent init
         self.game_mode = game_mode
+        self.boss_level = level  # Store boss level for damage calculation
         super().__init__(word, level, player_x)
         
         # Boss ships are larger and more imposing
@@ -1973,36 +1974,47 @@ class BossEnemy(ModernEnemy):
         self.height = 90  # Double the normal height
         self.is_boss = True
         
-        # Adjust boss speed based on game mode and word length
+        # Boss movement properties - move toward player aggressively
+        self.horizontal_speed = 1.5  # Horizontal tracking speed
+        self.aggressive_tracking = True
+        
+        # Adjust boss speed based on game mode, word length, and level (for 100 levels)
         # Bosses should move MUCH slower than regular enemies for dramatic effect
         if game_mode == GameMode.PROGRAMMING:
             # Programming bosses need special handling due to very long code snippets
-            # Base speed reduction for bosses - EVEN SLOWER
-            base_reduction = 0.05  # Start with only 5% of original speed (reduced from 8%)
+            # Base speed reduction for bosses
+            base_reduction = 0.04  # Start with only 4% of original speed
             
             # Further reduce based on word length
             if len(word) > 50:
-                self.speed = min(0.5, self.speed * base_reduction * 0.4)  # Extra slow for very long code
+                self.speed = min(0.4, self.speed * base_reduction * 0.3)  # Extra slow for very long code
             elif len(word) > 30:
-                self.speed = min(0.6, self.speed * base_reduction * 0.6)  # Slower for medium code
+                self.speed = min(0.5, self.speed * base_reduction * 0.5)  # Slower for medium code
             else:
-                self.speed = min(0.8, self.speed * base_reduction)  # Still slow for short code
+                self.speed = min(0.6, self.speed * base_reduction * 0.7)  # Still slow for short code
+                
+            # Scale up slightly with level (for 100 levels)
+            level_factor = 1.0 + (level / 100) * 0.5  # Up to 50% faster at level 100
+            self.speed *= level_factor
         else:
             # Normal mode boss speed - much slower than regular enemies
             # Boss words are usually long, so give player more time
-            # Reduced for expanded 500+ word dictionary
-            base_reduction = 0.06  # Start with only 6% of original speed (reduced from 10%)
+            base_reduction = 0.05  # Start with only 5% of original speed
             
-            # Further adjust based on level
-            if level > 15:
-                self.speed = self.speed * base_reduction * 1.3  # 8% at high levels (0.06 * 1.3 ≈ 0.08)
-            elif level > 10:
-                self.speed = self.speed * base_reduction * 1.1  # 6.6% at medium levels
+            # Adjust based on level brackets (for 100 levels)
+            if level > 80:
+                self.speed = self.speed * base_reduction * 2.0  # 10% speed at very high levels
+            elif level > 60:
+                self.speed = self.speed * base_reduction * 1.7  # 8.5% speed
+            elif level > 40:
+                self.speed = self.speed * base_reduction * 1.4  # 7% speed
+            elif level > 20:
+                self.speed = self.speed * base_reduction * 1.2  # 6% speed
             else:
-                self.speed = self.speed * base_reduction  # 6% at low levels
+                self.speed = self.speed * base_reduction  # 5% at low levels
         
         # Ensure minimum speed but cap maximum for bosses
-        self.speed = max(0.2, min(1.0, self.speed))  # Boss speed between 0.2 and 1.0 (reduced max)
+        self.speed = max(0.15, min(1.5, self.speed))  # Boss speed between 0.15 and 1.5
         
         # Special boss properties
         self.boss_glow = 0
@@ -2012,7 +2024,29 @@ class BossEnemy(ModernEnemy):
         self.x = SCREEN_WIDTH // 2
         
     def update(self):
-        super().update()
+        # Boss-specific aggressive movement toward player
+        if self.aggressive_tracking and hasattr(self, 'player_ship') and self.player_ship:
+            # Update target based on current player position
+            self.target_x = self.player_ship.x
+            self.target_y = self.player_ship.y
+            
+            # Track player horizontally with some lag for fairness
+            dx = self.target_x - self.x
+            if abs(dx) > 5:  # Dead zone to prevent jittering
+                # Move horizontally toward player
+                self.x += dx * 0.03 * self.horizontal_speed  # Smooth tracking (increased speed)
+            
+            # Recalculate direction every few frames for aggressive pursuit
+            if random.random() < 0.05:  # 5% chance per frame to recalculate (more aggressive)
+                self.calculate_direction()
+        
+        # Standard movement
+        self.x += self.vx
+        self.y += self.vy
+        
+        # Update animations
+        self.hover_offset += 0.1
+        self.pulse += 0.15
         self.boss_glow += 0.08
         self.shield_pulse += 0.12
         
@@ -2026,11 +2060,7 @@ class BossEnemy(ModernEnemy):
         else:
             base_color = ACCENT_PURPLE  # Purple for inactive boss
         
-        # Draw boss with enhanced 3D effect and special glow
-        pulse_value = math.sin(self.boss_glow) * 0.7 + 0.3  # Stronger pulse for boss
-        draw_3d_ship(screen, self.x, int(hover_y), self.width, self.height, base_color, False, self.active, pulse_value)
-        
-        # Draw boss shield effect - multiple layers
+        # Draw boss shield effect FIRST - multiple layers (behind ship)
         for i in range(3):
             shield_alpha = int(100 + 30 * math.sin(self.shield_pulse + i * 0.5))
             ring_size = self.width//2 + 20 + i * 10
@@ -2039,8 +2069,9 @@ class BossEnemy(ModernEnemy):
                               (ring_size, ring_size), ring_size, 2)
             screen.blit(shield_surface, (self.x - ring_size, int(hover_y) + self.height//2 - ring_size))
         
-        # Draw enlarged 3D ship
-        draw_3d_ship(screen, self.x, int(hover_y), self.width, self.height, base_color, False, self.active)
+        # Draw boss ship with enhanced 3D effect and special glow
+        pulse_value = math.sin(self.boss_glow) * 0.7 + 0.3  # Stronger pulse for boss
+        draw_3d_ship(screen, self.x, int(hover_y), self.width, self.height, base_color, False, self.active, pulse_value)
         
         # Boss glow effect - remove the filled rectangle
         
@@ -3499,6 +3530,8 @@ class PTypeGame:
             # Create boss enemy targeting player, passing game mode for speed adjustment
             player_x = self.player_ship.x if hasattr(self, 'player_ship') else SCREEN_WIDTH // 2
             boss = BossEnemy(boss_word, self.level, player_x, self.game_mode)
+            # Store reference to player ship for continuous tracking
+            boss.player_ship = self.player_ship if hasattr(self, 'player_ship') else None
             self.enemies.append(boss)
             
             self.boss_spawned = True
@@ -3829,9 +3862,12 @@ class PTypeGame:
             if player_rect.colliderect(enemy_rect):
                 # Calculate base damage
                 if hasattr(enemy, 'is_boss') and enemy.is_boss:
-                    # Boss collision: devastating damage
-                    # Total damage is 75% of max health (75 points)
-                    total_damage = 75
+                    # Boss collision: damage scales with boss level
+                    # Base damage: 30 at level 1, scaling up to 80 at level 100
+                    boss_level = getattr(enemy, 'boss_level', self.level)
+                    base_boss_damage = 30
+                    level_scaling = (boss_level - 1) / (MAX_LEVELS - 1)  # 0 to 1 as level increases
+                    total_damage = int(base_boss_damage + (50 * level_scaling))  # 30 to 80 damage
                 else:
                     # Regular enemy damage
                     total_damage = 15
