@@ -2060,7 +2060,7 @@ class BossEnemy(ModernEnemy):
         else:
             base_color = ACCENT_PURPLE  # Purple for inactive boss
         
-        # Draw boss shield effect FIRST - multiple layers (behind ship)
+        # 1. Draw boss shield effect FIRST - multiple layers (behind everything)
         for i in range(3):
             shield_alpha = int(100 + 30 * math.sin(self.shield_pulse + i * 0.5))
             ring_size = self.width//2 + 20 + i * 10
@@ -2069,18 +2069,28 @@ class BossEnemy(ModernEnemy):
                               (ring_size, ring_size), ring_size, 2)
             screen.blit(shield_surface, (self.x - ring_size, int(hover_y) + self.height//2 - ring_size))
         
-        # Draw boss ship with enhanced 3D effect and special glow
+        # 2. Draw special boss active indicator rings (behind ship)
+        if self.active:
+            pulse_size = 5 + math.sin(self.pulse) * 3
+            # Multiple rings for boss
+            for i in range(3):
+                ring_size = int(self.width//2 + 20 + pulse_size + i * 10)
+                ring_alpha = max(50, 150 - i * 40)
+                ring_surface = pygame.Surface((ring_size * 2, ring_size * 2))
+                ring_surface.set_alpha(ring_alpha)
+                pygame.draw.circle(ring_surface, NEON_PINK, (ring_size, ring_size), ring_size, 3)
+                ring_rect = ring_surface.get_rect(center=(self.x, int(hover_y) + self.height//2))
+                screen.blit(ring_surface, ring_rect)
+        
+        # 3. Draw boss ship with enhanced 3D effect and special glow
         pulse_value = math.sin(self.boss_glow) * 0.7 + 0.3  # Stronger pulse for boss
         draw_3d_ship(screen, self.x, int(hover_y), self.width, self.height, base_color, False, self.active, pulse_value)
         
-        # Boss glow effect - remove the filled rectangle
-        
-        # Enhanced word rendering with boss styling
+        # 4. LAST: Draw word rendering (on top of everything else)
         remaining_word = self.original_word[len(self.typed_chars):]
         typed_color = NEON_GREEN
         remaining_color = ACCENT_YELLOW if self.active else MODERN_WHITE
         
-        # Larger font for boss words (if available)
         # Word background with boss styling
         full_word_surface = font.render(self.original_word, True, MODERN_WHITE)
         word_width = full_word_surface.get_width()
@@ -2110,19 +2120,6 @@ class BossEnemy(ModernEnemy):
             remaining_rect.centerx = self.x - word_width//2 + typed_width + remaining_surface.get_width()//2
             remaining_rect.centery = hover_y + self.height + 35
             screen.blit(remaining_surface, remaining_rect)
-        
-        # Special boss active indicator
-        if self.active:
-            pulse_size = 5 + math.sin(self.pulse) * 3
-            # Multiple rings for boss
-            for i in range(3):
-                ring_size = int(self.width//2 + 20 + pulse_size + i * 10)
-                ring_alpha = max(50, 150 - i * 40)
-                ring_surface = pygame.Surface((ring_size * 2, ring_size * 2))
-                ring_surface.set_alpha(ring_alpha)
-                pygame.draw.circle(ring_surface, NEON_PINK, (ring_size, ring_size), ring_size, 3)
-                ring_rect = ring_surface.get_rect(center=(self.x, int(hover_y) + self.height//2))
-                screen.blit(ring_surface, ring_rect)
 
 class ModernPlayerShip:
     """Enhanced player ship with 3D graphics and responsive positioning.
