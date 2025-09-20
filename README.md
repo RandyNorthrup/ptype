@@ -1,12 +1,8 @@
 # P-Type - The Typing Game
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/yourusername/PType/releases)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/yourusername/PType/releases)
 [![Python](https://img.shields.io/badge/python-3.11+-green.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
-
-![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
-![Python](https://img.shields.io/badge/python-3.8%2B-brightgreen.svg)
-![License](https://img.shields.io/badge/license-MIT-purple.svg)
 
 A modern typing game designed specifically for programmers to improve their coding speed and accuracy across multiple programming languages.
 
@@ -24,6 +20,8 @@ A modern typing game designed specifically for programmers to improve their codi
   - Proper z-order rendering for word visibility
 - **Shield System**: Build shields by defeating bosses at full health
 - **EMP Weapon**: Special ability to clear nearby enemies
+- **Trivia System**: Answer programming and pop culture questions every 2 boss defeats
+- **Bonus Items**: Collect and use power-ups including Rapid Fire, Shield Boost, Health Pack, and Time Freeze
 
 ### Programming Language Support
 - **Python**: 245+ patterns including keywords, built-ins, and common libraries
@@ -38,17 +36,20 @@ A modern typing game designed specifically for programmers to improve their codi
 - **3D-Style Ships**: Enhanced visual effects with glow and pulse animations
 - **Laser Beam Effects**: Visual feedback for each keystroke
 - **Particle Explosions**: Dynamic destruction effects
+- **Dramatic Sound Effects**: Realistic explosion sounds when completing words
 - **Responsive Design**: Adaptive UI that scales to any window size
 - **Custom Logo**: Professional branding with glow effects
 - **Dark Theme**: Eye-friendly dark color scheme
+- **Icon System**: Professional icon integration with pytablericons
 
 ### Player Features
 - **Multiple Profiles**: Create and manage different player profiles
 - **Persistent Progress**: Save games for each mode/language combination
-- **Achievement System**: 12 unlockable achievements
-- **Detailed Statistics**: Track WPM, accuracy, and performance by mode
+- **Achievement System**: 19+ unlockable achievements including trivia and bonus item achievements
+- **Detailed Statistics**: Track WPM, accuracy, trivia performance, and more
 - **High Score Tracking**: Compete for the best scores
 - **Background Music**: Ambient soundtrack with volume control
+- **Sound Effects**: Programmatically generated explosion, laser, and impact sounds
 
 ## 📋 Requirements
 
@@ -56,7 +57,7 @@ A modern typing game designed specifically for programmers to improve their codi
 - **Operating System**: Windows 10/11, macOS 10.14+, or Linux
 - **Memory**: 2GB RAM minimum
 - **Display**: 800x600 minimum resolution (1920x1080 recommended)
-- **Dependencies**: pygame>=2.5.0, numpy>=1.24.0
+- **Dependencies**: pygame>=2.5.0, numpy>=1.24.0, pytablericons>=1.1.0, Pillow>=10.0.0
 
 ## 🛠️ Installation
 
@@ -88,6 +89,8 @@ Download the pre-built executable from the releases page (no Python required).
 - **Type**: Match the words/code on enemy ships
 - **Tab**: Switch between enemy targets
 - **Space**: Activate EMP weapon (when charged)
+- **Up/Down Arrows**: Select bonus item
+- **Backspace**: Activate selected bonus item
 - **Esc**: Pause game
 - **F11**: Toggle fullscreen (where supported)
 
@@ -120,6 +123,13 @@ Download the pre-built executable from the releases page (no Python required).
 | High Scorer | Achieve high score | Score 10,000+ points |
 | Veteran | Experienced player | Complete 50 games |
 | Word Master | Type many words | Type 1,000 total words |
+| Trivia Novice | Answer trivia questions | Answer 1 trivia question correctly |
+| Trivia Expert | Master trivia | Answer 10 trivia questions correctly |
+| Trivia Master | Trivia champion | Answer 25 trivia questions correctly |
+| Trivia Genius | Trivia legend | Answer 50 trivia questions correctly |
+| Perfect Trivia | Perfect streak | Get 5 trivia questions correct in a row |
+| Bonus Collector | Collect bonuses | Collect 10 bonus items |
+| Bonus Master | Use bonuses | Use 25 bonus items |
 
 ## 📁 Project Structure
 

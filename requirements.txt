@@ -4,6 +4,8 @@
 # Core game engine
 pygame>=2.5.0
 numpy>=1.24.0  # Required for sound effect generation
+pytablericons>=1.1.0  # Icon system for UI elements
+Pillow>=10.0.0  # Image processing for icon conversion
 
 # Build dependencies (optional - only needed for building executable)
 pyinstaller>=6.0.0

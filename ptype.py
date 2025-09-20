@@ -26,9 +26,13 @@ import sys
 import os
 import json
 import math
+import time
 from enum import Enum
 from typing import List, Dict, Tuple, Optional, Any
 from dataclasses import dataclass
+from pytablericons.tabler_icons import TablerIcons, OutlineIcon, FilledIcon
+from PIL import Image
+import io
 
 # Force proper Windows windowing
 os.environ['SDL_VIDEO_WINDOW_POS'] = 'centered'
@@ -37,13 +41,24 @@ os.environ['SDL_VIDEODRIVER'] = 'windows'  # Force Windows video driver
 os.environ['SDL_VIDEO_ALLOW_SCREENSAVER'] = '1'
 
 # Version Information
-VERSION = "1.1.0"
+VERSION = "1.5.0"
 VERSION_NAME = "Enhanced Boss Edition"
-RELEASE_DATE = "2025-01-19"
+RELEASE_DATE = "2025-01-20"
 
 # Initialize Pygame
 pygame.init()
 pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
+
+# Initialize TablerIcons
+tabler_icons = TablerIcons()
+
+def pil_to_pygame(pil_image):
+    """Convert PIL Image to pygame Surface"""
+    # Convert PIL image to raw bytes
+    raw_str = pil_image.tobytes("raw", 'RGBA')
+    # Create pygame surface from raw bytes
+    surface = pygame.image.fromstring(raw_str, pil_image.size, 'RGBA')
+    return surface
 
 # Modern Constants
 SCREEN_WIDTH = 600  # Fixed width for typing game - never changes
@@ -119,16 +134,17 @@ class TriviaCategory(Enum):
 @dataclass
 class TriviaQuestion:
     question: str
-    options: List[str]  # 4 options
-    correct_answer: int  # Index of correct answer (0-3)
+    options: List[str]  # 3 options
+    correct_answer: int  # Index of correct answer (0-2)
     difficulty: str  # beginner, intermediate, advanced
     category: str  # Category or programming language
 
 @dataclass
 class BonusItem:
-    item_type: BonusItemType
+    item_id: int  # Unique identifier (0-3)
     name: str
     description: str
+    icon_enum: Any  # pytablericons icon enum (OutlineIcon or FilledIcon)
     duration: int  # Duration in frames (60 = 1 second)
     uses: int  # How many uses
     effect_value: float  # Strength of effect
@@ -141,90 +157,225 @@ class TriviaDatabase:
         TriviaCategory.POP_CULTURE.value: {
             'beginner': [
                 TriviaQuestion("Which movie features the line 'May the Force be with you'?", 
-                             ["Star Trek", "Star Wars", "Avatar", "Matrix"], 1, "beginner", "pop_culture"),
+                             ["Star Trek", "Star Wars", "Avatar"], 1, "beginner", "pop_culture"),
                 TriviaQuestion("What social media platform has a bird as its logo?", 
-                             ["Facebook", "Instagram", "Twitter", "TikTok"], 2, "beginner", "pop_culture"),
+                             ["Facebook", "Twitter", "TikTok"], 1, "beginner", "pop_culture"),
                 TriviaQuestion("Who played Iron Man in the Marvel movies?", 
-                             ["Chris Evans", "Robert Downey Jr.", "Mark Ruffalo", "Chris Hemsworth"], 1, "beginner", "pop_culture"),
+                             ["Chris Evans", "Robert Downey Jr.", "Chris Hemsworth"], 1, "beginner", "pop_culture"),
                 TriviaQuestion("What streaming service is known for 'Stranger Things'?", 
-                             ["Hulu", "Netflix", "Disney+", "Amazon Prime"], 1, "beginner", "pop_culture"),
+                             ["Hulu", "Netflix", "Disney+"], 1, "beginner", "pop_culture"),
+                TriviaQuestion("Which superhero is known as 'The Dark Knight'?", 
+                             ["Superman", "Batman", "Spider-Man"], 1, "beginner", "pop_culture"),
+                TriviaQuestion("What is the name of Harry Potter's owl?", 
+                             ["Hedwig", "Errol", "Pigwidgeon"], 0, "beginner", "pop_culture"),
+                TriviaQuestion("Which video game features a plumber named Mario?", 
+                             ["Sonic", "Super Mario", "Zelda"], 1, "beginner", "pop_culture"),
+                TriviaQuestion("What company makes the iPhone?", 
+                             ["Samsung", "Apple", "Google"], 1, "beginner", "pop_culture"),
+                TriviaQuestion("What is the name of the main character in The Legend of Zelda?", 
+                             ["Zelda", "Link", "Ganon"], 1, "beginner", "pop_culture"),
+                TriviaQuestion("Which console is made by Sony?", 
+                             ["Xbox", "PlayStation", "Switch"], 1, "beginner", "pop_culture"),
+                TriviaQuestion("What does 'www' stand for?", 
+                             ["World Wide Web", "Web World Wide", "Wide Web World"], 0, "beginner", "pop_culture"),
+                TriviaQuestion("Which company created Minecraft?", 
+                             ["Epic Games", "Mojang", "Valve"], 1, "beginner", "pop_culture"),
+                TriviaQuestion("What is the most subscribed YouTube channel?", 
+                             ["PewDiePie", "MrBeast", "T-Series"], 2, "beginner", "pop_culture"),
+                TriviaQuestion("Which social media uses 'tweets'?", 
+                             ["Instagram", "Twitter", "Facebook"], 1, "beginner", "pop_culture"),
+                TriviaQuestion("What year did the first iPhone release?", 
+                             ["2005", "2007", "2009"], 1, "beginner", "pop_culture"),
             ],
             'intermediate': [
                 TriviaQuestion("Which band released the album 'Bohemian Rhapsody'?", 
-                             ["The Beatles", "Led Zeppelin", "Queen", "The Rolling Stones"], 2, "intermediate", "pop_culture"),
+                             ["The Beatles", "Queen", "The Rolling Stones"], 1, "intermediate", "pop_culture"),
                 TriviaQuestion("What is the highest-grossing film of all time?", 
-                             ["Titanic", "Avatar", "Avengers: Endgame", "Star Wars: The Force Awakens"], 1, "intermediate", "pop_culture"),
+                             ["Titanic", "Avatar", "Avengers: Endgame"], 1, "intermediate", "pop_culture"),
                 TriviaQuestion("Who directed the movie 'Inception'?", 
-                             ["Steven Spielberg", "Christopher Nolan", "Martin Scorsese", "Quentin Tarantino"], 1, "intermediate", "pop_culture"),
+                             ["Steven Spielberg", "Christopher Nolan", "Quentin Tarantino"], 1, "intermediate", "pop_culture"),
+                TriviaQuestion("What is the best-selling video game of all time?", 
+                             ["Minecraft", "Tetris", "GTA V"], 1, "intermediate", "pop_culture"),
+                TriviaQuestion("Which actor played the Joker in The Dark Knight?", 
+                             ["Joaquin Phoenix", "Heath Ledger", "Jack Nicholson"], 1, "intermediate", "pop_culture"),
+                TriviaQuestion("What year was Netflix founded?", 
+                             ["1997", "2001", "2005"], 0, "intermediate", "pop_culture"),
+                TriviaQuestion("Who created the TV series Breaking Bad?", 
+                             ["David Chase", "Vince Gilligan", "David Benioff"], 1, "intermediate", "pop_culture"),
+                TriviaQuestion("What is the highest-grossing movie franchise?", 
+                             ["Star Wars", "Marvel Cinematic Universe", "Harry Potter"], 1, "intermediate", "pop_culture"),
             ],
             'advanced': [
                 TriviaQuestion("Which film won the first Academy Award for Best Picture?", 
-                             ["Wings", "Sunrise", "The Jazz Singer", "7th Heaven"], 0, "advanced", "pop_culture"),
+                             ["Wings", "Sunrise", "The Jazz Singer"], 0, "advanced", "pop_culture"),
                 TriviaQuestion("What year did MTV launch?", 
-                             ["1980", "1981", "1982", "1983"], 1, "advanced", "pop_culture"),
+                             ["1980", "1981", "1982"], 1, "advanced", "pop_culture"),
             ]
         },
         
         TriviaCategory.SPORTS.value: {
             'beginner': [
                 TriviaQuestion("How many players are on a basketball team?", 
-                             ["4", "5", "6", "7"], 1, "beginner", "sports"),
+                             ["4", "5", "6"], 1, "beginner", "sports"),
                 TriviaQuestion("What sport is played at Wimbledon?", 
-                             ["Golf", "Tennis", "Cricket", "Rugby"], 1, "beginner", "sports"),
+                             ["Golf", "Tennis", "Cricket"], 1, "beginner", "sports"),
                 TriviaQuestion("How often are the Olympics held?", 
-                             ["Every 2 years", "Every 3 years", "Every 4 years", "Every 5 years"], 2, "beginner", "sports"),
+                             ["Every 2 years", "Every 4 years", "Every 5 years"], 1, "beginner", "sports"),
+                TriviaQuestion("How many players are on a soccer team?", 
+                             ["9", "11", "13"], 1, "beginner", "sports"),
+                TriviaQuestion("What sport is known as 'America's pastime'?", 
+                             ["Football", "Basketball", "Baseball"], 2, "beginner", "sports"),
+                TriviaQuestion("How many periods are in a hockey game?", 
+                             ["2", "3", "4"], 1, "beginner", "sports"),
+                TriviaQuestion("What is the maximum score in gymnastics?", 
+                             ["10", "100", "No limit"], 0, "beginner", "sports"),
+                TriviaQuestion("Which sport uses a shuttlecock?", 
+                             ["Tennis", "Badminton", "Squash"], 1, "beginner", "sports"),
             ],
             'intermediate': [
                 TriviaQuestion("Which country has won the most FIFA World Cups?", 
-                             ["Germany", "Argentina", "Brazil", "Italy"], 2, "intermediate", "sports"),
+                             ["Germany", "Brazil", "Italy"], 1, "intermediate", "sports"),
                 TriviaQuestion("What is the maximum score possible in ten-pin bowling?", 
-                             ["200", "250", "300", "350"], 2, "intermediate", "sports"),
+                             ["250", "300", "350"], 1, "intermediate", "sports"),
+                TriviaQuestion("Which NBA team has won the most championships?", 
+                             ["Lakers", "Bulls", "Celtics"], 2, "intermediate", "sports"),
+                TriviaQuestion("What is par for most golf holes?", 
+                             ["3 or 4", "4 or 5", "5 or 6"], 1, "intermediate", "sports"),
+                TriviaQuestion("How long is a marathon?", 
+                             ["26.2 miles", "30 miles", "42 miles"], 0, "intermediate", "sports"),
+                TriviaQuestion("Which tennis tournament is played on grass?", 
+                             ["US Open", "Wimbledon", "French Open"], 1, "intermediate", "sports"),
             ],
             'advanced': [
                 TriviaQuestion("Who holds the record for most career home runs in baseball?", 
-                             ["Babe Ruth", "Hank Aaron", "Barry Bonds", "Willie Mays"], 2, "advanced", "sports"),
+                             ["Babe Ruth", "Barry Bonds", "Willie Mays"], 1, "advanced", "sports"),
             ]
         },
         
         TriviaCategory.HISTORY.value: {
             'beginner': [
                 TriviaQuestion("In which year did World War II end?", 
-                             ["1944", "1945", "1946", "1947"], 1, "beginner", "history"),
+                             ["1944", "1945", "1946"], 1, "beginner", "history"),
                 TriviaQuestion("Who was the first President of the United States?", 
-                             ["Thomas Jefferson", "John Adams", "George Washington", "Benjamin Franklin"], 2, "beginner", "history"),
+                             ["Thomas Jefferson", "George Washington", "John Adams"], 1, "beginner", "history"),
+                TriviaQuestion("In which year did Columbus discover America?", 
+                             ["1490", "1492", "1494"], 1, "beginner", "history"),
+                TriviaQuestion("Which ancient wonder still stands today?", 
+                             ["Colossus of Rhodes", "Great Pyramid of Giza", "Hanging Gardens"], 1, "beginner", "history"),
+                TriviaQuestion("What year did the Berlin Wall fall?", 
+                             ["1987", "1989", "1991"], 1, "beginner", "history"),
+                TriviaQuestion("Who invented the telephone?", 
+                             ["Thomas Edison", "Alexander Graham Bell", "Nikola Tesla"], 1, "beginner", "history"),
                 TriviaQuestion("Which ancient wonder of the world was located in Egypt?", 
-                             ["Colossus of Rhodes", "Great Pyramid of Giza", "Hanging Gardens of Babylon", "Lighthouse of Alexandria"], 1, "beginner", "history"),
+                             ["Colossus of Rhodes", "Great Pyramid of Giza", "Hanging Gardens"], 1, "beginner", "history"),
             ],
             'intermediate': [
                 TriviaQuestion("The Berlin Wall fell in which year?", 
-                             ["1987", "1988", "1989", "1990"], 2, "intermediate", "history"),
+                             ["1988", "1989", "1990"], 1, "intermediate", "history"),
                 TriviaQuestion("Which empire was ruled by Julius Caesar?", 
-                             ["Greek Empire", "Roman Empire", "Persian Empire", "Egyptian Empire"], 1, "intermediate", "history"),
+                             ["Greek Empire", "Roman Empire", "Persian Empire"], 1, "intermediate", "history"),
             ],
             'advanced': [
                 TriviaQuestion("The Treaty of Versailles ended which war?", 
-                             ["World War I", "World War II", "Franco-Prussian War", "Napoleonic Wars"], 0, "advanced", "history"),
+                             ["World War I", "World War II", "Napoleonic Wars"], 0, "advanced", "history"),
             ]
         },
         
         TriviaCategory.GEOGRAPHY.value: {
             'beginner': [
                 TriviaQuestion("What is the capital of France?", 
-                             ["London", "Berlin", "Paris", "Madrid"], 2, "beginner", "geography"),
+                             ["London", "Paris", "Madrid"], 1, "beginner", "geography"),
                 TriviaQuestion("Which continent is Brazil located in?", 
-                             ["North America", "South America", "Africa", "Asia"], 1, "beginner", "geography"),
+                             ["North America", "South America", "Africa"], 1, "beginner", "geography"),
                 TriviaQuestion("What is the longest river in the world?", 
-                             ["Amazon River", "Nile River", "Mississippi River", "Yangtze River"], 1, "beginner", "geography"),
+                             ["Amazon River", "Nile River", "Mississippi River"], 1, "beginner", "geography"),
+                TriviaQuestion("How many continents are there?", 
+                             ["5", "6", "7"], 2, "beginner", "geography"),
+                TriviaQuestion("What is the largest ocean?", 
+                             ["Atlantic", "Pacific", "Indian"], 1, "beginner", "geography"),
+                TriviaQuestion("Which country has the most population?", 
+                             ["India", "China", "USA"], 1, "beginner", "geography"),
+                TriviaQuestion("What is the capital of Japan?", 
+                             ["Seoul", "Tokyo", "Beijing"], 1, "beginner", "geography"),
             ],
             'intermediate': [
                 TriviaQuestion("Which country has the most time zones?", 
-                             ["USA", "Russia", "China", "Canada"], 1, "intermediate", "geography"),
+                             ["USA", "Russia", "China"], 1, "intermediate", "geography"),
                 TriviaQuestion("What is the smallest country in the world?", 
-                             ["Monaco", "Vatican City", "San Marino", "Liechtenstein"], 1, "intermediate", "geography"),
+                             ["Monaco", "Vatican City", "San Marino"], 1, "intermediate", "geography"),
             ],
             'advanced': [
                 TriviaQuestion("Which mountain range contains Mount Everest?", 
-                             ["Andes", "Alps", "Himalayas", "Rockies"], 2, "advanced", "geography"),
+                             ["Alps", "Himalayas", "Rockies"], 1, "advanced", "geography"),
+            ]
+        },
+        
+        TriviaCategory.MATHEMATICS.value: {
+            'beginner': [
+                TriviaQuestion("What is 15 x 3?", 
+                             ["35", "45", "55"], 1, "beginner", "mathematics"),
+                TriviaQuestion("What shape has 5 sides?", 
+                             ["Hexagon", "Pentagon", "Octagon"], 1, "beginner", "mathematics"),
+                TriviaQuestion("What is the value of Pi (approximately)?", 
+                             ["3.14", "2.71", "1.61"], 0, "beginner", "mathematics"),
+            ],
+            'intermediate': [
+                TriviaQuestion("What is the square root of 144?", 
+                             ["10", "12", "14"], 1, "intermediate", "mathematics"),
+                TriviaQuestion("What is the Fibonacci sequence's 5th number?", 
+                             ["3", "5", "8"], 1, "intermediate", "mathematics"),
+            ],
+            'advanced': [
+                TriviaQuestion("What is Euler's number (approximately)?", 
+                             ["2.71", "3.14", "1.61"], 0, "advanced", "mathematics"),
+            ]
+        },
+        
+        TriviaCategory.NATURE.value: {
+            'beginner': [
+                TriviaQuestion("What is the largest mammal?", 
+                             ["Elephant", "Blue Whale", "Giraffe"], 1, "beginner", "nature"),
+                TriviaQuestion("How many legs does a spider have?", 
+                             ["6", "8", "10"], 1, "beginner", "nature"),
+                TriviaQuestion("What gas do plants absorb?", 
+                             ["Oxygen", "Carbon Dioxide", "Nitrogen"], 1, "beginner", "nature"),
+                TriviaQuestion("What is the human body's largest organ?", 
+                             ["Heart", "Brain", "Skin"], 2, "beginner", "nature"),
+                TriviaQuestion("How many bones are in the human body?", 
+                             ["106", "206", "306"], 1, "beginner", "nature"),
+                TriviaQuestion("What planet is known as the Red Planet?", 
+                             ["Venus", "Mars", "Jupiter"], 1, "beginner", "nature"),
+                TriviaQuestion("What is H2O?", 
+                             ["Oxygen", "Water", "Hydrogen"], 1, "beginner", "nature"),
+                TriviaQuestion("How many planets are in our solar system?", 
+                             ["7", "8", "9"], 1, "beginner", "nature"),
+            ],
+            'intermediate': [
+                TriviaQuestion("What is the fastest land animal?", 
+                             ["Lion", "Cheetah", "Gazelle"], 1, "intermediate", "nature"),
+                TriviaQuestion("What type of animal is a Komodo Dragon?", 
+                             ["Snake", "Lizard", "Crocodile"], 1, "intermediate", "nature"),
+            ],
+            'advanced': [
+                TriviaQuestion("What is the process of water turning to vapor called?", 
+                             ["Condensation", "Evaporation", "Precipitation"], 1, "advanced", "nature"),
+            ]
+        },
+        
+        TriviaCategory.ART.value: {
+            'beginner': [
+                TriviaQuestion("Who painted the Mona Lisa?", 
+                             ["Michelangelo", "Leonardo da Vinci", "Van Gogh"], 1, "beginner", "art"),
+                TriviaQuestion("What are the primary colors?", 
+                             ["Red, Blue, Yellow", "Red, Green, Blue", "Orange, Green, Purple"], 0, "beginner", "art"),
+            ],
+            'intermediate': [
+                TriviaQuestion("Which artist cut off his own ear?", 
+                             ["Picasso", "Van Gogh", "Monet"], 1, "intermediate", "art"),
+            ],
+            'advanced': [
+                TriviaQuestion("What art movement was Picasso associated with?", 
+                             ["Impressionism", "Cubism", "Surrealism"], 1, "advanced", "art"),
             ]
         },
         
@@ -232,82 +383,83 @@ class TriviaDatabase:
         ProgrammingLanguage.PYTHON.value: {
             'beginner': [
                 TriviaQuestion("What keyword is used to define a function in Python?", 
-                             ["function", "def", "func", "define"], 1, "beginner", "Python"),
+                             ["function", "def", "func"], 1, "beginner", "Python"),
                 TriviaQuestion("Which symbol is used for comments in Python?", 
-                             ["//", "/*", "#", "--"], 2, "beginner", "Python"),
+                             ["//", "#", "--"], 1, "beginner", "Python"),
                 TriviaQuestion("What data type is [1, 2, 3] in Python?", 
-                             ["tuple", "list", "set", "dict"], 1, "beginner", "Python"),
+                             ["tuple", "list", "dict"], 1, "beginner", "Python"),
+                TriviaQuestion("How do you create a dictionary in Python?", 
+                             ["[]", "{}", "()"], 1, "beginner", "Python"),
+                TriviaQuestion("What keyword is used to import modules?", 
+                             ["include", "import", "require"], 1, "beginner", "Python"),
+                TriviaQuestion("Which loop uses 'range()' commonly?", 
+                             ["while", "for", "do-while"], 1, "beginner", "Python"),
+                TriviaQuestion("What is the output of print(2**3)?", 
+                             ["6", "8", "9"], 1, "beginner", "Python"),
             ],
             'intermediate': [
                 TriviaQuestion("What does PEP stand for in Python?", 
-                             ["Python Enhancement Proposal", "Python Execution Protocol", "Python Extension Package", "Python Error Prevention"], 0, "intermediate", "Python"),
+                             ["Python Enhancement Proposal", "Python Execution Protocol", "Python Extension Package"], 0, "intermediate", "Python"),
                 TriviaQuestion("Which method is used to add an element to a list?", 
-                             ["add()", "append()", "insert()", "push()"], 1, "intermediate", "Python"),
+                             ["add()", "append()", "push()"], 1, "intermediate", "Python"),
                 TriviaQuestion("What is the output of len('Python')?", 
-                             ["5", "6", "7", "8"], 1, "intermediate", "Python"),
+                             ["5", "6", "7"], 1, "intermediate", "Python"),
             ],
             'advanced': [
                 TriviaQuestion("What is the Global Interpreter Lock (GIL) in Python?", 
-                             ["A security feature", "A memory management tool", "A thread synchronization mechanism", "A garbage collector"], 2, "advanced", "Python"),
+                             ["A security feature", "A thread synchronization mechanism", "A garbage collector"], 1, "advanced", "Python"),
                 TriviaQuestion("Which decorator is used to create a static method?", 
-                             ["@classmethod", "@staticmethod", "@property", "@abstract"], 1, "advanced", "Python"),
+                             ["@classmethod", "@staticmethod", "@property"], 1, "advanced", "Python"),
             ]
         },
         
         ProgrammingLanguage.JAVASCRIPT.value: {
             'beginner': [
                 TriviaQuestion("Which keyword is used to declare a variable in modern JavaScript?", 
-                             ["var", "let", "const", "both let and const"], 3, "beginner", "JavaScript"),
+                             ["var", "let", "const"], 1, "beginner", "JavaScript"),
                 TriviaQuestion("What symbol is used for single-line comments in JavaScript?", 
-                             ["#", "//", "/*", "--"], 1, "beginner", "JavaScript"),
+                             ["#", "//", "--"], 1, "beginner", "JavaScript"),
                 TriviaQuestion("Which method is used to add an element to the end of an array?", 
-                             ["append()", "add()", "push()", "insert()"], 2, "beginner", "JavaScript"),
+                             ["append()", "push()", "insert()"], 1, "beginner", "JavaScript"),
             ],
             'intermediate': [
                 TriviaQuestion("What is the difference between == and === in JavaScript?", 
-                             ["No difference", "=== checks type and value", "== is faster", "=== is deprecated"], 1, "intermediate", "JavaScript"),
+                             ["No difference", "=== checks type and value", "== is faster"], 1, "intermediate", "JavaScript"),
                 TriviaQuestion("What does 'this' refer to in JavaScript?", 
-                             ["The current function", "The global object", "The context object", "It depends on context"], 3, "intermediate", "JavaScript"),
+                             ["The current function", "The global object", "It depends on context"], 2, "intermediate", "JavaScript"),
             ],
             'advanced': [
                 TriviaQuestion("What is a closure in JavaScript?", 
-                             ["A loop construct", "A function with access to outer scope", "A data type", "An error handling mechanism"], 1, "advanced", "JavaScript"),
+                             ["A loop construct", "A function with access to outer scope", "A data type"], 1, "advanced", "JavaScript"),
             ]
         },
         
         ProgrammingLanguage.JAVA.value: {
             'beginner': [
                 TriviaQuestion("What is the main method signature in Java?", 
-                             ["public static void main(String args[])", "static void main(String args[])", "public void main(String args[])", "void main(String args[])"], 0, "beginner", "Java"),
+                             ["public static void main(String args[])", "public void main(String args[])", "void main(String args[])"], 0, "beginner", "Java"),
                 TriviaQuestion("Which keyword is used to create a class in Java?", 
-                             ["class", "Class", "new", "create"], 0, "beginner", "Java"),
+                             ["class", "Class", "new"], 0, "beginner", "Java"),
             ],
             'intermediate': [
                 TriviaQuestion("What is the difference between ArrayList and LinkedList?", 
-                             ["No difference", "ArrayList is faster for random access", "LinkedList is always better", "ArrayList uses more memory"], 1, "intermediate", "Java"),
+                             ["No difference", "ArrayList is faster for random access", "LinkedList is always better"], 1, "intermediate", "Java"),
             ],
             'advanced': [
                 TriviaQuestion("What is the difference between abstract class and interface in Java 8+?", 
-                             ["No difference", "Abstract classes can have default methods", "Interfaces can have concrete methods", "Both can have concrete methods"], 3, "advanced", "Java"),
+                             ["No difference", "Abstract classes only", "Both can have concrete methods"], 2, "advanced", "Java"),
             ]
         }
         # Add more programming languages as needed...
     }
     
-    BONUS_ITEMS = {
-        BonusItemType.OFFENSIVE: [
-            BonusItem(BonusItemType.OFFENSIVE, "Rapid Fire", "Double typing speed for 10 seconds", 600, 1, 2.0),
-            BonusItem(BonusItemType.OFFENSIVE, "Multi-Shot", "Each keystroke hits multiple enemies", 900, 1, 3.0),
-            BonusItem(BonusItemType.OFFENSIVE, "Power Surge", "All enemies move 50% slower for 15 seconds", 900, 1, 0.5),
-            BonusItem(BonusItemType.OFFENSIVE, "Word Magnet", "Automatically complete current word", 1, 1, 1.0),
-        ],
-        BonusItemType.DEFENSIVE: [
-            BonusItem(BonusItemType.DEFENSIVE, "Shield Boost", "Instant 50 shield points", 1, 1, 50.0),
-            BonusItem(BonusItemType.DEFENSIVE, "Health Pack", "Restore 30 HP instantly", 1, 1, 30.0),
-            BonusItem(BonusItemType.DEFENSIVE, "Invincibility", "Immune to damage for 5 seconds", 300, 1, 1.0),
-            BonusItem(BonusItemType.DEFENSIVE, "Time Slow", "Slow down all enemies for 10 seconds", 600, 1, 0.3),
-        ]
-    }
+    # 4 unique collectible bonus items with OutlineIcon enums
+    BONUS_ITEMS = [
+        BonusItem(0, "Rapid Fire", "Double typing speed for 10 seconds", OutlineIcon.BOLT, 600, 1, 2.0),
+        BonusItem(1, "Shield Boost", "Instant 50 shield points", OutlineIcon.SHIELD, 1, 1, 50.0),
+        BonusItem(2, "Health Pack", "Restore 30 HP instantly", OutlineIcon.HEART, 1, 1, 30.0),
+        BonusItem(3, "Time Freeze", "Freeze all enemies for 5 seconds", OutlineIcon.CLOCK_STOP, 300, 1, 0.0),
+    ]
     
     @staticmethod
     def get_question(mode: GameMode, language: ProgrammingLanguage = None, difficulty_level: int = 1) -> TriviaQuestion:
@@ -338,13 +490,12 @@ class TriviaDatabase:
             return random.choice(difficulty_questions)
         
         # Ultimate fallback
-        return TriviaQuestion("What is 2+2?", ["3", "4", "5", "6"], 1, "beginner", "mathematics")
+        return TriviaQuestion("What is 2+2?", ["3", "4", "5"], 1, "beginner", "mathematics")
     
     @staticmethod
-    def get_bonus_item(item_type: BonusItemType) -> BonusItem:
-        """Get a random bonus item of specified type"""
-        items = TriviaDatabase.BONUS_ITEMS[item_type]
-        return random.choice(items)
+    def get_bonus_item() -> BonusItem:
+        """Get a random bonus item from the 4 unique items"""
+        return random.choice(TriviaDatabase.BONUS_ITEMS)
 
 class WordDictionary:
     """Comprehensive progressive word dictionaries with difficulty-based selection"""
@@ -1233,7 +1384,15 @@ ACHIEVEMENTS = {
     "polyglot": Achievement("polyglot", "Polyglot", "Play in all programming languages", "CODE"),
     "high_scorer": Achievement("high_scorer", "High Scorer", "Score over 10,000 points", "10K"),
     "veteran": Achievement("veteran", "Veteran", "Play 50 games", "50G"),
-    "word_master": Achievement("word_master", "Word Master", "Type 1000 words total", "1000W")
+    "word_master": Achievement("word_master", "Word Master", "Type 1000 words total", "1000W"),
+    # Trivia achievements
+    "trivia_novice": Achievement("trivia_novice", "Trivia Novice", "Answer your first trivia question correctly", "Q1"),
+    "trivia_expert": Achievement("trivia_expert", "Trivia Expert", "Answer 10 trivia questions correctly", "Q10"),
+    "trivia_master": Achievement("trivia_master", "Trivia Master", "Answer 25 trivia questions correctly", "Q25"),
+    "trivia_genius": Achievement("trivia_genius", "Trivia Genius", "Answer 50 trivia questions correctly", "Q50"),
+    "perfect_trivia": Achievement("perfect_trivia", "Perfect Mind", "Answer 5 trivia questions in a row correctly", "5✓"),
+    "bonus_collector": Achievement("bonus_collector", "Bonus Collector", "Collect 10 bonus items from trivia", "B10"),
+    "bonus_master": Achievement("bonus_master", "Bonus Master", "Use 25 bonus items in combat", "B25")
 }
 
 class PlayerProfile:
@@ -1253,6 +1412,13 @@ class PlayerProfile:
         self.highest_level: int = 0
         self.best_wpm: float = 0.0
         self.bosses_defeated: int = 0
+        # Trivia stats
+        self.trivia_questions_answered: int = 0
+        self.trivia_questions_correct: int = 0
+        self.trivia_streak_current: int = 0
+        self.trivia_streak_best: int = 0
+        self.bonus_items_collected: int = 0
+        self.bonus_items_used: int = 0
         # Separate saves for each mode/language combination
         self.saved_games: Dict[str, Optional[Dict]] = {}  # Key: "normal" or "programming_<language>"
         # Stats by mode: 'normal' or 'programming_<language>'
@@ -1350,6 +1516,35 @@ class PlayerProfile:
             self.achievements.append("polyglot")
             newly_unlocked.append("polyglot")
         
+        # Trivia achievements
+        if "trivia_novice" not in self.achievements and self.trivia_questions_correct >= 1:
+            self.achievements.append("trivia_novice")
+            newly_unlocked.append("trivia_novice")
+        
+        if "trivia_expert" not in self.achievements and self.trivia_questions_correct >= 10:
+            self.achievements.append("trivia_expert")
+            newly_unlocked.append("trivia_expert")
+        
+        if "trivia_master" not in self.achievements and self.trivia_questions_correct >= 25:
+            self.achievements.append("trivia_master")
+            newly_unlocked.append("trivia_master")
+        
+        if "trivia_genius" not in self.achievements and self.trivia_questions_correct >= 50:
+            self.achievements.append("trivia_genius")
+            newly_unlocked.append("trivia_genius")
+        
+        if "perfect_trivia" not in self.achievements and self.trivia_streak_best >= 5:
+            self.achievements.append("perfect_trivia")
+            newly_unlocked.append("perfect_trivia")
+        
+        if "bonus_collector" not in self.achievements and self.bonus_items_collected >= 10:
+            self.achievements.append("bonus_collector")
+            newly_unlocked.append("bonus_collector")
+        
+        if "bonus_master" not in self.achievements and self.bonus_items_used >= 25:
+            self.achievements.append("bonus_master")
+            newly_unlocked.append("bonus_master")
+        
         # Check game-specific achievements
         if game_state:
             # Accuracy master - 95% accuracy in a complete game
@@ -1388,18 +1583,18 @@ class SoundManager:
             # Generate simple beep/click sounds using pygame's sound arrays
             # Type sound - pew-pew laser shooting sound
             self.sounds['type'] = self.create_pew_sound()  # Pew-pew laser sound
-            # Correct word - success sound
-            self.sounds['correct'] = self.create_beep(880, 100)  # A5 note, 100ms
+            # Correct word - explosion sound when word is destroyed
+            self.sounds['correct'] = self.create_word_explosion_sound(180)  # Dramatic 180ms explosion
             # Wrong key - error sound
             self.sounds['wrong'] = self.create_beep(220, 150)  # A3 note, 150ms
             # Ship destroyed - explosion
-            self.sounds['destroy'] = self.create_noise_burst(200)  # 200ms noise
+            self.sounds['destroy'] = self.create_explosion_sound(250)  # 250ms explosion
             # Boss appear - dramatic sound
-            self.sounds['boss'] = self.create_sweep(200, 800, 300)  # Frequency sweep
+            self.sounds['boss'] = self.create_boss_sound(500)  # Dramatic boss entrance
             # Level complete - victory sound
             self.sounds['level'] = self.create_arpeggio([523, 659, 784], 100)  # C-E-G chord
             # Collision - impact sound
-            self.sounds['collision'] = self.create_noise_burst(100)  # Short noise burst
+            self.sounds['collision'] = self.create_impact_sound(150)  # Impact thud
             # Achievement unlocked
             self.sounds['achievement'] = self.create_arpeggio([440, 554, 659, 880], 80)  # Success fanfare
         except Exception as e:
@@ -1407,6 +1602,305 @@ class SoundManager:
             # Create empty sound objects as fallback
             for key in ['type', 'correct', 'wrong', 'destroy', 'boss', 'level', 'collision', 'achievement']:
                 self.sounds[key] = None
+    
+    def create_explosion_sound(self, duration: int) -> pygame.mixer.Sound:
+        """Create a realistic explosion sound with multiple components"""
+        try:
+            import numpy as np
+            sample_rate = 22050
+            samples = int(sample_rate * duration / 1000)
+            waves = []
+            
+            # Initialize waves list
+            for i in range(samples):
+                waves.append([0, 0])
+            
+            # Component 1: Initial blast - white noise burst
+            blast_samples = int(samples * 0.15)  # First 15% is the blast
+            for i in range(blast_samples):
+                # Very loud initial burst that quickly fades
+                blast_envelope = 1.0 - (i / blast_samples) * 0.7
+                noise = np.random.randint(-20000, 20000)
+                waves[i][0] = int(noise * blast_envelope)
+                waves[i][1] = int(noise * blast_envelope)
+            
+            # Component 2: Low frequency rumble
+            for i in range(samples):
+                t = float(i) / sample_rate
+                
+                # Multiple low frequencies for richness (20-60 Hz)
+                rumble = 0
+                for freq in [25, 35, 45, 55]:
+                    phase = np.random.random() * 2 * np.pi
+                    rumble += np.sin(2 * np.pi * freq * t + phase) * 5000
+                
+                # Rumble envelope - peaks after blast, then decays
+                if i < blast_samples:
+                    rumble_env = i / blast_samples * 0.5
+                else:
+                    decay_pos = (i - blast_samples) / (samples - blast_samples)
+                    rumble_env = 0.5 * np.exp(-3 * decay_pos)
+                
+                waves[i][0] += int(rumble * rumble_env)
+                waves[i][1] += int(rumble * rumble_env)
+            
+            # Component 3: Mid-frequency "crack" sound
+            crack_start = int(samples * 0.05)
+            crack_end = int(samples * 0.3)
+            for i in range(crack_start, crack_end):
+                t = float(i) / sample_rate
+                crack_freq = 200 + 100 * np.exp(-(i - crack_start) / (crack_end - crack_start))
+                crack = np.sin(2 * np.pi * crack_freq * t) * 8000
+                
+                crack_env = 1.0 - ((i - crack_start) / (crack_end - crack_start))
+                waves[i][0] += int(crack * crack_env)
+                waves[i][1] += int(crack * crack_env)
+            
+            # Component 4: Debris/crackle (random high freq pops)
+            debris_start = int(samples * 0.1)
+            for i in range(debris_start, samples):
+                if np.random.random() < 0.1:  # 10% chance of debris sound
+                    debris = np.random.randint(-3000, 3000)
+                    debris_env = np.exp(-5 * (i - debris_start) / (samples - debris_start))
+                    waves[i][0] += int(debris * debris_env)
+                    waves[i][1] += int(debris * debris_env)
+            
+            # Clip to valid range
+            for i in range(len(waves)):
+                waves[i][0] = max(-32767, min(32767, waves[i][0]))
+                waves[i][1] = max(-32767, min(32767, waves[i][1]))
+            
+            # Convert to numpy array
+            sound_array = np.array(waves, dtype=np.int16)
+            return pygame.sndarray.make_sound(sound_array)
+        except ImportError:
+            # Fallback to improved noise burst if numpy not available
+            return self.create_noise_burst(duration)
+    
+    def create_word_explosion_sound(self, duration: int) -> pygame.mixer.Sound:
+        """Create a dramatic and satisfying explosion sound for completed words"""
+        try:
+            import numpy as np
+            sample_rate = 22050
+            samples = int(sample_rate * duration / 1000)
+            waves = []
+            
+            # Initialize waves list
+            for i in range(samples):
+                waves.append([0, 0])
+            
+            # Component 1: Massive initial blast - louder and longer
+            blast_samples = int(samples * 0.25)  # First 25% is the powerful blast
+            for i in range(blast_samples):
+                # Very sharp and loud white noise burst
+                blast_envelope = 1.0 - (i / blast_samples) * 0.3  # Stays louder longer
+                noise = np.random.randint(-25000, 25000)  # Much louder initial blast
+                waves[i][0] += int(noise * blast_envelope)
+                waves[i][1] += int(noise * blast_envelope)
+            
+            # Component 2: Deep powerful bass punch (40-120 Hz)
+            for i in range(samples):
+                t = float(i) / sample_rate
+                
+                # Deep punchy bass frequencies for impact
+                punch = 0
+                for freq in [40, 60, 80, 100, 120]:
+                    phase = np.random.random() * 2 * np.pi
+                    punch += np.sin(2 * np.pi * freq * t + phase) * 8000
+                
+                # Powerful attack with resonant decay
+                if i < blast_samples:
+                    punch_env = (i / blast_samples) * 0.9  # Builds up quickly
+                else:
+                    decay_pos = (i - blast_samples) / (samples - blast_samples)
+                    punch_env = 0.9 * np.exp(-2.5 * decay_pos)  # Slower, more resonant decay
+                
+                waves[i][0] += int(punch * punch_env)
+                waves[i][1] += int(punch * punch_env)
+            
+            # Component 3: Sharp metallic ring (250-800 Hz) - like shrapnel
+            ring_end = int(samples * 0.6)
+            for i in range(0, ring_end):
+                t = float(i) / sample_rate
+                # Multiple metallic frequencies that decay at different rates
+                ring = 0
+                ring += np.sin(2 * np.pi * 250 * t) * 3000
+                ring += np.sin(2 * np.pi * 400 * t) * 4000
+                ring += np.sin(2 * np.pi * 600 * t) * 3500
+                ring += np.sin(2 * np.pi * 800 * t) * 2000
+                
+                ring_env = np.exp(-3 * (i / ring_end))  # Exponential decay for metallic sound
+                waves[i][0] += int(ring * ring_env)
+                waves[i][1] += int(ring * ring_env)
+            
+            # Component 4: Impact shockwave (sub-bass 20-40 Hz)
+            for i in range(int(samples * 0.1), samples):
+                t = float(i) / sample_rate
+                # Very low frequency for that chest-thumping feel
+                shockwave = np.sin(2 * np.pi * 25 * t) * 10000
+                shockwave += np.sin(2 * np.pi * 35 * t) * 8000
+                
+                shock_env = np.exp(-4 * ((i - samples * 0.1) / samples))
+                waves[i][0] += int(shockwave * shock_env)
+                waves[i][1] += int(shockwave * shock_env)
+            
+            # Component 5: Debris and crackle (more dramatic)
+            debris_start = int(samples * 0.15)
+            for i in range(debris_start, samples):
+                if np.random.random() < 0.15:  # 15% chance for more debris
+                    debris = np.random.randint(-5000, 5000)
+                    debris_env = np.exp(-4 * (i - debris_start) / (samples - debris_start))
+                    waves[i][0] += int(debris * debris_env)
+                    waves[i][1] += int(debris * debris_env)
+            
+            # Component 6: Echo/reverb simulation
+            echo_delay = int(samples * 0.3)
+            echo_samples = min(echo_delay, samples - echo_delay)
+            for i in range(echo_samples):
+                if i + echo_delay < samples:
+                    # Add delayed, quieter version for echo effect
+                    waves[i + echo_delay][0] += int(waves[i][0] * 0.3)
+                    waves[i + echo_delay][1] += int(waves[i][1] * 0.3)
+            
+            # Apply overall volume scaling and dynamic compression
+            peak = max(max(abs(w[0]), abs(w[1])) for w in waves)
+            if peak > 0:
+                scale = min(1.0, 30000 / peak)  # Normalize to prevent clipping
+            else:
+                scale = 1.0
+                
+            for i in range(len(waves)):
+                waves[i][0] = int(waves[i][0] * scale * 0.85)  # Slightly louder overall
+                waves[i][1] = int(waves[i][1] * scale * 0.85)
+                waves[i][0] = max(-32767, min(32767, waves[i][0]))
+                waves[i][1] = max(-32767, min(32767, waves[i][1]))
+            
+            # Convert to numpy array with correct dtype
+            sound_array = np.array(waves, dtype=np.int16)
+            return pygame.sndarray.make_sound(sound_array)
+        except ImportError:
+            # Fallback to noise burst if numpy not available
+            return self.create_noise_burst(duration)
+    
+    def create_impact_sound(self, duration: int) -> pygame.mixer.Sound:
+        """Create a heavy impact/thud sound for collisions"""
+        try:
+            import numpy as np
+            sample_rate = 22050
+            samples = int(sample_rate * duration / 1000)
+            waves = []
+            
+            for i in range(samples):
+                t = float(i) / sample_rate
+                
+                # Low frequency thump (40-80 Hz)
+                thump = 0
+                thump += np.sin(2 * np.pi * 40 * t) * 10000
+                thump += np.sin(2 * np.pi * 60 * t) * 8000
+                thump += np.sin(2 * np.pi * 80 * t) * 6000
+                
+                # Add some click at the beginning for impact
+                if i < samples * 0.05:
+                    click = np.random.randint(-8000, 8000)
+                else:
+                    click = 0
+                
+                # Quick attack, medium decay
+                if i < samples * 0.02:
+                    envelope = i / (samples * 0.02)
+                else:
+                    envelope = np.exp(-4 * (i - samples * 0.02) / samples)
+                
+                value = int((thump + click) * envelope)
+                value = max(-32767, min(32767, value))
+                waves.append([value, value])
+            
+            sound_array = np.array(waves, dtype=np.int16)
+            return pygame.sndarray.make_sound(sound_array)
+        except ImportError:
+            return self.create_noise_burst(duration)
+    
+    def create_boss_sound(self, duration: int) -> pygame.mixer.Sound:
+        """Create a dramatic boss entrance sound"""
+        try:
+            import numpy as np
+            sample_rate = 22050
+            samples = int(sample_rate * duration / 1000)
+            waves = []
+            
+            for i in range(samples):
+                t = float(i) / sample_rate
+                
+                # Deep bass sweep up (30 Hz to 100 Hz)
+                sweep_progress = i / samples
+                bass_freq = 30 + 70 * sweep_progress
+                bass = np.sin(2 * np.pi * bass_freq * t) * 15000
+                
+                # Add harmonics for richness
+                harmonic1 = np.sin(2 * np.pi * bass_freq * 2 * t) * 5000
+                harmonic2 = np.sin(2 * np.pi * bass_freq * 3 * t) * 3000
+                
+                # Orchestral-like swell in mid frequencies
+                mid_freq = 200 + 300 * np.sin(sweep_progress * np.pi)
+                mid = np.sin(2 * np.pi * mid_freq * t) * 8000
+                
+                # High frequency shimmer at the peak
+                if sweep_progress > 0.5:
+                    shimmer = np.sin(2 * np.pi * 1000 * t) * 2000 * (sweep_progress - 0.5) * 2
+                else:
+                    shimmer = 0
+                
+                # Combine all components
+                value = bass + harmonic1 + harmonic2 + mid + shimmer
+                
+                # Envelope - build up then sustain
+                if i < samples * 0.3:
+                    envelope = i / (samples * 0.3)
+                elif i < samples * 0.7:
+                    envelope = 1.0
+                else:
+                    envelope = 1.0 - (i - samples * 0.7) / (samples * 0.3)
+                
+                value = int(value * envelope * 0.6)  # Scale down to prevent clipping
+                value = max(-32767, min(32767, value))
+                waves.append([value, value])
+            
+            sound_array = np.array(waves, dtype=np.int16)
+            return pygame.sndarray.make_sound(sound_array)
+        except ImportError:
+            return self.create_sweep(200, 800, duration)
+    
+    def create_pew_sound(self) -> pygame.mixer.Sound:
+        """Create a pew-pew laser sound for typing"""
+        try:
+            import numpy as np
+            sample_rate = 22050
+            duration = 80  # 80ms
+            samples = int(sample_rate * duration / 1000)
+            waves = []
+            
+            for i in range(samples):
+                t = float(i) / sample_rate
+                # Frequency sweep from high to low for laser effect
+                freq = 1200 * math.exp(-8 * t)  # Exponential decay from 1200Hz
+                
+                # Generate the wave with some harmonics
+                value = int(16000 * math.sin(2 * math.pi * freq * t))
+                value += int(4000 * math.sin(4 * math.pi * freq * t))  # Add harmonic
+                
+                # Sharp attack, quick decay
+                if i < samples * 0.05:
+                    envelope = i / (samples * 0.05)
+                else:
+                    envelope = math.exp(-10 * (i - samples * 0.05) / samples)
+                
+                value = int(value * envelope)
+                waves.append([value, value])
+            
+            sound_array = np.array(waves, dtype=np.int16)
+            return pygame.sndarray.make_sound(sound_array)
+        except ImportError:
+            return pygame.mixer.Sound(buffer=bytes(100))
     
     def create_beep(self, frequency: int, duration: int) -> pygame.mixer.Sound:
         """Create a simple beep sound"""
@@ -1436,7 +1930,7 @@ class SoundManager:
             return pygame.mixer.Sound(buffer=bytes(100))
     
     def create_noise_burst(self, duration: int) -> pygame.mixer.Sound:
-        """Create a noise burst for explosions"""
+        """Create a more realistic explosion sound with bass and rumble"""
         try:
             import numpy as np
             sample_rate = 22050
@@ -1444,11 +1938,33 @@ class SoundManager:
             waves = []
             
             for i in range(samples):
-                # Generate white noise
-                value = random.randint(-16384, 16384)
-                # Apply envelope
-                envelope = (samples - i) / samples  # Decay
+                # Mix of different frequency components for realistic explosion
+                t = float(i) / sample_rate
+                
+                # Low frequency rumble (30-80 Hz)
+                rumble_freq = 30 + random.random() * 50
+                rumble = math.sin(2 * math.pi * rumble_freq * t) * 8000
+                
+                # Mid frequency punch (100-300 Hz) 
+                punch_freq = 100 + (300 - 100) * math.exp(-i / (samples * 0.1))
+                punch = math.sin(2 * math.pi * punch_freq * t) * 12000
+                
+                # High frequency noise
+                noise = random.randint(-8000, 8000)
+                
+                # Combine components
+                value = rumble + punch + noise
+                
+                # Apply sharp attack and exponential decay envelope
+                if i < samples * 0.02:  # Very sharp attack
+                    envelope = i / (samples * 0.02)
+                else:
+                    # Exponential decay
+                    envelope = math.exp(-3 * (i - samples * 0.02) / samples)
+                
                 value = int(value * envelope)
+                # Clip to valid range
+                value = max(-32767, min(32767, value))
                 waves.append([value, value])
             
             sound_array = np.array(waves, dtype=np.int16)
@@ -3308,16 +3824,19 @@ class PTypeGame:
         self.trivia_answered = False
         self.trivia_result = None  # True for correct, False for wrong
         
-        # Bonus items inventory
-        self.offensive_items = []  # Stack of offensive bonus items
-        self.defensive_items = []  # Stack of defensive bonus items
+        # Bonus items inventory - track quantity of each unique item type
+        self.item_quantities = [0, 0, 0, 0]  # Quantities for each of the 4 unique items
+        self.selected_item_index = 0  # Currently selected item type (0-3)
         self.active_bonuses = []  # Currently active bonus effects [(item, timer)]
         
-        # Bonus effect flags
+        # Bonus effect flags and timers
         self.rapid_fire_active = False
+        self.rapid_fire_end_time = 0
+        self.rapid_fire_multiplier = 1.0
         self.multi_shot_active = False
         self.invincibility_active = False
         self.time_slow_active = False
+        self.time_slow_end_time = 0
         self.enemy_slow_factor = 1.0  # Speed multiplier for enemies
         
         self.update_spawn_delay()
@@ -4018,79 +4537,95 @@ class PTypeGame:
         self.emp_ready = False
         self.emp_cooldown = self.emp_max_cooldown
     
-    def activate_offensive_bonus(self):
-        """Activate offensive bonus item (Up arrow)"""
-        if not self.offensive_items:
+    def cycle_item_selection(self, direction: str):
+        """Cycle through the 4 item types"""
+        if direction == "up":
+            self.selected_item_index = (self.selected_item_index - 1) % 4
+        elif direction == "down":
+            self.selected_item_index = (self.selected_item_index + 1) % 4
+    
+    def activate_selected_bonus(self):
+        """Activate the currently selected bonus item (BACKSPACE)"""
+        # Check if we have any of the selected item type
+        if self.item_quantities[self.selected_item_index] <= 0:
             return
         
-        item = self.offensive_items.pop(0)
+        # Get the item from TriviaDatabase.BONUS_ITEMS
+        item = TriviaDatabase.BONUS_ITEMS[self.selected_item_index]
+        
+        # Decrease quantity
+        self.item_quantities[self.selected_item_index] -= 1
+        
+        # Apply bonus effect based on item
+        self._apply_bonus_effect(item)
+        
+        # Track usage for achievements
+        if self.current_profile:
+            self.current_profile.bonus_items_used += 1
+            # Check achievements
+            newly_unlocked = self.current_profile.check_achievements({})
+            for achievement_id in newly_unlocked:
+                achievement = ACHIEVEMENTS[achievement_id]
+                self.achievement_notifications.append((achievement, 300))
+                self.sound_manager.play('achievement')
+    
+    def _apply_bonus_effect(self, item):
+        """Apply bonus effect based on item type"""
         
         if item.name == "Rapid Fire":
+            # Double typing speed for 10 seconds
             self.rapid_fire_active = True
+            self.rapid_fire_end_time = time.time() + (item.duration / 60)  # Convert frames to seconds
+            self.rapid_fire_multiplier = item.effect_value  # 2.0 for double speed
             self.active_bonuses.append((item, item.duration))
-        elif item.name == "Multi-Shot":
-            self.multi_shot_active = True
+        elif item.name == "Shield Boost":
+            # Instant 50 shield points
+            self.shield_buffer = min(100, self.shield_buffer + int(item.effect_value))
+        elif item.name == "Health Pack":
+            # Restore 30 HP instantly
+            self.health = min(self.max_health, self.health + int(item.effect_value))
+        elif item.name == "Time Freeze":
+            # Freeze all enemies for 5 seconds
+            self.time_slow_active = True
+            self.enemy_slow_factor = item.effect_value  # 0 for complete freeze
+            self.time_slow_end_time = time.time() + (item.duration / 60)
             self.active_bonuses.append((item, item.duration))
-        elif item.name == "Power Surge":
-            self.enemy_slow_factor = item.effect_value
-            self.active_bonuses.append((item, item.duration))
-        elif item.name == "Word Magnet":
-            # Instantly complete current word
-            if self.active_enemy:
-                self.active_enemy.typed_chars = self.active_enemy.word
-                self.handle_input('')  # Trigger completion check
+            # Stop all enemies immediately
+            for enemy in self.enemies:
+                enemy.original_speed = getattr(enemy, 'original_speed', enemy.speed)
+                enemy.speed = 0
         
-        # Show notification
+        # Show notification with visual effect
         self.achievement_notifications.append(
             (type('obj', (object,), {'name': f'Activated: {item.name}', 'description': item.description})(), 180)
         )
         self.sound_manager.play('level')  # Play activation sound
     
-    def activate_defensive_bonus(self):
-        """Activate defensive bonus item (Down arrow)"""
-        if not self.defensive_items:
-            return
-        
-        item = self.defensive_items.pop(0)
-        
-        if item.name == "Shield Boost":
-            self.shield_buffer = min(100, self.shield_buffer + int(item.effect_value))
-        elif item.name == "Health Pack":
-            self.health = min(self.max_health, self.health + int(item.effect_value))
-        elif item.name == "Invincibility":
-            self.invincibility_active = True
-            self.active_bonuses.append((item, item.duration))
-        elif item.name == "Time Slow":
-            self.time_slow_active = True
-            self.enemy_slow_factor = item.effect_value
-            self.active_bonuses.append((item, item.duration))
-        
-        # Show notification
-        self.achievement_notifications.append(
-            (type('obj', (object,), {'name': f'Activated: {item.name}', 'description': item.description})(), 180)
-        )
-        self.sound_manager.play('correct')  # Play activation sound
     
     def update_bonus_effects(self):
         """Update active bonus effects"""
-        # Update timers and remove expired effects
+        current_time = time.time()
+        
+        # Check Rapid Fire expiry
+        if self.rapid_fire_active and current_time >= self.rapid_fire_end_time:
+            self.rapid_fire_active = False
+            self.rapid_fire_multiplier = 1.0
+        
+        # Check Time Freeze/Slow expiry
+        if self.time_slow_active and current_time >= self.time_slow_end_time:
+            self.time_slow_active = False
+            self.enemy_slow_factor = 1.0
+            # Restore enemy speeds
+            for enemy in self.enemies:
+                if hasattr(enemy, 'original_speed'):
+                    enemy.speed = enemy.original_speed
+        
+        # Update visual timer indicators
         new_active = []
         for item, timer in self.active_bonuses:
             timer -= 1
             if timer > 0:
                 new_active.append((item, timer))
-            else:
-                # Effect expired, reset flags
-                if item.name == "Rapid Fire":
-                    self.rapid_fire_active = False
-                elif item.name == "Multi-Shot":
-                    self.multi_shot_active = False
-                elif item.name == "Power Surge" or item.name == "Time Slow":
-                    self.enemy_slow_factor = 1.0
-                    self.time_slow_active = False
-                elif item.name == "Invincibility":
-                    self.invincibility_active = False
-        
         self.active_bonuses = new_active
     
     def select_previous_ship(self):
@@ -4172,8 +4707,8 @@ class PTypeGame:
                 # Track total bosses defeated for trivia
                 self.total_bosses_defeated += 1
                 
-                # Check if trivia should trigger (every 4 boss defeats)
-                if self.total_bosses_defeated % 4 == 0:
+                # Check if trivia should trigger (every 2 boss defeats)
+                if self.total_bosses_defeated % 2 == 0:
                     self.trivia_pending = True
                     # Prepare trivia question
                     self.current_trivia = TriviaDatabase.get_question(
@@ -4208,6 +4743,10 @@ class PTypeGame:
         """Check for ship-to-ship collisions"""
         if not self.enemies:  # Early exit if no enemies
             return False
+        
+        # Check for invincibility
+        if self.invincibility_active:
+            return False  # No damage during invincibility
             
         player_rect = self.player_ship.get_collision_rect()
         
@@ -4278,16 +4817,23 @@ class PTypeGame:
             self.spawn_enemy()
             self.last_enemy_spawn = current_time
         
+        # Update bonus effects
+        self.update_bonus_effects()
+        
         # Update game objects
         for star in self.stars:
             star.update()
         
         self.player_ship.update()
         
-        # Update enemies
+        # Update enemies with speed modifiers
         enemies_to_remove = []
         for enemy in self.enemies:
+            # Apply enemy slow factor (from Time Slow or Power Surge)
+            original_speed = enemy.speed
+            enemy.speed *= self.enemy_slow_factor
             enemy.update()
+            enemy.speed = original_speed  # Restore original speed
             
             if enemy.is_off_screen(self.current_height):
                 enemies_to_remove.append(enemy)
@@ -4445,8 +4991,9 @@ class PTypeGame:
         
         # Optimized panel for narrow window
         panel_width = min(550, SCREEN_WIDTH - 40)  # Leave margin
-        panel_height = min(700, self.current_height - 100)
-        panel_rect = pygame.Rect(SCREEN_WIDTH//2 - panel_width//2, 50, panel_width, panel_height)
+        # Make panel taller to fit all 19 achievements (4 rows of 5)
+        panel_height = min(850, self.current_height - 20)  # Much taller panel
+        panel_rect = pygame.Rect(SCREEN_WIDTH//2 - panel_width//2, 10, panel_width, panel_height)
         pygame.draw.rect(self.screen, DARK_BG, panel_rect, border_radius=15)
         pygame.draw.rect(self.screen, ACCENT_BLUE, panel_rect, 3, border_radius=15)
         
@@ -4484,6 +5031,13 @@ class PTypeGame:
             languages_played = getattr(self.current_profile, 'languages_played', set())
             bosses_defeated = getattr(self.current_profile, 'bosses_defeated', 0)
             
+            # Get trivia stats
+            trivia_correct = getattr(self.current_profile, 'trivia_questions_correct', 0)
+            trivia_answered = getattr(self.current_profile, 'trivia_questions_answered', 0)
+            trivia_accuracy = (trivia_correct / trivia_answered * 100) if trivia_answered > 0 else 0
+            trivia_streak = getattr(self.current_profile, 'trivia_streak_best', 0)
+            bonus_used = getattr(self.current_profile, 'bonus_items_used', 0)
+            
             stats_data = [
                 ("Games:", f"{self.current_profile.games_played}", MODERN_WHITE),
                 ("Best Score:", f"{best_score:,}", NEON_GREEN),
@@ -4491,6 +5045,15 @@ class PTypeGame:
                 ("Best WPM:", f"{best_wpm:.1f}", ACCENT_ORANGE),
                 ("Languages:", f"{len(languages_played)}/7", ACCENT_BLUE)
             ]
+            
+            # Add trivia stats only if player has answered questions
+            if trivia_answered > 0:
+                stats_data.extend([
+                    ("Trivia Score:", f"{trivia_correct}/{trivia_answered}", ACCENT_PURPLE),
+                    ("Trivia Accuracy:", f"{trivia_accuracy:.0f}%", NEON_PINK),
+                    ("Best Streak:", f"{trivia_streak}", ACCENT_YELLOW),
+                    ("Items Used:", f"{bonus_used}", ACCENT_CYAN)
+                ])
             
             # Single column with aligned values
             max_label_width = max(self.small_font.size(label)[0] for label, _, _ in stats_data)
@@ -4508,19 +5071,21 @@ class PTypeGame:
             self.screen.blit(ach_title, (panel_rect.x + 20, y_offset))
             y_offset += 35
             
-            # Achievement grid with better spacing
-            achievements_per_row = 4  # Less crowded
-            ach_size = 70  # Slightly larger
-            ach_spacing = 15  # More spacing
+            # Achievement grid - adjusted to fit all 19 achievements
+            total_achievements = len(ACHIEVEMENTS)
+            achievements_per_row = 5  # More per row to fit all
+            ach_size = 55  # Slightly larger icons
+            ach_spacing = 10  # Better spacing
             
             # Calculate centering for achievement grid
             grid_width = achievements_per_row * (ach_size + ach_spacing) - ach_spacing
             grid_x_start = panel_rect.x + (panel_rect.width - grid_width) // 2
             
+            # Get mouse position for hover detection
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            hovered_achievement = None
+            
             for i, (ach_id, achievement) in enumerate(ACHIEVEMENTS.items()):
-                if y_offset + ach_size > panel_rect.bottom - 100:  # Stop if we run out of space
-                    break
-                    
                 row = i // achievements_per_row
                 col = i % achievements_per_row
                 
@@ -4532,40 +5097,124 @@ class PTypeGame:
                 
                 ach_rect = pygame.Rect(x_pos, y_pos, ach_size, ach_size)
                 
+                # Check if mouse is hovering over this achievement
+                if ach_rect.collidepoint(mouse_x, mouse_y):
+                    hovered_achievement = (achievement, ach_rect)
+                
                 if unlocked:
                     # Unlocked achievement - colorful background
                     pygame.draw.rect(self.screen, MODERN_DARK_GRAY, ach_rect, border_radius=10)
                     pygame.draw.rect(self.screen, ACCENT_YELLOW, ach_rect, 2, border_radius=10)
-                    # Achievement icon - draw colored circle with text
-                    # Different colors for different achievement types
-                    icon_color = ACCENT_YELLOW
-                    if "speed" in ach_id or "wpm" in ach_id:
-                        icon_color = ACCENT_ORANGE
-                    elif "boss" in ach_id:
-                        icon_color = ACCENT_RED
-                    elif "level" in ach_id:
-                        icon_color = ACCENT_CYAN
-                    elif "perfect" in ach_id or "accuracy" in ach_id:
-                        icon_color = ACCENT_GREEN
-                    elif "polyglot" in ach_id or "word_master" in ach_id:
-                        icon_color = ACCENT_PURPLE
                     
-                    # Draw colored circle
-                    pygame.draw.circle(self.screen, icon_color, ach_rect.center, 25)
-                    # Draw text icon
-                    icon_surf = self.small_font.render(achievement.icon, True, MODERN_WHITE)
-                    icon_rect = icon_surf.get_rect(center=ach_rect.center)
-                    self.screen.blit(icon_surf, icon_rect)
+                    # Map each achievement to specific icon enum and color
+                    icon_map = {
+                        "first_word": (OutlineIcon.ABC, ACCENT_GREEN),
+                        "speed_demon": (OutlineIcon.ROCKET, ACCENT_ORANGE),
+                        "accuracy_master": (OutlineIcon.TARGET, ACCENT_GREEN),
+                        "boss_slayer": (OutlineIcon.SKULL, ACCENT_RED),
+                        "level_10": (OutlineIcon.MEDAL, ACCENT_CYAN),
+                        "level_20": (OutlineIcon.MEDAL_2, ACCENT_CYAN),
+                        "perfect_game": (OutlineIcon.CIRCLE_CHECK, NEON_GREEN),
+                        "marathon": (OutlineIcon.CLOCK, ACCENT_BLUE),
+                        "polyglot": (OutlineIcon.LANGUAGE, ACCENT_PURPLE),
+                        "high_scorer": (OutlineIcon.COIN, ACCENT_YELLOW),
+                        "veteran": (OutlineIcon.MILITARY_AWARD, ACCENT_ORANGE),
+                        "word_master": (OutlineIcon.WRITING, ACCENT_PURPLE),
+                        "trivia_novice": (OutlineIcon.BULB, NEON_PINK),
+                        "trivia_expert": (OutlineIcon.BULB_OFF, NEON_PINK),
+                        "trivia_master": (OutlineIcon.BRAIN, NEON_PINK),
+                        "trivia_genius": (OutlineIcon.SPARKLES, NEON_PINK),
+                        "perfect_trivia": (OutlineIcon.AWARD, ACCENT_YELLOW),
+                        "bonus_collector": (OutlineIcon.PACKAGE, ACCENT_CYAN),
+                        "bonus_master": (OutlineIcon.GIFT, ACCENT_CYAN)
+                    }
+                    
+                    # Get icon and color for this achievement
+                    if ach_id in icon_map:
+                        icon_enum, icon_color = icon_map[ach_id]
+                    else:
+                        icon_enum = OutlineIcon.TROPHY
+                        icon_color = ACCENT_YELLOW
+                    
+                    # Try to draw icon with pytablericons
+                    icon_drawn = False
+                    try:
+                        # Load icon from TablerIcons as PIL Image
+                        pil_icon = tabler_icons.load(icon_enum, size=45, color=icon_color)
+                        if pil_icon:
+                            # Convert PIL to pygame surface
+                            icon_surf = pil_to_pygame(pil_icon)
+                            icon_rect_img = icon_surf.get_rect(center=ach_rect.center)
+                            self.screen.blit(icon_surf, icon_rect_img)
+                            icon_drawn = True
+                    except Exception as e:
+                        pass
+                    
+                    if not icon_drawn:
+                        # Fallback to colored circle with text
+                        pygame.draw.circle(self.screen, icon_color, ach_rect.center, 25)
+                        icon_surf = self.small_font.render(achievement.icon, True, MODERN_WHITE)
+                        icon_rect_txt = icon_surf.get_rect(center=ach_rect.center)
+                        self.screen.blit(icon_surf, icon_rect_txt)
                 else:
                     # Locked achievement - mystery look
                     pygame.draw.rect(self.screen, (30, 30, 30), ach_rect, border_radius=10)
                     pygame.draw.rect(self.screen, (60, 60, 60), ach_rect, 1, border_radius=10)
-                    # Lock icon or question mark
-                    lock_surf = self.medium_font.render("?", True, (80, 80, 80))
-                    lock_rect = lock_surf.get_rect(center=ach_rect.center)
-                    self.screen.blit(lock_surf, lock_rect)
+                    
+                    # Try to draw lock icon with pytablericons
+                    lock_drawn = False
+                    try:
+                        pil_lock = tabler_icons.load(OutlineIcon.LOCK, size=40, color=(100, 100, 100))
+                        if pil_lock:
+                            lock_icon = pil_to_pygame(pil_lock)
+                            lock_rect = lock_icon.get_rect(center=ach_rect.center)
+                            self.screen.blit(lock_icon, lock_rect)
+                            lock_drawn = True
+                    except Exception:
+                        pass
+                    
+                    if not lock_drawn:
+                        # Fallback to question mark
+                        lock_surf = self.medium_font.render("?", True, (80, 80, 80))
+                        lock_rect = lock_surf.get_rect(center=ach_rect.center)
+                        self.screen.blit(lock_surf, lock_rect)
             
             y_offset += ((len(ACHIEVEMENTS) - 1) // achievements_per_row + 1) * (ach_size + ach_spacing + 10) + 20
+            
+            # Draw tooltip for hovered achievement
+            if hovered_achievement:
+                ach, ach_rect = hovered_achievement
+                
+                # Create tooltip surface
+                tooltip_padding = 10
+                name_surf = self.font.render(ach.name, True, ACCENT_YELLOW)
+                desc_surf = self.small_font.render(ach.description, True, MODERN_WHITE)
+                
+                tooltip_width = max(name_surf.get_width(), desc_surf.get_width()) + tooltip_padding * 2
+                tooltip_height = name_surf.get_height() + desc_surf.get_height() + tooltip_padding * 2 + 5
+                
+                # Position tooltip above the achievement
+                tooltip_x = ach_rect.centerx - tooltip_width // 2
+                tooltip_y = ach_rect.y - tooltip_height - 5
+                
+                # Keep tooltip on screen
+                if tooltip_x < panel_rect.x:
+                    tooltip_x = panel_rect.x
+                elif tooltip_x + tooltip_width > panel_rect.right:
+                    tooltip_x = panel_rect.right - tooltip_width
+                
+                if tooltip_y < panel_rect.y:
+                    tooltip_y = ach_rect.bottom + 5
+                
+                # Draw tooltip background
+                tooltip_rect = pygame.Rect(tooltip_x, tooltip_y, tooltip_width, tooltip_height)
+                pygame.draw.rect(self.screen, DARKER_BG, tooltip_rect, border_radius=8)
+                pygame.draw.rect(self.screen, ACCENT_YELLOW, tooltip_rect, 2, border_radius=8)
+                
+                # Draw tooltip text
+                self.screen.blit(name_surf, (tooltip_x + tooltip_padding, tooltip_y + tooltip_padding))
+                self.screen.blit(desc_surf, (tooltip_x + tooltip_padding, 
+                                            tooltip_y + tooltip_padding + name_surf.get_height() + 5))
         
         # High Scores Section (if space available)
         if y_offset < panel_rect.bottom - 150:  # More space for close button
@@ -4573,22 +5222,30 @@ class PTypeGame:
             self.screen.blit(hs_title, (panel_rect.x + 20, y_offset))
             y_offset += 25
             
-            # Get top 3 scores only for narrow display
+            # Get top 5 scores for display
             all_scores = []
             for mode in [GameMode.NORMAL, GameMode.PROGRAMMING]:
-                scores = self.settings.get_high_scores(mode, limit=3)
+                scores = self.settings.get_high_scores(mode, limit=5)
                 for score in scores:
                     all_scores.append((score, mode))
             
-            # Sort by score and take top 3
+            # Sort by score and take top 5
             all_scores.sort(key=lambda x: x[0].score, reverse=True)
+            all_scores = all_scores[:5]
             
-            for i, (entry, mode) in enumerate(all_scores[:3]):
+            # Always show 5 slots
+            for i in range(5):
                 rank = f"{i+1}." 
-                # Shortened display for narrow window
-                score_text = self.small_font.render(
-                    f"{rank} {entry.player_name[:12]}: {entry.score:,}",
-                    True, MODERN_LIGHT)
+                if i < len(all_scores):
+                    entry, mode = all_scores[i]
+                    score_text = self.small_font.render(
+                        f"{rank} {entry.player_name[:12]}: {entry.score:,}",
+                        True, MODERN_LIGHT)
+                else:
+                    # Empty slot
+                    score_text = self.small_font.render(
+                        f"{rank} ----------: 0",
+                        True, (80, 80, 80))
                 self.screen.blit(score_text, (panel_rect.x + 30, y_offset))
                 y_offset += 20
         
@@ -4614,18 +5271,9 @@ class PTypeGame:
             )
             text_rect = progress_text.get_rect(center=bar_rect.center)
             self.screen.blit(progress_text, text_rect)
-            bar_width = panel_rect.width - 40
-            bar_height = 10
-            progress_ratio = len(self.current_profile.achievements) / len(ACHIEVEMENTS)
-            
-            bar_rect = pygame.Rect(panel_rect.x + 20, progress_y + 25, bar_width, bar_height)
-            pygame.draw.rect(self.screen, MODERN_DARK_GRAY, bar_rect, border_radius=5)
-            
-            fill_rect = pygame.Rect(panel_rect.x + 20, progress_y + 25, int(bar_width * progress_ratio), bar_height)
-            pygame.draw.rect(self.screen, ACCENT_GREEN, fill_rect, border_radius=5)
         
-        # Close button - position higher to avoid overlap
-        self.close_popout_button.rect.center = (SCREEN_WIDTH//2, panel_rect.bottom - 100)
+        # Close button - position below the panel to avoid overlap
+        self.close_popout_button.rect.center = (SCREEN_WIDTH//2, panel_rect.bottom + 30)
         self.close_popout_button.draw(self.screen)
     
     def draw_settings_popup(self):
@@ -5018,8 +5666,8 @@ class PTypeGame:
         
         # Help panel at bottom - draw before dropdown so dropdown can overlap
         # Fixed position from bottom
-        help_y = self.current_height - 140  # Fixed position from bottom
-        help_panel = pygame.Rect(self.ui_center_x - 240, help_y, 480, 85)
+        help_y = self.current_height - 160  # Moved up slightly for more room
+        help_panel = pygame.Rect(self.ui_center_x - 260, help_y, 520, 105)
         
         # Draw the help panel
         pygame.draw.rect(self.screen, DARKER_BG, help_panel, border_radius=10)
@@ -5030,11 +5678,12 @@ class PTypeGame:
         title_rect = help_title.get_rect(center=(help_panel.centerx, help_panel.y + 18))
         self.screen.blit(help_title, title_rect)
         
-        # Instructions (condensed)
+        # Instructions (updated with new features)
         instructions = [
-            "Type falling words before they reach bottom",
-            "Health decreases on collision or escape",
-            "Press ENTER to activate EMP weapon"
+            "Type falling words before they reach bottom | TAB to switch targets",
+            "Defeat bosses every level | Answer trivia every 2 bosses for items",
+            "ENTER: EMP weapon | ↑/↓: Select item | BACKSPACE: Use item",
+            "Collect & use 4 unique bonus items from trivia rewards"
         ]
         
         y_off = help_panel.y + 35
@@ -5278,6 +5927,90 @@ class PTypeGame:
             self.screen.blit(emp_surf, (self.player_ship.x - self.emp_radius, 
                                        self.player_ship.y - self.emp_radius))
         
+        # Bonus Items Display - 4 vertical boxes on the right side
+        box_size = 45
+        box_spacing = 5
+        items_x = current_width - 60  # Position on right side
+        items_y = 220  # Move down slightly (was 185)
+        
+        # Label for items
+        items_label = self.small_font.render("ITEMS", True, ACCENT_PURPLE)
+        label_rect = items_label.get_rect(center=(items_x + box_size//2, items_y - 15))
+        self.screen.blit(items_label, label_rect)
+        
+        # Draw 4 boxes for the 4 unique item types
+        for i in range(4):
+            box_y = items_y + i * (box_size + box_spacing)
+            box_rect = pygame.Rect(items_x, box_y, box_size, box_size)
+            
+            # Get the item type and quantity
+            item = TriviaDatabase.BONUS_ITEMS[i]
+            quantity = self.item_quantities[i]
+            
+            # Selected box always has neon blue highlight
+            if i == self.selected_item_index:
+                # Neon blue glow effect for selected
+                glow_surf = pygame.Surface((box_size + 10, box_size + 10), pygame.SRCALPHA)
+                pygame.draw.rect(glow_surf, (*NEON_BLUE[:3], 80), glow_surf.get_rect(), border_radius=5)
+                self.screen.blit(glow_surf, (items_x - 5, box_y - 5))
+                border_color = NEON_BLUE
+                box_color = (20, 40, 60) if quantity > 0 else (15, 15, 20)
+            else:
+                border_color = MODERN_DARK_GRAY if quantity > 0 else (50, 50, 50)
+                box_color = (30, 30, 40) if quantity > 0 else DARKER_BG
+            
+            # Draw box
+            pygame.draw.rect(self.screen, box_color, box_rect, border_radius=5)
+            pygame.draw.rect(self.screen, border_color, box_rect, 2, border_radius=5)
+            
+            # Draw item icon using pytablericons
+            icon_color = MODERN_WHITE if quantity > 0 else (80, 80, 80)
+            icon_drawn = False
+            try:
+                # Load icon as PIL Image and convert to pygame
+                pil_icon = tabler_icons.load(item.icon_enum, size=28, color=icon_color)
+                if pil_icon:
+                    icon_surf = pil_to_pygame(pil_icon)
+                    # Center icon slightly above center to make room for quantity
+                    icon_rect = icon_surf.get_rect(center=(box_rect.centerx, box_rect.centery - 5))
+                    self.screen.blit(icon_surf, icon_rect)
+                    icon_drawn = True
+            except Exception:
+                pass
+            
+            if not icon_drawn:
+                # Fallback to text if icon fails
+                icon_text = item.name[0].upper()
+                icon_surface = self.font.render(icon_text, True, icon_color)
+                icon_rect = icon_surface.get_rect(center=(box_rect.centerx, box_rect.centery - 5))
+                self.screen.blit(icon_surface, icon_rect)
+            
+            # Draw quantity counter in lower right corner
+            if quantity > 0:
+                # Background for counter
+                counter_size = 18
+                counter_rect = pygame.Rect(
+                    box_rect.right - counter_size - 2,
+                    box_rect.bottom - counter_size - 2,
+                    counter_size,
+                    counter_size
+                )
+                pygame.draw.circle(self.screen, ACCENT_CYAN if i == self.selected_item_index else MODERN_DARK_GRAY,
+                                 counter_rect.center, counter_size // 2)
+                # Quantity text
+                qty_text = self.small_font.render(str(quantity), True, MODERN_WHITE)
+                qty_rect = qty_text.get_rect(center=counter_rect.center)
+                self.screen.blit(qty_text, qty_rect)
+        
+        # Control hint - use plain text instead of Unicode
+        hint_text = self.small_font.render("UP/DOWN", True, MODERN_GRAY)
+        hint_rect = hint_text.get_rect(center=(items_x + box_size//2, items_y + 4 * (box_size + box_spacing) + 10))
+        self.screen.blit(hint_text, hint_rect)
+        
+        use_text = self.small_font.render("BACKSPACE", True, MODERN_GRAY)
+        use_rect = use_text.get_rect(center=(items_x + box_size//2, items_y + 4 * (box_size + box_spacing) + 25))
+        self.screen.blit(use_text, use_rect)
+        
         # Controls - responsive positioning
         controls_text = self.small_font.render("ESC: Pause | Left/Right: Switch | ENTER: EMP", True, MODERN_GRAY)
         controls_rect = controls_text.get_rect(bottomright=(current_width - 20, self.current_height - 20))
@@ -5363,7 +6096,7 @@ class PTypeGame:
         
         # Options
         option_y = y_offset + 20
-        option_keys = ['1', '2', '3', '4']
+        option_keys = ['1', '2', '3']
         for i, option in enumerate(self.current_trivia.options):
             # Highlight selected option
             if i == self.selected_answer:
@@ -5399,7 +6132,7 @@ class PTypeGame:
         
         # Instructions
         if not self.trivia_answered:
-            instruction = "Press 1-4 to select answer, SPACE to confirm"
+            instruction = "Press 1-3 to select answer, SPACE to confirm"
             color = MODERN_GRAY
         else:
             if self.trivia_result:
@@ -5446,8 +6179,6 @@ class PTypeGame:
                 self.selected_answer = 1
             elif key == pygame.K_3:
                 self.selected_answer = 2
-            elif key == pygame.K_4:
-                self.selected_answer = 3
             elif key == pygame.K_SPACE and self.selected_answer >= 0:
                 # Confirm answer
                 self.trivia_answered = True
@@ -5464,21 +6195,43 @@ class PTypeGame:
     
     def complete_trivia(self):
         """Complete trivia and award prizes"""
-        if self.trivia_result:
-            # Correct answer - award bonus items
-            offensive_item = TriviaDatabase.get_bonus_item(BonusItemType.OFFENSIVE)
-            defensive_item = TriviaDatabase.get_bonus_item(BonusItemType.DEFENSIVE)
+        # Update profile stats
+        if self.current_profile:
+            self.current_profile.trivia_questions_answered += 1
             
-            self.offensive_items.append(offensive_item)
-            self.defensive_items.append(defensive_item)
+            if self.trivia_result:
+                # Correct answer - update stats
+                self.current_profile.trivia_questions_correct += 1
+                self.current_profile.trivia_streak_current += 1
+                if self.current_profile.trivia_streak_current > self.current_profile.trivia_streak_best:
+                    self.current_profile.trivia_streak_best = self.current_profile.trivia_streak_current
+                
+                # Award one random bonus item
+                bonus_item = TriviaDatabase.get_bonus_item()
+                
+                # Add to the quantity of that item type
+                self.item_quantities[bonus_item.item_id] += 1
+                
+                # Track bonus collection
+                self.current_profile.bonus_items_collected += 1
+                
+                # Show notification
+                self.achievement_notifications.append(
+                    (type('obj', (object,), {
+                        'name': f'Trivia Reward: {bonus_item.name}',
+                        'description': 'Use UP/DOWN to select, BACKSPACE to use'
+                    })(), 300)
+                )
+            else:
+                # Wrong answer - reset streak
+                self.current_profile.trivia_streak_current = 0
             
-            # Show notification
-            self.achievement_notifications.append(
-                (type('obj', (object,), {
-                    'name': f'Trivia Reward: {offensive_item.name} + {defensive_item.name}',
-                    'description': 'Use UP/DOWN arrows to activate'
-                })(), 300)
-            )
+            # Check for trivia achievements
+            newly_unlocked = self.current_profile.check_achievements({})
+            for achievement_id in newly_unlocked:
+                achievement = ACHIEVEMENTS[achievement_id]
+                self.achievement_notifications.append((achievement, 300))
+                self.sound_manager.play('achievement')
         
         # Return to game
         self.trivia_pending = False
@@ -5583,6 +6336,10 @@ class PTypeGame:
         elif self.game_mode == GameMode.PAUSE:
             self.draw_game()
             self.draw_pause_menu()
+        elif self.game_mode == GameMode.TRIVIA:
+            # Draw game in background with overlay
+            self.draw_game()
+            self.draw_trivia()
         elif self.game_mode == GameMode.GAME_OVER:
             for star in self.stars:
                 star.draw(self.screen)
@@ -5632,6 +6389,9 @@ class PTypeGame:
             
             elif self.game_mode == GameMode.PAUSE:
                 self.handle_pause_events(event)
+            
+            elif self.game_mode == GameMode.TRIVIA:
+                self.handle_trivia_input(event.key if event.type == pygame.KEYDOWN else None)
             
             elif self.game_mode == GameMode.GAME_OVER:
                 self.handle_game_over_events(event)
@@ -5820,6 +6580,12 @@ class PTypeGame:
                 self.game_mode = GameMode.PAUSE
             elif event.key == pygame.K_RETURN:  # EMP trigger
                 self.trigger_emp()
+            elif event.key == pygame.K_UP:  # Cycle offensive items
+                self.cycle_item_selection("up")
+            elif event.key == pygame.K_DOWN:  # Cycle defensive items
+                self.cycle_item_selection("down")
+            elif event.key == pygame.K_BACKSPACE:  # Activate selected item
+                self.activate_selected_bonus()
             elif event.key == pygame.K_LEFT:
                 self.select_previous_ship()
             elif event.key == pygame.K_RIGHT:
