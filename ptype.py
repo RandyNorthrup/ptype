@@ -92,6 +92,7 @@ class GameMode(Enum):
     STATS = "stats"
     SETTINGS = "settings"
     ABOUT = "about"
+    TRIVIA = "trivia"  # New trivia mode
 
 class ProgrammingLanguage(Enum):
     PYTHON = "Python"
@@ -101,6 +102,249 @@ class ProgrammingLanguage(Enum):
     CPLUSPLUS = "C++"
     CSS = "CSS"
     HTML = "HTML"
+
+class BonusItemType(Enum):
+    OFFENSIVE = "offensive"  # Up arrow key
+    DEFENSIVE = "defensive"  # Down arrow key
+
+class TriviaCategory(Enum):
+    POP_CULTURE = "pop_culture"
+    SPORTS = "sports"
+    HISTORY = "history"
+    GEOGRAPHY = "geography"
+    MATHEMATICS = "mathematics"
+    ART = "art"
+    NATURE = "nature"
+
+@dataclass
+class TriviaQuestion:
+    question: str
+    options: List[str]  # 4 options
+    correct_answer: int  # Index of correct answer (0-3)
+    difficulty: str  # beginner, intermediate, advanced
+    category: str  # Category or programming language
+
+@dataclass
+class BonusItem:
+    item_type: BonusItemType
+    name: str
+    description: str
+    duration: int  # Duration in frames (60 = 1 second)
+    uses: int  # How many uses
+    effect_value: float  # Strength of effect
+
+class TriviaDatabase:
+    """Comprehensive trivia question database"""
+    
+    TRIVIA_QUESTIONS = {
+        # Normal mode categories
+        TriviaCategory.POP_CULTURE.value: {
+            'beginner': [
+                TriviaQuestion("Which movie features the line 'May the Force be with you'?", 
+                             ["Star Trek", "Star Wars", "Avatar", "Matrix"], 1, "beginner", "pop_culture"),
+                TriviaQuestion("What social media platform has a bird as its logo?", 
+                             ["Facebook", "Instagram", "Twitter", "TikTok"], 2, "beginner", "pop_culture"),
+                TriviaQuestion("Who played Iron Man in the Marvel movies?", 
+                             ["Chris Evans", "Robert Downey Jr.", "Mark Ruffalo", "Chris Hemsworth"], 1, "beginner", "pop_culture"),
+                TriviaQuestion("What streaming service is known for 'Stranger Things'?", 
+                             ["Hulu", "Netflix", "Disney+", "Amazon Prime"], 1, "beginner", "pop_culture"),
+            ],
+            'intermediate': [
+                TriviaQuestion("Which band released the album 'Bohemian Rhapsody'?", 
+                             ["The Beatles", "Led Zeppelin", "Queen", "The Rolling Stones"], 2, "intermediate", "pop_culture"),
+                TriviaQuestion("What is the highest-grossing film of all time?", 
+                             ["Titanic", "Avatar", "Avengers: Endgame", "Star Wars: The Force Awakens"], 1, "intermediate", "pop_culture"),
+                TriviaQuestion("Who directed the movie 'Inception'?", 
+                             ["Steven Spielberg", "Christopher Nolan", "Martin Scorsese", "Quentin Tarantino"], 1, "intermediate", "pop_culture"),
+            ],
+            'advanced': [
+                TriviaQuestion("Which film won the first Academy Award for Best Picture?", 
+                             ["Wings", "Sunrise", "The Jazz Singer", "7th Heaven"], 0, "advanced", "pop_culture"),
+                TriviaQuestion("What year did MTV launch?", 
+                             ["1980", "1981", "1982", "1983"], 1, "advanced", "pop_culture"),
+            ]
+        },
+        
+        TriviaCategory.SPORTS.value: {
+            'beginner': [
+                TriviaQuestion("How many players are on a basketball team?", 
+                             ["4", "5", "6", "7"], 1, "beginner", "sports"),
+                TriviaQuestion("What sport is played at Wimbledon?", 
+                             ["Golf", "Tennis", "Cricket", "Rugby"], 1, "beginner", "sports"),
+                TriviaQuestion("How often are the Olympics held?", 
+                             ["Every 2 years", "Every 3 years", "Every 4 years", "Every 5 years"], 2, "beginner", "sports"),
+            ],
+            'intermediate': [
+                TriviaQuestion("Which country has won the most FIFA World Cups?", 
+                             ["Germany", "Argentina", "Brazil", "Italy"], 2, "intermediate", "sports"),
+                TriviaQuestion("What is the maximum score possible in ten-pin bowling?", 
+                             ["200", "250", "300", "350"], 2, "intermediate", "sports"),
+            ],
+            'advanced': [
+                TriviaQuestion("Who holds the record for most career home runs in baseball?", 
+                             ["Babe Ruth", "Hank Aaron", "Barry Bonds", "Willie Mays"], 2, "advanced", "sports"),
+            ]
+        },
+        
+        TriviaCategory.HISTORY.value: {
+            'beginner': [
+                TriviaQuestion("In which year did World War II end?", 
+                             ["1944", "1945", "1946", "1947"], 1, "beginner", "history"),
+                TriviaQuestion("Who was the first President of the United States?", 
+                             ["Thomas Jefferson", "John Adams", "George Washington", "Benjamin Franklin"], 2, "beginner", "history"),
+                TriviaQuestion("Which ancient wonder of the world was located in Egypt?", 
+                             ["Colossus of Rhodes", "Great Pyramid of Giza", "Hanging Gardens of Babylon", "Lighthouse of Alexandria"], 1, "beginner", "history"),
+            ],
+            'intermediate': [
+                TriviaQuestion("The Berlin Wall fell in which year?", 
+                             ["1987", "1988", "1989", "1990"], 2, "intermediate", "history"),
+                TriviaQuestion("Which empire was ruled by Julius Caesar?", 
+                             ["Greek Empire", "Roman Empire", "Persian Empire", "Egyptian Empire"], 1, "intermediate", "history"),
+            ],
+            'advanced': [
+                TriviaQuestion("The Treaty of Versailles ended which war?", 
+                             ["World War I", "World War II", "Franco-Prussian War", "Napoleonic Wars"], 0, "advanced", "history"),
+            ]
+        },
+        
+        TriviaCategory.GEOGRAPHY.value: {
+            'beginner': [
+                TriviaQuestion("What is the capital of France?", 
+                             ["London", "Berlin", "Paris", "Madrid"], 2, "beginner", "geography"),
+                TriviaQuestion("Which continent is Brazil located in?", 
+                             ["North America", "South America", "Africa", "Asia"], 1, "beginner", "geography"),
+                TriviaQuestion("What is the longest river in the world?", 
+                             ["Amazon River", "Nile River", "Mississippi River", "Yangtze River"], 1, "beginner", "geography"),
+            ],
+            'intermediate': [
+                TriviaQuestion("Which country has the most time zones?", 
+                             ["USA", "Russia", "China", "Canada"], 1, "intermediate", "geography"),
+                TriviaQuestion("What is the smallest country in the world?", 
+                             ["Monaco", "Vatican City", "San Marino", "Liechtenstein"], 1, "intermediate", "geography"),
+            ],
+            'advanced': [
+                TriviaQuestion("Which mountain range contains Mount Everest?", 
+                             ["Andes", "Alps", "Himalayas", "Rockies"], 2, "advanced", "geography"),
+            ]
+        },
+        
+        # Programming language trivia
+        ProgrammingLanguage.PYTHON.value: {
+            'beginner': [
+                TriviaQuestion("What keyword is used to define a function in Python?", 
+                             ["function", "def", "func", "define"], 1, "beginner", "Python"),
+                TriviaQuestion("Which symbol is used for comments in Python?", 
+                             ["//", "/*", "#", "--"], 2, "beginner", "Python"),
+                TriviaQuestion("What data type is [1, 2, 3] in Python?", 
+                             ["tuple", "list", "set", "dict"], 1, "beginner", "Python"),
+            ],
+            'intermediate': [
+                TriviaQuestion("What does PEP stand for in Python?", 
+                             ["Python Enhancement Proposal", "Python Execution Protocol", "Python Extension Package", "Python Error Prevention"], 0, "intermediate", "Python"),
+                TriviaQuestion("Which method is used to add an element to a list?", 
+                             ["add()", "append()", "insert()", "push()"], 1, "intermediate", "Python"),
+                TriviaQuestion("What is the output of len('Python')?", 
+                             ["5", "6", "7", "8"], 1, "intermediate", "Python"),
+            ],
+            'advanced': [
+                TriviaQuestion("What is the Global Interpreter Lock (GIL) in Python?", 
+                             ["A security feature", "A memory management tool", "A thread synchronization mechanism", "A garbage collector"], 2, "advanced", "Python"),
+                TriviaQuestion("Which decorator is used to create a static method?", 
+                             ["@classmethod", "@staticmethod", "@property", "@abstract"], 1, "advanced", "Python"),
+            ]
+        },
+        
+        ProgrammingLanguage.JAVASCRIPT.value: {
+            'beginner': [
+                TriviaQuestion("Which keyword is used to declare a variable in modern JavaScript?", 
+                             ["var", "let", "const", "both let and const"], 3, "beginner", "JavaScript"),
+                TriviaQuestion("What symbol is used for single-line comments in JavaScript?", 
+                             ["#", "//", "/*", "--"], 1, "beginner", "JavaScript"),
+                TriviaQuestion("Which method is used to add an element to the end of an array?", 
+                             ["append()", "add()", "push()", "insert()"], 2, "beginner", "JavaScript"),
+            ],
+            'intermediate': [
+                TriviaQuestion("What is the difference between == and === in JavaScript?", 
+                             ["No difference", "=== checks type and value", "== is faster", "=== is deprecated"], 1, "intermediate", "JavaScript"),
+                TriviaQuestion("What does 'this' refer to in JavaScript?", 
+                             ["The current function", "The global object", "The context object", "It depends on context"], 3, "intermediate", "JavaScript"),
+            ],
+            'advanced': [
+                TriviaQuestion("What is a closure in JavaScript?", 
+                             ["A loop construct", "A function with access to outer scope", "A data type", "An error handling mechanism"], 1, "advanced", "JavaScript"),
+            ]
+        },
+        
+        ProgrammingLanguage.JAVA.value: {
+            'beginner': [
+                TriviaQuestion("What is the main method signature in Java?", 
+                             ["public static void main(String args[])", "static void main(String args[])", "public void main(String args[])", "void main(String args[])"], 0, "beginner", "Java"),
+                TriviaQuestion("Which keyword is used to create a class in Java?", 
+                             ["class", "Class", "new", "create"], 0, "beginner", "Java"),
+            ],
+            'intermediate': [
+                TriviaQuestion("What is the difference between ArrayList and LinkedList?", 
+                             ["No difference", "ArrayList is faster for random access", "LinkedList is always better", "ArrayList uses more memory"], 1, "intermediate", "Java"),
+            ],
+            'advanced': [
+                TriviaQuestion("What is the difference between abstract class and interface in Java 8+?", 
+                             ["No difference", "Abstract classes can have default methods", "Interfaces can have concrete methods", "Both can have concrete methods"], 3, "advanced", "Java"),
+            ]
+        }
+        # Add more programming languages as needed...
+    }
+    
+    BONUS_ITEMS = {
+        BonusItemType.OFFENSIVE: [
+            BonusItem(BonusItemType.OFFENSIVE, "Rapid Fire", "Double typing speed for 10 seconds", 600, 1, 2.0),
+            BonusItem(BonusItemType.OFFENSIVE, "Multi-Shot", "Each keystroke hits multiple enemies", 900, 1, 3.0),
+            BonusItem(BonusItemType.OFFENSIVE, "Power Surge", "All enemies move 50% slower for 15 seconds", 900, 1, 0.5),
+            BonusItem(BonusItemType.OFFENSIVE, "Word Magnet", "Automatically complete current word", 1, 1, 1.0),
+        ],
+        BonusItemType.DEFENSIVE: [
+            BonusItem(BonusItemType.DEFENSIVE, "Shield Boost", "Instant 50 shield points", 1, 1, 50.0),
+            BonusItem(BonusItemType.DEFENSIVE, "Health Pack", "Restore 30 HP instantly", 1, 1, 30.0),
+            BonusItem(BonusItemType.DEFENSIVE, "Invincibility", "Immune to damage for 5 seconds", 300, 1, 1.0),
+            BonusItem(BonusItemType.DEFENSIVE, "Time Slow", "Slow down all enemies for 10 seconds", 600, 1, 0.3),
+        ]
+    }
+    
+    @staticmethod
+    def get_question(mode: GameMode, language: ProgrammingLanguage = None, difficulty_level: int = 1) -> TriviaQuestion:
+        """Get a random trivia question based on mode and difficulty"""
+        if mode == GameMode.PROGRAMMING and language:
+            category = language.value
+        else:
+            # Random category for normal mode
+            categories = [cat.value for cat in TriviaCategory]
+            category = random.choice(categories)
+        
+        # Determine difficulty based on level
+        if difficulty_level <= 30:
+            difficulty = 'beginner'
+        elif difficulty_level <= 70:
+            difficulty = 'intermediate'
+        else:
+            difficulty = 'advanced'
+        
+        questions = TriviaDatabase.TRIVIA_QUESTIONS.get(category, {})
+        difficulty_questions = questions.get(difficulty, [])
+        
+        if not difficulty_questions:
+            # Fallback to beginner if no questions for difficulty
+            difficulty_questions = questions.get('beginner', [])
+        
+        if difficulty_questions:
+            return random.choice(difficulty_questions)
+        
+        # Ultimate fallback
+        return TriviaQuestion("What is 2+2?", ["3", "4", "5", "6"], 1, "beginner", "mathematics")
+    
+    @staticmethod
+    def get_bonus_item(item_type: BonusItemType) -> BonusItem:
+        """Get a random bonus item of specified type"""
+        items = TriviaDatabase.BONUS_ITEMS[item_type]
+        return random.choice(items)
 
 class WordDictionary:
     """Comprehensive progressive word dictionaries with difficulty-based selection"""
@@ -3056,6 +3300,26 @@ class PTypeGame:
         # Achievement notifications
         self.achievement_notifications = []  # List of (achievement, timer) tuples
         
+        # Trivia system
+        self.total_bosses_defeated = 0  # Track total bosses defeated for trivia trigger
+        self.trivia_pending = False
+        self.current_trivia = None
+        self.selected_answer = -1
+        self.trivia_answered = False
+        self.trivia_result = None  # True for correct, False for wrong
+        
+        # Bonus items inventory
+        self.offensive_items = []  # Stack of offensive bonus items
+        self.defensive_items = []  # Stack of defensive bonus items
+        self.active_bonuses = []  # Currently active bonus effects [(item, timer)]
+        
+        # Bonus effect flags
+        self.rapid_fire_active = False
+        self.multi_shot_active = False
+        self.invincibility_active = False
+        self.time_slow_active = False
+        self.enemy_slow_factor = 1.0  # Speed multiplier for enemies
+        
         self.update_spawn_delay()
     
     def update_spawn_delay(self):
@@ -3754,6 +4018,81 @@ class PTypeGame:
         self.emp_ready = False
         self.emp_cooldown = self.emp_max_cooldown
     
+    def activate_offensive_bonus(self):
+        """Activate offensive bonus item (Up arrow)"""
+        if not self.offensive_items:
+            return
+        
+        item = self.offensive_items.pop(0)
+        
+        if item.name == "Rapid Fire":
+            self.rapid_fire_active = True
+            self.active_bonuses.append((item, item.duration))
+        elif item.name == "Multi-Shot":
+            self.multi_shot_active = True
+            self.active_bonuses.append((item, item.duration))
+        elif item.name == "Power Surge":
+            self.enemy_slow_factor = item.effect_value
+            self.active_bonuses.append((item, item.duration))
+        elif item.name == "Word Magnet":
+            # Instantly complete current word
+            if self.active_enemy:
+                self.active_enemy.typed_chars = self.active_enemy.word
+                self.handle_input('')  # Trigger completion check
+        
+        # Show notification
+        self.achievement_notifications.append(
+            (type('obj', (object,), {'name': f'Activated: {item.name}', 'description': item.description})(), 180)
+        )
+        self.sound_manager.play('level')  # Play activation sound
+    
+    def activate_defensive_bonus(self):
+        """Activate defensive bonus item (Down arrow)"""
+        if not self.defensive_items:
+            return
+        
+        item = self.defensive_items.pop(0)
+        
+        if item.name == "Shield Boost":
+            self.shield_buffer = min(100, self.shield_buffer + int(item.effect_value))
+        elif item.name == "Health Pack":
+            self.health = min(self.max_health, self.health + int(item.effect_value))
+        elif item.name == "Invincibility":
+            self.invincibility_active = True
+            self.active_bonuses.append((item, item.duration))
+        elif item.name == "Time Slow":
+            self.time_slow_active = True
+            self.enemy_slow_factor = item.effect_value
+            self.active_bonuses.append((item, item.duration))
+        
+        # Show notification
+        self.achievement_notifications.append(
+            (type('obj', (object,), {'name': f'Activated: {item.name}', 'description': item.description})(), 180)
+        )
+        self.sound_manager.play('correct')  # Play activation sound
+    
+    def update_bonus_effects(self):
+        """Update active bonus effects"""
+        # Update timers and remove expired effects
+        new_active = []
+        for item, timer in self.active_bonuses:
+            timer -= 1
+            if timer > 0:
+                new_active.append((item, timer))
+            else:
+                # Effect expired, reset flags
+                if item.name == "Rapid Fire":
+                    self.rapid_fire_active = False
+                elif item.name == "Multi-Shot":
+                    self.multi_shot_active = False
+                elif item.name == "Power Surge" or item.name == "Time Slow":
+                    self.enemy_slow_factor = 1.0
+                    self.time_slow_active = False
+                elif item.name == "Invincibility":
+                    self.invincibility_active = False
+        
+        self.active_bonuses = new_active
+    
     def select_previous_ship(self):
         """Select the previous ship in the list"""
         if not self.enemies:
@@ -3829,6 +4168,24 @@ class PTypeGame:
                 # Shield buffer if at full health
                 if self.health >= self.max_health:
                     self.shield_buffer = min(self.shield_buffer + 25, 100)  # Add 25 shield, max 100
+                
+                # Track total bosses defeated for trivia
+                self.total_bosses_defeated += 1
+                
+                # Check if trivia should trigger (every 4 boss defeats)
+                if self.total_bosses_defeated % 4 == 0:
+                    self.trivia_pending = True
+                    # Prepare trivia question
+                    self.current_trivia = TriviaDatabase.get_question(
+                        self.game_mode, 
+                        self.programming_language if self.game_mode == GameMode.PROGRAMMING else None,
+                        self.level
+                    )
+                    self.selected_answer = -1
+                    self.trivia_answered = False
+                    self.trivia_result = None
+                    # Switch to trivia mode
+                    self.game_mode = GameMode.TRIVIA
                 
                 if self.level < MAX_LEVELS:
                     self.level += 1
@@ -4964,6 +5321,177 @@ class PTypeGame:
         controls_text = self.small_font.render("ESC: Resume | Left/Right: Switch Ships", True, MODERN_GRAY)
         controls_rect = controls_text.get_rect(center=(SCREEN_WIDTH//2, panel_rect.bottom - 20))
         self.screen.blit(controls_text, controls_rect)
+    
+    def draw_trivia(self):
+        """Draw trivia question screen"""
+        if not self.current_trivia:
+            return
+            
+        # Semi-transparent overlay
+        overlay = pygame.Surface((SCREEN_WIDTH, self.current_height))
+        overlay.set_alpha(200)
+        overlay.fill(DARKER_BG)
+        self.screen.blit(overlay, (0, 0))
+        
+        # Trivia panel
+        panel_w = 500
+        panel_h = 400
+        panel_x = SCREEN_WIDTH//2 - panel_w//2
+        panel_y = self.current_height//2 - panel_h//2
+        panel_rect = pygame.Rect(panel_x, panel_y, panel_w, panel_h)
+        pygame.draw.rect(self.screen, DARK_BG, panel_rect, border_radius=15)
+        pygame.draw.rect(self.screen, ACCENT_YELLOW, panel_rect, 3, border_radius=15)
+        
+        # Title
+        title_text = self.large_font.render("TRIVIA CHALLENGE!", True, ACCENT_YELLOW)
+        title_rect = title_text.get_rect(center=(SCREEN_WIDTH//2, panel_y + 40))
+        self.screen.blit(title_text, title_rect)
+        
+        # Category
+        category_text = self.medium_font.render(f"Category: {self.current_trivia.category.title()}", True, ACCENT_CYAN)
+        category_rect = category_text.get_rect(center=(SCREEN_WIDTH//2, panel_y + 70))
+        self.screen.blit(category_text, category_rect)
+        
+        # Question
+        question_lines = self.wrap_text(self.current_trivia.question, self.font, panel_w - 40)
+        y_offset = panel_y + 100
+        for line in question_lines:
+            text_surface = self.font.render(line, True, MODERN_WHITE)
+            text_rect = text_surface.get_rect(center=(SCREEN_WIDTH//2, y_offset))
+            self.screen.blit(text_surface, text_rect)
+            y_offset += 25
+        
+        # Options
+        option_y = y_offset + 20
+        option_keys = ['1', '2', '3', '4']
+        for i, option in enumerate(self.current_trivia.options):
+            # Highlight selected option
+            if i == self.selected_answer:
+                if self.trivia_answered:
+                    # Show result
+                    if i == self.current_trivia.correct_answer:
+                        color = NEON_GREEN
+                        bg_color = (0, 100, 0)
+                    else:
+                        color = ACCENT_RED
+                        bg_color = (100, 0, 0)
+                else:
+                    color = ACCENT_YELLOW
+                    bg_color = MODERN_DARK_GRAY
+                
+                # Draw selection background
+                option_bg = pygame.Rect(panel_x + 20, option_y - 5, panel_w - 40, 30)
+                pygame.draw.rect(self.screen, bg_color, option_bg, border_radius=5)
+            else:
+                if self.trivia_answered and i == self.current_trivia.correct_answer:
+                    # Highlight correct answer
+                    color = NEON_GREEN
+                    option_bg = pygame.Rect(panel_x + 20, option_y - 5, panel_w - 40, 30)
+                    pygame.draw.rect(self.screen, (0, 100, 0), option_bg, border_radius=5)
+                else:
+                    color = MODERN_WHITE
+            
+            option_text = f"{option_keys[i]}. {option}"
+            text_surface = self.font.render(option_text, True, color)
+            text_rect = text_surface.get_rect(x=panel_x + 30, centery=option_y + 10)
+            self.screen.blit(text_surface, text_rect)
+            option_y += 40
+        
+        # Instructions
+        if not self.trivia_answered:
+            instruction = "Press 1-4 to select answer, SPACE to confirm"
+            color = MODERN_GRAY
+        else:
+            if self.trivia_result:
+                instruction = "Correct! Press SPACE to continue and claim reward"
+                color = NEON_GREEN
+            else:
+                instruction = "Incorrect! Press SPACE to continue"
+                color = ACCENT_RED
+        
+        instruction_text = self.small_font.render(instruction, True, color)
+        instruction_rect = instruction_text.get_rect(center=(SCREEN_WIDTH//2, panel_rect.bottom - 30))
+        self.screen.blit(instruction_text, instruction_rect)
+    
+    def wrap_text(self, text: str, font: pygame.font.Font, max_width: int) -> List[str]:
+        """Wrap text to fit within max_width"""
+        words = text.split(' ')
+        lines = []
+        current_line = ""
+        
+        for word in words:
+            test_line = current_line + (" " if current_line else "") + word
+            if font.size(test_line)[0] <= max_width:
+                current_line = test_line
+            else:
+                if current_line:
+                    lines.append(current_line)
+                current_line = word
+        
+        if current_line:
+            lines.append(current_line)
+        
+        return lines
+    
+    def handle_trivia_input(self, key: int):
+        """Handle input during trivia mode"""
+        if not self.current_trivia:
+            return
+        
+        if not self.trivia_answered:
+            # Select answer
+            if key == pygame.K_1:
+                self.selected_answer = 0
+            elif key == pygame.K_2:
+                self.selected_answer = 1
+            elif key == pygame.K_3:
+                self.selected_answer = 2
+            elif key == pygame.K_4:
+                self.selected_answer = 3
+            elif key == pygame.K_SPACE and self.selected_answer >= 0:
+                # Confirm answer
+                self.trivia_answered = True
+                self.trivia_result = (self.selected_answer == self.current_trivia.correct_answer)
+                # Play sound
+                if self.trivia_result:
+                    self.sound_manager.play('correct')
+                else:
+                    self.sound_manager.play('wrong')
+        else:
+            # Answer has been given, space to continue
+            if key == pygame.K_SPACE:
+                self.complete_trivia()
+    
+    def complete_trivia(self):
+        """Complete trivia and award prizes"""
+        if self.trivia_result:
+            # Correct answer - award bonus items
+            offensive_item = TriviaDatabase.get_bonus_item(BonusItemType.OFFENSIVE)
+            defensive_item = TriviaDatabase.get_bonus_item(BonusItemType.DEFENSIVE)
+            
+            self.offensive_items.append(offensive_item)
+            self.defensive_items.append(defensive_item)
+            
+            # Show notification
+            self.achievement_notifications.append(
+                (type('obj', (object,), {
+                    'name': f'Trivia Reward: {offensive_item.name} + {defensive_item.name}',
+                    'description': 'Use UP/DOWN arrows to activate'
+                })(), 300)
+            )
+        
+        # Return to game
+        self.trivia_pending = False
+        self.current_trivia = None
+        self.selected_answer = -1
+        self.trivia_answered = False
+        self.trivia_result = None
+        
+        # Return to previous game mode
+        if hasattr(self, '_last_game_mode'):
+            self.game_mode = self._last_game_mode
+        else:
+            self.game_mode = GameMode.NORMAL
     
     def draw_game_over(self):
         """Draw modern game over screen"""
