@@ -4,7 +4,7 @@ name: Build P-Type Multi-Platform
 on:
   push:
     branches: [ main, master ]
-    tags: [ 'v*' ]
+    tags: [ 'v*', 'v1.5.1' ]
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
@@ -131,19 +131,7 @@ jobs:
           PType-macOS/PType-macOS.tar.gz
           PType-Linux/PType-Linux.tar.gz
         body: |
-          # P-Type v1.5.0 - Explosion & Trivia Edition
-          
-          ## 🔥 What's New in v1.5.0
-          - **Dramatic explosion sounds** when completing words
-          - **Trivia System**: Answer questions every 2 boss defeats
-          - **Bonus Items**: Collect and use 4 types of power-ups
-            - Rapid Fire: Double typing speed
-            - Shield Boost: Instant shield points
-            - Health Pack: Restore health
-            - Time Freeze: Stop all enemies
-          - **Enhanced sound effects** with realistic explosions
-          - **Professional icons** using pytablericons
-          - **7 new achievements** for trivia and bonuses
+          # P-Type v1.5.1
           
           ## 📥 Downloads
           - **Windows**: PType-Windows.zip
@@ -152,7 +140,7 @@ jobs:
           
           ## 🎮 Core Features
           - 100 progressive difficulty levels
-          - 7 programming languages for practice
+          - 7 programming languages and english for practice
           - Aggressive boss AI with smart tracking
           - 19+ unlockable achievements
           - Multiple player profiles
