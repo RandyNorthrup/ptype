@@ -1,6 +1,6 @@
 {
   "name": "ptype-game",
-  "version": "1.0.0",
+  "version": "1.5.1",
   "description": "P-Type - The Typing Game: A modern typing game with programming language training",
   "main": "ptype.py",
   "author": "Randy Northrup",

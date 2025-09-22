@@ -1,4 +1,16 @@
+
 # Changelog
+
+## [1.5.1] - 2025-09-22
+
+### Fixed
+- Universal macOS and Linux build support in GitHub Actions
+- Architecture mismatch errors on macOS x86_64
+- Improved workflow for multi-arch compatibility
+
+### Changed
+- Updated dependencies and version info
+
 
 All notable changes to P-Type - The Typing Game will be documented in this file.
 

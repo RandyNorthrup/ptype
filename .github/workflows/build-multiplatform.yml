@@ -1,3 +1,14 @@
+    - name: Install x86_64 Python (macOS x86_64)
+      if: runner.os == 'macOS' && matrix.arch == 'x86_64'
+      run: |
+        arch -x86_64 /usr/local/bin/brew install python@3.11 || true
+        echo "/usr/local/opt/python@3.11/bin" >> $GITHUB_PATH
+
+    - name: Use correct pip (macOS x86_64)
+      if: runner.os == 'macOS' && matrix.arch == 'x86_64'
+      run: |
+        arch -x86_64 /usr/local/opt/python@3.11/bin/python3.11 -m pip install --upgrade pip
+        arch -x86_64 /usr/local/opt/python@3.11/bin/pip3.11 install pygame pyinstaller pillow numpy pytablericons
 name: Build P-Type Multi-Platform
 
 on:
@@ -44,7 +55,8 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
 
-    - name: Install Python packages
+    - name: Install Python packages (default arch)
+      if: runner.os != 'macOS' || matrix.arch != 'x86_64'
       run: |
         python -m pip install --upgrade pip
         pip install pygame pyinstaller pillow numpy pytablericons
@@ -81,7 +93,7 @@ jobs:
     - name: Build macOS (x86_64)
       if: runner.os == 'macOS' && matrix.arch == 'x86_64'
       run: |
-        arch -x86_64 pyinstaller --onefile --windowed --name PType --add-data "assets:assets" --add-data "data:data" --hidden-import=numpy --hidden-import=pytablericons ptype.py
+        arch -x86_64 /usr/local/opt/python@3.11/bin/pyinstaller --onefile --windowed --name PType --add-data "assets:assets" --add-data "data:data" --hidden-import=numpy --hidden-import=pytablericons ptype.py
 
     - name: Build Linux
       if: runner.os == 'Linux'
