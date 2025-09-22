@@ -1,14 +1,4 @@
-    - name: Install x86_64 Python (macOS x86_64)
-      if: runner.os == 'macOS' && matrix.arch == 'x86_64'
-      run: |
-        arch -x86_64 /usr/local/bin/brew install python@3.11 || true
-        echo "/usr/local/opt/python@3.11/bin" >> $GITHUB_PATH
-
-    - name: Use correct pip (macOS x86_64)
-      if: runner.os == 'macOS' && matrix.arch == 'x86_64'
-      run: |
-        arch -x86_64 /usr/local/opt/python@3.11/bin/python3.11 -m pip install --upgrade pip
-        arch -x86_64 /usr/local/opt/python@3.11/bin/pip3.11 install pygame pyinstaller pillow numpy pytablericons
+## Removed invalid leading sequence. Workflow must start with 'name:'
 name: Build P-Type Multi-Platform
 
 on:
