@@ -1,22 +1,6 @@
 """
 P-Type - The Typing Game
-Version: 1.0.0
 A sleek, modern typing game for programmers and typing enthusiasts with fully responsive UI.
-
-Features:
-- Fully responsive UI that adapts to any window size while maintaining portrait aspect ratio
-- Modern UI with smooth animations and 3D-style ship graphics
-- Normal mode with standard English dictionary words
-- Programming training mode with 7 languages (Python, JavaScript, Java, C#, C++, CSS, HTML)
-- Boss battles with challenging words at the end of each level
-- 100 difficulty levels with progressive speed (20-400 WPM)
-- Ship collision mechanics with visual effects
-- High scores and detailed statistics tracking
-- Customizable audio settings
-- Smart dropdown menus with scrolling support
-- Full keyboard support including special characters
-- Window resize support with automatic UI recalculation
-- Consistent centering and spacing across all window sizes
 """
 
 import pygame

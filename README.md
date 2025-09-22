@@ -131,34 +131,41 @@ Download the pre-built executable from the releases page (no Python required).
 | Bonus Collector | Collect bonuses | Collect 10 bonus items |
 | Bonus Master | Use bonuses | Use 25 bonus items |
 
-## 📁 Project Structure
+
+## 📁 PType Project Structure
 
 ```
 PType/
-├── ptype.py              # Main game file
-├── requirements.txt      # Python dependencies
-├── README.md            # This file
-├── LICENSE              # MIT License
 │
-├── assets/              # Game assets
-│   ├── images/         # Image files
-│   │   └── ptype_logo.png
-│   └── sounds/         # Audio files
-│       └── game_music.mp3
+├── 📄 Core Files
+│   ├── ptype.py              # Main game file (265KB)
+│   ├── README.md             # Comprehensive documentation
+│   ├── requirements.txt      # Python dependencies
+│   ├── LICENSE              # MIT License
+│   └── .gitignore           # Git ignore rules
 │
-├── data/               # User data (created at runtime)
-│   ├── ptype_settings.json
-│   ├── ptype_profiles.json
-│   └── ptype_scores.json
+├── 🎨 assets/               # Game resources
+│   ├── images/
+│   │   └── ptype_logo.png  # Game logo (826KB)
+│   │   └── ptype.ico  # Game Icon
+│   │   └── spaceship_icon_small.png  # Game Icon Small png
+│   │   └── spaceship_icon.png  # Game Icon png
+│   └── sounds/
+│       └── game_music.mp3   # Background music (3.1MB)
 │
-├── docs/               # Documentation
-│   ├── CHANGELOG.md
-│   └── CONTRIBUTING.md
+├── 💾 data/                 # User data (auto-generated)
+│   ├── ptype_settings.json # Game settings
+│   ├── ptype_profiles.json # Player profiles  
+│   └── ptype_scores.json   # High scores
 │
-└── tests/              # Test files
-    └── test_*.py
-```
-
+├── 📚 docs/                 # Documentation
+│   ├── CHANGELOG.md        # Version history
+│   └── CONTRIBUTING.md     # Contribution guidelines
+│
+│
+└── 📦 Build Files
+    ├── build_executable.py  # Executable builder script
+    └── ptype.spec          # PyInstaller specification
 ## 🔧 Configuration
 
 Settings are stored in `~/.ptype/` directory (user home folder) and can be modified in-game:
@@ -171,31 +178,37 @@ Settings are stored in `~/.ptype/` directory (user home folder) and can be modif
 
 ## 🐛 Known Issues
 
-- Maximize button disabled on Windows to prevent UI scaling issues
 - Some special characters in programming mode may not display correctly on certain systems
 - Background music requires MP3 file in assets/sounds/
 - Boss words may appear very long in programming mode (intentional for challenge)
+
+## 📝 Next Steps
+
+While the main game is complete and well-organized, potential future improvements could include:
+
+1. **Code Modularization**: Split `ptype.py` into multiple modules:
+   - `entities.py` - Enemy, Player, Boss classes
+   - `ui.py` - UI components and menus
+   - `effects.py` - Visual and audio effects
+   - `dictionary.py` - Word dictionaries
+   - `settings.py` - Settings and profile management
+
+2. **Network Features**:
+   - Online leaderboards
+   - Multiplayer competitions
+   - Cloud save sync
+
+3. **Additional Content**:
+   - Better Spaceship Graphics
+   - More programming languages (Go, Rust, Swift)
+   - Custom difficulty modes
+   - Custom word lists support
+   - Theme customization
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please see `docs/CONTRIBUTING.md` for guidelines.
 
-### Development Setup
-
-1. Install development dependencies:
-```bash
-pip install -r requirements-dev.txt
-```
-
-2. Run tests:
-```bash
-pytest tests/
-```
-
-3. Format code:
-```bash
-black ptype.py
-```
 
 ## 📜 License
 
@@ -203,29 +216,7 @@ This project is licensed under the MIT License - see the `LICENSE` file for deta
 
 ## 👨‍💻 Author
 
-Created by Randy - A passionate developer focused on creating educational and entertaining programming tools.
-
-## 🙏 Acknowledgments
-
-- Pygame community for the excellent game development framework
-- All contributors who have helped improve the game
-- The programming community for inspiration and feedback
-
-## 📊 Version History
-
-- **v2.0.0** (Current)
-  - Added 200+ patterns per programming language
-  - Implemented boss battles with special mechanics
-  - Added shield system and EMP weapon
-  - Complete UI overhaul with responsive design
-  - Multi-profile support with persistent saves
-  - Achievement system
-  - Background music support
-
-- **v1.0.0** (Initial Release)
-  - Basic typing game functionality
-  - Support for 7 programming languages
-  - Simple scoring system
+Created by Randy Northrup.
 
 ## 📧 Contact
 
