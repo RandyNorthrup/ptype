@@ -46,11 +46,17 @@ jobs:
         sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
 
     - name: Install Python packages (default arch)
-      if: runner.os != 'macOS' || matrix.arch != 'x86_64'
+      - name: Install Python packages (Linux/Windows)
+        if: runner.os != 'macOS'
       run: |
-          arch -x86_64 /usr/local/opt/python@3.11/bin/python3.11 -m pip install --upgrade pip
-          arch -x86_64 /usr/local/opt/python@3.11/bin/python3.11 -m pip install pygame pyinstaller pillow numpy pytablericons
+          python -m pip install --upgrade pip
+          python -m pip install pygame pyinstaller pillow numpy pytablericons
 
+      - name: Install Python packages (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install pygame pyinstaller pillow numpy pytablericons
     - name: Create data directory
       shell: bash
       run: |
