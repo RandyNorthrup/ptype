@@ -1,4 +1,3 @@
-## Removed invalid leading sequence. Workflow must start with 'name:'
 name: Build P-Type Multi-Platform
 
 on:
@@ -23,7 +22,7 @@ jobs:
             platform: macOS
             ext: ''
           - os: macos-15-intel
-            platform: macOS
+            platform: macOS-Intel
             ext: ''
           - os: ubuntu-latest
             platform: Linux
@@ -54,6 +53,13 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         python3 -m pip install pygame pyinstaller pillow numpy pytablericons
+
+    - name: Install Python packages (macOS-Intel)
+      if: runner.os == 'macos-15-intel'
+      run: |
+        python3 -m pip install --upgrade pip
+        python3 -m pip install pygame pyinstaller pillow numpy pytablericons
+
     - name: Create data directory
       shell: bash
       run: |
