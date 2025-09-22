@@ -21,7 +21,7 @@ A modern typing game designed specifically for programmers to improve their codi
 - **Shield System**: Build shields by defeating bosses at full health
 - **EMP Weapon**: Special ability to clear nearby enemies
 - **Trivia System**: Answer programming and pop culture questions every 2 boss defeats
-- **Bonus Items**: Collect and use power-ups including Rapid Fire, Shield Boost, Health Pack, and Time Freeze
+- **Bonus Items**: Collect and use power-ups including Rapid Fire, Shield Boost, Health Pack, and Time Freeze (Currently Non Functional)
 
 ### Programming Language Support
 - **Python**: 245+ patterns including keywords, built-ins, and common libraries
@@ -88,11 +88,10 @@ Download the pre-built executable from the releases page (no Python required).
 ### Basic Controls
 - **Type**: Match the words/code on enemy ships
 - **Tab**: Switch between enemy targets
-- **Space**: Activate EMP weapon (when charged)
+- **Enter**: Activate EMP weapon (when charged)
 - **Up/Down Arrows**: Select bonus item
 - **Backspace**: Activate selected bonus item
 - **Esc**: Pause game
-- **F11**: Toggle fullscreen (where supported)
 
 ### Gameplay Tips
 1. **Focus on Accuracy**: Perfect words (no mistakes) grant bonus points and healing
