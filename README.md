@@ -159,13 +159,9 @@ PType/
 │   └── ptype_scores.json   # High scores
 │
 ├── 📚 docs/                 # Documentation
-│   ├── CHANGELOG.md        # Version history
-│   └── CONTRIBUTING.md     # Contribution guidelines
-│
-│
-└── 📦 Build Files
-    ├── build_executable.py  # Executable builder script
-    └── ptype.spec          # PyInstaller specification
+    ├── CHANGELOG.md        # Version history
+    └── CONTRIBUTING.md     # Contribution guidelines
+
 ## 🔧 Configuration
 
 Settings are stored in `~/.ptype/` directory (user home folder) and can be modified in-game:
