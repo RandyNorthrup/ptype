@@ -19,8 +19,13 @@ jobs:
             platform: Windows
             ext: .exe
           - os: macos-latest
-            platform: macOS
+            platform: macOS-arm64
             ext: ''
+            arch: arm64
+          - os: macos-latest
+            platform: macOS-x86_64
+            ext: ''
+            arch: x86_64
           - os: ubuntu-latest
             platform: Linux
             ext: ''
@@ -68,15 +73,31 @@ jobs:
       run: |
         pyinstaller --onefile --windowed --name PType --icon=assets/images/ptype.ico --add-data "assets;assets" --add-data "data;data" --hidden-import=numpy --hidden-import=pytablericons ptype.py
 
-    - name: Build macOS
-      if: runner.os == 'macOS'
+    - name: Build macOS (arm64)
+      if: runner.os == 'macOS' && matrix.arch == 'arm64'
       run: |
-        pyinstaller --onefile --windowed --name PType --add-data "assets:assets" --add-data "data:data" --hidden-import=numpy --hidden-import=pytablericons ptype.py
+        arch -arm64 pyinstaller --onefile --windowed --name PType --add-data "assets:assets" --add-data "data:data" --hidden-import=numpy --hidden-import=pytablericons ptype.py
+
+    - name: Build macOS (x86_64)
+      if: runner.os == 'macOS' && matrix.arch == 'x86_64'
+      run: |
+        arch -x86_64 pyinstaller --onefile --windowed --name PType --add-data "assets:assets" --add-data "data:data" --hidden-import=numpy --hidden-import=pytablericons ptype.py
 
     - name: Build Linux
       if: runner.os == 'Linux'
       run: |
         pyinstaller --onefile --windowed --name PType --add-data "assets:assets" --add-data "data:data" --hidden-import=numpy --hidden-import=pytablericons ptype.py
+
+    - name: Print Linux binary info
+      if: runner.os == 'Linux'
+      run: |
+        file dist/PType
+        ldd dist/PType || true
+    - name: Print macOS binary info
+      if: runner.os == 'macOS'
+      run: |
+        file dist/PType
+        otool -L dist/PType || true
 
     - name: Package Windows
       if: runner.os == 'Windows'
