@@ -1,7 +1,7 @@
 
 # Changelog
 
-## [1.5.1] - 2025-09-22
+## [1.5.2] - 2025-09-22
 
 ### Fixed
 - Universal macOS and Linux build support in GitHub Actions

@@ -24,7 +24,7 @@ os.environ['SDL_VIDEODRIVER'] = 'windows'  # Force Windows video driver
 os.environ['SDL_VIDEO_ALLOW_SCREENSAVER'] = '1'
 
 # Version Information
-VERSION = "1.5.1"
+VERSION = "1.5.2"
 VERSION_NAME = "WIP Edition"
 RELEASE_DATE = "2025-09-22"
 
