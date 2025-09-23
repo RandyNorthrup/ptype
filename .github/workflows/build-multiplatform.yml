@@ -19,7 +19,10 @@ jobs:
             platform: Windows
             ext: .exe
           - os: macos-latest
-            platform: macOS
+            platform: macOS-ARM
+            ext: ''
+          - os: macos-13
+            platform: macOS-Intel
             ext: ''
           - os: ubuntu-latest
             platform: Linux
@@ -28,7 +31,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # Cache pip dependencies to speed up future builds
+    # Cache pip dependencies for faster builds
     - name: Cache pip
       uses: actions/cache@v3
       with:
@@ -77,10 +80,17 @@ jobs:
           --add-data "assets;assets" --add-data "data;data" \
           --hidden-import=numpy --hidden-import=pytablericons ptype.py
 
-    - name: Build macOS (universal2)
-      if: runner.os == 'macOS'
+    - name: Build macOS ARM
+      if: matrix.platform == 'macOS-ARM'
       run: |
-        pyinstaller --onefile --windowed --name PType --target-arch universal2 \
+        pyinstaller --onefile --windowed --name PType \
+          --add-data "assets:assets" --add-data "data:data" \
+          --hidden-import=numpy --hidden-import=pytablericons ptype.py
+
+    - name: Build macOS Intel
+      if: matrix.platform == 'macOS-Intel'
+      run: |
+        pyinstaller --onefile --windowed --name PType \
           --add-data "assets:assets" --add-data "data:data" \
           --hidden-import=numpy --hidden-import=pytablericons ptype.py
 
@@ -122,14 +132,16 @@ jobs:
       with:
         files: |
           PType-Windows/PType-Windows.zip
-          PType-macOS/PType-macOS.tar.gz
+          PType-macOS-ARM/PType-macOS-ARM.tar.gz
+          PType-macOS-Intel/PType-macOS-Intel.tar.gz
           PType-Linux/PType-Linux.tar.gz
         body: |
           # P-Type v1.5.2
           
           ## 📥 Downloads
           - **Windows**: PType-Windows.zip
-          - **macOS (universal2)**: PType-macOS.tar.gz  
+          - **macOS ARM**: PType-macOS-ARM.tar.gz
+          - **macOS Intel**: PType-macOS-Intel.tar.gz
           - **Linux**: PType-Linux.tar.gz
           
           ## 🎮 Core Features
