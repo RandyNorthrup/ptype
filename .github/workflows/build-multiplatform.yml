@@ -3,7 +3,7 @@ name: Build P-Type Multi-Platform
 on:
   push:
     branches: [ main, master ]
-    tags: [ 'v*', 'v1.5.2' ]
+    tags: [ 'v*' ]
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
@@ -127,16 +127,23 @@ jobs:
     steps:
     - uses: actions/download-artifact@v4
 
+    # Extract version number from tag (v1.6.0 → 1.6.0)
+    - name: Get Version
+      id: get_version
+      run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
     - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
+        tag_name: ${{ github.ref_name }}
+        name: P-Type v${{ steps.get_version.outputs.version }}
         files: |
           PType-Windows/PType-Windows.zip
           PType-macOS-ARM/PType-macOS-ARM.tar.gz
           PType-macOS-Intel/PType-macOS-Intel.tar.gz
           PType-Linux/PType-Linux.tar.gz
         body: |
-          # P-Type v1.5.2
+          # P-Type v${{ steps.get_version.outputs.version }}
           
           ## 📥 Downloads
           - **Windows**: PType-Windows.zip
