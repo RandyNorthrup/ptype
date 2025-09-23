@@ -3,13 +3,19 @@ P-Type - The Typing Game
 A sleek, modern typing game for programmers and typing enthusiasts with fully responsive UI.
 """
 
-import pygame
-import random
-import sys
-import os
-import json
-import math
-import time
+import os, sys
+
+if sys.platform == "darwin":  # macOS
+    os.environ["SDL_VIDEODRIVER"] = "cocoa"
+elif sys.platform.startswith("linux"):
+    if not os.environ.get("DISPLAY"):  # headless Linux
+        os.environ["SDL_VIDEODRIVER"] = "dummy"
+    else:
+        os.environ["SDL_VIDEODRIVER"] = "x11"
+
+
+
+import pygame, random, json, math, time
 from enum import Enum
 from typing import List, Dict, Tuple, Optional, Any
 from dataclasses import dataclass
