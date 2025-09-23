@@ -59,19 +59,15 @@ jobs:
     - name: Create data directory
       run: mkdir -p data
 
+    # Fixed Windows icon creation step using inline Python
     - name: Create Windows icon
       if: runner.os == 'Windows'
       run: |
-        python - <<'EOF'
-        from PIL import Image
-        import os
-        os.makedirs('assets/images', exist_ok=True)
-        try:
-            img = Image.open('assets/images/spaceship_icon.png')
-        except:
-            img = Image.new('RGBA', (64, 64), (138, 43, 226, 255))
-        img.save('assets/images/ptype.ico', format='ICO', sizes=[(16,16), (32,32), (64,64), (256,256)])
-        EOF
+        python -c "from PIL import Image; import os; \
+        os.makedirs('assets/images', exist_ok=True); \
+        try: img = Image.open('assets/images/spaceship_icon.png') \
+        except: img = Image.new('RGBA', (64, 64), (138, 43, 226, 255)); \
+        img.save('assets/images/ptype.ico', format='ICO', sizes=[(16,16), (32,32), (64,64), (256,256)])"
 
     - name: Build Windows
       if: runner.os == 'Windows'
