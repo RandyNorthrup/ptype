@@ -59,7 +59,22 @@ jobs:
     - name: Create data directory
       run: mkdir -p data
 
-    # Fixed Windows icon creation step using inline Python
+    # Inject SDL video driver fix before building
+    - name: Inject SDL video driver fix
+      run: |
+        echo "import os" > sdl_fix.py
+        echo "if os.name == 'posix':" >> sdl_fix.py
+        echo "    if sys.platform == 'darwin':" >> sdl_fix.py
+        echo "        os.environ['SDL_VIDEODRIVER'] = 'cocoa'" >> sdl_fix.py
+        echo "    elif sys.platform == 'linux':" >> sdl_fix.py
+        echo "        if not os.environ.get('DISPLAY'):" >> sdl_fix.py
+        echo "            os.environ['SDL_VIDEODRIVER'] = 'dummy'" >> sdl_fix.py
+        echo "        else:" >> sdl_fix.py
+        echo "            os.environ['SDL_VIDEODRIVER'] = 'x11'" >> sdl_fix.py
+        cat ptype.py >> sdl_fix.py
+        mv sdl_fix.py ptype.py
+
+    # Windows icon creation step fixed for PowerShell
     - name: Create Windows icon
       if: runner.os == 'Windows'
       run: |
