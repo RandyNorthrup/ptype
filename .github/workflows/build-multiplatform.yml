@@ -122,22 +122,11 @@ jobs:
           cp assets/images/iconset/icon_512x512.png assets/images/ptype.iconset/icon_512x512.png
           cp assets/images/iconset/icon_1024x1024.png assets/images/ptype.iconset/icon_1024x1024.png
           iconutil -c icns assets/images/ptype.iconset -o assets/images/ptype.icns
-      
-            
-            ## 🎮 Core Features
-            - 100 progressive difficulty levels
-            - 7 programming languages and English for practice
-            - Aggressive boss AI with smart tracking
-            - 19+ unlockable achievements
-            - Multiple player profiles
-            - Detailed statistics tracking
-            - Save/load system
       - name: Build Windows Executable
         if: runner.os == 'Windows'
         run: |
-          pyinstaller --onefile --windowed --name PType --icon=assets/images/ptype.ico \
-            --add-data "assets;assets" --add-data "data;data" \
-            --hidden-import=numpy --hidden-import=pytablericons ptype.py
+          pyinstaller --onefile --windowed --name PType --icon=assets/images/ptype.ico --add-data "assets;assets" --hidden-import=numpy --hidden-import=pytablericons ptype.py
+        shell: pwsh
 
       - name: Package Windows Executable
         if: runner.os == 'Windows'
@@ -156,7 +145,7 @@ jobs:
         if: matrix.platform == 'macOS-ARM'
         run: |
           pyinstaller --onefile --windowed --name PType --icon=assets/images/ptype.icns \
-            --add-data "assets:assets" --add-data "data:data" \
+            --add-data "assets:assets" \
             --hidden-import=numpy --hidden-import=pytablericons ptype.py
 
       - name: Package macOS ARM Executable
@@ -194,7 +183,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           pyinstaller --onefile --windowed --name PType --icon=assets/images/iconset/icon_256x256.png \
-            --add-data "assets:assets" --add-data "data:data" \
+            --add-data "assets:assets" \
             --hidden-import=numpy --hidden-import=pytablericons ptype.py
 
       - name: Package Linux Executable
