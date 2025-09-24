@@ -2126,18 +2126,17 @@ class GameSettings:
         self.saves_file: str = str(self.save_dir / "saves.json")
         
         # Player profile
-        self.current_profile: Optional[PlayerProfile] = None
-        self.profiles: Dict[str, PlayerProfile] = {}
-        self.current_player_name: str = ""
-        
+        self.current_profile = None
+        self.profiles = {}
+        self.current_player_name = ""
+        # Save slots for save/load popup (3 slots, None by default)
+        self.save_slots = [None, None, None]
         # Default settings
-        self.music_volume: float = 0.7
-        self.sound_volume: float = 0.8
-        
+        self.music_volume = 0.7
+        self.sound_volume = 0.8
         # High scores - now stores list of HighScoreEntry objects
-        self.high_scores: Dict[str, List[HighScoreEntry]] = {}
-        self.personal_bests: Dict[str, Dict[str, Any]] = {}
-        
+        self.high_scores = {}
+        self.personal_bests = {}
         self.load_all_data()
     
     def load_all_data(self) -> None:
