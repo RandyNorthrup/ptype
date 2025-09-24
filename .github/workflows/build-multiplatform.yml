@@ -145,8 +145,8 @@ jobs:
       - name: Build macOS ARM Executable
         if: matrix.platform == 'macOS-ARM'
         run: |
-          cd ${{ github.workspace }}/ptype
-          pyinstaller PType.spec
+          cd ${{ github.workspace }}
+          pyinstaller ptype.spec
 
       - name: Package macOS ARM Executable
         if: matrix.platform == 'macOS-ARM'
@@ -163,14 +163,14 @@ jobs:
       - name: Build macOS Intel Executable
         if: matrix.platform == 'macOS-Intel'
         run: |
-          cd ${{ github.workspace }}/ptype
-          pyinstaller PType.spec
+          cd ${{ github.workspace }}
+          pyinstaller ptype.spec
 
       - name: Package macOS Intel Executable
         if: matrix.platform == 'macOS-Intel'
         run: |
-            cd ${{ github.workspace }}/ptype
-            pyinstaller PType.spec
+            cd ${{ github.workspace }}
+            pyinstaller ptype.spec
 
       - name: Upload macOS Intel Artifact
         if: matrix.platform == 'macOS-Intel'
@@ -182,8 +182,8 @@ jobs:
       - name: Build Linux Executable
         if: runner.os == 'Linux'
         run: |
-          cd ${{ github.workspace }}/ptype
-          pyinstaller PType.spec
+          cd ${{ github.workspace }}
+          pyinstaller ptype.spec
 
       - name: Package Linux Executable
         if: runner.os == 'Linux'
