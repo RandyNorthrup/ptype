@@ -3,17 +3,27 @@ P-Type - The Typing Game
 A sleek, modern typing game for programmers and typing enthusiasts with fully responsive UI.
 """
 
+
 import os, sys
 
+
+# Multi-platform SDL environment setup
 if sys.platform == "darwin":  # macOS
     os.environ["SDL_VIDEODRIVER"] = "cocoa"
+    os.environ["SDL_AUDIODRIVER"] = "coreaudio"
 elif sys.platform.startswith("linux"):
     if not os.environ.get("DISPLAY"):  # headless Linux
         os.environ["SDL_VIDEODRIVER"] = "dummy"
+        os.environ["SDL_AUDIODRIVER"] = "dummy"  # No sound in headless mode
     else:
         os.environ["SDL_VIDEODRIVER"] = "x11"
-
-
+        os.environ["SDL_AUDIODRIVER"] = "pulseaudio"
+elif sys.platform.startswith("win"):
+    os.environ['SDL_VIDEO_WINDOW_POS'] = 'centered'
+    os.environ['SDL_VIDEO_CENTERED'] = '1'
+    os.environ['SDL_VIDEODRIVER'] = 'windows'
+    os.environ['SDL_VIDEO_ALLOW_SCREENSAVER'] = '1'
+    os.environ['SDL_AUDIODRIVER'] = 'directsound'
 
 import pygame, random, json, math, time
 from enum import Enum
@@ -23,20 +33,18 @@ from pytablericons.tabler_icons import TablerIcons, OutlineIcon, FilledIcon
 from PIL import Image
 import io
 
-# Force proper Windows windowing
-os.environ['SDL_VIDEO_WINDOW_POS'] = 'centered'
-os.environ['SDL_VIDEO_CENTERED'] = '1'
-os.environ['SDL_VIDEODRIVER'] = 'windows'  # Force Windows video driver
-os.environ['SDL_VIDEO_ALLOW_SCREENSAVER'] = '1'
-
 # Version Information
 VERSION = "1.5.2"
 VERSION_NAME = "WIP Edition"
 RELEASE_DATE = "2025-09-22"
 
+
 # Initialize Pygame
 pygame.init()
-pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
+try:
+    pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
+except pygame.error as e:
+    print(f"Warning: Could not initialize sound system: {e}")
 
 # Initialize TablerIcons
 tabler_icons = TablerIcons()
