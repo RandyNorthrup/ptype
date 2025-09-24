@@ -1,14 +1,20 @@
 
 # -*- mode: python ; coding: utf-8 -*-
 
+
+import os
 from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
-import glob
-import os
-# Collect data files and hidden imports for requirements
-datas = collect_data_files('PIL') + collect_data_files('pytablericons')
-# Add all files from assets directory
-datas += [(f, f) for f in glob.glob('assets/**/*', recursive=True) if os.path.isfile(f)]
+# Collect all files from assets directory (recursively)
+datas = []
+for root, dirs, files in os.walk('assets'):
+    for file in files:
+        datas.append((os.path.join(root, file), os.path.join(root, file)))
+
+# Add PIL and pytablericons data files
+datas += collect_data_files('PIL')
+datas += collect_data_files('pytablericons')
+
 hiddenimports = collect_submodules('pytablericons')
 
 a = Analysis(
