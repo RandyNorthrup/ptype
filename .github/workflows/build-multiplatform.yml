@@ -72,7 +72,26 @@ jobs:
         echo "        else:" >> sdl_fix.py
         echo "            os.environ['SDL_VIDEODRIVER'] = 'x11'" >> sdl_fix.py
         cat ptype.py >> sdl_fix.py
+        rm -f ptype.py
         mv sdl_fix.py ptype.py
+
+    - name: Inject SDL video driver fix (Windows)
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        Set-Content sdl_fix.py "import os"
+        Add-Content sdl_fix.py "if os.name -eq 'posix':"
+        Add-Content sdl_fix.py "    if sys.platform -eq 'darwin':"
+        Add-Content sdl_fix.py "        os.environ['SDL_VIDEODRIVER'] = 'cocoa'"
+        Add-Content sdl_fix.py "    elseif sys.platform -eq 'linux':"
+        Add-Content sdl_fix.py "        if (-not $env:DISPLAY) {"
+        Add-Content sdl_fix.py "            os.environ['SDL_VIDEODRIVER'] = 'dummy'"
+        Add-Content sdl_fix.py "        } else {"
+        Add-Content sdl_fix.py "            os.environ['SDL_VIDEODRIVER'] = 'x11'"
+        Add-Content sdl_fix.py "        }"
+        Get-Content ptype.py | Add-Content sdl_fix.py
+        Remove-Item -Force ptype.py
+        Move-Item sdl_fix.py ptype.py
 
     # Windows icon creation step fixed for PowerShell
     - name: Create Windows icon
