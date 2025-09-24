@@ -118,11 +118,7 @@ jobs:
     - name: Create Windows icon
       if: runner.os == 'Windows'
       run: |
-        python -c "from PIL import Image; import os; \
-        os.makedirs('assets/images', exist_ok=True); \
-        try: img = Image.open('assets/images/spaceship_icon.png') \
-        except: img = Image.new('RGBA', (64, 64), (138, 43, 226, 255)); \
-        img.save('assets/images/ptype.ico', format='ICO', sizes=[(16,16), (32,32), (64,64), (256,256)])"
+        python -c "from PIL import Image; import os; os.makedirs('assets/images', exist_ok=True); img_path = 'assets/images/spaceship_icon.png'; ico_path = 'assets/images/ptype.ico';\ntry: img = Image.open(img_path)\nexcept Exception: img = Image.new('RGBA', (64, 64), (138, 43, 226, 255))\nimg.save(ico_path, format='ICO', sizes=[(16,16), (32,32), (64,64), (256,256)])"
 
     - name: Build Windows
       if: runner.os == 'Windows'
