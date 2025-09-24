@@ -123,19 +123,15 @@ jobs:
       - name: Build Executable (Windows)
         if: runner.os == 'Windows'
         run: pyinstaller PType.spec
-        working-directory: ptype
         shell: pwsh
 
       - name: Build Executable (Linux/macOS)
         if: runner.os != 'Windows'
         run: pyinstaller PType.spec
-        working-directory: ptype
         shell: bash
 
       - name: Package Executable
-        run: |
-          tar -czvf PType-${{ matrix.platform }}.tar.gz dist/PType
-        working-directory: ptype
+        run: tar -czvf PType-${{ matrix.platform }}.tar.gz dist/PType
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
