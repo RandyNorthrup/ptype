@@ -125,7 +125,8 @@ jobs:
       - name: Build Windows Executable
         if: runner.os == 'Windows'
         run: |
-          pyinstaller --onefile --windowed --name PType --icon=assets/images/ptype.ico --add-data "assets;assets" --hidden-import=numpy --hidden-import=pytablericons ptype.py
+          cd ${{ github.workspace }}/ptype
+          pyinstaller PType.spec
         shell: pwsh
 
       - name: Package Windows Executable
@@ -144,7 +145,7 @@ jobs:
       - name: Build macOS ARM Executable
         if: matrix.platform == 'macOS-ARM'
         run: |
-          cd ${{ github.workspace }}
+          cd ${{ github.workspace }}/ptype
           pyinstaller PType.spec
 
       - name: Package macOS ARM Executable
@@ -162,8 +163,8 @@ jobs:
       - name: Build macOS Intel Executable
         if: matrix.platform == 'macOS-Intel'
         run: |
-            cd ${{ github.workspace }}/ptype
-            pyinstaller PType.spec
+          cd ${{ github.workspace }}/ptype
+          pyinstaller PType.spec
 
       - name: Package macOS Intel Executable
         if: matrix.platform == 'macOS-Intel'
@@ -181,6 +182,7 @@ jobs:
       - name: Build Linux Executable
         if: runner.os == 'Linux'
         run: |
+          cd ${{ github.workspace }}/ptype
           pyinstaller PType.spec
 
       - name: Package Linux Executable
