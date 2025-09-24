@@ -144,9 +144,7 @@ jobs:
       - name: Build macOS ARM Executable
         if: matrix.platform == 'macOS-ARM'
         run: |
-          pyinstaller --onefile --windowed --name PType --icon=assets/images/ptype.icns \
-            --add-data "assets:assets" \
-            --hidden-import=numpy --hidden-import=pytablericons ptype.py
+          pyinstaller PType.spec
 
       - name: Package macOS ARM Executable
         if: matrix.platform == 'macOS-ARM'
@@ -182,9 +180,7 @@ jobs:
       - name: Build Linux Executable
         if: runner.os == 'Linux'
         run: |
-          pyinstaller --onefile --windowed --name PType --icon=assets/images/iconset/icon_256x256.png \
-            --add-data "assets:assets" \
-            --hidden-import=numpy --hidden-import=pytablericons ptype.py
+          pyinstaller PType.spec
 
       - name: Package Linux Executable
         if: runner.os == 'Linux'
