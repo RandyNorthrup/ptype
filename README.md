@@ -1,6 +1,6 @@
 # P-Type - The Typing Game
 
-[![Version](https://img.shields.io/badge/version-1.5.2-blue.svg)](https://github.com/yourusername/PType/releases)
+[![Version](https://img.shields.io/badge/version-1.5.5-blue.svg)](https://github.com/yourusername/PType/releases)
 [![Python](https://img.shields.io/badge/python-3.11+-green.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 
