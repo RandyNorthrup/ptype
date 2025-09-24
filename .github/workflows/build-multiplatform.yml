@@ -17,19 +17,15 @@ jobs:
         include:
           - os: windows-latest
             platform: Windows
-            ext: .exe
           - os: macos-latest
             platform: macOS-ARM
-            ext: ''
           - os: macos-13
             platform: macOS-Intel
-            ext: ''
           - os: ubuntu-latest
             platform: Linux
-            ext: ''
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Cache pip
         uses: actions/cache@v3
         with:
@@ -37,23 +33,23 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      
+
       - name: Install Linux dependencies
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
-      
+
       - name: Install Python packages
         run: |
           python -m pip install --upgrade pip
           python -m pip install pygame pyinstaller pillow numpy pytablericons
-      
+
       - name: Inject SDL video driver fix (Linux/macOS)
         if: runner.os != 'Windows'
         shell: bash
@@ -70,7 +66,7 @@ jobs:
           cat ptype.py >> sdl_fix.py
           rm -f ptype.py
           mv sdl_fix.py ptype.py
-      
+
       - name: Inject SDL video driver fix (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
@@ -88,7 +84,7 @@ jobs:
           Get-Content ptype.py | Add-Content sdl_fix.py
           Remove-Item -Force ptype.py
           Move-Item sdl_fix.py ptype.py
-      
+
       - name: Create Windows icon
         if: runner.os == 'Windows'
         run: |
@@ -104,12 +100,12 @@ jobs:
           echo "img.save(ico_path, format='ICO', sizes=[(16,16), (32,32), (64,64), (256,256)])" >> make_icon.py
           python make_icon.py
           rm make_icon.py
-      
+
       - name: Convert .ico to PNGs for macOS and Linux
         if: runner.os != 'Windows'
         run: |
           python -c "from PIL import Image; import os; ico_path = 'assets/images/ptype.ico'; out_dir = 'assets/images/iconset'; os.makedirs(out_dir, exist_ok=True); sizes = [16,32,64,128,256,512,1024]; img = Image.open(ico_path); [img.resize((s,s)).save(f'{out_dir}/icon_{s}x{s}.png') for s in sizes]"
-      
+
       - name: Convert PNGs to .icns (macOS only)
         if: runner.os == 'macOS' || matrix.platform == 'macOS-ARM' || matrix.platform == 'macOS-Intel'
         run: |
@@ -122,70 +118,27 @@ jobs:
           cp assets/images/iconset/icon_512x512.png assets/images/ptype.iconset/icon_512x512.png
           cp assets/images/iconset/icon_1024x1024.png assets/images/ptype.iconset/icon_1024x1024.png
           iconutil -c icns assets/images/ptype.iconset -o assets/images/ptype.icns
-      - name: Build Windows Executable
+
+  # ...existing code...
+      - name: Build Executable (Windows)
         if: runner.os == 'Windows'
-        run: |
-          cd ${{ github.workspace }}
-          pyinstaller ptype.spec
+        run: pyinstaller PType.spec
+        working-directory: ptype
         shell: pwsh
 
-      - name: Package Windows Executable
-        if: runner.os == 'Windows'
-        run: |
-          powershell Compress-Archive -Path dist/PType.exe -DestinationPath PType-Windows.zip
-        shell: pwsh
+      - name: Build Executable (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: pyinstaller PType.spec
+        working-directory: ptype
+        shell: bash
 
-      - name: Upload Windows Artifact
-        if: runner.os == 'Windows'
+      - name: Package Executable
+        run: |
+          tar -czvf PType-${{ matrix.platform }}.tar.gz dist/PType
+        working-directory: ptype
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PType-Windows
-          path: PType-Windows.zip
-
-      - name: Build macOS ARM Executable
-        if: matrix.platform == 'macOS-ARM'
-        run: |
-          cd ${{ github.workspace }}
-          pyinstaller ptype.spec
-
-      - name: Package macOS ARM Executable
-        if: matrix.platform == 'macOS-ARM'
-        run: |
-          tar -czvf PType-macOS-ARM.tar.gz dist/PType
-
-      - name: Upload macOS ARM Artifact
-        if: matrix.platform == 'macOS-ARM'
-        uses: actions/upload-artifact@v4
-        with:
-          name: PType-macOS-ARM
-            pyinstaller PType.spec
-
-      - name: Build macOS Intel Executable
-        if: matrix.platform == 'macOS-Intel'
-        run: |
-          cd ${{ github.workspace }}
-          pyinstaller ptype.spec
-
-      - name: Package macOS Intel Executable
-        if: matrix.platform == 'macOS-Intel'
-        run: |
-            cd ${{ github.workspace }}
-            pyinstaller ptype.spec
-
-      - name: Upload macOS Intel Artifact
-        if: matrix.platform == 'macOS-Intel'
-        uses: actions/upload-artifact@v4
-        with:
-          name: PType-macOS-Intel
-          path: PType-macOS-Intel.tar.gz
-
-      - name: Build Linux Executable
-        if: runner.os == 'Linux'
-        run: |
-          cd ${{ github.workspace }}
-          pyinstaller ptype.spec
-
-      - name: Package Linux Executable
-        if: runner.os == 'Linux'
-        run: |
-          tar -czvf PType-Linux.tar.gz dist/PType
+          name: PType-${{ matrix.platform }}
+          path: PType-${{ matrix.platform }}.tar.gz
