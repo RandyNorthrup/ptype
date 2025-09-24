@@ -144,7 +144,8 @@ jobs:
       - name: Build macOS ARM Executable
         if: matrix.platform == 'macOS-ARM'
         run: |
-          pyinstaller PType.spec
+          cd ${{ github.workspace }}/ptype
+            pyinstaller PType.spec
 
       - name: Package macOS ARM Executable
         if: matrix.platform == 'macOS-ARM'
@@ -156,19 +157,19 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: PType-macOS-ARM
-          path: PType-macOS-ARM.tar.gz
+            pyinstaller PType.spec
 
       - name: Build macOS Intel Executable
         if: matrix.platform == 'macOS-Intel'
         run: |
-          pyinstaller --onefile --windowed --name PType --icon=assets/images/ptype.icns \
-            --add-data "assets:assets" --add-data "data:data" \
-            --hidden-import=numpy --hidden-import=pytablericons ptype.py
+            cd ${{ github.workspace }}/ptype
+            pyinstaller PType.spec
 
       - name: Package macOS Intel Executable
         if: matrix.platform == 'macOS-Intel'
         run: |
-          tar -czvf PType-macOS-Intel.tar.gz dist/PType
+            cd ${{ github.workspace }}/ptype
+            pyinstaller PType.spec
 
       - name: Upload macOS Intel Artifact
         if: matrix.platform == 'macOS-Intel'
