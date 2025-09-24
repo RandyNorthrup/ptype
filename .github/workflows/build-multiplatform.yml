@@ -122,12 +122,12 @@ jobs:
   # ...existing code...
       - name: Build Executable (Windows)
         if: runner.os == 'Windows'
-        run: pyinstaller ptype.spec
+        run: pyinstaller ptype.spec --onedir
         shell: pwsh
 
       - name: Build Executable (Linux/macOS)
         if: runner.os != 'Windows'
-        run: pyinstaller ptype.spec
+        run: pyinstaller ptype.spec --onedir
         shell: bash
 
       - name: Package Executable (Windows)
