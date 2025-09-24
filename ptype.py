@@ -1,3 +1,8 @@
+def resource_path(relative_path):
+    import sys, os
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.dirname(__file__), relative_path)
 """
 P-Type - The Typing Game
 A sleek, modern typing game for programmers and typing enthusiasts with fully responsive UI.
@@ -3513,8 +3518,7 @@ class PTypeGame:
         
         # Set window icon - load the spaceship icon
         try:
-            import os
-            icon_path = os.path.join(os.path.dirname(__file__), 'assets', 'images', 'spaceship_icon_small.png')
+            icon_path = resource_path('assets/images/spaceship_icon_small.png')
             if os.path.exists(icon_path):
                 icon = pygame.image.load(icon_path)
                 pygame.display.set_icon(icon)
@@ -3610,8 +3614,7 @@ class PTypeGame:
     def load_logo_image(self):
         """Load the P-TYPE logo PNG image"""
         try:
-            import os
-            logo_path = os.path.join(os.path.dirname(__file__), 'assets', 'images', 'ptype_logo.png')
+            logo_path = resource_path('assets/images/ptype_logo.png')
             if os.path.exists(logo_path):
                 self.logo_image = pygame.image.load(logo_path)
                 # Scale the logo to appropriate size if needed
@@ -3719,8 +3722,7 @@ class PTypeGame:
     def load_background_music(self):
         """Load and start background music"""
         try:
-            import os
-            music_path = os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'game_music.mp3')
+            music_path = resource_path('assets/sounds/game_music.mp3')
             if os.path.exists(music_path):
                 pygame.mixer.music.load(music_path)
                 pygame.mixer.music.set_volume(self.settings.music_volume)
