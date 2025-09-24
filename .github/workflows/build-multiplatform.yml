@@ -132,7 +132,7 @@ jobs:
 
       - name: Package Executable
         run: |
-          tar -czvf PType-${{ matrix.platform }}.tar.gz dist/PType
+          tar -czvf PType-${{ matrix.platform }}.tar.gz dist/ptype
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
