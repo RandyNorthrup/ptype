@@ -5645,7 +5645,7 @@ class PTypeGame:
         instructions = [
             "Type falling words before they reach bottom | TAB to switch targets",
             "Defeat bosses every level | Answer trivia every 2 bosses for items",
-            "ENTER: EMP weapon | ↑/↓: Select item | BACKSPACE: Use item",
+            "ENTER: EMP weapon | UP/DOWN: Select item | BACKSPACE: Use item",
             "Collect & use 4 unique bonus items from trivia rewards"
         ]
         
