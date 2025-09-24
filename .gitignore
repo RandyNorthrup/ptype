@@ -56,7 +56,6 @@ share/python-wheels/
 
 # PyInstaller
 *.manifest
-ptype.spec
 build/
 dist/
 *.exe
