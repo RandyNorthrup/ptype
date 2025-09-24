@@ -144,7 +144,7 @@ jobs:
       - name: Build macOS ARM Executable
         if: matrix.platform == 'macOS-ARM'
         run: |
-          cd ${{ github.workspace }}/ptype
+          cd ${{ github.workspace }}
           pyinstaller PType.spec
 
       - name: Package macOS ARM Executable
