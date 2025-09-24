@@ -125,8 +125,8 @@ jobs:
       - name: Build Windows Executable
         if: runner.os == 'Windows'
         run: |
-          cd ${{ github.workspace }}/ptype
-          pyinstaller PType.spec
+          cd ${{ github.workspace }}
+          pyinstaller ptype.spec
         shell: pwsh
 
       - name: Package Windows Executable
