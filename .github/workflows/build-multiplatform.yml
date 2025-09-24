@@ -76,15 +76,15 @@ jobs:
         shell: pwsh
         run: |
           Set-Content sdl_fix.py "import os"
-          Add-Content sdl_fix.py "if os.name -eq 'posix':"
-          Add-Content sdl_fix.py "    if sys.platform -eq 'darwin':"
+          Add-Content sdl_fix.py "if os.name == 'posix':"
+          Add-Content sdl_fix.py "    if sys.platform == 'darwin':"
           Add-Content sdl_fix.py "        os.environ['SDL_VIDEODRIVER'] = 'cocoa'"
-          Add-Content sdl_fix.py "    elseif sys.platform -eq 'linux':"
-          Add-Content sdl_fix.py "        if (-not $env:DISPLAY) {"
+          Add-Content sdl_fix.py "    elif sys.platform == 'linux':"
+          Add-Content sdl_fix.py "        if not os.environ.get('DISPLAY'):"
           Add-Content sdl_fix.py "            os.environ['SDL_VIDEODRIVER'] = 'dummy'"
-          Add-Content sdl_fix.py "        } else {"
+          Add-Content sdl_fix.py "        else:"
           Add-Content sdl_fix.py "            os.environ['SDL_VIDEODRIVER'] = 'x11'"
-          Add-Content sdl_fix.py "        }"
+          Add-Content sdl_fix.py "        "
           Get-Content ptype.py | Add-Content sdl_fix.py
           Remove-Item -Force ptype.py
           Move-Item sdl_fix.py ptype.py
