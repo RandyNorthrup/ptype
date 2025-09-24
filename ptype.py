@@ -5095,10 +5095,15 @@ class PTypeGame:
                     icon_drawn = False
                     try:
                         color_str = '#%02x%02x%02x' % icon_color if isinstance(icon_color, tuple) else icon_color
-                        pil_icon = tabler_icons.load(icon_enum, size=45, color=color_str)
+                        # Scale icon to 50% of box size for better fit and center
+                        target_icon_size = int(ach_size * 0.5)
+                        pil_icon = tabler_icons.load(icon_enum, size=target_icon_size, color=color_str)
                         if pil_icon:
                             icon_surf = pil_to_pygame(pil_icon)
-                            icon_rect_img = icon_surf.get_rect(center=ach_rect.center)
+                            icon_surf = pygame.transform.smoothscale(icon_surf, (target_icon_size, target_icon_size))
+                            # Center icon in achievement box
+                            icon_rect_img = icon_surf.get_rect()
+                            icon_rect_img.center = ach_rect.center
                             self.screen.blit(icon_surf, icon_rect_img)
                             icon_drawn = True
                     except Exception:
@@ -5116,10 +5121,14 @@ class PTypeGame:
                     # Try to draw lock icon with pytablericons
                     lock_drawn = False
                     try:
-                        pil_lock = tabler_icons.load(OutlineIcon.LOCK, size=40, color='#646464')
+                        # Scale lock icon to 50% of box size and center
+                        target_lock_size = int(ach_size * 0.5)
+                        pil_lock = tabler_icons.load(OutlineIcon.LOCK, size=target_lock_size, color='#646464')
                         if pil_lock:
                             lock_icon = pil_to_pygame(pil_lock)
-                            lock_rect = lock_icon.get_rect(center=ach_rect.center)
+                            lock_icon = pygame.transform.smoothscale(lock_icon, (target_lock_size, target_lock_size))
+                            lock_rect = lock_icon.get_rect()
+                            lock_rect.center = ach_rect.center
                             self.screen.blit(lock_icon, lock_rect)
                             lock_drawn = True
                     except Exception:
@@ -5919,13 +5928,15 @@ class PTypeGame:
             icon_color = MODERN_WHITE if quantity > 0 else (80, 80, 80)
             icon_drawn = False
             try:
-                # Load icon as PIL Image and convert to pygame
+                # Scale icon to 50% of box size and center
+                target_item_size = int(box_size * 0.5)
                 color_str = '#%02x%02x%02x' % icon_color if isinstance(icon_color, tuple) else icon_color
-                pil_icon = tabler_icons.load(item.icon_enum, size=28, color=color_str)
+                pil_icon = tabler_icons.load(item.icon_enum, size=target_item_size, color=color_str)
                 if pil_icon:
                     icon_surf = pil_to_pygame(pil_icon)
-                    # Center icon slightly above center to make room for quantity
-                    icon_rect = icon_surf.get_rect(center=(box_rect.centerx, box_rect.centery - 5))
+                    icon_surf = pygame.transform.smoothscale(icon_surf, (target_item_size, target_item_size))
+                    icon_rect = icon_surf.get_rect()
+                    icon_rect.center = box_rect.center
                     self.screen.blit(icon_surf, icon_rect)
                     icon_drawn = True
             except Exception:
