@@ -27,163 +27,101 @@ jobs:
           - os: ubuntu-latest
             platform: Linux
             ext: ''
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    # Cache pip dependencies for faster builds
-    - name: Cache pip
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
-    - name: Install Linux dependencies
-      if: runner.os == 'Linux'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
 
-    - name: Install Python packages
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install pygame pyinstaller pillow numpy pytablericons
+      - name: Install Python packages
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pygame pyinstaller pillow numpy pytablericons
 
-    - name: Create data directory
-      run: mkdir -p data
+      - name: Inject SDL video driver fix (Linux/macOS)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          echo "import os" > sdl_fix.py
+          echo "if os.name == 'posix':" >> sdl_fix.py
+          echo "    if sys.platform == 'darwin':" >> sdl_fix.py
+          echo "        os.environ['SDL_VIDEODRIVER'] = 'cocoa'" >> sdl_fix.py
+          echo "    elif sys.platform == 'linux':" >> sdl_fix.py
+          echo "        if not os.environ.get('DISPLAY'):" >> sdl_fix.py
+          echo "            os.environ['SDL_VIDEODRIVER'] = 'dummy'" >> sdl_fix.py
+          echo "        else:" >> sdl_fix.py
+          echo "            os.environ['SDL_VIDEODRIVER'] = 'x11'" >> sdl_fix.py
+          cat ptype.py >> sdl_fix.py
+          rm -f ptype.py
+          mv sdl_fix.py ptype.py
 
+      - name: Inject SDL video driver fix (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Set-Content sdl_fix.py "import os"
+          Add-Content sdl_fix.py "if os.name -eq 'posix':"
+          Add-Content sdl_fix.py "    if sys.platform -eq 'darwin':"
+          Add-Content sdl_fix.py "        os.environ['SDL_VIDEODRIVER'] = 'cocoa'"
+          Add-Content sdl_fix.py "    elseif sys.platform -eq 'linux':"
+          Add-Content sdl_fix.py "        if (-not $env:DISPLAY) {"
+          Add-Content sdl_fix.py "            os.environ['SDL_VIDEODRIVER'] = 'dummy'"
+          Add-Content sdl_fix.py "        } else {"
+          Add-Content sdl_fix.py "            os.environ['SDL_VIDEODRIVER'] = 'x11'"
+          Add-Content sdl_fix.py "        }"
+          Get-Content ptype.py | Add-Content sdl_fix.py
+          Remove-Item -Force ptype.py
+          Move-Item sdl_fix.py ptype.py
 
-    # Inject SDL video driver fix before building
-    - name: Inject SDL video driver fix (Linux/macOS)
-      if: runner.os != 'Windows'
-      shell: bash
-      run: |
-        echo "import os" > sdl_fix.py
-        echo "if os.name == 'posix':" >> sdl_fix.py
-        echo "    if sys.platform == 'darwin':" >> sdl_fix.py
-        echo "        os.environ['SDL_VIDEODRIVER'] = 'cocoa'" >> sdl_fix.py
-        echo "    elif sys.platform == 'linux':" >> sdl_fix.py
-        echo "        if not os.environ.get('DISPLAY'):" >> sdl_fix.py
-        echo "            os.environ['SDL_VIDEODRIVER'] = 'dummy'" >> sdl_fix.py
-        echo "        else:" >> sdl_fix.py
-        echo "            os.environ['SDL_VIDEODRIVER'] = 'x11'" >> sdl_fix.py
-        cat ptype.py >> sdl_fix.py
-        rm -f ptype.py
-        mv sdl_fix.py ptype.py
+      - name: Create Windows icon
+        if: runner.os == 'Windows'
+        run: |
+          echo "from PIL import Image" > make_icon.py
+          echo "import os" >> make_icon.py
+          echo "os.makedirs('assets/images', exist_ok=True)" >> make_icon.py
+          echo "img_path = 'assets/images/spaceship_icon.png'" >> make_icon.py
+          echo "ico_path = 'assets/images/ptype.ico'" >> make_icon.py
+          echo "try:" >> make_icon.py
+          echo "    img = Image.open(img_path)" >> make_icon.py
+          echo "except Exception:" >> make_icon.py
+          echo "    img = Image.new('RGBA', (64, 64), (138, 43, 226, 255))" >> make_icon.py
+          echo "img.save(ico_path, format='ICO', sizes=[(16,16), (32,32), (64,64), (256,256)])" >> make_icon.py
+          python make_icon.py
+          rm make_icon.py
 
-    - name: Inject SDL video driver fix (Windows)
-      if: runner.os == 'Windows'
-      shell: pwsh
-      run: |
-        Set-Content sdl_fix.py "import os"
-        Add-Content sdl_fix.py "if os.name -eq 'posix':"
-        Add-Content sdl_fix.py "    if sys.platform -eq 'darwin':"
-        Add-Content sdl_fix.py "        os.environ['SDL_VIDEODRIVER'] = 'cocoa'"
-        Add-Content sdl_fix.py "    elseif sys.platform -eq 'linux':"
-        Add-Content sdl_fix.py "        if (-not $env:DISPLAY) {"
-        Add-Content sdl_fix.py "            os.environ['SDL_VIDEODRIVER'] = 'dummy'"
-        Add-Content sdl_fix.py "        } else {"
-        Add-Content sdl_fix.py "            os.environ['SDL_VIDEODRIVER'] = 'x11'"
-        Add-Content sdl_fix.py "        }"
-        Get-Content ptype.py | Add-Content sdl_fix.py
-        Remove-Item -Force ptype.py
-        Move-Item sdl_fix.py ptype.py
+      - name: Convert .ico to PNGs for macOS and Linux
+        if: runner.os != 'Windows'
+        run: |
+          python -c "from PIL import Image; import os; ico_path = 'assets/images/ptype.ico'; out_dir = 'assets/images/iconset'; os.makedirs(out_dir, exist_ok=True); sizes = [16,32,64,128,256,512,1024]; img = Image.open(ico_path); [img.resize((s,s)).save(f'{out_dir}/icon_{s}x{s}.png') for s in sizes]"
 
-    - name: Inject SDL video driver fix (Windows)
-      if: runner.os == 'Windows'
-      shell: pwsh
-      run: |
-        Set-Content sdl_fix.py "import os"
-        Add-Content sdl_fix.py "if os.name -eq 'posix':"
-        Add-Content sdl_fix.py "    if sys.platform -eq 'darwin':"
-        Add-Content sdl_fix.py "        os.environ['SDL_VIDEODRIVER'] = 'cocoa'"
-        Add-Content sdl_fix.py "    elseif sys.platform -eq 'linux':"
-        Add-Content sdl_fix.py "        if (-not $env:DISPLAY) {"
-        Add-Content sdl_fix.py "            os.environ['SDL_VIDEODRIVER'] = 'dummy'"
-        Add-Content sdl_fix.py "        } else {"
-        Add-Content sdl_fix.py "            os.environ['SDL_VIDEODRIVER'] = 'x11'"
-        Add-Content sdl_fix.py "        }"
-        Get-Content ptype.py | Add-Content sdl_fix.py
-        Remove-Item -Force ptype.py
-        Move-Item sdl_fix.py ptype.py
-
-    # Windows icon creation step fixed for PowerShell
-    - name: Create Windows icon
-      if: runner.os == 'Windows'
-      run: |
-        python -c "from PIL import Image; import os; os.makedirs('assets/images', exist_ok=True); img_path = 'assets/images/spaceship_icon.png'; ico_path = 'assets/images/ptype.ico';\ntry: img = Image.open(img_path)\nexcept Exception: img = Image.new('RGBA', (64, 64), (138, 43, 226, 255))\nimg.save(ico_path, format='ICO', sizes=[(16,16), (32,32), (64,64), (256,256)])"
-
-    - name: Build Windows
-      if: runner.os == 'Windows'
-      run: |
-        pyinstaller --onefile --windowed --name PType --icon=assets/images/ptype.ico \
-          --add-data "assets;assets" --add-data "data;data" \
-          --hidden-import=numpy --hidden-import=pytablericons ptype.py
-
-    - name: Build macOS ARM
-      if: matrix.platform == 'macOS-ARM'
-      run: |
-        pyinstaller --onefile --windowed --name PType \
-          --add-data "assets:assets" --add-data "data:data" \
-          --hidden-import=numpy --hidden-import=pytablericons ptype.py
-
-    - name: Build macOS Intel
-      if: matrix.platform == 'macOS-Intel'
-      run: |
-        pyinstaller --onefile --windowed --name PType \
-          --add-data "assets:assets" --add-data "data:data" \
-          --hidden-import=numpy --hidden-import=pytablericons ptype.py
-
-    - name: Build Linux
-      if: runner.os == 'Linux'
-      run: |
-        pyinstaller --onefile --windowed --name PType \
-          --icon=assets/images/iconset/icon_256x256.png \
-          --add-data "assets:assets" --add-data "data:data" \
-          --hidden-import=numpy --hidden-import=pytablericons ptype.py
-
-    - name: Package Windows
-      if: runner.os == 'Windows'
-      run: Compress-Archive -Path dist/PType.exe -DestinationPath PType-Windows.zip
-      shell: pwsh
-
-    - name: Package macOS/Linux
-      if: runner.os == 'Windows'
-      run: |
-        echo "from PIL import Image\nimport os\nos.makedirs('assets/images', exist_ok=True)\nimg_path = 'assets/images/spaceship_icon.png'\nico_path = 'assets/images/ptype.ico'\ntry:\n    img = Image.open(img_path)\nexcept Exception:\n    img = Image.new('RGBA', (64, 64), (138, 43, 226, 255))\nimg.save(ico_path, format='ICO', sizes=[(16,16), (32,32), (64,64), (256,256)])" > make_icon.py
-        python make_icon.py
-        rm make_icon.py
-
-    - name: Convert .ico to PNGs for macOS and Linux
-      if: runner.os != 'Windows'
-      run: |
-        python -c "from PIL import Image; import os; ico_path = 'assets/images/ptype.ico'; out_dir = 'assets/images/iconset'; os.makedirs(out_dir, exist_ok=True); sizes = [16,32,64,128,256,512,1024]; img = Image.open(ico_path); [img.resize((s,s)).save(f'{out_dir}/icon_{s}x{s}.png') for s in sizes]"
-
-    - name: Convert PNGs to .icns (macOS only)
-      if: runner.os == 'macOS' || matrix.platform == 'macOS-ARM' || matrix.platform == 'macOS-Intel'
-      run: |
-        mkdir -p assets/images/ptype.iconset
-        cp assets/images/iconset/icon_16x16.png assets/images/ptype.iconset/icon_16x16.png
-        cp assets/images/iconset/icon_32x32.png assets/images/ptype.iconset/icon_32x32.png
-        cp assets/images/iconset/icon_64x64.png assets/images/ptype.iconset/icon_64x64.png
-        cp assets/images/iconset/icon_128x128.png assets/images/ptype.iconset/icon_128x128.png
-        cp assets/images/iconset/icon_256x256.png assets/images/ptype.iconset/icon_256x256.png
-        cp assets/images/iconset/icon_512x512.png assets/images/ptype.iconset/icon_512x512.png
-        cp assets/images/iconset/icon_1024x1024.png assets/images/ptype.iconset/icon_1024x1024.png
-        iconutil -c icns assets/images/ptype.iconset -o assets/images/ptype.icns
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: PType-${{ matrix.platform }}
-        path: PType-${{ matrix.platform }}.*
+      - name: Convert PNGs to .icns (macOS only)
+        if: runner.os == 'macOS' || matrix.platform == 'macOS-ARM' || matrix.platform == 'macOS-Intel'
+        run: |
+          mkdir -p assets/images/ptype.iconset
+          cp assets/images/iconset/icon_16x16.png assets/images/ptype.iconset/icon_16x16.png
+          cp assets/images/iconset/icon_32x32.png assets/images/ptype.iconset/icon_32x32.png
+          cp assets/images/iconset/icon_64x64.png assets/images/ptype.iconset/icon_64x64.png
+          cp assets/images/iconset/icon_128x128.png assets/images/ptype.iconset/icon_128x128.png
+          cp assets/images/iconset/icon_256x256.png assets/images/ptype.iconset/icon_256x256.png
+          cp assets/images/iconset/icon_512x512.png assets/images/ptype.iconset/icon_512x512.png
+          cp assets/images/iconset/icon_1024x1024.png assets/images/ptype.iconset/icon_1024x1024.png
+          iconutil -c icns assets/images/ptype.iconset -o assets/images/ptype.icns
 
   release:
     needs: build
@@ -213,8 +151,6 @@ jobs:
         body: |
           # P-Type v${{ steps.get_version.outputs.version }}
           
-          ## 📥 Downloads
-          - **Windows**: PType-Windows.zip
           - **macOS ARM**: PType-macOS-ARM.tar.gz
           - **macOS Intel**: PType-macOS-Intel.tar.gz
           - **Linux**: PType-Linux.tar.gz
