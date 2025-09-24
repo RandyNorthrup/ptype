@@ -459,7 +459,7 @@ class TriviaDatabase:
     ]
     
     @staticmethod
-    def get_question(mode: GameMode, language: ProgrammingLanguage = None, difficulty_level: int = 1) -> TriviaQuestion:
+    def get_question(mode: GameMode, language: Optional[ProgrammingLanguage] = None, difficulty_level: int = 1) -> TriviaQuestion:
         """Get a random trivia question based on mode and difficulty"""
         if mode == GameMode.PROGRAMMING and language:
             category = language.value
@@ -1432,6 +1432,7 @@ class PlayerProfile:
         }
         # Languages played
         self.languages_played: set = set()
+        self.saved_game: Optional[Dict] = None  # Store last saved game state for profile
     
     def get_mode_key(self, mode: str, language: Optional[str] = None) -> str:
         """Get the key for a mode/language combination"""
@@ -1867,37 +1868,6 @@ class SoundManager:
         except ImportError:
             return self.create_sweep(200, 800, duration)
     
-    def create_pew_sound(self) -> pygame.mixer.Sound:
-        """Create a pew-pew laser sound for typing"""
-        try:
-            import numpy as np
-            sample_rate = 22050
-            duration = 80  # 80ms
-            samples = int(sample_rate * duration / 1000)
-            waves = []
-            
-            for i in range(samples):
-                t = float(i) / sample_rate
-                # Frequency sweep from high to low for laser effect
-                freq = 1200 * math.exp(-8 * t)  # Exponential decay from 1200Hz
-                
-                # Generate the wave with some harmonics
-                value = int(16000 * math.sin(2 * math.pi * freq * t))
-                value += int(4000 * math.sin(4 * math.pi * freq * t))  # Add harmonic
-                
-                # Sharp attack, quick decay
-                if i < samples * 0.05:
-                    envelope = i / (samples * 0.05)
-                else:
-                    envelope = math.exp(-10 * (i - samples * 0.05) / samples)
-                
-                value = int(value * envelope)
-                waves.append([value, value])
-            
-            sound_array = np.array(waves, dtype=np.int16)
-            return pygame.sndarray.make_sound(sound_array)
-        except ImportError:
-            return pygame.mixer.Sound(buffer=bytes(100))
     
     def create_beep(self, frequency: int, duration: int) -> pygame.mixer.Sound:
         """Create a simple beep sound"""
@@ -2126,7 +2096,7 @@ class GameSettings:
         self.saves_file: str = str(self.save_dir / "saves.json")
         
         # Player profile
-        self.current_profile = None
+        self.current_profile: Optional[PlayerProfile] = None
         self.profiles = {}
         self.current_player_name = ""
         # Save slots for save/load popup (3 slots, None by default)
@@ -2657,7 +2627,7 @@ class ModernEnemy:
         
         # Draw 3D ship with pulse effect
         pulse_value = math.sin(self.pulse) * 0.5 + 0.5 if self.active else 0
-        draw_3d_ship(screen, self.x, int(hover_y), self.width, self.height, base_color, False, self.active, pulse_value)
+        draw_3d_ship(screen, self.x, int(hover_y), self.width, self.height, base_color, False, self.active, int(pulse_value))
         
         # Enhanced word rendering with modern styling
         remaining_word = self.original_word[len(self.typed_chars):]
@@ -2719,11 +2689,14 @@ class ModernEnemy:
 
 class BossEnemy(ModernEnemy):
     """Boss enemy - larger, more challenging ship that appears at level completion"""
-    def __init__(self, word: str, level: int, player_x: int = SCREEN_WIDTH // 2, game_mode: GameMode = GameMode.NORMAL):
+    def __init__(self, word: str, level: int, player_x: int = SCREEN_WIDTH // 2, game_mode: GameMode = GameMode.NORMAL, player_ship=None):
         # Store game mode and level before parent init
         self.game_mode = game_mode
         self.boss_level = level  # Store boss level for damage calculation
         super().__init__(word, level, player_x)
+
+        # Reference to player ship for tracking
+        self.player_ship = player_ship
         
         # Boss ships are larger and more imposing
         self.width = 120  # Double the normal width
@@ -2840,7 +2813,7 @@ class BossEnemy(ModernEnemy):
         
         # 3. Draw boss ship with enhanced 3D effect and special glow
         pulse_value = math.sin(self.boss_glow) * 0.7 + 0.3  # Stronger pulse for boss
-        draw_3d_ship(screen, self.x, int(hover_y), self.width, self.height, base_color, False, self.active, pulse_value)
+        draw_3d_ship(screen, self.x, int(hover_y), self.width, self.height, base_color, False, self.active, int(pulse_value))
         
         # 4. LAST: Draw word rendering (on top of everything else)
         remaining_word = self.original_word[len(self.typed_chars):]
@@ -2901,7 +2874,7 @@ class ModernPlayerShip:
     def draw(self, screen):
         # Draw 3D player ship with pulse effect
         pulse_value = math.sin(self.pulse) * 0.5 + 0.5
-        draw_3d_ship(screen, self.x, self.y, self.width, self.height, ACCENT_CYAN, True, False, pulse_value)
+        draw_3d_ship(screen, self.x, self.y, self.width, self.height, ACCENT_CYAN, True, False, int(pulse_value))
         
         # Add enhanced shield effect with proper alpha blending
         shield_alpha = int(50 + 30 * math.sin(self.pulse))
@@ -3892,7 +3865,7 @@ class PTypeGame:
             self.settings.save_profiles()
         return profiles
     
-    def create_profile(self, name: str) -> PlayerProfile:
+    def create_profile(self, name: str) -> Optional[PlayerProfile]:
         """Create a new profile"""
         if name and name not in self.settings.profiles:
             profile = PlayerProfile(name)
@@ -4171,17 +4144,19 @@ class PTypeGame:
             GWL_STYLE = -16
             WS_MAXIMIZEBOX = 0x00010000
             
-            # Get current window style
-            style = ctypes.windll.user32.GetWindowLongW(hwnd, GWL_STYLE)
-            
-            # Remove maximize box
-            style &= ~WS_MAXIMIZEBOX
-            
-            # Set new window style
-            ctypes.windll.user32.SetWindowLongW(hwnd, GWL_STYLE, style)
-            
-            # Force window to redraw
-            ctypes.windll.user32.SetWindowPos(hwnd, 0, 0, 0, 0, 0, 0x0027)
+            import sys
+            if sys.platform.startswith('win'):
+                import ctypes
+                windll = getattr(ctypes, 'windll', None)
+                if windll:
+                    # Get current window style
+                    style = windll.user32.GetWindowLongW(hwnd, GWL_STYLE)
+                    # Remove maximize box
+                    style &= ~WS_MAXIMIZEBOX
+                    # Set new window style
+                    windll.user32.SetWindowLongW(hwnd, GWL_STYLE, style)
+                    # Force window to redraw
+                    windll.user32.SetWindowPos(hwnd, 0, 0, 0, 0, 0, 0x0027)
             
         except Exception as e:
             print(f"Could not disable maximize button: {e}")
@@ -4689,12 +4664,13 @@ class PTypeGame:
                     mode_stats['bosses_defeated'] += 1
                     
                     # Check for boss slayer achievement
+                if self.current_profile:
                     newly_unlocked = self.current_profile.check_achievements({})
-                for achievement_id in newly_unlocked:
-                    achievement = ACHIEVEMENTS[achievement_id]
-                    self.achievement_notifications.append((achievement, 300))
-                    # Play achievement sound
-                    self.sound_manager.play('achievement')
+                    for achievement_id in newly_unlocked:
+                        achievement = ACHIEVEMENTS[achievement_id]
+                        self.achievement_notifications.append((achievement, 300))
+                        # Play achievement sound
+                        self.sound_manager.play('achievement')
                 
                 # Shield buffer if at full health
                 if self.health >= self.max_health:
@@ -5084,24 +5060,15 @@ class PTypeGame:
             for i, (ach_id, achievement) in enumerate(ACHIEVEMENTS.items()):
                 row = i // achievements_per_row
                 col = i % achievements_per_row
-                
                 x_pos = grid_x_start + col * (ach_size + ach_spacing)
                 y_pos = y_offset + row * (ach_size + ach_spacing + 10)
-                
-                # Achievement background with better visuals
                 unlocked = ach_id in self.current_profile.achievements
-                
                 ach_rect = pygame.Rect(x_pos, y_pos, ach_size, ach_size)
-                
-                # Check if mouse is hovering over this achievement
                 if ach_rect.collidepoint(mouse_x, mouse_y):
                     hovered_achievement = (achievement, ach_rect)
-                
                 if unlocked:
-                    # Unlocked achievement - colorful background
                     pygame.draw.rect(self.screen, MODERN_DARK_GRAY, ach_rect, border_radius=10)
                     pygame.draw.rect(self.screen, ACCENT_YELLOW, ach_rect, 2, border_radius=10)
-                    
                     # Map each achievement to specific icon enum and color
                     icon_map = {
                         "first_word": (OutlineIcon.ABC, ACCENT_GREEN),
@@ -5124,30 +5091,19 @@ class PTypeGame:
                         "bonus_collector": (OutlineIcon.PACKAGE, ACCENT_CYAN),
                         "bonus_master": (OutlineIcon.GIFT, ACCENT_CYAN)
                     }
-                    
-                    # Get icon and color for this achievement
-                    if ach_id in icon_map:
-                        icon_enum, icon_color = icon_map[ach_id]
-                    else:
-                        icon_enum = OutlineIcon.TROPHY
-                        icon_color = ACCENT_YELLOW
-                    
-                    # Try to draw icon with pytablericons
+                    icon_enum, icon_color = icon_map.get(ach_id, (OutlineIcon.TROPHY, ACCENT_YELLOW))
                     icon_drawn = False
                     try:
-                        # Load icon from TablerIcons as PIL Image
-                        pil_icon = tabler_icons.load(icon_enum, size=45, color=icon_color)
+                        color_str = '#%02x%02x%02x' % icon_color if isinstance(icon_color, tuple) else icon_color
+                        pil_icon = tabler_icons.load(icon_enum, size=45, color=color_str)
                         if pil_icon:
-                            # Convert PIL to pygame surface
                             icon_surf = pil_to_pygame(pil_icon)
                             icon_rect_img = icon_surf.get_rect(center=ach_rect.center)
                             self.screen.blit(icon_surf, icon_rect_img)
                             icon_drawn = True
-                    except Exception as e:
+                    except Exception:
                         pass
-                    
                     if not icon_drawn:
-                        # Fallback to colored circle with text
                         pygame.draw.circle(self.screen, icon_color, ach_rect.center, 25)
                         icon_surf = self.small_font.render(achievement.icon, True, MODERN_WHITE)
                         icon_rect_txt = icon_surf.get_rect(center=ach_rect.center)
@@ -5160,7 +5116,7 @@ class PTypeGame:
                     # Try to draw lock icon with pytablericons
                     lock_drawn = False
                     try:
-                        pil_lock = tabler_icons.load(OutlineIcon.LOCK, size=40, color=(100, 100, 100))
+                        pil_lock = tabler_icons.load(OutlineIcon.LOCK, size=40, color='#646464')
                         if pil_lock:
                             lock_icon = pil_to_pygame(pil_lock)
                             lock_rect = lock_icon.get_rect(center=ach_rect.center)
@@ -5964,7 +5920,8 @@ class PTypeGame:
             icon_drawn = False
             try:
                 # Load icon as PIL Image and convert to pygame
-                pil_icon = tabler_icons.load(item.icon_enum, size=28, color=icon_color)
+                color_str = '#%02x%02x%02x' % icon_color if isinstance(icon_color, tuple) else icon_color
+                pil_icon = tabler_icons.load(item.icon_enum, size=28, color=color_str)
                 if pil_icon:
                     icon_surf = pil_to_pygame(pil_icon)
                     # Center icon slightly above center to make room for quantity
@@ -6387,7 +6344,8 @@ class PTypeGame:
                 self.handle_pause_events(event)
             
             elif self.game_mode == GameMode.TRIVIA:
-                self.handle_trivia_input(event.key if event.type == pygame.KEYDOWN else None)
+                if event.type == pygame.KEYDOWN:
+                    self.handle_trivia_input(event.key)
             
             elif self.game_mode == GameMode.GAME_OVER:
                 self.handle_game_over_events(event)
