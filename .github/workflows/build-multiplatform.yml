@@ -132,7 +132,7 @@ jobs:
 
       - name: Package Executable (Windows)
         if: runner.os == 'Windows'
-        run: tar -czvf PType-Windows.tar.gz dist/ptype/ptype.exe
+        run: tar -czvf PType-Windows.tar.gz dist/ptype.exe
 
       - name: Package Executable (Linux/macOS)
         if: runner.os != 'Windows'
