@@ -2,29 +2,30 @@
 import os, sys
 from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
-# Collect assets recursively
+# Collect assets properly (no double path issue)
 datas = []
 base_path = os.path.abspath("assets")
 for root, dirs, files in os.walk(base_path):
     for file in files:
         src = os.path.join(root, file)
-        rel_path = os.path.relpath(src, ".")
-        datas.append((src, rel_path))
+        rel_dir = os.path.relpath(root, ".")  # <-- Only folder path, not filename
+        datas.append((src, rel_dir))
 
-# Collect library data
+# Collect data from libraries
 datas += collect_data_files("PIL")
 datas += collect_data_files("pytablericons")
 
-# Hidden imports
+# Hidden imports for pytablericons
 hiddenimports = collect_submodules("pytablericons")
 
-# Icon detection
+# Platform-specific icon
 icon_file = None
 if sys.platform == "win32":
     icon_file = "assets/images/ptype.ico"
 elif sys.platform == "darwin":
     icon_file = "assets/images/ptype.icns"
 
+# Base analysis
 a = Analysis(
     ['ptype.py'],
     pathex=[],
@@ -40,20 +41,21 @@ a = Analysis(
 
 pyz = PYZ(a.pure)
 
+# Executable build for all OSes
 exe = EXE(
     pyz,
     a.scripts,
     a.binaries,
     a.datas,
     [],
-    name='ptype',
-    onefile=True,       # single-file exe
-    console=False,      # no console
-    upx=True,           # compress binary
+    name="ptype",
+    onefile=True,          # Single executable for each OS
+    console=False,
+    upx=True,
     icon=icon_file if icon_file and os.path.exists(icon_file) else None
 )
 
-# Only create Mac bundle if icon exists
+# Mac .app bundle only if macOS + .icns exists
 if sys.platform == "darwin" and icon_file and os.path.exists(icon_file):
     app = BUNDLE(
         exe,

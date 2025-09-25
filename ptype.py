@@ -1,8 +1,15 @@
 def resource_path(relative_path):
     import sys, os
+    # Handles PyInstaller and multiplatform path joining
     if hasattr(sys, '_MEIPASS'):
-        return os.path.join(sys._MEIPASS, relative_path)
-    return os.path.join(os.path.dirname(__file__), relative_path)
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.abspath(os.path.dirname(__file__))
+    # Always use os.path.join for cross-platform compatibility
+    full_path = os.path.join(base_path, *relative_path.replace('\\', '/').split('/'))
+    # Log asset path and existence to a file for debugging (works even in EXE)
+    # Debug logging removed; clean cross-platform resource path
+    return full_path
 """
 P-Type - The Typing Game
 A sleek, modern typing game for programmers and typing enthusiasts with fully responsive UI.
