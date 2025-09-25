@@ -54,7 +54,7 @@ jobs:
         run: |
           python - <<'PY'
           from PIL import Image
-          import os
+          import os, sys  # FIXED: sys import added
           os.makedirs("assets/images", exist_ok=True)
           img_path = "assets/images/spaceship_icon.png"
           ico_path = "assets/images/ptype.ico"
