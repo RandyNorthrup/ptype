@@ -50,11 +50,12 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pygame pyinstaller pillow numpy pytablericons
 
+      # Generate icons BEFORE running PyInstaller
       - name: Generate Icons
         run: |
           python - <<'PY'
           from PIL import Image
-          import os, sys  # FIXED: sys import added
+          import os, sys
           os.makedirs("assets/images", exist_ok=True)
           img_path = "assets/images/spaceship_icon.png"
           ico_path = "assets/images/ptype.ico"
@@ -63,15 +64,14 @@ jobs:
           except:
               img = Image.new("RGBA", (512, 512), (138, 43, 226, 255))
           img.save(ico_path, format="ICO", sizes=[(16,16),(32,32),(64,64),(128,128),(256,256),(512,512)])
-          if os.name == "posix":
+          if sys.platform == "darwin":
               icns_path = "assets/images/ptype.icns"
               iconset = "assets/images/iconset"
               os.makedirs(iconset, exist_ok=True)
               for size in [16,32,64,128,256,512,1024]:
                   resized = img.resize((size, size))
                   resized.save(f"{iconset}/icon_{size}x{size}.png")
-              if sys.platform == "darwin":
-                  os.system(f"iconutil -c icns {iconset} -o {icns_path}")
+              os.system(f"iconutil -c icns {iconset} -o {icns_path}")
           PY
 
       - name: Build Executable
@@ -82,15 +82,14 @@ jobs:
           if [[ "${{ matrix.platform }}" == "Windows" ]]; then
             tar -czvf PType-Windows.tar.gz dist/ptype.exe
           else
-            tar -czvf PType-${{ matrix.platform }}.tar.gz dist/ptype
+            tar -czvf PType-${{ matrix.platform }}.tar.gz dist/ptype*
           fi
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: PType-${{ matrix.platform }}
-          path: |
-            PType-${{ matrix.platform }}.tar.gz
+          path: PType-${{ matrix.platform }}.tar.gz
 
   release:
     needs: build

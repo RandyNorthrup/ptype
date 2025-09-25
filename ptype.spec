@@ -1,33 +1,29 @@
 # -*- mode: python ; coding: utf-8 -*-
-import os
+import os, sys
 from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
-# Absolute path for assets
-base_path = os.path.abspath("assets")
-
-# Collect all files from assets preserving folder structure
+# Collect assets recursively
 datas = []
+base_path = os.path.abspath("assets")
 for root, dirs, files in os.walk(base_path):
     for file in files:
         src = os.path.join(root, file)
         rel_path = os.path.relpath(src, ".")
         datas.append((src, rel_path))
 
-# Collect extra data from dependencies
-datas += collect_data_files('PIL')
-datas += collect_data_files('pytablericons')
+# Collect library data
+datas += collect_data_files("PIL")
+datas += collect_data_files("pytablericons")
 
-# Collect submodules for pytablericons
-hiddenimports = collect_submodules('pytablericons')
+# Hidden imports
+hiddenimports = collect_submodules("pytablericons")
 
-# Detect platform to set proper icon
-import sys
+# Icon detection
+icon_file = None
 if sys.platform == "win32":
     icon_file = "assets/images/ptype.ico"
 elif sys.platform == "darwin":
     icon_file = "assets/images/ptype.icns"
-else:
-    icon_file = None
 
 a = Analysis(
     ['ptype.py'],
@@ -51,17 +47,17 @@ exe = EXE(
     a.datas,
     [],
     name='ptype',
-    onefile=True,        # single-file executable
-    console=False,       # no console window
-    upx=True,            # compress binary if UPX available
-    icon=icon_file,      # platform-specific icon
+    onefile=True,       # single-file exe
+    console=False,      # no console
+    upx=True,           # compress binary
+    icon=icon_file if icon_file and os.path.exists(icon_file) else None
 )
 
-# On macOS, wrap in a .app bundle
-if sys.platform == "darwin":
+# Only create Mac bundle if icon exists
+if sys.platform == "darwin" and icon_file and os.path.exists(icon_file):
     app = BUNDLE(
         exe,
-        name='ptype.app',
+        name="ptype.app",
         icon=icon_file,
-        bundle_identifier=None,
+        bundle_identifier=None
     )
