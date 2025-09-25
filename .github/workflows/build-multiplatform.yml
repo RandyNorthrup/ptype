@@ -50,96 +50,73 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pygame pyinstaller pillow numpy pytablericons
 
-      - name: Inject SDL video driver fix (Linux/macOS)
-        if: runner.os != 'Windows'
-        shell: bash
+      - name: Generate Icons
         run: |
-          echo "import os" > sdl_fix.py
-          echo "if os.name == 'posix':" >> sdl_fix.py
-          echo "    if sys.platform == 'darwin':" >> sdl_fix.py
-          echo "        os.environ['SDL_VIDEODRIVER'] = 'cocoa'" >> sdl_fix.py
-          echo "    elif sys.platform == 'linux':" >> sdl_fix.py
-          echo "        if not os.environ.get('DISPLAY'):" >> sdl_fix.py
-          echo "            os.environ['SDL_VIDEODRIVER'] = 'dummy'" >> sdl_fix.py
-          echo "        else:" >> sdl_fix.py
-          echo "            os.environ['SDL_VIDEODRIVER'] = 'x11'" >> sdl_fix.py
-          cat ptype.py >> sdl_fix.py
-          rm -f ptype.py
-          mv sdl_fix.py ptype.py
+          python - <<'PY'
+          from PIL import Image
+          import os
+          os.makedirs("assets/images", exist_ok=True)
+          img_path = "assets/images/spaceship_icon.png"
+          ico_path = "assets/images/ptype.ico"
+          try:
+              img = Image.open(img_path)
+          except:
+              img = Image.new("RGBA", (512, 512), (138, 43, 226, 255))
+          img.save(ico_path, format="ICO", sizes=[(16,16),(32,32),(64,64),(128,128),(256,256),(512,512)])
+          if os.name == "posix":
+              icns_path = "assets/images/ptype.icns"
+              iconset = "assets/images/iconset"
+              os.makedirs(iconset, exist_ok=True)
+              for size in [16,32,64,128,256,512,1024]:
+                  resized = img.resize((size, size))
+                  resized.save(f"{iconset}/icon_{size}x{size}.png")
+              if sys.platform == "darwin":
+                  os.system(f"iconutil -c icns {iconset} -o {icns_path}")
+          PY
 
-      - name: Inject SDL video driver fix (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          Set-Content sdl_fix.py "import os"
-          Add-Content sdl_fix.py "if os.name == 'posix':"
-          Add-Content sdl_fix.py "    if sys.platform == 'darwin':"
-          Add-Content sdl_fix.py "        os.environ['SDL_VIDEODRIVER'] = 'cocoa'"
-          Add-Content sdl_fix.py "    elif sys.platform == 'linux':"
-          Add-Content sdl_fix.py "        if not os.environ.get('DISPLAY'):"
-          Add-Content sdl_fix.py "            os.environ['SDL_VIDEODRIVER'] = 'dummy'"
-          Add-Content sdl_fix.py "        else:"
-          Add-Content sdl_fix.py "            os.environ['SDL_VIDEODRIVER'] = 'x11'"
-          Add-Content sdl_fix.py "        "
-          Get-Content ptype.py | Add-Content sdl_fix.py
-          Remove-Item -Force ptype.py
-          Move-Item sdl_fix.py ptype.py
-
-      - name: Create Windows icon
-        if: runner.os == 'Windows'
-        run: |
-          echo "from PIL import Image" > make_icon.py
-          echo "import os" >> make_icon.py
-          echo "os.makedirs('assets/images', exist_ok=True)" >> make_icon.py
-          echo "img_path = 'assets/images/spaceship_icon.png'" >> make_icon.py
-          echo "ico_path = 'assets/images/ptype.ico'" >> make_icon.py
-          echo "try:" >> make_icon.py
-          echo "    img = Image.open(img_path)" >> make_icon.py
-          echo "except Exception:" >> make_icon.py
-          echo "    img = Image.new('RGBA', (64, 64), (138, 43, 226, 255))" >> make_icon.py
-          echo "img.save(ico_path, format='ICO', sizes=[(16,16), (32,32), (64,64), (256,256)])" >> make_icon.py
-          python make_icon.py
-          rm make_icon.py
-
-      - name: Convert .ico to PNGs for macOS and Linux
-        if: runner.os != 'Windows'
-        run: |
-          python -c "from PIL import Image; import os; ico_path = 'assets/images/ptype.ico'; out_dir = 'assets/images/iconset'; os.makedirs(out_dir, exist_ok=True); sizes = [16,32,64,128,256,512,1024]; img = Image.open(ico_path); [img.resize((s,s)).save(f'{out_dir}/icon_{s}x{s}.png') for s in sizes]"
-
-      - name: Convert PNGs to .icns (macOS only)
-        if: runner.os == 'macOS' || matrix.platform == 'macOS-ARM' || matrix.platform == 'macOS-Intel'
-        run: |
-          mkdir -p assets/images/ptype.iconset
-          cp assets/images/iconset/icon_16x16.png assets/images/ptype.iconset/icon_16x16.png
-          cp assets/images/iconset/icon_32x32.png assets/images/ptype.iconset/icon_32x32.png
-          cp assets/images/iconset/icon_64x64.png assets/images/ptype.iconset/icon_64x64.png
-          cp assets/images/iconset/icon_128x128.png assets/images/ptype.iconset/icon_128x128.png
-          cp assets/images/iconset/icon_256x256.png assets/images/ptype.iconset/icon_256x256.png
-          cp assets/images/iconset/icon_512x512.png assets/images/ptype.iconset/icon_512x512.png
-          cp assets/images/iconset/icon_1024x1024.png assets/images/ptype.iconset/icon_1024x1024.png
-          iconutil -c icns assets/images/ptype.iconset -o assets/images/ptype.icns
-
-  # ...existing code...
-      - name: Build Executable (Windows)
-        if: runner.os == 'Windows'
+      - name: Build Executable
         run: pyinstaller ptype.spec
-        shell: pwsh
 
-      - name: Build Executable (Linux/macOS)
-        if: runner.os != 'Windows'
-        run: pyinstaller ptype.spec
-        shell: bash
-
-      - name: Package Executable (Windows)
-        if: runner.os == 'Windows'
-        run: tar -czvf PType-Windows.tar.gz dist/ptype.exe
-
-      - name: Package Executable (Linux/macOS)
-        if: runner.os != 'Windows'
-        run: tar -czvf PType-${{ matrix.platform }}.tar.gz dist/ptype
+      - name: Package Executable
+        run: |
+          if [[ "${{ matrix.platform }}" == "Windows" ]]; then
+            tar -czvf PType-Windows.tar.gz dist/ptype.exe
+          else
+            tar -czvf PType-${{ matrix.platform }}.tar.gz dist/ptype
+          fi
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: PType-${{ matrix.platform }}
-          path: PType-${{ matrix.platform }}.tar.gz
+          path: |
+            PType-${{ matrix.platform }}.tar.gz
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: PType-Windows
+      - uses: actions/download-artifact@v4
+        with:
+          name: PType-macOS-Intel
+      - uses: actions/download-artifact@v4
+        with:
+          name: PType-macOS-ARM
+      - uses: actions/download-artifact@v4
+        with:
+          name: PType-Linux
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            PType-Windows.tar.gz
+            PType-macOS-Intel.tar.gz
+            PType-macOS-ARM.tar.gz
+            PType-Linux.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
