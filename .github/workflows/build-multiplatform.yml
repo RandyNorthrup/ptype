@@ -51,7 +51,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pygame pyinstaller pillow numpy pytablericons
 
-      # ✅ Cross-platform icon generation
+      # Cross-platform icon generation
       - name: Generate Icons
         run: |
           echo "from PIL import Image" > make_icons.py
