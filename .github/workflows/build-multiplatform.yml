@@ -1,4 +1,8 @@
+
 name: Build P-Type Multi-Platform
+
+permissions:
+  contents: write
 
 on:
   push:
