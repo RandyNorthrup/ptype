@@ -130,7 +130,6 @@ Download the pre-built executable from the releases page (no Python required).
 | Bonus Collector | Collect bonuses | Collect 10 bonus items |
 | Bonus Master | Use bonuses | Use 25 bonus items |
 
-
 ## 📁 PType Project Structure
 
 ```
@@ -140,30 +139,29 @@ PType/
 │   ├── ptype.py              # Main game file (265KB)
 │   ├── README.md             # Comprehensive documentation
 │   ├── requirements.txt      # Python dependencies
-│   ├── LICENSE              # MIT License
-│   └── .gitignore           # Git ignore rules
+│   ├── LICENSE               # MIT License
+│   └── .gitignore            # Git ignore rules
 │
-├── 🎨 assets/               # Game resources
+├── 🎨 assets/                # Game resources
 │   ├── images/
-│   │   └── ptype_logo.png  # Game logo (826KB)
-│   │   └── ptype.ico  # Game Icon
+│   │   └── ptype_logo.png     # Game logo (826KB)
+│   │   └── ptype.ico          # Game Icon
 │   │   └── spaceship_icon_small.png  # Game Icon Small png
-│   │   └── spaceship_icon.png  # Game Icon png
+│   │   └── spaceship_icon.png        # Game Icon png
 │   └── sounds/
-│       └── game_music.mp3   # Background music (3.1MB)
+│       └── game_music.mp3     # Background music (3.1MB)
 │
-├── 💾 data/                 # User data (auto-generated)
-│   ├── ptype_settings.json # Game settings
-│   ├── ptype_profiles.json # Player profiles  
-│   └── ptype_scores.json   # High scores
+├── 💾 data/                  # User data (auto-generated)
+│   ├── ptype_settings.json    # Game settings
+│   ├── ptype_profiles.json    # Player profiles  
+│   └── ptype_scores.json      # High scores
 │
-├── 📚 docs/                 # Documentation
-    ├── CHANGELOG.md        # Version history
-    └── CONTRIBUTING.md     # Contribution guidelines
+├── 📚 docs/                   # Documentation
+    ├── CHANGELOG.md           # Version history
+    └── CONTRIBUTING.md        # Contribution guidelines
+```
 
 ## 🖼️ Screenshots
-
-Below are some screenshots of P-Type in action:
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_1.png" alt="P-Type Screenshot 1" width="400">
@@ -175,7 +173,6 @@ Below are some screenshots of P-Type in action:
   <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_5.png" alt="P-Type Screenshot 5" width="400">
   <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_6.png" alt="P-Type Screenshot 6" width="400">
 </p>
-
 
 ##  Configuration
 
@@ -219,7 +216,6 @@ While the main game is complete and well-organized, potential future improvement
 ## 🤝 Contributing
 
 Contributions are welcome! Please see `docs/CONTRIBUTING.md` for guidelines.
-
 
 ## 📜 License
 
