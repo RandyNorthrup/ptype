@@ -50,29 +50,28 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pygame pyinstaller pillow numpy pytablericons
 
-      # Generate icons BEFORE running PyInstaller
+      # ✅ Cross-platform icon generation
       - name: Generate Icons
         run: |
-          python - <<'PY'
-          from PIL import Image
-          import os, sys
-          os.makedirs("assets/images", exist_ok=True)
-          img_path = "assets/images/spaceship_icon.png"
-          ico_path = "assets/images/ptype.ico"
-          try:
-              img = Image.open(img_path)
-          except:
-              img = Image.new("RGBA", (512, 512), (138, 43, 226, 255))
-          img.save(ico_path, format="ICO", sizes=[(16,16),(32,32),(64,64),(128,128),(256,256),(512,512)])
-          if sys.platform == "darwin":
-              icns_path = "assets/images/ptype.icns"
-              iconset = "assets/images/iconset"
-              os.makedirs(iconset, exist_ok=True)
-              for size in [16,32,64,128,256,512,1024]:
-                  resized = img.resize((size, size))
-                  resized.save(f"{iconset}/icon_{size}x{size}.png")
-              os.system(f"iconutil -c icns {iconset} -o {icns_path}")
-          PY
+          echo "from PIL import Image" > make_icons.py
+          echo "import os, sys" >> make_icons.py
+          echo "os.makedirs('assets/images', exist_ok=True)" >> make_icons.py
+          echo "img_path = 'assets/images/spaceship_icon.png'" >> make_icons.py
+          echo "ico_path = 'assets/images/ptype.ico'" >> make_icons.py
+          echo "try:" >> make_icons.py
+          echo "    img = Image.open(img_path)" >> make_icons.py
+          echo "except:" >> make_icons.py
+          echo "    img = Image.new('RGBA', (512, 512), (138, 43, 226, 255))" >> make_icons.py
+          echo "img.save(ico_path, format='ICO', sizes=[(16,16),(32,32),(64,64),(128,128),(256,256),(512,512)])" >> make_icons.py
+          echo "if sys.platform == 'darwin':" >> make_icons.py
+          echo "    icns_path = 'assets/images/ptype.icns'" >> make_icons.py
+          echo "    iconset = 'assets/images/iconset'" >> make_icons.py
+          echo "    os.makedirs(iconset, exist_ok=True)" >> make_icons.py
+          echo "    for size in [16,32,64,128,256,512,1024]:" >> make_icons.py
+          echo "        resized = img.resize((size, size))" >> make_icons.py
+          echo "        resized.save(f'{iconset}/icon_{size}x{size}.png')" >> make_icons.py
+          echo "    os.system(f'iconutil -c icns {iconset} -o {icns_path}')" >> make_icons.py
+          python make_icons.py
 
       - name: Build Executable
         run: pyinstaller ptype.spec
