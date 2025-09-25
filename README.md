@@ -161,7 +161,20 @@ PType/
     ├── CHANGELOG.md        # Version history
     └── CONTRIBUTING.md     # Contribution guidelines
 
-## 🔧 Configuration
+## �️ Screenshots
+
+Below are some screenshots of P-Type in action:
+
+<p align="center">
+   <img src="screenshots/ptype_1.png" alt="P-Type Screenshot 1" width="400"/>
+   <img src="screenshots/ptype_2.png" alt="P-Type Screenshot 2" width="400"/>
+   <img src="screenshots/ptype_3.png" alt="P-Type Screenshot 3" width="400"/>
+   <img src="screenshots/ptype_4.png" alt="P-Type Screenshot 4" width="400"/>
+   <img src="screenshots/ptype_5.png" alt="P-Type Screenshot 5" width="400"/>
+   <img src="screenshots/ptype_6.png" alt="P-Type Screenshot 6" width="400"/>
+</p>
+
+## �🔧 Configuration
 
 Settings are stored in `~/.ptype/` directory (user home folder) and can be modified in-game:
 
