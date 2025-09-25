@@ -166,13 +166,16 @@ PType/
 Below are some screenshots of P-Type in action:
 
 <p align="center">
-   <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_1.png" alt="P-Type Screenshot 1" width="400"/>
-   <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_2.png" alt="P-Type Screenshot 2" width="400"/>
-   <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_3.png" alt="P-Type Screenshot 3" width="400"/>
-   <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_4.png" alt="P-Type Screenshot 4" width="400"/>
-   <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_5.png" alt="P-Type Screenshot 5" width="400"/>
-   <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_6.png" alt="P-Type Screenshot 6" width="400"/>
+  <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_1.png" alt="P-Type Screenshot 1" width="400">
+  <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_2.png" alt="P-Type Screenshot 2" width="400">
+  <br>
+  <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_3.png" alt="P-Type Screenshot 3" width="400">
+  <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_4.png" alt="P-Type Screenshot 4" width="400">
+  <br>
+  <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_5.png" alt="P-Type Screenshot 5" width="400">
+  <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_6.png" alt="P-Type Screenshot 6" width="400">
 </p>
+
 
 ##  Configuration
 
