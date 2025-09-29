@@ -1,15 +1,22 @@
 
 # Changelog
 
-## [1.5.2] - 2025-09-22
+## [1.5.3] - 2025-09-29
+
+### Added
+- Seeking Missiles bonus item (replaces Rapid Fire): launches up to 5 homing missiles at the nearest non-boss enemies
+- Distinct missile launch sound effect
 
 ### Fixed
 - Universal macOS and Linux build support in GitHub Actions
 - Architecture mismatch errors on macOS x86_64
 - Improved workflow for multi-arch compatibility
+- Time Freeze bonus now truly freezes enemies for its duration by scaling velocity
 
 ### Changed
 - Updated dependencies and version info
+- Replaced Rapid Fire with Seeking Missiles; documented all bonus items as functional
+- Clarified controls: use Left/Right to switch targets; Up/Down to select items; Backspace to use
 
 
 All notable changes to P-Type - The Typing Game will be documented in this file.

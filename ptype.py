@@ -46,9 +46,9 @@ from PIL import Image
 import io
 
 # Version Information
-VERSION = "1.5.2"
+VERSION = "1.5.3"
 VERSION_NAME = "WIP Edition"
-RELEASE_DATE = "2025-09-22"
+RELEASE_DATE = "2025-09-29"
 
 
 # Initialize Pygame
@@ -464,7 +464,8 @@ class TriviaDatabase:
     
     # 4 unique collectible bonus items with OutlineIcon enums
     BONUS_ITEMS = [
-        BonusItem(0, "Rapid Fire", "Double typing speed for 10 seconds", OutlineIcon.BOLT, 600, 1, 2.0),
+        # Changed from Rapid Fire -> Seeking Missiles (instant effect)
+        BonusItem(0, "Seeking Missiles", "Launch homing missiles to destroy 5 nearest enemies", OutlineIcon.ROCKET, 1, 1, 0.0),
         BonusItem(1, "Shield Boost", "Instant 50 shield points", OutlineIcon.SHIELD, 1, 1, 50.0),
         BonusItem(2, "Health Pack", "Restore 30 HP instantly", OutlineIcon.HEART, 1, 1, 30.0),
         BonusItem(3, "Time Freeze", "Freeze all enemies for 5 seconds", OutlineIcon.CLOCK_STOP, 300, 1, 0.0),
@@ -1607,10 +1608,12 @@ class SoundManager:
             self.sounds['collision'] = self.create_impact_sound(150)  # Impact thud
             # Achievement unlocked
             self.sounds['achievement'] = self.create_arpeggio([440, 554, 659, 880], 80)  # Success fanfare
+            # Missile launch - whoosh/rocket launch
+            self.sounds['missile_launch'] = self.create_whoosh_sound(280)
         except Exception as e:
             print(f"Could not generate sounds: {e}")
             # Create empty sound objects as fallback
-            for key in ['type', 'correct', 'wrong', 'destroy', 'boss', 'level', 'collision', 'achievement']:
+            for key in ['type', 'correct', 'wrong', 'destroy', 'boss', 'level', 'collision', 'achievement', 'missile_launch']:
                 self.sounds[key] = None
     
     def create_explosion_sound(self, duration: int) -> pygame.mixer.Sound:
@@ -1999,6 +2002,41 @@ class SoundManager:
             return pygame.sndarray.make_sound(sound_array)
         except ImportError:
             return pygame.mixer.Sound(buffer=bytes(100))
+
+    def create_whoosh_sound(self, duration: int = 300) -> pygame.mixer.Sound:
+        """Create a rocket/missile launch whoosh with rising air noise and low rumble"""
+        try:
+            import numpy as np
+            sample_rate = 22050
+            samples = int(sample_rate * duration / 1000)
+            waves = np.zeros((samples, 2), dtype=np.int16)
+            # Generate band-limited noise whoosh + low rumble
+            # Envelope: quick attack, steady, decay
+            for i in range(samples):
+                t = i / sample_rate
+                p = i / samples
+                # White noise filtered by simple moving factor that increases to simulate building pressure
+                noise = (random.random() * 2 - 1) * (0.6 + 0.4 * p)
+                # Low rumble sinusoid blend
+                rumble = 0.5 * math.sin(2 * math.pi * (40 + 20 * p) * t)
+                # Slight rising pitch whistle
+                whistle = 0.3 * math.sin(2 * math.pi * (300 + 500 * p) * t)
+                # Envelope
+                if p < 0.1:
+                    env = p / 0.1
+                elif p > 0.85:
+                    env = max(0.0, (1 - (p - 0.85) / 0.15))
+                else:
+                    env = 1.0
+                val = (noise + rumble + whistle) * env
+                # Scale to 16-bit
+                v = int(max(-1.0, min(1.0, val)) * 14000)
+                waves[i, 0] = v
+                waves[i, 1] = v
+            return pygame.sndarray.make_sound(waves)
+        except ImportError:
+            # Fallback to a low-frequency sweep
+            return self.create_sweep(120, 500, duration)
     
     def play(self, sound_name: str):
         """Play a sound effect"""
@@ -2975,6 +3013,125 @@ class LaserBeam:
     def is_finished(self) -> bool:
         return self.life <= 0
 
+class Missile:
+    """Seeking missile projectile with trail that targets an enemy and explodes on impact"""
+    def __init__(self, start_x: int, start_y: int, target_enemy):
+        self.x = float(start_x)
+        self.y = float(start_y)
+        self.target = target_enemy
+        self.speed = 11.5
+        self.direction = math.radians(-90)  # start upward
+        self.turn_rate = math.radians(8)  # max turn per frame (tighter turns)
+        self.trail = []  # list of (x, y, life)
+        self.max_trail = 14
+        self.alive = True
+        self.life = 240  # safety cap
+        self.color = ACCENT_ORANGE
+        self.core_color = MODERN_WHITE
+        self.radius = 5
+    
+    def _angle_to(self, tx: float, ty: float) -> float:
+        return math.atan2(ty - self.y, tx - self.x)
+    
+    def _wrap_angle(self, a: float) -> float:
+        # Normalize to [-pi, pi]
+        while a > math.pi:
+            a -= 2 * math.pi
+        while a < -math.pi:
+            a += 2 * math.pi
+        return a
+    
+    def _acquire_new_target(self, game):
+        if not game.enemies:
+            self.target = None
+            return
+        # Find nearest NON-boss enemy to current missile position
+        candidates = [e for e in game.enemies if not (hasattr(e, 'is_boss') and e.is_boss)]
+        if not candidates:
+            self.target = None
+            return
+        self.target = min(candidates, key=lambda e: (e.x - self.x) ** 2 + (e.y - self.y) ** 2)
+    
+    def update(self, game):
+        if not self.alive:
+            return
+        self.life -= 1
+        if self.life <= 0:
+            self.alive = False
+            return
+        # Reacquire if target disappeared
+        if self.target not in game.enemies:
+            self._acquire_new_target(game)
+            if not self.target:
+                # Fly straight and fade if nothing to target
+                self.x += math.cos(self.direction) * self.speed
+                self.y += math.sin(self.direction) * self.speed
+                self._add_trail()
+                return
+        
+        # Home towards target's current position
+        tx, ty = float(self.target.x), float(self.target.y)
+        desired = self._angle_to(tx, ty)
+        diff = self._wrap_angle(desired - self.direction)
+        # Clamp turn
+        if diff > self.turn_rate:
+            diff = self.turn_rate
+        elif diff < -self.turn_rate:
+            diff = -self.turn_rate
+        self.direction += diff
+        
+        # Move forward
+        self.x += math.cos(self.direction) * self.speed
+        self.y += math.sin(self.direction) * self.speed
+        self._add_trail()
+        
+        # Check impact
+        dx = tx - self.x
+        dy = ty - self.y
+        if dx * dx + dy * dy < (self.radius + 16) ** 2:
+            # Impact
+            if self.target in game.enemies:
+                # Clear active typing target if needed
+                if game.active_enemy is self.target:
+                    game.active_enemy = None
+                    game.current_input = ""
+                    game.mistakes_this_word = 0
+                game.destroy_enemy(self.target)
+            # Explosion visual
+            game.explosions.append(ModernExplosion(int(self.x), int(self.y)))
+            self.alive = False
+    
+    def _add_trail(self):
+        self.trail.append([self.x, self.y, 14])
+        if len(self.trail) > self.max_trail:
+            self.trail.pop(0)
+        for p in self.trail:
+            p[2] -= 1
+        self.trail = [p for p in self.trail if p[2] > 0]
+    
+    def draw(self, screen):
+        if not self.alive:
+            return
+        # Draw trail segments with fading
+        for i, (tx, ty, life) in enumerate(self.trail):
+            alpha = life / 14
+            col = (
+                int(self.color[0] * alpha + self.core_color[0] * (1 - alpha) * 0.3),
+                int(self.color[1] * alpha + self.core_color[1] * (1 - alpha) * 0.3),
+                int(self.color[2] * alpha + self.core_color[2] * (1 - alpha) * 0.3),
+            )
+            pygame.draw.circle(screen, col, (int(tx), int(ty)), max(1, int(self.radius * alpha * 0.8)))
+        
+        # Missile body (simple circle + flame)
+        pygame.draw.circle(screen, self.core_color, (int(self.x), int(self.y)), self.radius)
+        # Flame at the back opposite of direction
+        flame_x = self.x - math.cos(self.direction) * (self.radius + 2)
+        flame_y = self.y - math.sin(self.direction) * (self.radius + 2)
+        pygame.draw.circle(screen, self.color, (int(flame_x), int(flame_y)), max(2, self.radius - 2))
+    
+    def is_finished(self) -> bool:
+        return not self.alive
+
 class TypingEffect:
     """Visual effect when typing characters"""
     def __init__(self, x: int, y: int, char: str, correct: bool = True):
@@ -3753,6 +3910,7 @@ class PTypeGame:
         self.explosions = []
         self.typing_effects = []  # New: typing visual effects
         self.laser_beams = []  # Laser beam effects from player to enemy
+        self.missiles = []  # Seeking missiles in flight
         self.current_input = ""
         self.active_enemy = None
         self.last_enemy_spawn = 0
@@ -4552,12 +4710,21 @@ class PTypeGame:
     def _apply_bonus_effect(self, item):
         """Apply bonus effect based on item type"""
         
-        if item.name == "Rapid Fire":
-            # Double typing speed for 10 seconds
-            self.rapid_fire_active = True
-            self.rapid_fire_end_time = time.time() + (item.duration / 60)  # Convert frames to seconds
-            self.rapid_fire_multiplier = item.effect_value  # 2.0 for double speed
-            self.active_bonuses.append((item, item.duration))
+        if item.name == "Seeking Missiles":
+            # Launch up to 5 seeking missiles targeting nearest enemies
+            if not self.enemies:
+                return
+            px, py = self.player_ship.x, self.player_ship.y
+            # Exclude bosses from missile targets
+            non_boss = [e for e in self.enemies if not (hasattr(e, 'is_boss') and e.is_boss)]
+            if not non_boss:
+                # No valid non-boss targets; nothing to fire at
+                return
+            targets = sorted(non_boss, key=lambda e: (e.x - px) ** 2 + (e.y - py) ** 2)[:5]
+            for enemy in list(targets):
+                self.missiles.append(Missile(px, py, enemy))
+            # Play a single launch sound cue
+            self.sound_manager.play('missile_launch')
         elif item.name == "Shield Boost":
             # Instant 50 shield points
             self.shield_buffer = min(100, self.shield_buffer + int(item.effect_value))
@@ -4810,11 +4977,16 @@ class PTypeGame:
         # Update enemies with speed modifiers
         enemies_to_remove = []
         for enemy in self.enemies:
-            # Apply enemy slow factor (from Time Slow or Power Surge)
-            original_speed = enemy.speed
-            enemy.speed *= self.enemy_slow_factor
-            enemy.update()
-            enemy.speed = original_speed  # Restore original speed
+            # Apply enemy slow factor (from Time Freeze/Slow) by scaling velocity
+            if self.enemy_slow_factor != 1.0:
+                ovx, ovy = getattr(enemy, 'vx', 0), getattr(enemy, 'vy', 0)
+                enemy.vx = ovx * self.enemy_slow_factor
+                enemy.vy = ovy * self.enemy_slow_factor
+                enemy.update()
+                # Restore after update
+                enemy.vx, enemy.vy = ovx, ovy
+            else:
+                enemy.update()
             
             if enemy.is_off_screen(self.current_height):
                 enemies_to_remove.append(enemy)
@@ -4855,6 +5027,11 @@ class PTypeGame:
             laser.update()
         
         self.laser_beams = [laser for laser in self.laser_beams if not laser.is_finished()]
+
+        # Update missiles (seeking projectiles)
+        for missile in self.missiles:
+            missile.update(self)
+        self.missiles = [m for m in self.missiles if not m.is_finished()]
         
         # Update EMP cooldown
         if self.emp_cooldown > 0:
@@ -5691,6 +5868,10 @@ class PTypeGame:
         # Draw laser beams (before typing effects so they appear behind)
         for laser in self.laser_beams:
             laser.draw(self.screen)
+
+        # Draw missiles
+        for missile in self.missiles:
+            missile.draw(self.screen)
         
         # Draw typing effects
         for effect in self.typing_effects:
