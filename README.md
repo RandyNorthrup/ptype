@@ -1,7 +1,7 @@
 # P-Type - The Typing Game
 
-[![Version](https://img.shields.io/badge/version-1.5.5-blue.svg)](https://github.com/yourusername/PType/releases)
-[![Python](https://img.shields.io/badge/python-3.11+-green.svg)](https://www.python.org/)
+[![Version](https://img.shields.io/badge/version-1.5.3-blue.svg)](https://github.com/yourusername/PType/releases)
+[![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 
 A modern typing game designed specifically for programmers to improve their coding speed and accuracy across multiple programming languages.
@@ -21,7 +21,11 @@ A modern typing game designed specifically for programmers to improve their codi
 - **Shield System**: Build shields by defeating bosses at full health
 - **EMP Weapon**: Special ability to clear nearby enemies
 - **Trivia System**: Answer programming and pop culture questions every 2 boss defeats
-- **Bonus Items**: Collect and use power-ups including Rapid Fire, Shield Boost, Health Pack, and Time Freeze (Currently Non Functional)
+- **Bonus Items**: Collect and use four power-ups — Seeking Missiles, Shield Boost, Health Pack, and Time Freeze — all fully functional
+  - Seeking Missiles: Launch up to 5 homing missiles that destroy the nearest non-boss enemies
+  - Shield Boost: Instantly grants +50 shield (absorbs damage before HP)
+  - Health Pack: Instantly restores +30 HP (up to max)
+  - Time Freeze: Freezes all enemies in place for ~5 seconds
 
 ### Programming Language Support
 - **Python**: 245+ patterns including keywords, built-ins, and common libraries
@@ -87,7 +91,7 @@ Download the pre-built executable from the releases page (no Python required).
 
 ### Basic Controls
 - **Type**: Match the words/code on enemy ships
-- **Tab**: Switch between enemy targets
+- **Left/Right Arrows**: Switch between enemy targets
 - **Enter**: Activate EMP weapon (when charged)
 - **Up/Down Arrows**: Select bonus item
 - **Backspace**: Activate selected bonus item
@@ -151,15 +155,19 @@ PType/
 │   └── sounds/
 │       └── game_music.mp3     # Background music (3.1MB)
 │
-├── 💾 data/                  # User data (auto-generated)
-│   ├── ptype_settings.json    # Game settings
-│   ├── ptype_profiles.json    # Player profiles  
-│   └── ptype_scores.json      # High scores
-│
 ├── 📚 docs/                   # Documentation
     ├── CHANGELOG.md           # Version history
     └── CONTRIBUTING.md        # Contribution guidelines
 ```
+
+Note: User settings, profiles, and scores are stored in the user home directory under `~/.ptype/`.
+
+## 🔄 What's New (1.5.3)
+
+- Replaced Rapid Fire with Seeking Missiles (launches up to 5 homing missiles at nearest non-boss enemies)
+- Added distinct missile launch sound effect
+- Fixed Time Freeze so enemies actually stop for ~5 seconds
+- Clarified controls: use Left/Right to switch targets; Up/Down to select items; Backspace to use
 
 ## 🖼️ Screenshots
 
