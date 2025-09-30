@@ -1,0 +1,775 @@
+advanced:
+- '@key @temp(/data) index key key'
+- '@key @data(temp = index) key result index'
+- '@index key value index  data item value data(key result)  result.result(key.temp,
+  value)'
+- '@index @value(/item) value temp item'
+- '@value @value(item = value) count temp temp'
+- '@data index count value  @index index index count'
+- CompletableFuture.supplyAsync(() - heavyOperation()).thenApply(this  transform).thenAccept(this  process)
+- value item value value value = data.temp(key.value)
+- '@index count data item  @data count item item'
+- '@index key result temp  item count index key(key item)  index.value(item.data,
+  count)'
+- '@value result item data  index index temp index(data temp)  key.result(value.index,
+  item)'
+- '@RestController @RequestMapping(/api) public class ApiController'
+- '@result @value item result count'
+- '@key @data(value = temp) result item key'
+- '@index @item key count count'
+- '@index @data(item = key) result count temp'
+- result key = item.value().index(result.key(40))
+- data count = result.result().result(temp.value(63))
+- '@value @value(result = value) count item key'
+- 'def {name}(a, b):'
+- '@item temp value value  @index result index result'
+- '@count @index item key temp'
+- '@data.key.value.item key temp temp'
+- var {var} = {value}
+- public class {class_name} {
+- '@Configuration @EnableWebSecurity public class SecurityConfig'
+- '@key index value item  @key result data key'
+- '@result key value item  @key key count index'
+- '@data @data(key = key) item index key'
+- '@count @index(count = result) index count count'
+- 'def {name}():'
+- '@value @count(value = key) data key key'
+- data value = data.data(value)
+- '@item.item.result.count count item data'
+- '@result data count count  index item value temp(data item)  data.result(temp.key,
+  item)'
+- MonoUser user = userRepository.findById(id)
+- '@result.item.key.result result index value'
+- '@item @data(/index) data data index'
+- private static final Logger logger = LoggerFactory.getLogger(MyClass.class)
+- '@item @index(/result) result result key'
+- '@item @temp(/count) count item data'
+- '@index @value(result = value) data item temp'
+- '@result.index.temp.index temp value index'
+- '@ManyToOne @JoinColumn(name = user_id) private User user'
+- value index item index value = data.result(key.result)
+- '@data item temp data  result data value item(key data)  data.value(index.data,
+  result)'
+- '@item key item value  key data temp value(data index)  temp.value(item.index, temp)'
+- '{func}(callback)'
+- '{var}.{func}(null)'
+- '{func}("text")'
+- '@value key count item  data data item key(value result)  count.temp(count.key,
+  result)'
+- logger.error(Error occurred, exception)
+- '{visibility} {return_type} {name}(a, b) {'
+- '@key data data key  @key temp data result'
+- '@index @count(/data) key temp temp'
+- '@temp @count(/key) index data data'
+- await {func}({key:"value"})
+- '{visibility} {return_type} {name}(data) {'
+- '@count item count data  count item data item(item count)  item.key(index.temp,
+  data)'
+- '@value value value data  value temp item index(key result)  result.count(value.count,
+  result)'
+- '@count result item temp  @item index value item'
+- '{visibility} {return_type} {name}(callback) {'
+- '@item @count temp value result'
+- '@result @value(value = data) value temp data'
+- key result temp data key = item.item(value.result)
+- function {name}(a, b) {
+- logger.info(Processing user  , user.getName())
+- value temp = result.key(result)
+- function {name}(param) {
+- '@key @index(/item) value value count'
+- value temp temp result item = item.item(key.result)
+- '@temp @item(/item) index key item'
+- function {name}(id, value) {
+- '@OneToMany(mappedBy = user) private ListOrder orders'
+- '@value index index result  item temp index result(result item)  data.item(data.data,
+  result)'
+- '@key count index item  @index key count count'
+- '{var}.{func}(false)'
+- '@index.item.count.count value count key'
+- await {func}("text")
+- temp result result temp count = item.data(result.value)
+- '@count key result temp  @index index count item'
+- '@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id'
+- value item = index.index().key(result.index(43))
+- '{var}.{func}(callback)'
+- result key temp temp data = index.temp(temp.temp)
+- data value temp temp data = value.temp(result.temp)
+- 'def {name}(param):'
+- '@key data key key  @data item key value'
+- '@index index value value  @data temp temp value'
+- '@value @value(/value) value item index'
+- '@Service public class UserService  @Autowired private UserRepository repo'
+- '@item @temp count key temp'
+- '@temp @count(/value) index index value'
+- '@result @index(value = item) key item temp'
+- result count result result value = item.index(value.item)
+- index item key value index = index.index(result.key)
+- index data = temp.item().temp(index.data(27))
+- '@count @data(value = temp) item result temp'
+- '@item.data.temp.item temp temp key'
+- count item = result.result().value(data.key(30))
+- '@temp count index result  item data data result(value result)  temp.key(temp.index,
+  result)'
+- '@result result item item  @value data temp result'
+- '@Entity @Table(name = users) public class User'
+- '@value @count(/data) index value result'
+- '@result @index(value = index) key count data'
+- '@index count result temp  @temp index value key'
+- export class {class_name} {
+- result item temp temp item = key.temp(temp.value)
+- '{type} {var} = {value}'
+- '@result temp value item  @key temp value index'
+- 'def {name}(callback):'
+- '@Transactional public void updateUser(User user)  repo.save(user)'
+- '@item count value item  @temp index value index'
+- '@key @count(/index) key value result'
+- value result index index value = data.data(result.value)
+- '@item @value(key = key) item item item'
+- '@key result count key  @value count index data'
+- '@temp result item item  result item data key(item result)  index.temp(value.value,
+  count)'
+- '@key.count.count.key data key data'
+- '@index value key data  data result temp index(value value)  count.result(key.data,
+  temp)'
+- '@result result value key  @key item result value'
+- '@key @index(/item) key temp temp'
+- '@GetMapping(/users) public ListUser getUsers()  return userService.findAll()'
+- '@index item key key  @index index index value'
+- '{func}(true)'
+- '@Micronaut.http.annotation.Controller public class HelloController'
+- '@data @data(/result) value result item'
+- count item = index.value().result(value.item(5))
+- '@value @count(/result) count temp item'
+- '@count @data(temp = data) temp result count'
+- '@temp value index value  @value key temp data'
+- '@index @value(item = index) index count result'
+- let {var} = {value}
+- '@value item data index  key index item result(result data)  item.value(value.key,
+  count)'
+- OptionalUser findByEmail(String email)
+- '@value @result(count = result) item key data'
+- '@key item data result  @result temp temp item'
+- data data = count.temp().index(index.item(4))
+- '@value.count.item.value value item data'
+- '{var}.{func}()'
+- count value data key key = temp.index(key.index)
+- verify(mockService, times(1)).methodCall()
+- '@key key data value  item key item data(key data)  item.key(temp.key, temp)'
+- '@item.data.index.temp data temp data'
+- count data = index.data(key)
+- '@SpringBootApplication public class Application  public static void main(String
+  args)  SpringApplication.run(Application.class, args)'
+- '{visibility} {return_type} {name}(id, value) {'
+- '{var}.{func}([1,2,3])'
+- '@result @value count temp value'
+- '{func}([1,2,3])'
+- '@index item result index  item key count data(key result)  temp.key(value.item,
+  index)'
+- '@temp.count.item.value temp key count'
+- '@Autowired private AuthenticationManager authManager'
+- '{func}(null)'
+- '@count @value result result temp'
+- '@BeforeEach public void setup()  MockitoAnnotations.openMocks(this)'
+- '@key count value item  index key value count(data temp)  index.data(item.data,
+  index)'
+- FluxUser users = userRepository.findAll().delayElements(Duration.ofMillis(100))
+- '@value.result.data.data result result value'
+- '@data @item(item = value) count data count'
+- '@Repository public interface UserRepository extends JpaRepositoryUser, Long'
+- '@count count count index  temp result key value(result result)  value.index(count.result,
+  item)'
+- '@data @count(temp = count) count value data'
+- 'def {name}(data):'
+- '@Column(name = email, unique = true) private String email'
+- '@PostMapping(/users) public User createUser(@RequestBody User user)  return userService.save(user)'
+- '@Test public void testMethod()  Assertions.assertEquals(expected, actual)'
+- '@key @result(temp = result) value key key'
+- '{var}.{func}(123)'
+- '{func}(false)'
+- '{func}(123)'
+- '@index @key(index = key) value item data'
+- '@data @data(/item) data data result'
+- '{var}.{func}(true)'
+- '@temp @value count temp result'
+- '@value @key result item index'
+- '@key @index(index = temp) item temp item'
+- '@key result result index  @count result value value'
+- '@result item value temp  item key key temp(index count)  index.count(result.item,
+  value)'
+- '{visibility} {return_type} {name}() {'
+- '@index item value item  item data item temp(item index)  result.result(data.value,
+  data)'
+- '@Bean public PasswordEncoder passwordEncoder()  return new BCryptPasswordEncoder()'
+- '@item temp result temp  @result item temp index'
+- '@data @key temp temp count'
+- '@item.temp.key.item index result key'
+- const {var} = {value}
+- '@value @temp(index = index) result temp data'
+- key key result data key = data.value(item.key)
+- '@result.index.value.result temp value temp'
+- '@data result result data  @index index data value'
+- '@temp.data.index.data data index count'
+- '@data @result count item count'
+- '{visibility} {return_type} {name}(param) {'
+- '@item @index(key = key) item index count'
+- '@index @temp data count key'
+- count key item item count = key.index(item.result)
+- key result = count.count(temp)
+- '@result @data(index = count) value temp key'
+- temp value = temp.item().item(temp.data(86))
+- temp count result value temp = item.value(value.value)
+- '@result @value(item = key) data result index'
+- '@key.result.count.count temp count result'
+- '{func}({key:"value"})'
+- '{var}.{func}({key:"value"})'
+- '@result.count.data.count value data index'
+- function {name}(callback) {
+- '{func}()'
+- '@value.index.count.item result item index'
+- data item = index.value(data)
+- '@index @value item item data'
+- item count = temp.result(temp)
+- item key temp item result = result.count(item.item)
+- temp key count count key = result.result(value.result)
+- ListUser findByEmailContaining(String email)
+- '@result value count count  count index count value(count index)  count.count(count.result,
+  data)'
+- function {name}() {
+- '@index @item(/item) item item index'
+- class {class_name} {
+- '@result @data value value temp'
+- '@value @result(/value) key value value'
+- '@result data key temp  @temp count result temp'
+- result value = temp.key().count(item.value(42))
+- '@value @item(index = key) result temp value'
+- '@count.key.value.data key key key'
+- result result = result.data().value(temp.count(96))
+- '@count @temp item index value'
+- '@value.temp.item.temp data key data'
+- key result key item index = result.item(data.key)
+- '@key index temp result  @index index index data'
+- '@result.count.value.data data key count'
+- '@value.item.result.key key count data'
+- count key count data count = key.item(temp.key)
+- '@temp @value(/result) result value key'
+- '@index item result key  key temp count count(temp value)  key.data(index.temp,
+  item)'
+- '@data value index data  @temp temp value data'
+- '{var}.{func}("text")'
+- count item = result.result().value(count.value(2))
+- '@key data temp temp  @value item index index'
+- when(mockService.getData()).thenReturn(mockData)
+- temp item key result item = value.data(item.key)
+- '@result temp data temp  @count value count data'
+- count temp = result.count().key(value.index(77))
+- '@item.value.count.count result key count'
+- function {name}(data) {
+- '@data.data.item.count result key value'
+- '@data @count(result = result) key result data'
+- '@index index temp index  item value data temp(count value)  key.value(index.count,
+  key)'
+- value key = key.result().index(key.count(36))
+- index value = count.key().key(value.count(3))
+- '@key.count.result.key index count value'
+beginner:
+- item (index temp   index)
+- temp key = data
+- result temp value
+- item data count
+- value key data
+- data (value item   value)
+- key (count key   item)
+- for (String item   list)
+- index count index
+- scanner.nextInt()
+- temp value = value
+- temp index count
+- item result = count key()
+- data index = data.count(temp)
+- await {func}()
+- value count = index
+- item index key
+- var {var} = {value}
+- public class {class_name} {
+- item (data value   data)
+- key value result
+- Math.ceil(3.2)
+- temp data result
+- list.isEmpty()
+- count item data
+- key index = index
+- for ({var} of {array}) {
+- item (index result   result)
+- await {func}(false)
+- result data item
+- value (count item   result)
+- System.out.println(Hello)
+- temp temp = data
+- '{func}(callback)'
+- '{var}.{func}(null)'
+- value (temp key   value)
+- key key = temp.data(value)
+- item (count index   index)
+- data key = data
+- '{func}("text")'
+- value temp key
+- data item item
+- scanner.nextLine()
+- for (let {var} = 0; {var} < {num}; {var}++) {
+- scanner.nextDouble()
+- path.getFileName()
+- '{visibility} {return_type} {name}(a, b) {'
+- value (count value   item)
+- temp (key index   item)
+- count result = data.item(value)
+- index item = key count()
+- await {func}({key:"value"})
+- '{visibility} {return_type} {name}(data) {'
+- key (value value   result)
+- String.format(Value  %d, number)
+- key key = temp.item(value)
+- data value value
+- temp result index
+- await {func}(callback)
+- data count = value result()
+- '{visibility} {return_type} {name}(callback) {'
+- result value result
+- temp data = temp value()
+- value result count
+- data index data
+- function {name}(a, b) {
+- value count value
+- result (result temp   count)
+- public class MyClass
+- function {name}(param) {
+- try   catch (IOException e)   finally
+- key data result
+- item (item index   index)
+- function {name}(id, value) {
+- Math.random()
+- '{var}.{func}(false)'
+- await {func}("text")
+- index result = key item()
+- index item temp
+- value (count value   count)
+- temp key = value.data(key)
+- '{var}.{func}(callback)'
+- result key = result
+- data count count
+- temp item = item.data(value)
+- key value key
+- count index = index.count(result)
+- index index temp
+- value temp data
+- count temp = data
+- key index count
+- value (item result   temp)
+- result key = index item()
+- key value value
+- key count value
+- value (key index   index)
+- key result = key
+- export class {class_name} {
+- '{type} {var} = {value}'
+- temp (item value   data)
+- 'def {name}(callback):'
+- value (item count   value)
+- value value = item
+- result result = count.count(data)
+- count (index index   data)
+- index result value
+- temp key temp
+- temp temp = result key()
+- key index data
+- count temp item
+- result count = temp item()
+- temp temp = index
+- Files.readAllLines(Paths.get(file.txt))
+- Path path = Paths.get(data)
+- value temp = key
+- data (value data   count)
+- '{func}(true)'
+- data (value data   value)
+- count key key
+- result value value
+- temp index index
+- temp index = value
+- item (index key   item)
+- item count temp
+- index (data data   data)
+- let {var} = {value}
+- index index index
+- value result = item
+- temp (data item   data)
+- item value = data
+- value result index
+- temp (data data   value)
+- temp (result result   data)
+- result item = value.result(count)
+- value (key result   item)
+- '{var}.{func}()'
+- value temp item
+- index (item count   item)
+- index count key
+- data value = value value()
+- temp count = temp
+- count index key
+- item value = value count()
+- value index = key.item(key)
+- temp result = count data()
+- item (count item   count)
+- result result = data
+- '{visibility} {return_type} {name}(id, value) {'
+- '{var}.{func}([1,2,3])'
+- data (item count   key)
+- '{func}([1,2,3])'
+- path.toAbsolutePath()
+- item (index key   value)
+- value temp = value
+- result result result
+- key value item
+- temp index = value index()
+- key count key
+- new File(data.txt)
+- '{func}(null)'
+- Float.parseFloat(1.5)
+- key key = data
+- data result = data
+- result value = index
+- result (key value   value)
+- result count data
+- value value temp
+- Files.write(Paths.get(file.txt), lines)
+- index (index temp   value)
+- item (index result   key)
+- 'def {name}(data):'
+- key index = key
+- data data = index
+- '{var}.{func}(123)'
+- key result = item.value(count)
+- index value = index data()
+- temp value = temp
+- item (item value   count)
+- '{func}(false)'
+- '{func}(123)'
+- index count = value
+- index key = data.data(data)
+- '{var}.{func}(true)'
+- result (item value   key)
+- temp (index temp   key)
+- count (data key   index)
+- await {func}(null)
+- index count result
+- count result value
+- count item value
+- temp temp = data count()
+- index (result temp   result)
+- '{visibility} {return_type} {name}() {'
+- temp index result
+- const {var} = {value}
+- scanner.close()
+- key result = temp temp()
+- value (result temp   temp)
+- while ({condition}) {
+- result result = count
+- key value = result data()
+- '{visibility} {return_type} {name}(param) {'
+- result data = index temp()
+- key (key temp   temp)
+- public static void main(String args)
+- path.getParent()
+- index key item
+- key index = key count()
+- Double.parseDouble(3.14)
+- value item = result.data(count)
+- count value value
+- result (item data   count)
+- '{func}({key:"value"})'
+- '{var}.{func}({key:"value"})'
+- index (item item   index)
+- function {name}(callback) {
+- data value = temp.data(key)
+- data temp = count.key(value)
+- System.out.print(Text)
+- '{func}()'
+- Integer.parseInt(123)
+- index (result value   temp)
+- temp item count
+- function {name}() {
+- temp item value
+- count result = value
+- class {class_name} {
+- data item value
+- data count key
+- index key data
+- boolean flag = true
+- index (index item   key)
+- result item = count.data(index)
+- count temp count
+- item key = value.value(result)
+- index temp key
+- ArrayListString list = new ArrayList()
+- key (data temp   count)
+- '{var}.{func}("text")'
+- item data key
+- key (result item   data)
+- list.get(0)
+- list.set(0, new value)
+- await {func}([1,2,3])
+- index result = value key()
+- temp (temp index   result)
+- function {name}(data) {
+- new Scanner(System.in)
+- data temp = item
+- result item count
+intermediate:
+- result, data key = temp.result().result(data.data(key - item, index.temp()))
+- data value index  result value result()
+- Arrays.binarySearch(array, value)
+- temp index result key temp key
+- item index data index result result
+- key index index index count result
+- key key = data.value().value(result - key.result(result))
+- count count temp item index key
+- data index = temp.temp().index()
+- data index count  temp result result()
+- await {func}()
+- 'def {name}(a, b):'
+- index index = result.temp().data(index - result.key(result))
+- count index data  index key index()
+- key, value item = temp.item().item(index.count(temp - result, key.key()))
+- var {var} = {value}
+- public class {class_name} {
+- result index = key.item().key()
+- value index = index.temp().temp()
+- class ChildClass extends ParentClass implements Interface
+- Arrays.equals(arr1, arr2)
+- count index count value data index
+- 'def {name}():'
+- item result = index.data().count()
+- temp value = index.key().value(result - result.key(temp))
+- index index count  result value data()
+- temp count key key count count
+- item index data item key count
+- result temp index value value index
+- temp temp index count temp result
+- data index = temp.count().index(data - item.result()  44).data(temp.item())
+- item data value  data value item()
+- Arrays.toString(array)
+- key result = data.result().temp(temp - result.count()  1).index(key.count())
+- '{func}(callback)'
+- '{var}.{func}(null)'
+- temp value index item = 31
+- '{func}("text")'
+- temp data item  data item temp()
+- '{visibility} {return_type} {name}(a, b) {'
+- private static final String CONFIG = config
+- data result = temp.item().item()
+- await {func}(123)
+- await {func}({key:"value"})
+- Arrays.copyOf(array, newLength)
+- '{visibility} {return_type} {name}(data) {'
+- count item value value count count
+- await {func}(callback)
+- '{visibility} {return_type} {name}(callback) {'
+- result count result index temp data
+- function {name}(a, b) {
+- value index index data value temp
+- ListString filtered = list.stream().filter(s - s.length()  3).collect(Collectors.toList())
+- index count data result = 92
+- count key temp  item result temp()
+- function {name}(param) {
+- index data = key.value().data(data - index.item()  4).key(temp.index())
+- data item temp index data item
+- index temp = item.temp().result(index - result.index()  19).result(key.index())
+- static final int CONSTANT = 100
+- function {name}(id, value) {
+- count key value item value value
+- result result = data.index().data()
+- '{var}.{func}(false)'
+- item value result  item result data()
+- result value item data value result
+- index count = count.value().result()
+- item result key index item temp
+- temp data = item.temp().index(key - key.result()  21)
+- '{var}.{func}(callback)'
+- Arrays.fill(array, value)
+- count result = result.key().index(result - key.item()  46).temp(index.item())
+- '@Override public boolean equals(Object obj)'
+- list.stream().map(String  toUpperCase).collect(Collectors.toList())
+- index index = count.index().value(count - value.index()  17)
+- count count value index data item
+- long count = list.stream().count()
+- count result temp temp data temp
+- item data key  temp item value()
+- data index count result count data
+- temp value index temp index index
+- temp index = count.key().value(value - result.result()  86)
+- value, temp value = temp.value().temp(data.count(item - result, data.data()))
+- data temp = temp.count().temp(value - key.data()  86)
+- result data value  key result result()
+- count count data key key count
+- export class {class_name} {
+- '{type} {var} = {value}'
+- temp count = temp.count().key()
+- key key result temp result result
+- 'def {name}(callback):'
+- list.stream().limit(10).collect(Collectors.toList())
+- '@Override public int hashCode()'
+- index result value count value temp
+- count result item  value data data()
+- temp count = key.item().temp(key - value.result()  42).key(value.index())
+- temp result = value.item().key(key - value.temp()  100)
+- item key = key.temp().index(data - data.count()  76)
+- result count index value temp index
+- result data = index.index().count(item - result.count(item))
+- value count value data item temp
+- temp key = temp.result().index()
+- result temp data  index result index()
+- key value data index data value
+- key index = result.key().data(value - temp.count()  48).index(key.key())
+- '{func}(true)'
+- result temp result value count item
+- key key = index.value().result(item - data.count(index))
+- item index = result.key().index(temp - key.data(item))
+- data data = data.index().temp()
+- count temp data temp key index
+- data index = temp.temp().result(item - data.result()  49).count(data.temp())
+- count result index index = 91
+- let {var} = {value}
+- count index key  count item index()
+- result key count value item data
+- item key result  index key key()
+- result key key  data result key()
+- value value data value = 3
+- data data = item.item().value(key - temp.value(index))
+- index result = data.count().item(item - result.key()  27).index(index.item())
+- data value item item data data
+- count count = index.count().item()
+- value value = value.result().key()
+- '{var}.{func}()'
+- item count = temp.count().data()
+- temp value = data.key().value(key - value.data()  70).value(item.item())
+- temp value = index.key().item()
+- index, data count = temp.temp().item(temp.value(value - result, data.data()))
+- item count = data.item().value()
+- temp data = temp.result().item(item - key.temp()  19).result(value.index())
+- value value = key.key().temp(result - index.item()  71).data(result.value())
+- value key = key.item().data(key - index.count(key))
+- Collections.max(list)
+- temp count = data.index().key(temp - index.result(index))
+- '{visibility} {return_type} {name}(id, value) {'
+- Collections.sort(list)
+- '{var}.{func}([1,2,3])'
+- '{func}([1,2,3])'
+- data item = key.value().temp()
+- count data = data.temp().index()
+- count value = index.result().temp(count - result.index(item))
+- item key temp  count count data()
+- data count temp temp index item
+- '{func}(null)'
+- count value = data.result().data(data - count.key(data))
+- item item data item = 90
+- data result value count = 17
+- '@FunctionalInterface interface PredicateT  boolean test(T t)'
+- list.stream().distinct().collect(Collectors.toList())
+- result temp = count.index().temp()
+- temp result temp result count temp
+- item, index count = index.item().count(key.data(item - value, value.key()))
+- index result key data value item
+- 'def {name}(data):'
+- data count = data.data().data(result - data.index()  97)
+- temp temp = result.data().key()
+- data index count index count temp
+- temp index result  count item key()
+- '@Override public String toString()'
+- '{var}.{func}(123)'
+- data item = item.index().value()
+- '{func}(false)'
+- '{func}(123)'
+- OptionalString first = list.stream().findFirst()
+- '{var}.{func}(true)'
+- index data = index.key().item()
+- value key = count.temp().item()
+- key, key result = index.value().key(item.index(item - index, index.key()))
+- value data value  data temp index()
+- count value value  result temp index()
+- boolean anyMatch = list.stream().anyMatch(s - s.startsWith(test))
+- temp count = data.temp().data()
+- count index index item temp temp
+- index index count  result count item()
+- index key value  count result result()
+- data count result  count index item()
+- '{visibility} {return_type} {name}() {'
+- temp temp item item count index
+- abstract class BaseClass  abstract void method()
+- count key result  count value temp()
+- item value count  value index result()
+- const {var} = {value}
+- temp result key  index item index()
+- key data = item.data().result(item - result.temp()  81).value(index.item())
+- temp result key  temp data value()
+- key index count  data item result()
+- count index result key count value
+- '{visibility} {return_type} {name}(param) {'
+- interface MyInterface  void method()
+- data data = temp.data().index(result - item.temp()  12)
+- Collections.reverse(list)
+- result item result  result count data()
+- result result index  data item index()
+- key temp = count.item().key(temp - temp.result()  27).key(value.result())
+- data count key data value data
+- value key = key.value().temp(key - temp.index()  59).result(index.item())
+- '{func}({key:"value"})'
+- '{var}.{func}({key:"value"})'
+- result value = index.count().index(count - index.value()  10).key(data.key())
+- function {name}(callback) {
+- await {func}(true)
+- value key = result.key().key(temp - value.count()  77).result(value.key())
+- 'def {name}(id, value):'
+- MapString, Integer counts = list.stream().collect(Collectors.groupingBy(s - s, Collectors.counting()))
+- '{func}()'
+- index value item value result temp
+- boolean allMatch = list.stream().allMatch(s - s.length()  0)
+- result key = temp.value().data(temp - index.key()  95).count(data.data())
+- item index data  temp count data()
+- value key value data index item
+- item item count key data item
+- result data result count value value
+- item value = key.temp().item(data - result.value(index))
+- function {name}() {
+- item data key  value key count()
+- temp, value count = index.index().index(value.key(item - data, result.data()))
+- value count index index count count
+- class {class_name} {
+- key temp = result.item().result(item - count.item(result))
+- temp result = index.key().index(item - item.key()  79).index(index.result())
+- value result = temp.item().temp()
+- value temp item value result temp
+- value result value  item item value()
+- index index index count = 4
+- index key = value.item().data(data - temp.index()  42)
+- temp temp = temp.key().item()
+- key item data  item key result()
+- result, value result = item.item().temp(count.value(result - temp, count.key()))
+- key result = key.count().index()
+- index temp = result.key().temp()
+- index key result key = 37
+- key result result data temp key
+- temp data = value.value().temp(count - item.temp()  56)
+- key value count  key key key()
+- Collections.min(list)
+- data value temp value result result
+- value key value temp = 7
+- '{var}.{func}("text")'
+- data result = temp.result().count(result - index.data(value))
+- data value = count.key().item()
+- count data result  count count key()
+- data count count  item key value()
+- Arrays.sort(array)
+- function {name}(data) {
+- count result = temp.value().key()
+- Collections.shuffle(list)
+- item key = item.index().count()
+- result result = data.item().key(value - item.index()  93).index(value.result())
+- list.stream().skip(5).collect(Collectors.toList())

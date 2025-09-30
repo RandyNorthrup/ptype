@@ -4,7 +4,7 @@ from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
 # Collect assets properly (no double path issue)
 datas = []
-base_path = os.path.abspath("assets")
+base_path = os.path.abspath(os.path.join("core", "assets"))
 for root, dirs, files in os.walk(base_path):
     for file in files:
         src = os.path.join(root, file)
@@ -21,9 +21,9 @@ hiddenimports = collect_submodules("pytablericons")
 # Platform-specific icon
 icon_file = None
 if sys.platform == "win32":
-    icon_file = "assets/images/ptype.ico"
+    icon_file = os.path.join("core", "assets", "images", "ptype.ico")
 elif sys.platform == "darwin":
-    icon_file = "assets/images/ptype.icns"
+    icon_file = os.path.join("core", "assets", "images", "ptype.icns")
 
 # Base analysis
 a = Analysis(
