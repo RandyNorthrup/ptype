@@ -1,0 +1,88 @@
+advanced:
+- ApiController Route(api) public class Controller   ControllerBase
+- HttpGet(users) public IActionResult GetUsers()  return Ok(_service.GetAll())
+- HttpPost(users) public async TaskIActionResult CreateUser(FromBody User user)
+- public class User  Key public int Id  get  set   Required public string Email  get  set
+- public class UserService   IUserService  private readonly DbContext _db
+- public interface IUserRepository   IRepositoryUser  IEnumerableUser GetByEmail(string
+  email)
+- public class UserRepository   RepositoryUser, IUserRepository  public UserRepository(DbContext
+  db)   base(db)
+- TestClass public class UnitTests  TestMethod public void TestMethod()  Assert.AreEqual(expected,
+  actual)
+- TestInitialize public void Setup()  _mockService = new MockIService()
+- _mockService.Setup(x = x.GetData()).Returns(mockData)
+- _mockService.Verify(x = x.Method(), Times.Once)
+- services.AddDbContextAppDbContext(options = options.UseSqlServer(connectionString))
+- services.AddScopedIUserService, UserService()
+- builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+- app.UseAuthentication()  app.UseAuthorization()
+- public async TaskIActionResult GetData()  return await _service.GetDataAsync()
+- private readonly ILoggerController _logger  public Controller(ILoggerController
+  logger)  _logger = logger
+- _logger.LogInformation(Processing request for User, user.Name)
+- _logger.LogError(exception, Error occurred in Method, nameof(MethodName))
+- public record Person(string Name, int Age)
+- public static class Extensions  public static bool IsValid(this string value)  return
+  !string.IsNullOrWhiteSpace(value)
+- using var client = new HttpClient()  var response = await client.GetAsync(url)
+- await Parallel.ForEachAsync(items, async (item, token) =  await ProcessAsync(item)  )
+- ImmutableListstring list = ImmutableList.Create(item1, item2)
+- var json = JsonSerializer.Serialize(data, options)
+- var data = JsonSerializer.DeserializeModel(json, options)
+beginner:
+- Console.WriteLine(Hello World)
+- Console.Write(Text output)
+- Liststring list = new Liststring()
+- list.Count
+- list.IndexOf(value)
+- list.Clear()
+- foreach (string item in list)
+- try   catch (InvalidOperationException e)   finally
+- int.Parse(123)
+- double.Parse(3.14)
+- float.Parse(1.5)
+- new Random().NextDouble()
+- Math.Ceiling(3.2)
+- Console.ReadLine()
+- Console.ReadKey()
+- File.ReadAllText(file.txt)
+- File.WriteAllText(file.txt, text)
+- File.Exists(path)
+- Path.Combine(folder, file.txt)
+- Path.GetFullPath(relative)
+- Directory.Exists(folder)
+- Directory.CreateDirectory(folder)
+intermediate:
+- public const int CONSTANT = 100
+- private static readonly string CONFIG = config
+- public override string ToString()
+- public override bool Equals(object obj)
+- public override int GetHashCode()
+- list.Sort()
+- list.Reverse()
+- list.OrderBy(x = x.Length)
+- list.Where(x = x.Length  3)
+- list.Select(x = x.ToUpper())
+- list.FirstOrDefault()
+- list.Any(x = x.Contains(test))
+- list.All(x = x.Length  0)
+- list.Distinct()
+- list.Take(10)
+- list.Skip(5)
+- Dictionarystring, int dict = new()
+- dict.Add(key, value)
+- dict.TryGetValue(key, out int val)
+- dict.ContainsKey(key)
+- dict.Remove(key)
+- HashSetstring set = new()
+- set.Contains(value)
+- Queuestring queue = new()
+- queue.Enqueue(item)
+- queue.Dequeue()
+- Stackstring stack = new()
+- stack.Pop()
+- interface IMyInterface  void Method()
+- abstract class BaseClass  public abstract void Method()
+- class ChildClass   ParentClass, IInterface
+- public delegate void ActionDelegate()

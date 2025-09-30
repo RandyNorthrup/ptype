@@ -1,242 +1,260 @@
-# P-Type - The Typing Game
+# P-Type: The Typing Game
 
-[![Version](https://img.shields.io/badge/version-1.5.3-blue.svg)](https://github.com/yourusername/PType/releases)
-[![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
+![P-Type Logo](core/assets/images/ptype_logo.png)
 
-A modern typing game designed specifically for programmers to improve their coding speed and accuracy across multiple programming languages.
+P-Type is a modern, educational typing game where players defend against waves of enemy spaceships by typing words as fast and accurately as possible. With a sleek space-themed interface and multiple game modes, P-Type combines the thrill of action gaming with typing practice to improve WPM and accuracy.
 
-## 🎮 Features
+## Features
 
 ### Core Gameplay
-- **Dual Game Modes**
-  - **Normal Mode**: Traditional typing with English words
-  - **Programming Mode**: Practice with real code snippets from 7 programming languages
-- **100 Progressive Difficulty Levels**: From 20 WPM to 400 WPM
-- **Enhanced Boss Battles**: 
-  - Aggressive AI that actively hunts the player
-  - Level-scaled damage (30-80 HP)
-  - Smart movement patterns with horizontal tracking
-  - Proper z-order rendering for word visibility
-- **Shield System**: Build shields by defeating bosses at full health
-- **EMP Weapon**: Special ability to clear nearby enemies
-- **Trivia System**: Answer programming and pop culture questions every 2 boss defeats
-- **Bonus Items**: Collect and use four power-ups — Seeking Missiles, Shield Boost, Health Pack, and Time Freeze — all fully functional
-  - Seeking Missiles: Launch up to 5 homing missiles that destroy the nearest non-boss enemies
-  - Shield Boost: Instantly grants +50 shield (absorbs damage before HP)
-  - Health Pack: Instantly restores +30 HP (up to max)
-  - Time Freeze: Freezes all enemies in place for ~5 seconds
+- **Real-time Typing Combat**: Defend your spaceship by typing words that destroy incoming enemy ships
+- **Progressive Difficulty**: Advance through 100 levels with increasing speed and complexity
+- **Health & Shield System**: Survive enemy attacks with health points and shield boosts
+- **Boss Battles**: Face tougher enemies requiring longer text strings
+- **Timer-based Play**: See how long you can survive against endless waves
 
-### Programming Language Support
-- **Python**: 245+ patterns including keywords, built-ins, and common libraries
-- **Java**: 265+ patterns from basic syntax to Spring Boot
-- **JavaScript**: 262+ patterns including ES6+ and React
-- **C#**: 277+ patterns covering .NET and modern C# features
-- **C++**: 276+ patterns from STL to modern C++20
-- **CSS**: 248+ patterns including modern CSS3 and Grid/Flexbox
-- **HTML**: 289+ patterns including HTML5 and accessibility
+### Game Modes
+- **Normal Mode**: Practice typing English words organized by difficulty (beginner/intermediate/advanced)
+- **Programming Mode**: Enhance coding skills with syntax and snippets from:
+  - Python
+  - JavaScript
+  - Java
+  - C#
+  - C++
+  - CSS
+  - HTML
 
-### Modern UI & Graphics
-- **3D-Style Ships**: Enhanced visual effects with glow and pulse animations
-- **Laser Beam Effects**: Visual feedback for each keystroke
-- **Particle Explosions**: Dynamic destruction effects
-- **Dramatic Sound Effects**: Realistic explosion sounds when completing words
-- **Responsive Design**: Adaptive UI that scales to any window size
-- **Custom Logo**: Professional branding with glow effects
-- **Dark Theme**: Eye-friendly dark color scheme
-- **Icon System**: Professional icon integration with pytablericons
+### Advanced Features
+- **Bonus Items**: Collect power-ups including:
+  - Seeking Missiles (homing projectiles)
+  - Shield Boost (instant shield restoration)
+  - Health Pack (HP regeneration)
+  - Time Freeze (pause enemies temporarily)
+- **EMP Weapon**: Area-of-effect attack to clear multiple enemies
+- **Visual Effects**: Lasers, explosions, particle effects, and animated typing feedback
+- **Multiple Ship Types**: Upgradeable player ships with different abilities
 
-### Player Features
-- **Multiple Profiles**: Create and manage different player profiles
-- **Persistent Progress**: Save games for each mode/language combination
-- **Achievement System**: 19+ unlockable achievements including trivia and bonus item achievements
-- **Detailed Statistics**: Track WPM, accuracy, trivia performance, and more
-- **High Score Tracking**: Compete for the best scores
-- **Background Music**: Ambient soundtrack with volume control
-- **Sound Effects**: Programmatically generated explosion, laser, and impact sounds
+### Progression & Stats
+- **Profile System**: Multiple player profiles with persistent statistics
+- **Achievements**: Unlock 18+ achievements for milestones like typing speed, accuracy, and boss defeats
+- **High Scores**: Global and personal best scoreboards
+- **Detailed Statistics**: Track WPM, accuracy, words typed, perfection streaks, and more
+- **Trivia Mode**: Answer questions after boss defeats for bonus items and rewards
 
-## 📋 Requirements
+### Technical Features
+- **Cross-platform**: Runs on Windows, macOS, and Linux
+- **Modern UI**: Resizable window with sleek dark theme and neon accents
+- **Audio System**: Procedural sound effects and background music
+- **Save/Load**: Continue games across sessions with automatic saving
+- **Settings**: Adjustable music/sound volumes and preference control
 
-- **Python**: 3.8 or higher
-- **Operating System**: Windows 10/11, macOS 10.14+, or Linux
-- **Memory**: 2GB RAM minimum
-- **Display**: 800x600 minimum resolution (1920x1080 recommended)
-- **Dependencies**: pygame>=2.5.0, numpy>=1.24.0, pytablericons>=1.1.0, Pillow>=10.0.0
+## Installation
 
-## 🛠️ Installation
+### Prerequisites
+- Python 3.8 or higher
+- pip package manager
 
-### From Source
+### Dependencies
+Install required packages using pip:
 
-1. **Clone or download the repository**:
-```bash
-git clone https://github.com/yourusername/ptype.git
-cd ptype
-```
-
-2. **Install dependencies**:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **Run the game**:
+Required packages:
+- `pygame`: Game engine and multimedia
+- `pytablericons`: Icon library for UI elements
+- `typing`: Standard library extension for type hints
+
+### Running the Game
+1. Navigate to the project root directory
+2. Run the entry script:
+   ```bash
+   python ptype/ptype.py
+   ```
+   Or from within the ptype directory:
+   ```bash
+   python ptype.py
+   ```
+
+### Build for Distribution
+For creating standalone executables, use PyInstaller:
 ```bash
-python ptype.py
+pyinstaller ptype/ptype.spec
 ```
 
-### Windows Executable
+## Usage Guide
 
-Download the pre-built executable from the releases page (no Python required).
+### Getting Started
+1. **Create/Load Profile**: Select or create a player profile to track your progress
+2. **Choose Game Mode**: Select Normal mode or choose a programming language
+3. **Start Playing**: Type the text displayed on enemy ships to destroy them
+4. **Monitor Stats**: Watch your WPM, accuracy, and level in real-time
 
-## 🎯 How to Play
+### Profiles
+- **Profile Management**: Create, select, and manage multiple player profiles
+- **Persistent Progress**: Stats, achievements, and saves are tied to your profile
+- **Statistics Tracking**: Comprehensive metrics across all game modes
 
-### Basic Controls
-- **Type**: Match the words/code on enemy ships
-- **Left/Right Arrows**: Switch between enemy targets
-- **Enter**: Activate EMP weapon (when charged)
-- **Up/Down Arrows**: Select bonus item
-- **Backspace**: Activate selected bonus item
-- **Esc**: Pause game
+### Controls
+- **Typing**: Type letters to spell enemy words
+- **Backspace**: Correct mistakes in current word
+- **Enter**: Activate EMP weapon (with cooldown)
+- **↑/↓ Arrows**: Cycle through bonus items
+- **←/→ Arrows**: Switch between ship types
+- **Escape**: Pause/unpause game
+- **F11/Alt+Enter**: Toggle fullscreen (handled by window manager)
 
-### Gameplay Tips
-1. **Focus on Accuracy**: Perfect words (no mistakes) grant bonus points and healing
-2. **Manage Your Health**: Collisions damage health, completed words restore it
-3. **Use Shield Wisely**: Defeat bosses at full health to build shield buffer
-4. **Strategic EMP**: Save EMP for overwhelming situations
-5. **Learn Patterns**: Each programming language has unique patterns to master
+### Power-ups & Abilities
+- **Rapid Fire**: Increased firing rate for a limited time
+- **Multi-shot**: Fire multiple projectiles simultaneously
+- **Invincibility**: Become temporarily immune to damage
+- **Time Slow**: Slow down enemy movement
+- **EMP**: Clear all nearby enemies instantly
 
-### Scoring System
-- **Base Points**: Word length × 10 × current level
-- **Boss Bonus**: Triple points for boss defeats
-- **Perfect Word Bonus**: +50 points for words with no mistakes
-- **Accuracy Multiplier**: Higher accuracy yields better scores
+## Game Mechanics
 
-## 🏆 Achievements
+### Typing System
+- Type words exactly as shown on enemy ships
+- Correct letters turn green, incorrect letters cause visual feedback
+- Complete words to destroy enemies and earn points
+- Incorrect words take no action and may cause partial damage
 
-| Achievement | Description | Requirement |
-|------------|-------------|-------------|
-| First Steps | Type your first word | Complete 1 word |
-| Speed Demon | Reach high typing speed | Achieve 100 WPM |
-| Accuracy Master | Maintain high accuracy | 95% accuracy in a game |
-| Boss Slayer | Defeat your first boss | Defeat 1 boss |
-| Halfway There | Progress through levels | Reach level 10 |
-| Master Typist | Complete the game | Reach level 100 |
-| Perfection | Type without mistakes | 10 perfect words in a row |
-| Marathon Runner | Extended play session | Play for 30 minutes |
-| Polyglot | Master all languages | Play all 7 programming languages |
-| High Scorer | Achieve high score | Score 10,000+ points |
-| Veteran | Experienced player | Complete 50 games |
-| Word Master | Type many words | Type 1,000 total words |
-| Trivia Novice | Answer trivia questions | Answer 1 trivia question correctly |
-| Trivia Expert | Master trivia | Answer 10 trivia questions correctly |
-| Trivia Master | Trivia champion | Answer 25 trivia questions correctly |
-| Trivia Genius | Trivia legend | Answer 50 trivia questions correctly |
-| Perfect Trivia | Perfect streak | Get 5 trivia questions correct in a row |
-| Bonus Collector | Collect bonuses | Collect 10 bonus items |
-| Bonus Master | Use bonuses | Use 25 bonus items |
+### Progression
+- **Levels 1-7**: Beginner difficulty words
+- **Levels 8-15**: Intermediate difficulty
+- **Levels 16+**: Advanced difficulty
+- **Boss Waves**: Every few levels, face extra resilient bosses
+- **Scaling Difficulty**: Enemy spawn rates increase with level progression
 
-## 📁 PType Project Structure
+### Scoring
+- **Word Completion**: Base points per word typed
+- **Accuracy Bonus**: Higher points for perfect accuracy
+- **Combo Multipliers**: Bonus for typing multiple words correctly in sequence
+- **Boss Multipliers**: Extra points for defeating boss enemies
+- **Survival Bonus**: Points based on game duration and health remaining
+
+### Difficulty Scaling
+- Enemy speed increases with level
+- Boss frequency increases over time
+- Word length and complexity ramps progressively
+- Some modes introduce special enemy types with unique mechanics
+
+## Architecture
+
+### Code Structure
+The game follows a modular architecture with clear separation of concerns:
 
 ```
-PType/
-│
-├── 📄 Core Files
-│   ├── ptype.py              # Main game file (265KB)
-│   ├── README.md             # Comprehensive documentation
-│   ├── requirements.txt      # Python dependencies
-│   ├── LICENSE               # MIT License
-│   └── .gitignore            # Git ignore rules
-│
-├── 🎨 assets/                # Game resources
-│   ├── images/
-│   │   └── ptype_logo.png     # Game logo (826KB)
-│   │   └── ptype.ico          # Game Icon
-│   │   └── spaceship_icon_small.png  # Game Icon Small png
-│   │   └── spaceship_icon.png        # Game Icon png
-│   └── sounds/
-│       └── game_music.mp3     # Background music (3.1MB)
-│
-├── 📚 docs/                   # Documentation
-    ├── CHANGELOG.md           # Version history
-    └── CONTRIBUTING.md        # Contribution guidelines
+ptype/
+├── ptype.py                 # Entry point and environment setup
+├── core/
+│   ├── app.py              # Main game class and loop
+│   ├── game_state.py       # State management and saves
+│   ├── types.py            # Enums and dataclasses
+│   ├── settings.py         # Persistence and configuration
+│   ├── profiles.py         # Player data structures
+│   ├── profile_manager.py  # Profile CRUD operations
+│   ├── achievements.py     # Achievement definitions
+│   ├── environment.py      # Cross-platform compatibility
+│   └── initialization.py   # Asset loading and setup
+├── gameplay/
+│   ├── game_updates.py      # Main game update loop
+│   ├── enemy_management.py  # Enemy AI and spawning
+│   ├── input_management.py  # Typing input handling
+│   ├── bonuses.py          # Power-up effects
+│   └── emp.py              # EMP weapon system
+├── entities/
+│   ├── player.py           # Player ship logic
+│   └── enemies.py          # Enemy ship classes
+├── ui/
+│   ├── ui_manager.py       # UI element coordination
+│   ├── screens.py          # Screen renderers
+│   ├── hud.py              # In-game overlay
+│   ├── window_manager.py   # Window handling
+│   └── widgets.py          # Custom UI components
+├── graphics/
+│   ├── ships.py            # Ship visuals
+│   └── stars.py            # Background effects
+├── effects/
+│   └── effects.py          # Visual effects
+├── audio/
+│   └── sound_manager.py    # Sound effects system
+├── data/
+│   ├── word_dictionary.py  # Word collections
+│   └── trivia_db.py        # Trivia and bonuses
+└── core/assets/            # Images and sounds
 ```
 
-Note: User settings, profiles, and scores are stored in the user home directory under `~/.ptype/`.
+### Technical Details
+- **Engine**: Pygame 2.x for game logic and rendering
+- **Language**: Python 3.8+
+- **Architecture**: Object-oriented with modular design
+- **Persistence**: JSON-based save system
+- **Audio**: Procedural sound generation and MP3 playback
+- **Performance**: Optimized for 60 FPS with particle effects
 
-## 🔄 What's New (1.5.3)
+## Contributing
 
-- Replaced Rapid Fire with Seeking Missiles (launches up to 5 homing missiles at nearest non-boss enemies)
-- Added distinct missile launch sound effect
-- Fixed Time Freeze so enemies actually stop for ~5 seconds
-- Clarified controls: use Left/Right to switch targets; Up/Down to select items; Backspace to use
+Contributions are welcome! The project follows standard Python development practices.
 
-## 🖼️ Screenshots
+### Development Setup
+1. Fork and clone the repository
+2. Create a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Run tests and add features
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_1.png" alt="P-Type Screenshot 1" width="400">
-  <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_2.png" alt="P-Type Screenshot 2" width="400">
-  <br>
-  <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_3.png" alt="P-Type Screenshot 3" width="400">
-  <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_4.png" alt="P-Type Screenshot 4" width="400">
-  <br>
-  <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_5.png" alt="P-Type Screenshot 5" width="400">
-  <img src="https://raw.githubusercontent.com/RandyNorthrup/ptype/main/screenshots/ptype_6.png" alt="P-Type Screenshot 6" width="400">
-</p>
+### Code Style
+- Follow PEP 8 conventions
+- Use type hints where possible
+- Keep functions small and focused
+- Document complex logic with comments
 
-##  Configuration
+### Adding Features
+- New game modes: Extend `GameMode` enum and add rendering logic
+- New programming languages: Update `ProgrammingLanguage` enum and word dictionaries
+- New achievements: Add to `ACHIEVEMENTS` dictionary in achievements.py
 
-Settings are stored in `~/.ptype/` directory (user home folder) and can be modified in-game:
+## Troubleshooting
 
-- **Sound Volume**: 0.0 to 1.0
-- **Music Volume**: 0.0 to 1.0
-- **Window Size**: Automatically saved
-- **Current Profile**: Active player profile
-- **Save Files**: Persistent game saves per mode/language combination
+### Common Issues
+- **No audio**: Check pygame mixer initialization; fallback to no sound mode
+- **Window sizing**: Issues on some Linux systems; uses fallback sizing
+- **Performance**: Reduce particle effects or lower resolution on slow systems
+- **Unicode issues**: Game handles most printable characters; some special chars may not work
 
-## 🐛 Known Issues
+### Debug Mode
+Enable debug output by checking console for initialization messages and error details.
 
-- Some special characters in programming mode may not display correctly on certain systems
-- Background music requires MP3 file in assets/sounds/
-- Boss words may appear very long in programming mode (intentional for challenge)
+## Version History
 
-## 📝 Next Steps
+- **v1.5.3** (WIP Edition, 2025-09-29): Current development version
+  - Enhanced UI responsiveness
+  - Improved cross-platform compatibility
+  - Expanded programming language support
+  - New achievement system
+  - Modern visual design updates
 
-While the main game is complete and well-organized, potential future improvements could include:
+## License
 
-1. **Code Modularization**: Split `ptype.py` into multiple modules:
-   - `entities.py` - Enemy, Player, Boss classes
-   - `ui.py` - UI components and menus
-   - `effects.py` - Visual and audio effects
-   - `dictionary.py` - Word dictionaries
-   - `settings.py` - Settings and profile management
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-2. **Network Features**:
-   - Online leaderboards
-   - Multiplayer competitions
-   - Cloud save sync
+## Credits
 
-3. **Additional Content**:
-   - Better Spaceship Graphics
-   - More programming languages (Go, Rust, Swift)
-   - Custom difficulty modes
-   - Custom word lists support
-   - Theme customization
+P-Type - The Typing Game is developed in Python with pygame.
 
-## 🤝 Contributing
-
-Contributions are welcome! Please see `docs/CONTRIBUTING.md` for guidelines.
-
-## 📜 License
-
-This project is licensed under the MIT License - see the `LICENSE` file for details.
-
-## 👨‍💻 Author
-
-Created by Randy Northrup.
-
-## 📧 Contact
-
-For bugs, suggestions, or questions, please open an issue on the project repository.
+### Special Thanks
+- Open source community for pygame and pysdl2
+- Icon providers (Tabler Icons)
+- Python community for extensive ecosystem
 
 ---
 
-**Enjoy improving your typing speed while learning programming patterns!** 🎮👨‍💻
+Enjoy improving your typing skills while defending the galaxy in P-Type!
