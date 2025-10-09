@@ -62,9 +62,11 @@ pip install -r requirements.txt
 ```
 
 Required packages:
-- `pygame`: Game engine and multimedia
-- `pytablericons`: Icon library for UI elements
-- `typing`: Standard library extension for type hints
+- pygame>=2.5.0
+- numpy>=1.24.0  # Required for sound effect generation
+- pytablericons>=1.1.0  # Icon system for UI elements
+- Pillow>=10.0.0  # Image processing for icon conversion
+- PyYAML>=6.0.0 
 
 ### Running the Game
 1. Navigate to the project root directory
