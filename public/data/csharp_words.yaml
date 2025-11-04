@@ -1,0 +1,1514 @@
+beginner:
+- abstract
+- as
+- base
+- bool
+- break
+- byte
+- case
+- catch
+- char
+- checked
+- class
+- const
+- continue
+- decimal
+- default
+- delegate
+- do
+- double
+- else
+- enum
+- event
+- explicit
+- extern
+- 'false'
+- finally
+- fixed
+- float
+- for
+- foreach
+- goto
+- if
+- implicit
+- in
+- int
+- interface
+- internal
+- is
+- lock
+- long
+- namespace
+- new
+- 'null'
+- object
+- operator
+- out
+- override
+- params
+- private
+- protected
+- public
+- readonly
+- ref
+- return
+- sbyte
+- sealed
+- short
+- sizeof
+- stackalloc
+- static
+- string
+- struct
+- switch
+- this
+- throw
+- 'true'
+- try
+- typeof
+- uint
+- ulong
+- unchecked
+- unsafe
+- ushort
+- using
+- virtual
+- void
+- volatile
+- while
+- async
+- await
+- dynamic
+- get
+- set
+- partial
+- value
+- var
+- when
+- where
+- yield
+- record
+- init
+- with
+- nint
+- nuint
+- unmanaged
+- notnull
+- nameof
+- global
+- Object
+- String
+- Int32
+- Int64
+- Double
+- Single
+- Boolean
+- Char
+- Byte
+- Decimal
+- DateTime
+- TimeSpan
+- Guid
+- Uri
+- Array
+- List
+- Dictionary
+- HashSet
+- Queue
+- Stack
+- LinkedList
+- SortedList
+- SortedDictionary
+- SortedSet
+- IEnumerable
+- ICollection
+- IList
+- IDictionary
+- ISet
+- IQueryable
+- IOrderedEnumerable
+- IGrouping
+- IComparer
+- IEqualityComparer
+- IComparable
+- Exception
+- ArgumentException
+- ArgumentNullException
+- InvalidOperationException
+- NullReferenceException
+- IndexOutOfRangeException
+- NotImplementedException
+- NotSupportedException
+- Task
+- ValueTask
+- CancellationToken
+- Action
+- Func
+- Predicate
+- Comparison
+- EventHandler
+- StringBuilder
+- StringComparison
+- StringSplitOptions
+- Nullable
+- Tuple
+- ValueTuple
+- KeyValuePair
+- Lazy
+- WeakReference
+- Length
+- ToUpper
+- ToLower
+- ToUpperInvariant
+- ToLowerInvariant
+- Trim
+- TrimStart
+- TrimEnd
+- StartsWith
+- EndsWith
+- Contains
+- IndexOf
+- LastIndexOf
+- Substring
+- Replace
+- Remove
+- Insert
+- Split
+- Join
+- Concat
+- Format
+- IsNullOrEmpty
+- IsNullOrWhiteSpace
+- PadLeft
+- PadRight
+- ToCharArray
+- CompareTo
+- CompareOrdinal
+- Equals
+- GetHashCode
+- Clone
+- CopyTo
+- Normalize
+- string.Empty
+- string.Concat
+- string.Join
+- string.Format
+- string.IsNullOrEmpty
+- string.IsNullOrWhiteSpace
+- string.Compare
+- string.CompareOrdinal
+- string.Copy
+- string.Intern
+- string.IsInterned
+- ToCharArray
+- Chars
+- AsSpan
+- AsMemory
+- Add
+- AddRange
+- Remove
+- RemoveAt
+- RemoveAll
+- Clear
+- Contains
+- IndexOf
+- LastIndexOf
+- Insert
+- InsertRange
+- Sort
+- Reverse
+- ToArray
+- ToList
+- CopyTo
+- Find
+- FindAll
+- FindIndex
+- FindLast
+- FindLastIndex
+- Exists
+- ForEach
+- TrueForAll
+- ConvertAll
+- BinarySearch
+- AsReadOnly
+- GetRange
+- Count
+- Capacity
+- TrimExcess
+- EnsureCapacity
+- Enumerator
+- GetEnumerator
+- Keys
+- Values
+- ContainsKey
+- ContainsValue
+- TryGetValue
+- TryAdd
+- TryRemove
+- GetValueOrDefault
+- Dequeue
+- Enqueue
+- Peek
+- Push
+- Pop
+- First
+- Last
+- AddFirst
+- AddLast
+- RemoveFirst
+- RemoveLast
+- Array.Sort
+- Array.Reverse
+- Array.Clear
+- Array.Copy
+- Array.Resize
+- Array.Find
+- Array.FindAll
+- Array.IndexOf
+- Array.Exists
+- ToString
+- GetType
+- Equals
+- GetHashCode
+- ReferenceEquals
+- MemberwiseClone
+- Finalize
+- CompareTo
+- Parse
+- TryParse
+- Convert.ToInt32
+- Convert.ToString
+- Convert.ToDouble
+- Convert.ToBoolean
+- Convert.ToDateTime
+- int.Parse
+- int.TryParse
+- double.Parse
+- decimal.Parse
+- DateTime.Now
+- DateTime.UtcNow
+- DateTime.Today
+- DateTime.Parse
+- DateTime.TryParse
+- DateTime.ParseExact
+- TimeSpan.FromDays
+- TimeSpan.FromHours
+- TimeSpan.FromMinutes
+- TimeSpan.FromSeconds
+- Guid.NewGuid
+- Guid.Empty
+- Guid.Parse
+- Math.Abs
+- Math.Max
+- Math.Min
+- Math.Pow
+- Math.Sqrt
+- Math.Round
+- Math.Floor
+- Math.Ceiling
+- Math.Sin
+- Math.Cos
+- Math.Tan
+- Math.Log
+- Console.WriteLine
+- Console.Write
+- Console.ReadLine
+- Console.ReadKey
+- Console.Clear
+- File.ReadAllText
+- Where
+- Select
+- SelectMany
+- OrderBy
+- OrderByDescending
+- ThenBy
+- ThenByDescending
+- GroupBy
+- Join
+- GroupJoin
+- First
+- FirstOrDefault
+- Last
+- LastOrDefault
+- Single
+- SingleOrDefault
+- ElementAt
+- ElementAtOrDefault
+- Any
+- All
+- Count
+- Sum
+- Average
+- Min
+- Max
+- Take
+- Skip
+- TakeWhile
+- SkipWhile
+- Distinct
+- Union
+- Intersect
+- Except
+- Concat
+- Zip
+- Aggregate
+- ToList
+- ToArray
+- ToDictionary
+- ToHashSet
+- GetType
+- typeof
+- is
+- as
+- nameof
+- sizeof
+- default
+- Type.GetType
+- GetProperties
+- GetFields
+- GetMethods
+- GetConstructors
+- GetCustomAttributes
+- Activator.CreateInstance
+- Assembly.Load
+- Assembly.GetExecutingAssembly
+- MemberInfo
+- PropertyInfo
+- FieldInfo
+- MethodInfo
+- ConstructorInfo
+- Invoke
+- SetValue
+- GetValue
+- BindingFlags
+- BindingFlags.Public
+- BindingFlags.NonPublic
+- BindingFlags.Static
+- BindingFlags.Instance
+- ReflectionTypeLoadException
+intermediate:
+- from
+- select
+- where
+- orderby
+- group
+- into
+- join
+- let
+- 'on'
+- equals
+- by
+- ascending
+- descending
+- Enumerable.Range
+- Enumerable.Repeat
+- Enumerable.Empty
+- AsEnumerable
+- AsQueryable
+- Cast
+- OfType
+- DefaultIfEmpty
+- Reverse
+- SequenceEqual
+- Chunk
+- DistinctBy
+- ExceptBy
+- IntersectBy
+- UnionBy
+- MinBy
+- MaxBy
+- Order
+- OrderDescending
+- TakeWhile
+- SkipWhile
+- TakeLast
+- SkipLast
+- Append
+- Prepend
+- GroupJoin
+- SelectMany
+- ToLookup
+- ToHashSet
+- ToDictionary
+- Aggregate
+- LongCount
+- TryGetNonEnumeratedCount
+- Index
+- ElementAt
+- ElementAtOrDefault
+- First
+- Last
+- Single
+- FirstOrDefault
+- LastOrDefault
+- SingleOrDefault
+- Contains
+- Any
+- All
+- SequenceEqual
+- Sum
+- Average
+- Min
+- Max
+- Count
+- LongCount
+- Aggregate
+- IQueryable
+- IQueryable<T>
+- Expression
+- Expression<Func<T>>
+- ExpressionType
+- MemberExpression
+- MethodCallExpression
+- BinaryExpression
+- UnaryExpression
+- ConstantExpression
+- ParameterExpression
+- LambdaExpression
+- Expression.Call
+- Expression.Constant
+- Expression.Parameter
+- Expression.Lambda
+- Compile
+- AsQueryable
+- Provider
+- async
+- await
+- Task
+- Task<T>
+- ValueTask
+- ValueTask<T>
+- Task.Run
+- Task.FromResult
+- Task.CompletedTask
+- Task.Delay
+- Task.WhenAll
+- Task.WhenAny
+- Task.Yield
+- Task.FromException
+- Task.FromCanceled
+- ConfigureAwait
+- CancellationToken
+- CancellationTokenSource
+- TaskCompletionSource
+- TaskScheduler
+- TaskCreationOptions
+- TaskContinuationOptions
+- TaskStatus
+- IsCompleted
+- IsCanceled
+- IsFaulted
+- Result
+- Exception
+- AsyncState
+- ContinueWith
+- GetAwaiter
+- GetResult
+- OnCompleted
+- UnsafeOnCompleted
+- IAsyncResult
+- BeginInvoke
+- EndInvoke
+- AsyncCallback
+- WaitHandle
+- ManualResetEvent
+- AutoResetEvent
+- Semaphore
+- SemaphoreSlim
+- WaitAsync
+- CancellationTokenRegistration
+- Register
+- ThrowIfCancellationRequested
+- IsCancellationRequested
+- Cancel
+- CancelAfter
+- Token
+- TaskFactory
+- StartNew
+- FromAsync
+- Unwrap
+- WaitAll
+- WaitAny
+- WhenAll
+- WhenAny
+- Parallel.For
+- Parallel.ForEach
+- Parallel.Invoke
+- ParallelOptions
+- MaxDegreeOfParallelism
+- List<T>
+- Dictionary<TKey,TValue>
+- HashSet<T>
+- Queue<T>
+- Stack<T>
+- LinkedList<T>
+- SortedList<TKey,TValue>
+- SortedDictionary<TKey,TValue>
+- SortedSet<T>
+- ObservableCollection<T>
+- Collection<T>
+- ReadOnlyCollection<T>
+- IEnumerable<T>
+- ICollection<T>
+- IList<T>
+- IDictionary<TKey,TValue>
+- ISet<T>
+- IReadOnlyCollection<T>
+- IReadOnlyList<T>
+- IReadOnlyDictionary<TKey,TValue>
+- IComparer<T>
+- IEqualityComparer<T>
+- Comparer<T>
+- EqualityComparer<T>
+- Comparison<T>
+- Predicate<T>
+- Action<T>
+- Func<T,TResult>
+- ArraySegment<T>
+- Memory<T>
+- ReadOnlyMemory<T>
+- Span<T>
+- ReadOnlySpan<T>
+- ImmutableList<T>
+- ImmutableArray<T>
+- ImmutableDictionary<TKey,TValue>
+- ImmutableHashSet<T>
+- ImmutableQueue<T>
+- ImmutableStack<T>
+- ImmutableSortedSet<T>
+- ConcurrentBag<T>
+- ConcurrentQueue<T>
+- ConcurrentStack<T>
+- ConcurrentDictionary<TKey,TValue>
+- BlockingCollection<T>
+- Channel<T>
+- ChannelReader<T>
+- ChannelWriter<T>
+- IAsyncEnumerable<T>
+- IAsyncEnumerator<T>
+- await foreach
+- yield return
+- yield break
+- IEnumerator<T>
+- IEnumerator
+- MoveNext
+- Current
+- Reset
+- Dispose
+- GetEnumerator
+- 'where T : class'
+- 'where T : struct'
+- 'where T : new()'
+- 'where T : IDisposable'
+- 'where T : BaseClass'
+- 'where T : IInterface'
+- default(T)
+- Nullable<T>
+- T?
+- HasValue
+- Value
+- delegate
+- event
+- EventHandler
+- EventHandler<TEventArgs>
+- EventArgs
+- Action
+- Action<T>
+- Func<TResult>
+- Func<T,TResult>
+- Predicate<T>
+- Comparison<T>
+- Converter<TInput,TOutput>
+- MulticastDelegate
+- Delegate.Combine
+- Delegate.Remove
+- Invoke
+- BeginInvoke
+- EndInvoke
+- GetInvocationList
+- DynamicInvoke
+- Target
+- Method
+- add
+- remove
+- raise
+- PropertyChangedEventHandler
+- PropertyChangedEventArgs
+- NotifyCollectionChangedEventHandler
+- NotifyCollectionChangedEventArgs
+- INotifyPropertyChanged
+- INotifyCollectionChanged
+- PropertyChanged
+- CollectionChanged
+- AsyncEventHandler
+- AsyncEventHandler<TEventArgs>
+- WeakEventManager
+- EventWaitHandle
+- CountdownEvent
+- Barrier
+- ManualResetEventSlim
+- SpinWait
+- '[Serializable]'
+- '[Obsolete]'
+- '[Conditional]'
+- '[DllImport]'
+- '[StructLayout]'
+- '[FieldOffset]'
+- '[MarshalAs]'
+- '[CallerMemberName]'
+- '[CallerFilePath]'
+- '[CallerLineNumber]'
+- '[DebuggerDisplay]'
+- '[DebuggerBrowsable]'
+- '[DebuggerStepThrough]'
+- '[MethodImpl]'
+- MethodImplOptions
+- MethodImplOptions.AggressiveInlining
+- MethodImplOptions.NoInlining
+- '[JsonProperty]'
+- '[JsonIgnore]'
+- '[JsonConverter]'
+- '[DataContract]'
+- '[DataMember]'
+- '[XmlElement]'
+- '[XmlAttribute]'
+- '[XmlRoot]'
+- '[Required]'
+- '[Range]'
+- '[StringLength]'
+- '[RegularExpression]'
+- '[Compare]'
+- '[EmailAddress]'
+- '[Phone]'
+- '[Url]'
+- '[CreditCard]'
+- '[Display]'
+- '[DisplayName]'
+- '[Description]'
+- '[Category]'
+- '[Browsable]'
+- '[ReadOnly]'
+- '[DefaultValue]'
+- '[TypeConverter]'
+- '[Editor]'
+- '[Key]'
+- '[Column]'
+- '[Table]'
+- '[ForeignKey]'
+- '[Index]'
+- '[NotMapped]'
+- '[MaxLength]'
+- '[MinLength]'
+- record
+- record struct
+- record class
+- with
+- init
+- positional record
+- nominal record
+- primary constructor
+- deconstruct
+- Deconstruct
+- pattern matching
+- is pattern
+- switch expression
+- switch statement
+- property pattern
+- tuple pattern
+- positional pattern
+- var pattern
+- discard pattern
+- type pattern
+- relational pattern
+- logical pattern
+- and pattern
+- or pattern
+- not pattern
+- when clause
+- case guard
+- =>
+- is null
+- is not null
+- is { }
+- is var
+- switch { }
+- _ => default
+- list pattern
+- '[..]'
+- '[1, .., 4]'
+- slice pattern
+- length pattern
+- range pattern
+- Index
+- Range
+- ^
+- ..
+- Nullable<T>
+- T?
+- HasValue
+- Value
+- GetValueOrDefault
+- nullable reference types
+- '?'
+- '!'
+- null-forgiving operator
+- null-conditional operator
+- ?.
+- ?[]
+- ??
+- null coalescing
+- ??=
+- null-coalescing assignment
+- '#nullable enable'
+- '#nullable disable'
+- '#nullable restore'
+- '[NotNull]'
+- '[MaybeNull]'
+- '[AllowNull]'
+- '[DisallowNull]'
+- '[NotNullWhen]'
+- '[MaybeNullWhen]'
+- '[NotNullIfNotNull]'
+- '[DoesNotReturn]'
+- '[DoesNotReturnIf]'
+- NullabilityInfo
+- NullabilityInfoContext
+advanced:
+- '[ApiController]'
+- '[Route]'
+- '[HttpGet]'
+- '[HttpPost]'
+- '[HttpPut]'
+- '[HttpDelete]'
+- '[HttpPatch]'
+- '[FromBody]'
+- '[FromQuery]'
+- '[FromRoute]'
+- '[FromHeader]'
+- '[FromForm]'
+- '[FromServices]'
+- ControllerBase
+- Controller
+- IActionResult
+- ActionResult<T>
+- Ok
+- NotFound
+- BadRequest
+- Created
+- CreatedAtAction
+- NoContent
+- StatusCode
+- Problem
+- ValidationProblem
+- Accepted
+- Conflict
+- Unauthorized
+- Forbid
+- Challenge
+- File
+- PhysicalFile
+- RedirectToAction
+- LocalRedirect
+- ModelState
+- ModelState.IsValid
+- ModelState.AddModelError
+- TryValidateModel
+- '[Authorize]'
+- '[AllowAnonymous]'
+- User
+- User.Identity
+- User.IsInRole
+- ClaimsPrincipal
+- ClaimsIdentity
+- Claim
+- HttpContext
+- Request
+- Response
+- Request.Query
+- Request.Headers
+- Response.Headers
+- Response.StatusCode
+- Response.ContentType
+- IApplicationBuilder
+- IServiceCollection
+- WebApplication
+- WebApplicationBuilder
+- builder.Services
+- app.MapGet
+- app.MapPost
+- app.MapPut
+- app.MapDelete
+- app.UseRouting
+- app.UseAuthorization
+- app.UseAuthentication
+- app.UseCors
+- app.UseStaticFiles
+- app.UseHttpsRedirection
+- AddControllers
+- AddEndpointsApiExplorer
+- AddSwaggerGen
+- UseSwagger
+- UseSwaggerUI
+- AddDbContext
+- AddScoped
+- AddSingleton
+- AddTransient
+- IServiceProvider
+- GetService
+- GetRequiredService
+- Middleware
+- IMiddleware
+- UseMiddleware
+- RequestDelegate
+- next.Invoke
+- IHostedService
+- BackgroundService
+- ExecuteAsync
+- StoppingToken
+- IConfiguration
+- IOptions<T>
+- Configure<T>
+- appsettings.json
+- ILogger<T>
+- LogInformation
+- LogWarning
+- LogError
+- AddLogging
+- UseExceptionHandler
+- UseDeveloperExceptionPage
+- IExceptionFilter
+- IActionFilter
+- DbContext
+- DbSet<T>
+- OnModelCreating
+- ModelBuilder
+- Entity<T>
+- HasKey
+- HasIndex
+- HasOne
+- HasMany
+- WithOne
+- WithMany
+- HasForeignKey
+- HasPrincipalKey
+- HasConstraintName
+- OnDelete
+- DeleteBehavior
+- DeleteBehavior.Cascade
+- DeleteBehavior.Restrict
+- DeleteBehavior.SetNull
+- IsRequired
+- HasMaxLength
+- HasDefaultValue
+- HasDefaultValueSql
+- HasComputedColumnSql
+- ValueGeneratedOnAdd
+- ValueGeneratedOnUpdate
+- ValueGeneratedNever
+- IsConcurrencyToken
+- HasColumnType
+- HasColumnName
+- ToTable
+- HasQueryFilter
+- Ignore
+- OwnsOne
+- OwnsMany
+- HasData
+- SaveChanges
+- SaveChangesAsync
+- Add
+- AddRange
+- Update
+- UpdateRange
+- Remove
+- RemoveRange
+- Find
+- FindAsync
+- AsNoTracking
+- Include
+- ThenInclude
+- Where
+- FirstOrDefault
+- SingleOrDefault
+- ToList
+- ToListAsync
+- AnyAsync
+- CountAsync
+- SumAsync
+- AverageAsync
+- MaxAsync
+- MinAsync
+- LoadAsync
+- Entry
+- State
+- EntityState
+- EntityState.Added
+- EntityState.Modified
+- EntityState.Deleted
+- EntityState.Unchanged
+- EntityState.Detached
+- ChangeTracker
+- DetectChanges
+- HasChanges
+- Entries
+- Migration
+- Add-Migration
+- Update-Database
+- IMigrationsSqlGenerator
+- MigrationBuilder
+- CreateTable
+- DropTable
+- AddColumn
+- DropColumn
+- AlterColumn
+- CreateIndex
+- DropIndex
+- AddForeignKey
+- DropForeignKey
+- Sql
+- ExecuteSqlRaw
+- ExecuteSqlRawAsync
+- FromSqlRaw
+- FromSqlInterpolated
+- IServiceCollection
+- IServiceProvider
+- AddSingleton
+- AddScoped
+- AddTransient
+- AddSingleton<TService>
+- AddSingleton<TService,TImplementation>
+- AddScoped<TService,TImplementation>
+- AddTransient<TService,TImplementation>
+- TryAddSingleton
+- TryAddScoped
+- TryAddTransient
+- Replace
+- RemoveAll
+- GetService
+- GetRequiredService
+- GetServices
+- CreateScope
+- IServiceScope
+- ServiceProvider
+- ServiceDescriptor
+- ServiceLifetime
+- ServiceLifetime.Singleton
+- ServiceLifetime.Scoped
+- ServiceLifetime.Transient
+- ActivatorUtilities
+- CreateInstance
+- IServiceProviderFactory
+- BuildServiceProvider
+- '[ActivatorUtilitiesConstructor]'
+- IServiceScopeFactory
+- CreateAsyncScope
+- IServiceProviderIsService
+- IServiceProviderIsKeyedService
+- AddKeyedSingleton
+- AddKeyedScoped
+- AddKeyedTransient
+- GetKeyedService
+- GetRequiredKeyedService
+- '[FromKeyedServices]'
+- DisposeAsync
+- Span<T>
+- ReadOnlySpan<T>
+- Memory<T>
+- ReadOnlyMemory<T>
+- stackalloc
+- Span.Slice
+- AsSpan
+- AsMemory
+- MemoryMarshal
+- unsafe
+- fixed
+- pointer
+- sizeof
+- ref struct
+- ref return
+- ref readonly
+- ref local
+- in parameter
+- ref parameter
+- out parameter
+- scoped
+- unmanaged constraint
+- IDisposable
+- IAsyncDisposable
+- using declaration
+- using statement
+- await using
+- DisposeAsync
+- ValueTask
+- IValueTaskSource
+- ManualResetValueTaskSourceCore
+- PooledAwaitableResult
+- ConfiguredValueTaskAwaitable
+- ConfiguredTaskAwaitable
+- YieldAwaitable
+- YieldAwaiter
+- SwitchTo
+- ConfigureAwait
+- CallerArgumentExpression
+- InterpolatedStringHandler
+- DefaultInterpolatedStringHandler
+- '[InterpolatedStringHandler]'
+- required modifier
+- required property
+- required field
+- SetsRequiredMembers
+- file-scoped types
+- file class
+- raw string literals
+- '"""'
+- UTF-8 string literals
+- u8
+- generic attributes
+- static abstract members
+- static virtual members
+- checked operators
+- unsigned right shift
+- '>>>'
+- list patterns
+- slice patterns
+- '[..]'
+- primary constructors
+- ArrayPool<T>
+- MemoryPool<T>
+- Rent
+- Return
+- ObjectPool<T>
+- ValueStringBuilder
+- SkipLocalsInit
+- AggressiveInlining
+- AggressiveOptimization
+- MethodImplOptions
+- ModuleInitializer
+- SkipLocalsInitAttribute
+- InternalsVisibleTo
+- RuntimeHelpers
+- CompilerServices
+- Unsafe.As
+- Unsafe.AsRef
+- Unsafe.Add
+- Unsafe.SizeOf
+- Unsafe.CopyBlock
+- MemoryMarshal.Cast
+- MemoryMarshal.AsBytes
+- MemoryMarshal.CreateSpan
+- MemoryMarshal.GetReference
+- CollectionsMarshal
+- BinaryPrimitives
+- BitConverter
+- BitOperations
+- Vector<T>
+- Vector128<T>
+- Vector256<T>
+- Vector512<T>
+- Avx
+- Avx2
+- Sse
+- Sse2
+- Sse3
+- Sse41
+- Sse42
+- IsHardwareAccelerated
+- Simd
+- JIT
+- AOT
+- ReadyToRun
+- Tiered Compilation
+- Profile-Guided Optimization
+- PGO
+- Dynamic PGO
+- OSR
+- On-Stack Replacement
+- NativeAOT
+- PublishAot
+- ILLink
+- Trimming
+- PublishTrimmed
+- ISourceGenerator
+- IIncrementalGenerator
+- GeneratorInitializationContext
+- GeneratorExecutionContext
+- IncrementalGeneratorInitializationContext
+- IncrementalValueProvider
+- IncrementalValuesProvider
+- SyntaxProvider
+- ForAttributeWithMetadataName
+- CreateSyntaxProvider
+- RegisterPostInitializationOutput
+- AddSource
+- SourceText
+- SyntaxTree
+- CompilationUnitSyntax
+- ClassDeclarationSyntax
+- MethodDeclarationSyntax
+- PropertyDeclarationSyntax
+- FieldDeclarationSyntax
+- SyntaxNode
+- SyntaxToken
+- SyntaxTrivia
+- SemanticModel
+- GetSymbolInfo
+- GetTypeInfo
+- ISymbol
+- ITypeSymbol
+- IMethodSymbol
+- IPropertySymbol
+- IFieldSymbol
+- INamedTypeSymbol
+- AttributeData
+- NamedArguments
+- ConstructorArguments
+- GeneratedCodeAttribute
+- '[GeneratedCode]'
+- Compilation
+- SyntaxReceiver
+- ISyntaxReceiver
+- OnVisitSyntaxNode
+- RegisterForSyntaxNotifications
+- CombineWith
+- Select
+- Where
+- Collect
+- WithComparer
+- '@page'
+- '@code'
+- '@inject'
+- '@inherits'
+- '@implements'
+- '@attribute'
+- '@typeparam'
+- '@using'
+- '@layout'
+- '@bind'
+- '@bind-value'
+- '@bind-value:event'
+- '@onclick'
+- '@onchange'
+- '@oninput'
+- '@onsubmit'
+- '@ref'
+- ComponentBase
+- OnInitialized
+- OnInitializedAsync
+- OnParametersSet
+- OnParametersSetAsync
+- OnAfterRender
+- OnAfterRenderAsync
+- StateHasChanged
+- InvokeAsync
+- '[Parameter]'
+- '[CascadingParameter]'
+- '[EditorRequired]'
+- '[Inject]'
+- RenderFragment
+- RenderFragment<T>
+- ChildContent
+- EventCallback
+- EventCallback<T>
+- NavigationManager
+- NavigateTo
+- IJSRuntime
+- InvokeVoidAsync
+- InvokeAsync<T>
+- JSImport
+- JSExport
+- IComponentRenderMode
+- InteractiveServer
+- InteractiveWebAssembly
+- InteractiveAuto
+- StreamRendering
+- ErrorBoundary
+- AuthorizeView
+- Authorized
+- NotAuthorized
+- Hub
+- Hub<T>
+- HubConnection
+- HubConnectionBuilder
+- WithUrl
+- Build
+- StartAsync
+- StopAsync
+- 'On'
+- InvokeAsync
+- SendAsync
+- SendCoreAsync
+- Clients
+- Clients.All
+- Clients.Caller
+- Clients.Others
+- Clients.Client
+- Clients.Group
+- Clients.Groups
+- Groups.AddToGroupAsync
+- Groups.RemoveFromGroupAsync
+- OnConnectedAsync
+- OnDisconnectedAsync
+- Context.ConnectionId
+- Context.User
+- '[HubMethodName]'
+- IHubContext<T>
+- WithAutomaticReconnect
+- AddSignalR
+- MapHub
+boss_words:
+  beginner:
+  - public class Program { }
+  - public static void Main(string[] args) { }
+  - Console.WriteLine("Hello");
+  - int x = 10;
+  - string name = "Alice";
+  - bool flag = true;
+  - double price = 9.99m;
+  - int[] numbers = new int[5];
+  - string[] names = { "A", "B", "C" };
+  - var list = new List<int>();
+  - var dict = new Dictionary<string, int>();
+  - for (int i = 0; i < 10; i++) { }
+  - foreach (var item in items) { }
+  - while (count > 0) { }
+  - if (x > 5) { } else { }
+  - 'switch (value) { case 1: break; default: break; }'
+  - public int Add(int a, int b) => a + b;
+  - public string GetName() => name;
+  - public void SetName(string value) { name = value; }
+  - try { } catch (Exception ex) { }
+  - throw new Exception("Error");
+  - public class Person { public string Name { get; set; } }
+  - public Person(string name) { Name = name; }
+  - 'public class Dog : Animal { }'
+  - public interface IDrawable { void Draw(); }
+  - 'public class Circle : IDrawable { }'
+  - public override string ToString() => name;
+  - list.Add(item);
+  - list.Remove(item);
+  - var item = list[index];
+  - var count = list.Count;
+  - dict["key"] = value;
+  - var value = dict["key"];
+  - dict.TryGetValue("key", out var value);
+  - var upper = str.ToUpper();
+  - var parts = str.Split(',');
+  - var length = str.Length;
+  - var contains = str.Contains("test");
+  - var sub = str.Substring(0, 5);
+  - int.Parse("42");
+  - int.TryParse("42", out var num);
+  - string.IsNullOrEmpty(str);
+  - string.Join(", ", items);
+  - Math.Max(a, b);
+  - Math.Min(a, b);
+  - Math.Abs(x);
+  - Array.Sort(array);
+  - var now = DateTime.Now;
+  - var today = DateTime.Today;
+  - var guid = Guid.NewGuid();
+  - File.ReadAllText("file.txt");
+  - File.WriteAllText("file.txt", content);
+  - var lines = File.ReadAllLines("file.txt");
+  - Console.ReadLine();
+  - Console.ReadKey();
+  - public enum Color { Red, Green, Blue }
+  - var color = Color.Red;
+  - public abstract class Shape { }
+  - public sealed class FinalClass { }
+  - public static int Counter { get; set; }
+  - const int MAX = 100;
+  - readonly string Name;
+  - public virtual void Method() { }
+  - public override void Method() { }
+  - base.Method();
+  - this.name = name;
+  - is string
+  - as string
+  - obj is null
+  - obj is not null
+  - var x = obj ?? default;
+  - x ??= value;
+  - obj?.Property
+  - arr?[0]
+  - var (x, y) = tuple;
+  - var person = new { Name = "Alice", Age = 30 };
+  - nameof(variable);
+  - typeof(string);
+  - default(int);
+  intermediate:
+  - var result = items.Where(x => x.IsActive).Select(x => x.Name).ToList();
+  - var sorted = list.OrderBy(x => x.Name).ThenBy(x => x.Age);
+  - var grouped = people.GroupBy(p => p.City);
+  - var first = list.FirstOrDefault(x => x.Id == 1);
+  - var any = items.Any(x => x.Price > 100);
+  - var sum = numbers.Sum();
+  - var average = numbers.Average();
+  - var distinct = items.Distinct();
+  - var query = from p in people where p.Age > 18 select p.Name;
+  - var joined = from p in people join o in orders on p.Id equals o.PersonId select
+    new { p.Name, o.Total };
+  - public async Task<string> GetDataAsync() { }
+  - var data = await FetchDataAsync();
+  - await Task.Delay(1000);
+  - await Task.WhenAll(task1, task2);
+  - await Task.WhenAny(task1, task2);
+  - public async Task ProcessAsync(CancellationToken ct) { }
+  - var result = await Task.Run(() => Compute());
+  - public record Person(string Name, int Age);
+  - var person = new Person("Alice", 30);
+  - var updated = person with { Age = 31 };
+  - var (name, age) = person;
+  - public record struct Point(int X, int Y);
+  - if (obj is string s) { Console.WriteLine(s); }
+  - var result = obj switch { string s => s.Length, int i => i, _ => 0 };
+  - var type = shape switch { Circle c => "Circle", Rectangle r => "Rectangle", _
+    => "Unknown" };
+  - 'List<T> Process<T>(T item) where T : class { }'
+  - 'public class Container<T> where T : IDisposable, new() { }'
+  - int? nullableInt = null;
+  - var value = nullableInt ?? 0;
+  - var hasValue = nullableInt.HasValue;
+  - var val = nullableInt.Value;
+  - public delegate void MyDelegate(string message);
+  - public event EventHandler<MyEventArgs> MyEvent;
+  - MyEvent?.Invoke(this, args);
+  - Action<string> print = s => Console.WriteLine(s);
+  - Func<int, int, int> add = (a, b) => a + b;
+  - Predicate<int> isPositive = x => x > 0;
+  - list.ForEach(item => Console.WriteLine(item));
+  - await foreach (var item in GetItemsAsync()) { }
+  - public async IAsyncEnumerable<int> GetNumbersAsync() { yield return 1; }
+  - var span = stackalloc int[10];
+  - ReadOnlySpan<char> span = "Hello";
+  - var memory = text.AsMemory();
+  - using var stream = File.OpenRead("file.txt");
+  - await using var conn = new SqlConnection(connectionString);
+  - var sb = new StringBuilder();
+  - sb.Append("Hello").Append(" World");
+  - var lazy = new Lazy<ExpensiveObject>(() => new ExpensiveObject());
+  - var weak = new WeakReference<MyObject>(obj);
+  - '[Obsolete("Use NewMethod instead")]'
+  - '[CallerMemberName] string memberName = ""'
+  - '[JsonProperty("user_name")] public string UserName { get; set; }'
+  - public required string Name { get; init; }
+  - var list = new List<int> { 1, 2, 3 };
+  - var dict = new Dictionary<string, int> { ["one"] = 1, ["two"] = 2 };
+  - var point = new Point { X = 10, Y = 20 };
+  - Parallel.ForEach(items, item => Process(item));
+  - Parallel.For(0, 100, i => Process(i));
+  - var concurrent = new ConcurrentDictionary<string, int>();
+  - concurrent.TryAdd("key", 1);
+  - concurrent.AddOrUpdate("key", 1, (k, v) => v + 1);
+  - var channel = Channel.CreateUnbounded<int>();
+  - await channel.Writer.WriteAsync(value);
+  - var value = await channel.Reader.ReadAsync();
+  - var semaphore = new SemaphoreSlim(1, 1);
+  - await semaphore.WaitAsync();
+  - semaphore.Release();
+  - var cts = new CancellationTokenSource();
+  - cts.CancelAfter(TimeSpan.FromSeconds(5));
+  - var token = cts.Token;
+  - token.ThrowIfCancellationRequested();
+  - Expression<Func<Person, bool>> expr = p => p.Age > 18;
+  - var compiled = expr.Compile();
+  - var result = compiled(person);
+  advanced:
+  - '[ApiController] [Route("api/[controller]")] public class UsersController : ControllerBase
+    { }'
+  - '[HttpGet("{id}")] public async Task<ActionResult<User>> Get(int id) { }'
+  - '[HttpPost] public async Task<IActionResult> Create([FromBody] User user) { }'
+  - return Ok(user);
+  - return NotFound();
+  - return BadRequest(ModelState);
+  - return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
+  - if (!ModelState.IsValid) return BadRequest(ModelState);
+  - '[Authorize(Roles = "Admin")]'
+  - var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+  - builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+  - builder.Services.AddScoped<IUserService, UserService>();
+  - builder.Services.AddSingleton<IConfiguration>(configuration);
+  - app.UseRouting();
+  - app.UseAuthentication();
+  - app.UseAuthorization();
+  - app.MapControllers();
+  - 'public class AppDbContext : DbContext { public DbSet<User> Users { get; set;
+    } }'
+  - protected override void OnModelCreating(ModelBuilder builder) { }
+  - builder.Entity<User>().HasKey(u => u.Id);
+  - builder.Entity<User>().Property(u => u.Email).IsRequired().HasMaxLength(255);
+  - builder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+  - builder.Entity<Order>().HasOne(o => o.User).WithMany(u => u.Orders).HasForeignKey(o
+    => o.UserId);
+  - var users = await _context.Users.Include(u => u.Orders).ToListAsync();
+  - var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+  - _context.Users.Add(user);
+  - await _context.SaveChangesAsync();
+  - var query = _context.Users.Where(u => u.IsActive).AsNoTracking();
+  - var users = await _context.Users.FromSqlRaw("SELECT * FROM Users WHERE Age > {0}",
+    18).ToListAsync();
+  - await _context.Database.ExecuteSqlRawAsync("UPDATE Users SET IsActive = 1");
+  - public class Startup { public void ConfigureServices(IServiceCollection services)
+    { } }
+  - services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy
+    = null);
+  - services.AddCors(options => options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin()));
+  - services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+  - services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "API",
+    Version = "v1" }));
+  - app.UseSwagger();
+  - app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1"));
+  - public class MyMiddleware { public async Task InvokeAsync(HttpContext context,
+    RequestDelegate next) { } }
+  - app.UseMiddleware<MyMiddleware>();
+  - var scope = serviceProvider.CreateScope();
+  - var service = scope.ServiceProvider.GetRequiredService<IMyService>();
+  - 'public class BackgroundWorker : BackgroundService { protected override async
+    Task ExecuteAsync(CancellationToken ct) { } }'
+  - services.AddHostedService<BackgroundWorker>();
+  - var result = await items.AsParallel().Select(item => Process(item)).ToListAsync();
+  - Span<byte> buffer = stackalloc byte[256];
+  - ReadOnlySpan<char> span = text.AsSpan();
+  - var slice = span.Slice(0, 10);
+  - var pool = ArrayPool<byte>.Shared;
+  - var array = pool.Rent(1024);
+  - try { /* use array */ } finally { pool.Return(array); }
+  - var memory = new Memory<byte>(new byte[1024]);
+  - await stream.ReadAsync(memory, cancellationToken);
+  - unsafe { fixed (byte* ptr = buffer) { /* use ptr */ } }
+  - var task = Task.Run(() => HeavyWork());
+  - var result = await task.ConfigureAwait(false);
+  - await Task.Yield();
+  - var tcs = new TaskCompletionSource<int>();
+  - tcs.SetResult(42);
+  - var result = await tcs.Task;
+  - public async ValueTask<int> GetValueAsync() => await Task.FromResult(42);
+  - await Parallel.ForEachAsync(items, async (item, ct) => await ProcessAsync(item,
+    ct));
+  - var immutableList = ImmutableList.Create(1, 2, 3);
+  - var updated = immutableList.Add(4);
+  - var immutableDict = ImmutableDictionary.Create<string, int>();
+  - '[MethodImpl(MethodImplOptions.AggressiveInlining)] private int Calculate(int
+    x) => x * 2;'
+  - var type = typeof(MyClass);
+  - var method = type.GetMethod("MyMethod");
+  - var result = method?.Invoke(instance, new object[] { arg1, arg2 });
+  - var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+  - var attribute = property.GetCustomAttribute<JsonPropertyAttribute>();
+  - var instance = Activator.CreateInstance(type);
+  - var lambda = Expression.Lambda<Func<int, int>>(body, parameter);
+  - var compiled = lambda.Compile();
+  - 'public Hub<IChatClient> : Hub { public async Task SendMessage(string message)
+    { await Clients.All.ReceiveMessage(message); } }'
+  - var connection = new HubConnectionBuilder().WithUrl("/chatHub").Build();
+  - await connection.StartAsync();
+  - connection.On<string>("ReceiveMessage", message => Console.WriteLine(message));
+  - await connection.InvokeAsync("SendMessage", "Hello");
+  - '@page "/counter"'
+  - '@inject NavigationManager Navigation'
+  - '@code { [Parameter] public int Count { get; set; } }'
+  - private async Task HandleClick() { await InvokeAsync(StateHasChanged); }
+  - <button @onclick="HandleClick">Click me</button>
+  - <input @bind="value" @bind:event="oninput" />
+  - await JSRuntime.InvokeVoidAsync("alert", "Hello");
+  - var result = await JSRuntime.InvokeAsync<string>("prompt", "Enter name");

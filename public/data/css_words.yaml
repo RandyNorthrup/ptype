@@ -1,0 +1,1192 @@
+beginner:
+- color
+- background
+- background-color
+- background-image
+- background-position
+- background-size
+- background-repeat
+- background-attachment
+- background-origin
+- background-clip
+- background-blend-mode
+- border
+- border-width
+- border-style
+- border-color
+- border-top
+- border-right
+- border-bottom
+- border-left
+- border-radius
+- border-top-left-radius
+- border-top-right-radius
+- border-bottom-left-radius
+- border-bottom-right-radius
+- border-image
+- border-image-source
+- border-image-slice
+- border-image-width
+- border-image-outset
+- border-image-repeat
+- margin
+- margin-top
+- margin-right
+- margin-bottom
+- margin-left
+- margin-inline
+- margin-block
+- margin-inline-start
+- margin-inline-end
+- margin-block-start
+- margin-block-end
+- padding
+- padding-top
+- padding-right
+- padding-bottom
+- padding-left
+- padding-inline
+- padding-block
+- padding-inline-start
+- padding-inline-end
+- padding-block-start
+- padding-block-end
+- width
+- height
+- min-width
+- min-height
+- max-width
+- max-height
+- inline-size
+- block-size
+- min-inline-size
+- min-block-size
+- max-inline-size
+- max-block-size
+- box-sizing
+- display
+- position
+- top
+- right
+- bottom
+- left
+- inset
+- inset-inline
+- inset-block
+- inset-inline-start
+- inset-inline-end
+- inset-block-start
+- inset-block-end
+- float
+- clear
+- overflow
+- overflow-x
+- overflow-y
+- overflow-wrap
+- overflow-block
+- overflow-inline
+- visibility
+- z-index
+- clip
+- clip-path
+- opacity
+- filter
+- backdrop-filter
+- mix-blend-mode
+- isolation
+- font-family
+- font-size
+- font-weight
+- font-style
+- font-variant
+- font-stretch
+- font-synthesis
+- font-kerning
+- font-feature-settings
+- font-variation-settings
+- line-height
+- letter-spacing
+- word-spacing
+- text-align
+- text-align-last
+- text-justify
+- text-indent
+- text-decoration
+- text-decoration-line
+- text-decoration-color
+- text-decoration-style
+- text-decoration-thickness
+- text-underline-offset
+- text-underline-position
+- text-transform
+- text-shadow
+- text-overflow
+- text-emphasis
+- text-emphasis-style
+- text-emphasis-color
+- text-emphasis-position
+- white-space
+- word-break
+- word-wrap
+- hyphens
+- direction
+- unicode-bidi
+- writing-mode
+- text-orientation
+- text-combine-upright
+- list-style
+- list-style-type
+- list-style-position
+- list-style-image
+- content
+- quotes
+- counter-reset
+- counter-increment
+- counter-set
+- cursor
+- pointer-events
+- resize
+- user-select
+- caret-color
+- accent-color
+- outline
+- outline-width
+- outline-style
+- outline-color
+- outline-offset
+- box-shadow
+- transform
+- transform-origin
+- transform-style
+- transform-box
+- perspective
+- perspective-origin
+- backface-visibility
+- rotate
+- scale
+- translate
+- transition
+- transition-property
+- transition-duration
+- transition-timing-function
+- transition-delay
+- animation
+- animation-name
+- animation-duration
+- animation-timing-function
+- animation-delay
+- animation-iteration-count
+- animation-direction
+- animation-fill-mode
+- animation-play-state
+- animation-timeline
+- animation-range
+- animation-range-start
+- animation-range-end
+- scroll-timeline
+- scroll-timeline-name
+- scroll-timeline-axis
+- view-timeline
+- view-timeline-name
+- view-timeline-axis
+- timeline-scope
+- vertical-align
+- columns
+- column-count
+- column-width
+- column-gap
+- column-rule
+- column-rule-width
+- column-rule-style
+- column-rule-color
+- column-span
+- column-fill
+- break-before
+- break-after
+- break-inside
+- page-break-before
+- page-break-after
+- page-break-inside
+- orphans
+- widows
+- auto
+- none
+- inherit
+- initial
+- unset
+- revert
+- revert-layer
+- solid
+- dashed
+- dotted
+- double
+- groove
+- ridge
+- inset
+- outset
+- hidden
+- visible
+- collapse
+- block
+- inline
+- inline-block
+- flex
+- inline-flex
+- grid
+- inline-grid
+- flow-root
+- contents
+- table
+- table-row
+- table-cell
+- list-item
+- absolute
+- relative
+- fixed
+- sticky
+- static
+- left
+- right
+- center
+- justify
+- start
+- end
+- normal
+- bold
+- bolder
+- lighter
+- italic
+- oblique
+- uppercase
+- lowercase
+- capitalize
+- underline
+- overline
+- line-through
+- both
+- horizontal
+- vertical
+- wrap
+- nowrap
+- pre
+- pre-wrap
+- pre-line
+- break-word
+- break-all
+- keep-all
+- clip
+- ellipsis
+- pointer
+- default
+- move
+- text
+- wait
+- help
+- not-allowed
+- grab
+- grabbing
+- all-scroll
+- col-resize
+- row-resize
+- transparent
+- currentColor
+- cover
+- contain
+- fill
+- scale-down
+- repeat
+- repeat-x
+- repeat-y
+- no-repeat
+- space
+- round
+- ease
+- linear
+- ease-in
+- ease-out
+- ease-in-out
+- px
+- em
+- rem
+- '%'
+- vh
+- vw
+- vmin
+- vmax
+- ch
+- ex
+- cm
+- mm
+- in
+- pt
+- pc
+- deg
+- rad
+- grad
+- turn
+- s
+- ms
+- fr
+- dvh
+- dvw
+- lvh
+- lvw
+- svh
+- svw
+- cqw
+- cqh
+- '*'
+- div
+- class
+- id
+- '#'
+- .
+- '>'
+- +
+- '~'
+- '[attr]'
+- '[attr=value]'
+- '[attr~=value]'
+- '[attr|=value]'
+- '[attr^=value]'
+- '[attr$=value]'
+- '[attr*=value]'
+- :hover
+- :active
+- :focus
+- :visited
+- :link
+- :first-child
+- :last-child
+- :nth-child
+- :nth-last-child
+- :nth-of-type
+- :nth-last-of-type
+- :first-of-type
+- :last-of-type
+- :only-child
+- :only-of-type
+- :not
+- :is
+- :where
+- :has
+- :empty
+- :root
+- :target
+- :enabled
+- :disabled
+- :checked
+- :indeterminate
+- :valid
+- :invalid
+- :required
+- :optional
+- :read-only
+- :read-write
+- :in-range
+- :out-of-range
+- ::before
+- ::after
+- ::first-line
+- ::first-letter
+- ::selection
+- ::placeholder
+- ::marker
+- ::backdrop
+- ::file-selector-button
+- ::cue
+intermediate:
+- flex
+- flex-direction
+- flex-wrap
+- flex-flow
+- justify-content
+- align-items
+- align-content
+- align-self
+- flex-grow
+- flex-shrink
+- flex-basis
+- order
+- gap
+- row-gap
+- column-gap
+- flex-start
+- flex-end
+- space-between
+- space-around
+- space-evenly
+- stretch
+- baseline
+- row
+- row-reverse
+- column
+- column-reverse
+- wrap
+- wrap-reverse
+- safe center
+- unsafe center
+- first baseline
+- last baseline
+- self-start
+- self-end
+- start
+- end
+- left
+- right
+- normal
+- legacy
+- safe
+- unsafe
+- grid
+- grid-template
+- grid-template-columns
+- grid-template-rows
+- grid-template-areas
+- grid-auto-columns
+- grid-auto-rows
+- grid-auto-flow
+- grid-column
+- grid-column-start
+- grid-column-end
+- grid-row
+- grid-row-start
+- grid-row-end
+- grid-area
+- justify-items
+- justify-self
+- place-items
+- place-self
+- place-content
+- repeat
+- minmax
+- fit-content
+- auto-fit
+- auto-fill
+- dense
+- masonry
+- subgrid
+- grid-gap
+- grid-column-gap
+- grid-row-gap
+- fr
+- min-content
+- max-content
+- span
+- line-names
+- '[line-name]'
+- named lines
+- track sizing
+- implicit grid
+- explicit grid
+- grid lines
+- grid tracks
+- grid cells
+- grid areas
+- grid container
+- grid items
+- align-tracks
+- justify-tracks
+- masonry-auto-flow
+- 'grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))'
+- 'grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))'
+- 'grid-template-areas: "header header" "sidebar main" "footer footer"'
+- 'grid-column: 1 / -1'
+- 'grid-row: span 2'
+- 'grid-area: 1 / 1 / 3 / 3'
+- 'display: grid'
+- 'display: inline-grid'
+- 'display: subgrid'
+- 'grid-template-columns: 100px 1fr 2fr'
+- 'grid-template-rows: auto 1fr auto'
+- 'grid-auto-flow: row'
+- 'grid-auto-flow: column'
+- 'grid-auto-flow: dense'
+- 'justify-content: space-between'
+- 'align-content: center'
+- 'justify-items: stretch'
+- 'align-items: start'
+- 'gap: 20px'
+- 'row-gap: 10px'
+- 'column-gap: 15px'
+- 'order: -1'
+- 'order: 1'
+- --custom-property
+- var()
+- var(--name)
+- var(--name, fallback)
+- '@property'
+- '@property --name'
+- syntax
+- inherits
+- initial-value
+- CSS variables
+- CSS custom properties
+- calc()
+- min()
+- max()
+- clamp()
+- calc(100% - 20px)
+- min(50vw, 500px)
+- max(100px, 10vw)
+- clamp(1rem, 5vw, 3rem)
+- calc(var(--width) * 2)
+- --primary-color
+- --spacing-unit
+- --font-size-base
+- --breakpoint-md
+- --z-index-modal
+- var(--color, blue)
+- calc(100vw - var(--sidebar-width))
+- env(safe-area-inset-top)
+- env(safe-area-inset-bottom)
+- rgb()
+- rgba()
+- hsl()
+- hsla()
+- hwb()
+- lab()
+- lch()
+- oklab()
+- oklch()
+- color()
+- color-mix()
+- url()
+- image()
+- linear-gradient()
+- radial-gradient()
+- conic-gradient()
+- repeating-linear-gradient()
+- repeating-radial-gradient()
+- repeating-conic-gradient()
+- element()
+- image-set()
+- cross-fade()
+- paint()
+- attr()
+- counter()
+- counters()
+- symbols()
+- path()
+- polygon()
+- circle()
+- ellipse()
+- inset()
+- rect()
+- xywh()
+- round()
+- mod()
+- rem()
+- sin()
+- cos()
+- tan()
+- asin()
+- acos()
+- atan()
+- atan2()
+- pow()
+- sqrt()
+- hypot()
+- log()
+- exp()
+- abs()
+- sign()
+- round()
+- mod()
+- rem()
+- matrix()
+- matrix3d()
+- translate()
+- translate3d()
+- translateX()
+- translateY()
+- translateZ()
+- scale()
+- scale3d()
+- scaleX()
+- scaleY()
+- scaleZ()
+- rotate()
+- rotate3d()
+- rotateX()
+- rotateY()
+- rotateZ()
+- skew()
+- skewX()
+- skewY()
+- perspective()
+- 'transform-origin: center'
+- 'transform-origin: top left'
+- 'transform: translateX(100px)'
+- 'transform: rotate(45deg)'
+- 'transform: scale(1.5)'
+- 'transform: translate(50px, 100px) rotate(45deg)'
+- 'backface-visibility: hidden'
+- 'transform-style: preserve-3d'
+- 'perspective: 1000px'
+- blur()
+- brightness()
+- contrast()
+- drop-shadow()
+- grayscale()
+- hue-rotate()
+- invert()
+- opacity()
+- saturate()
+- sepia()
+- url()
+- 'filter: blur(5px)'
+- 'filter: brightness(150%)'
+- 'filter: contrast(200%)'
+- 'filter: drop-shadow(2px 2px 4px black)'
+- 'filter: grayscale(100%)'
+- 'filter: hue-rotate(90deg)'
+- 'filter: invert(100%)'
+- 'filter: saturate(200%)'
+- 'filter: sepia(100%)'
+- 'backdrop-filter: blur(10px)'
+- 'backdrop-filter: brightness(80%)'
+- 'backdrop-filter: contrast(120%)'
+- 'backdrop-filter: grayscale(50%)'
+- 'backdrop-filter: saturate(180%)'
+- 'filter: blur(5px) contrast(150%)'
+- 'backdrop-filter: blur(10px) saturate(180%)'
+- 'filter: none'
+- 'backdrop-filter: none'
+- 'will-change: filter'
+- '@media'
+- '@media screen'
+- '@media print'
+- '@media all'
+- '@media (min-width)'
+- '@media (max-width)'
+- '@media (min-height)'
+- '@media (max-height)'
+- '@media (orientation: portrait)'
+- '@media (orientation: landscape)'
+- '@media (aspect-ratio)'
+- '@media (prefers-color-scheme: dark)'
+- '@media (prefers-color-scheme: light)'
+- '@media (prefers-reduced-motion: reduce)'
+- '@media (prefers-reduced-motion: no-preference)'
+- '@media (prefers-contrast: high)'
+- '@media (prefers-contrast: low)'
+- '@media (hover: hover)'
+- '@media (hover: none)'
+- '@media (pointer: fine)'
+- '@media (pointer: coarse)'
+- '@media (any-hover)'
+- '@media (any-pointer)'
+- '@media (display-mode: fullscreen)'
+- '@media (display-mode: standalone)'
+- '@media (color)'
+- '@media (monochrome)'
+- '@media (resolution)'
+- '@media (scan: interlace)'
+- '@media (scan: progressive)'
+- '@media (update: fast)'
+- '@media (update: slow)'
+- '@media (update: none)'
+- '@media (inverted-colors)'
+- '@media (scripting: enabled)'
+- '@media (scripting: none)'
+- '@media print and (color)'
+- '@media screen and (min-width: 768px)'
+- '@media (min-width: 768px) and (max-width: 1024px)'
+- '@media not all and (monochrome)'
+advanced:
+- '@container'
+- container
+- container-type
+- container-name
+- 'container-type: size'
+- 'container-type: inline-size'
+- 'container-type: normal'
+- '@container (min-width: 400px)'
+- '@container card (min-width: 300px)'
+- 'container: card / inline-size'
+- 'container-name: sidebar'
+- cqw
+- cqh
+- cqi
+- cqb
+- cqmin
+- cqmax
+- '@container (orientation: landscape)'
+- '@container (aspect-ratio > 1)'
+- 'container-type: style'
+- '@container style(--theme: dark)'
+- '@container (width > 500px) and (height > 300px)'
+- 'container: my-container / size'
+- 'container: / inline-size'
+- '@container my-container (min-width: 400px)'
+- cqw unit
+- cqh unit
+- container query length units
+- container query
+- size container
+- '@layer'
+- '@layer base'
+- '@layer components'
+- '@layer utilities'
+- '@layer base, components, utilities'
+- '@layer reset'
+- '@layer framework'
+- '@layer overrides'
+- layer()
+- revert-layer
+- '@layer base { }'
+- '@layer components { }'
+- '@layer utilities { }'
+- '@layer reset { * { margin: 0; } }'
+- layer ordering
+- cascade layers
+- '@layer framework.theme'
+- '@layer framework.layout'
+- '@layer overrides { @layer important { } }'
+- nested layers
+- '@scope'
+- '@scope (.card)'
+- '@scope (.card) to (.card__header)'
+- '@scope (article) { p { } }'
+- '@scope to (.no-style)'
+- scoped styles
+- scope root
+- scope limit
+- donut scope
+- '@scope (.widget) to (:scope > .inner)'
+- :scope
+- '@scope (.container) { & .item { } }'
+- scoping root
+- scoping limit
+- scope proximity
+- '&'
+- '& .child'
+- '&:hover'
+- '&.active'
+- '&[disabled]'
+- .parent { & .child { } }
+- .card { &__header { } }
+- button { &:hover { } }
+- .item { &:not(:last-child) { } }
+- '@media (min-width: 768px) { & { } }'
+- .parent { @media { & { } } }
+- '& + &'
+- '& ~ &'
+- '&.class'
+- '&#id'
+- '&[attribute]'
+- '&::before'
+- '&::after'
+- .a { .b & { } }
+- nesting selector
+- nested rules
+- nested at-rules
+- parent selector
+- nesting
+- CSS nesting
+- :focus-visible
+- :focus-within
+- :placeholder-shown
+- :default
+- :blank
+- :user-invalid
+- :autofill
+- :modal
+- :fullscreen
+- :picture-in-picture
+- :paused
+- :playing
+- :seeking
+- :buffering
+- :stalled
+- :volume-locked
+- :muted
+- :current
+- :past
+- :future
+- :defined
+- :host
+- :host()
+- :host-context()
+- ::slotted()
+- ::part()
+- ::cue
+- ::cue()
+- ::grammar-error
+- ::spelling-error
+- ::target-text
+- :dir()
+- :lang()
+- :any-link
+- :local-link
+- :scope
+- :nth-col()
+- :nth-last-col()
+- :is()
+- :where()
+- :has()
+- :not()
+- :has(> .child)
+- '@keyframes'
+- '@keyframes slideIn'
+- from
+- to
+- 0%
+- 100%
+- animation-composition
+- 'animation-composition: replace'
+- 'animation-composition: add'
+- 'animation-composition: accumulate'
+- 'animation-timeline: scroll()'
+- 'animation-timeline: view()'
+- 'animation-range: entry 0% cover 100%'
+- scroll()
+- view()
+- scroll(root block)
+- scroll(nearest inline)
+- view(block)
+- view(inline)
+- '@scroll-timeline'
+- 'scroll-timeline-name: --my-timeline'
+- 'scroll-timeline-axis: block'
+- 'scroll-timeline-axis: inline'
+- '@view-timeline'
+- 'view-timeline-name: --my-view'
+- 'view-timeline-axis: block'
+- 'view-timeline-inset: auto'
+- 'animation-range-start: entry 25%'
+- 'animation-range-end: exit 75%'
+- 'timeline-scope: --timeline-name'
+- 'animation: fadeIn 1s ease-in-out'
+- 'animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+- '@keyframes bounce { 0%, 100% { } 50% { } }'
+- 'animation: spin 2s linear infinite'
+- 'animation-delay: 0.5s'
+- 'animation-fill-mode: forwards'
+- 'animation-fill-mode: backwards'
+- 'animation-fill-mode: both'
+- 'animation-direction: reverse'
+- 'animation-direction: alternate'
+- 'animation-direction: alternate-reverse'
+- color-mix(in srgb, red, blue)
+- color-mix(in oklch, red 30%, blue)
+- color(display-p3 1 0.5 0)
+- lab(50% 40 59.5)
+- lch(50% 70 180)
+- oklab(60% 0.1 -0.1)
+- oklch(60% 0.15 180)
+- hwb(194 0% 0%)
+- color-contrast()
+- color-contrast(white vs black, blue)
+- light-dark()
+- light-dark(white, black)
+- color-scheme
+- 'color-scheme: light dark'
+- 'color-scheme: only light'
+- forced-color-adjust
+- 'forced-color-adjust: none'
+- accent-color
+- 'accent-color: auto'
+- 'accent-color: var(--primary)'
+- color-interpolation
+- 'color-interpolation: srgb'
+- 'color-interpolation: linearrgb'
+- relative color syntax
+- rgb(from white r g b / 0.5)
+- hsl(from blue h s l / 0.8)
+- oklch(from red l c h / 0.5)
+- color(from blue srgb r g b)
+- lch(from green 50% c h)
+- font-optical-sizing
+- 'font-optical-sizing: auto'
+- font-palette
+- 'font-palette: dark'
+- '@font-palette-values'
+- font-synthesis-weight
+- font-synthesis-style
+- font-synthesis-small-caps
+- font-variant-ligatures
+- font-variant-numeric
+- font-variant-caps
+- font-variant-alternates
+- font-variant-position
+- font-variant-east-asian
+- 'font-feature-settings: "liga" 1'
+- 'font-feature-settings: "ss01"'
+- 'font-variation-settings: "wght" 700'
+- text-wrap
+- 'text-wrap: balance'
+- 'text-wrap: pretty'
+- 'text-wrap: stable'
+- initial-letter
+- 'initial-letter: 3'
+- hanging-punctuation
+- 'hanging-punctuation: first'
+- text-box-trim
+- text-box-edge
+- leading-trim
+- text-spacing-trim
+- font-size-adjust
+- 'font-size-adjust: 0.5'
+- '@font-face'
+- '@font-face { font-family: "MyFont"; src: url() }'
+- font-display
+- 'font-display: swap'
+- 'font-display: fallback'
+- 'font-display: optional'
+- size-adjust
+- ascent-override
+- descent-override
+- line-gap-override
+- inline-size
+- block-size
+- min-inline-size
+- max-inline-size
+- min-block-size
+- max-block-size
+- margin-inline-start
+- margin-inline-end
+- margin-block-start
+- margin-block-end
+- padding-inline-start
+- padding-inline-end
+- padding-block-start
+- padding-block-end
+- border-inline-start
+- border-inline-end
+- border-block-start
+- border-block-end
+- inset-inline-start
+- inset-inline-end
+- inset-block-start
+- inset-block-end
+- border-start-start-radius
+- border-start-end-radius
+- border-end-start-radius
+- border-end-end-radius
+- overflow-inline
+- overflow-block
+- overscroll-behavior-inline
+- overscroll-behavior-block
+- aspect-ratio
+- 'aspect-ratio: 16 / 9'
+- 'aspect-ratio: 1'
+- object-fit
+- 'object-fit: cover'
+- 'object-fit: contain'
+- 'object-fit: fill'
+- 'object-fit: scale-down'
+- object-position
+- contain
+- 'contain: layout'
+- 'contain: paint'
+- 'contain: size'
+- 'contain: style'
+- 'contain: strict'
+- 'contain: content'
+- contain-intrinsic-size
+- contain-intrinsic-width
+- contain-intrinsic-height
+- contain-intrinsic-block-size
+- contain-intrinsic-inline-size
+- content-visibility
+- 'content-visibility: auto'
+- 'content-visibility: hidden'
+- 'content-visibility: visible'
+- overscroll-behavior
+- 'overscroll-behavior: contain'
+- 'overscroll-behavior: none'
+- overscroll-behavior-x
+- overscroll-behavior-y
+- scroll-behavior
+- 'scroll-behavior: smooth'
+- scroll-snap-type
+- scroll-snap-align
+- scroll-snap-stop
+- scroll-padding
+- scroll-margin
+- 'scroll-snap-type: x mandatory'
+- 'scroll-snap-align: start'
+- scroll-padding-inline
+- scroll-margin-block
+boss_words:
+  beginner:
+  - 'body { margin: 0; padding: 0; }'
+  - '* { box-sizing: border-box; }'
+  - '.container { max-width: 1200px; margin: 0 auto; }'
+  - '.text-center { text-align: center; }'
+  - '.btn { padding: 10px 20px; border-radius: 4px; }'
+  - 'a { text-decoration: none; color: blue; }'
+  - 'a:hover { color: darkblue; }'
+  - 'img { max-width: 100%; height: auto; }'
+  - '.hidden { display: none; }'
+  - '.visible { visibility: visible; }'
+  - 'h1 { font-size: 2rem; font-weight: bold; }'
+  - 'p { line-height: 1.6; margin-bottom: 1rem; }'
+  - '.card { border: 1px solid #ccc; padding: 20px; }'
+  - '.shadow { box-shadow: 0 2px 4px rgba(0,0,0,0.1); }'
+  - 'input { width: 100%; padding: 8px; border: 1px solid #ddd; }'
+  - 'button { background: blue; color: white; border: none; cursor: pointer; }'
+  - 'button:hover { background: darkblue; }'
+  - '.rounded { border-radius: 8px; }'
+  - '.full-width { width: 100%; }'
+  - '.text-white { color: white; }'
+  - '.bg-primary { background-color: #007bff; }'
+  - '.p-4 { padding: 1rem; }'
+  - '.m-4 { margin: 1rem; }'
+  - '.mt-2 { margin-top: 0.5rem; }'
+  - '.mb-3 { margin-bottom: 0.75rem; }'
+  - '.flex { display: flex; }'
+  - '.grid { display: grid; }'
+  - '.relative { position: relative; }'
+  - '.absolute { position: absolute; top: 0; left: 0; }'
+  - '.fixed { position: fixed; top: 0; width: 100%; }'
+  - '.sticky { position: sticky; top: 0; }'
+  - '.z-10 { z-index: 10; }'
+  - '.opacity-50 { opacity: 0.5; }'
+  - '.transition { transition: all 0.3s ease; }'
+  - '@media (max-width: 768px) { .mobile { display: block; } }'
+  - '.list-none { list-style: none; }'
+  - 'ul { margin: 0; padding-left: 20px; }'
+  - '.uppercase { text-transform: uppercase; }'
+  - '.lowercase { text-transform: lowercase; }'
+  - '.capitalize { text-transform: capitalize; }'
+  - '.bold { font-weight: bold; }'
+  - '.italic { font-style: italic; }'
+  - '.underline { text-decoration: underline; }'
+  - '.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }'
+  - '.border { border: 1px solid black; }'
+  - '.border-none { border: none; }'
+  - '.outline-none { outline: none; }'
+  - '::placeholder { color: #999; }'
+  - '::selection { background: yellow; }'
+  - ':focus { outline: 2px solid blue; }'
+  - ':hover { opacity: 0.8; }'
+  - '.clearfix::after { content: ''''; display: table; clear: both; }'
+  - '.float-left { float: left; }'
+  - '.float-right { float: right; }'
+  - '.clear-both { clear: both; }'
+  - '.overflow-hidden { overflow: hidden; }'
+  - '.overflow-auto { overflow: auto; }'
+  - '.cursor-pointer { cursor: pointer; }'
+  - '.cursor-not-allowed { cursor: not-allowed; }'
+  - '.select-none { user-select: none; }'
+  - '.pointer-events-none { pointer-events: none; }'
+  intermediate:
+  - '.flex-center { display: flex; justify-content: center; align-items: center; }'
+  - '.flex-between { display: flex; justify-content: space-between; align-items: center;
+    }'
+  - '.flex-col { display: flex; flex-direction: column; }'
+  - '.flex-wrap { display: flex; flex-wrap: wrap; }'
+  - '.flex-1 { flex: 1; }'
+  - '.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }'
+  - '.grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,
+    1fr)); }'
+  - '.grid-center { display: grid; place-items: center; }'
+  - '.gap-4 { gap: 1rem; }'
+  - ':root { --primary: #007bff; --secondary: #6c757d; --spacing: 1rem; }'
+  - '.btn { background: var(--primary); padding: var(--spacing); }'
+  - '.gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }'
+  - '.blur { filter: blur(5px); }'
+  - '.grayscale { filter: grayscale(100%); }'
+  - '.transform-center { transform: translate(-50%, -50%); }'
+  - '.rotate-45 { transform: rotate(45deg); }'
+  - '.scale-150 { transform: scale(1.5); }'
+  - '.hover-scale:hover { transform: scale(1.1); transition: transform 0.3s; }'
+  - '@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }'
+  - '.fade-in { animation: fadeIn 0.5s ease-in; }'
+  - '@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform:
+    translateY(0); opacity: 1; } }'
+  - '.slide-up { animation: slideUp 0.3s ease-out; }'
+  - '.transition-all { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }'
+  - '.backdrop-blur { backdrop-filter: blur(10px); }'
+  - '.glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }'
+  - '.shadow-lg { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); }'
+  - '.shadow-inner { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); }'
+  - '.text-shadow { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }'
+  - '.clip-circle { clip-path: circle(50%); }'
+  - '.clip-polygon { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }'
+  - '.multiline-ellipsis { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient:
+    vertical; overflow: hidden; }'
+  - '.columns-2 { columns: 2; column-gap: 2rem; }'
+  - '@media (prefers-color-scheme: dark) { body { background: #1a1a1a; color: white;
+    } }'
+  - '@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition:
+    none !important; } }'
+  - '.aspect-16-9 { aspect-ratio: 16 / 9; }'
+  - '.aspect-square { aspect-ratio: 1; }'
+  - '.object-cover { object-fit: cover; width: 100%; height: 100%; }'
+  - '.smooth-scroll { scroll-behavior: smooth; }'
+  - '.scroll-snap-x { scroll-snap-type: x mandatory; }'
+  - '.scroll-snap-start { scroll-snap-align: start; }'
+  - '.custom-scrollbar::-webkit-scrollbar { width: 8px; }'
+  - '.custom-scrollbar::-webkit-scrollbar-thumb { background: #888; border-radius:
+    4px; }'
+  - '@supports (display: grid) { .grid-layout { display: grid; } }'
+  - '.blend-multiply { mix-blend-mode: multiply; }'
+  - '.blend-screen { mix-blend-mode: screen; }'
+  - '.hue-rotate { filter: hue-rotate(90deg); }'
+  - '.invert { filter: invert(100%); }'
+  - '.focus-visible:focus-visible { outline: 2px solid blue; outline-offset: 2px;
+    }'
+  - '.placeholder-shown:placeholder-shown { border-color: #ddd; }'
+  advanced:
+  - '@layer base { * { box-sizing: border-box; } }'
+  - '@layer components { .btn { @apply px-4 py-2 rounded; } }'
+  - '@container card (min-width: 400px) { .card-title { font-size: 2rem; } }'
+  - '.container { container-type: inline-size; container-name: card; }'
+  - '@scope (.card) to (.card__content) { h2 { margin-top: 0; } }'
+  - '.parent { .child { color: blue; &:hover { color: red; } } }'
+  - 'button { &:hover, &:focus { background: darken(blue, 10%); } }'
+  - '@property --gradient-angle { syntax: ''<angle>''; inherits: false; initial-value:
+    0deg; }'
+  - '.animated-gradient { background: conic-gradient(from var(--gradient-angle), red,
+    blue, red); animation: rotate 3s linear infinite; }'
+  - '@keyframes rotate { to { --gradient-angle: 360deg; } }'
+  - '.color-mix { background: color-mix(in oklch, red 70%, blue); }'
+  - '.relative-color { background: rgb(from blue calc(r * 0.8) g b / 0.5); }'
+  - '.text-balance { text-wrap: balance; }'
+  - '.text-pretty { text-wrap: pretty; }'
+  - '.has-child:has(> .active) { background: yellow; }'
+  - '.not-last:not(:last-child) { margin-bottom: 1rem; }'
+  - 'article:has(> h2) { margin-top: 2rem; }'
+  - '.is-link:is(a, button) { cursor: pointer; }'
+  - '.where-interactive:where(a, button, input) { border-radius: 4px; }'
+  - '@supports (container-type: inline-size) { .responsive { container-type: inline-size;
+    } }'
+  - '@supports (animation-timeline: scroll()) { .scroll-driven { animation-timeline:
+    scroll(); } }'
+  - '@keyframes reveal { from { opacity: 0; transform: translateY(100px); } to { opacity:
+    1; transform: translateY(0); } }'
+  - '.scroll-reveal { animation: reveal linear; animation-timeline: view(); animation-range:
+    entry 0% cover 40%; }'
+  - 'view-timeline-name: --image; animation-timeline: --image;'
+  - '.view-driven { animation: fadeIn linear; animation-timeline: view(); animation-range:
+    entry 25% cover 50%; }'
+  - '.logical-props { margin-inline-start: 1rem; padding-block: 2rem; }'
+  - '.dir-aware { border-inline-start: 2px solid blue; }'
+  - '.grid-subgrid { display: grid; grid-template-columns: subgrid; }'
+  - '.masonry { display: grid; grid-template-rows: masonry; }'
+  - '.accent-color { accent-color: var(--primary-color); }'
+  - '.color-scheme { color-scheme: light dark; }'
+  - '@media (dynamic-range: high) { .hdr-image { /* HDR styles */ } }'
+  - '@media (prefers-contrast: high) { .high-contrast { border-width: 2px; } }'
+  - '@media (hover: none) { .touch-device { padding: 1rem; } }'
+  - '.content-visibility { content-visibility: auto; contain-intrinsic-size: 0 500px;
+    }'
+  - '.font-variant { font-variant-ligatures: common-ligatures; font-variant-numeric:
+    tabular-nums; }'
+  - '.initial-letter { initial-letter: 3; }'
+  - '.hanging-punctuation { hanging-punctuation: first last; }'
+  - '::part(button) { background: blue; }'
+  - '::slotted(span) { color: red; }'
+  - ':host { display: block; }'
+  - ':host(.active) { background: yellow; }'
+  - ':host-context(.dark-theme) { color: white; }'
+  - '.grid-track { grid-template-columns: [start] 1fr [center] 2fr [end]; }'
+  - '.grid-line { grid-column: start / end; }'
+  - clamp(1rem, 2.5vw, 2rem)
+  - calc(100cqw - 2rem)
+  - min(50vw - 2rem, 600px)
+  - max(300px, 30vw)

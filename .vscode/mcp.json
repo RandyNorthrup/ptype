@@ -1,0 +1,85 @@
+{
+  "servers": {
+    "blender": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "blender-mcp"
+      ]
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
+    },
+    "context7": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ]
+    },
+    "github": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cyanheads/github-mcp-server@latest"
+      ]
+    },
+    "git": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cyanheads/git-mcp-server@latest"
+      ]
+    },
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cyanheads/filesystem-mcp-server@latest"
+      ]
+    },
+    "M365AgentsToolkit MCP Server": {
+      "command": "npx",
+      "args": [
+        "@microsoft/m365agentstoolkit-mcp@latest",
+        "server",
+        "start"
+      ]
+    },
+    "pdf": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mcp-z/mcp-pdf"
+      ]
+    },
+    "icons8mcp": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.icons8.com/mcp/",
+        "--header",
+        "Authorization:${AUTH_HEADER}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer I7dpWNZhSPMousybVYZOjthXrgCsuQnBpH5mpgkH"
+      }
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ]
+    }
+  }
+}

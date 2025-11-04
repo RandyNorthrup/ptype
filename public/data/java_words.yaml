@@ -1,0 +1,1653 @@
+beginner:
+- abstract
+- assert
+- boolean
+- break
+- byte
+- case
+- catch
+- char
+- class
+- const
+- continue
+- default
+- do
+- double
+- else
+- enum
+- extends
+- final
+- finally
+- float
+- for
+- goto
+- if
+- implements
+- import
+- instanceof
+- int
+- interface
+- long
+- native
+- new
+- package
+- private
+- protected
+- public
+- return
+- short
+- static
+- strictfp
+- super
+- switch
+- synchronized
+- this
+- throw
+- throws
+- transient
+- try
+- void
+- volatile
+- while
+- record
+- sealed
+- permits
+- non-sealed
+- var
+- yield
+- module
+- requires
+- exports
+- opens
+- Object
+- String
+- Integer
+- Long
+- Double
+- Float
+- Boolean
+- Character
+- Byte
+- Short
+- Number
+- Math
+- System
+- Class
+- Thread
+- Runnable
+- Throwable
+- Exception
+- Error
+- RuntimeException
+- NullPointerException
+- IllegalArgumentException
+- IllegalStateException
+- IndexOutOfBoundsException
+- ArrayIndexOutOfBoundsException
+- ClassCastException
+- ArithmeticException
+- NumberFormatException
+- IOException
+- FileNotFoundException
+- SQLException
+- ParseException
+- InterruptedException
+- CloneNotSupportedException
+- ArrayList
+- LinkedList
+- HashMap
+- HashSet
+- TreeMap
+- TreeSet
+- LinkedHashMap
+- LinkedHashSet
+- Vector
+- Stack
+- Hashtable
+- Properties
+- Queue
+- Deque
+- PriorityQueue
+- ArrayDeque
+- List
+- Set
+- Map
+- Collection
+- Iterator
+- Comparator
+- Comparable
+- Arrays
+- Collections
+- Objects
+- Optional
+- Stream
+- Collectors
+- Predicate
+- Function
+- Consumer
+- Supplier
+- BiFunction
+- BiConsumer
+- BiPredicate
+- UnaryOperator
+- BinaryOperator
+- Date
+- Calendar
+- LocalDate
+- LocalTime
+- LocalDateTime
+- ZonedDateTime
+- Instant
+- Duration
+- Period
+- DateTimeFormatter
+- SimpleDateFormat
+- toString
+- equals
+- hashCode
+- getClass
+- clone
+- finalize
+- notify
+- notifyAll
+- wait
+- compareTo
+- compare
+- contains
+- isEmpty
+- size
+- length
+- charAt
+- codePointAt
+- codePointBefore
+- codePointCount
+- compareTo
+- compareToIgnoreCase
+- concat
+- contains
+- contentEquals
+- endsWith
+- equals
+- equalsIgnoreCase
+- format
+- getBytes
+- getChars
+- hashCode
+- indexOf
+- intern
+- isEmpty
+- isBlank
+- join
+- lastIndexOf
+- length
+- lines
+- matches
+- offsetByCodePoints
+- repeat
+- replace
+- replaceAll
+- replaceFirst
+- split
+- startsWith
+- strip
+- stripLeading
+- stripTrailing
+- substring
+- toCharArray
+- toLowerCase
+- toUpperCase
+- toString
+- trim
+- valueOf
+- indent
+- stripIndent
+- translateEscapes
+- transform
+- formatted
+- String.valueOf
+- String.format
+- String.join
+- String.copyValueOf
+- regionMatches
+- subSequence
+- chars
+- codePoints
+- describeConstable
+- resolveConstantDesc
+- add
+- addAll
+- clear
+- contains
+- containsAll
+- equals
+- hashCode
+- isEmpty
+- iterator
+- remove
+- removeAll
+- retainAll
+- size
+- toArray
+- stream
+- parallelStream
+- forEach
+- removeIf
+- spliterator
+- get
+- set
+- indexOf
+- lastIndexOf
+- listIterator
+- subList
+- replaceAll
+- sort
+- addFirst
+- addLast
+- getFirst
+- getLast
+- removeFirst
+- removeLast
+- offer
+- poll
+- peek
+- element
+- push
+- pop
+- offerFirst
+- offerLast
+- pollFirst
+- pollLast
+- peekFirst
+- peekLast
+- put
+- putAll
+- putIfAbsent
+- computeIfAbsent
+- computeIfPresent
+- compute
+- merge
+- replace
+- replaceAll
+- getOrDefault
+- containsKey
+- containsValue
+- keySet
+- values
+- entrySet
+- getKey
+- getValue
+- setValue
+- comparingByKey
+- comparingByValue
+- first
+- last
+- lower
+- floor
+- ceiling
+- higher
+- pollFirst
+- pollLast
+- Arrays.sort
+- Arrays.binarySearch
+- Arrays.equals
+- Arrays.fill
+- Arrays.copyOf
+- Arrays.copyOfRange
+- Arrays.asList
+- Arrays.toString
+- Arrays.deepEquals
+- Arrays.deepHashCode
+- Arrays.deepToString
+- Arrays.stream
+- Arrays.parallelSort
+- Arrays.setAll
+- Arrays.parallelSetAll
+- Arrays.parallelPrefix
+- Arrays.spliterator
+- Arrays.compare
+- Arrays.mismatch
+- Arrays.equals
+- Arrays.hashCode
+- sort
+- binarySearch
+- fill
+- copyOf
+- copyOfRange
+- asList
+- stream
+- parallelSort
+- setAll
+- Collections.sort
+- Collections.binarySearch
+- Collections.reverse
+- Collections.shuffle
+- Collections.swap
+- Collections.fill
+- Collections.copy
+- Collections.min
+- Collections.max
+- Collections.rotate
+- Collections.replaceAll
+- Collections.indexOfSubList
+- Collections.lastIndexOfSubList
+- Collections.unmodifiableList
+- Collections.unmodifiableSet
+- Collections.unmodifiableMap
+- Collections.synchronizedList
+- Collections.synchronizedSet
+- Collections.synchronizedMap
+- Collections.emptyList
+- Collections.emptySet
+- Collections.emptyMap
+- Collections.singleton
+- Collections.singletonList
+- Collections.singletonMap
+- Collections.nCopies
+- Collections.reverseOrder
+- Collections.frequency
+- Collections.disjoint
+- Collections.addAll
+- sort
+- reverse
+- shuffle
+- swap
+- min
+- max
+- frequency
+- disjoint
+- addAll
+- emptyList
+- singletonList
+- unmodifiableList
+- Math.abs
+- Math.acos
+- Math.asin
+- Math.atan
+- Math.atan2
+- Math.cbrt
+- Math.ceil
+- Math.cos
+- Math.cosh
+- Math.exp
+- Math.expm1
+- Math.floor
+- Math.hypot
+- Math.log
+- Math.log10
+- Math.log1p
+- Math.max
+- Math.min
+- Math.pow
+- Math.random
+- Math.round
+- Math.signum
+- Math.sin
+- Math.sinh
+- Math.sqrt
+- Math.tan
+- Math.tanh
+- Math.toDegrees
+- Math.toRadians
+- Math.ulp
+- Math.addExact
+- Math.subtractExact
+- Math.multiplyExact
+- Math.incrementExact
+- Math.decrementExact
+- Math.negateExact
+- Math.toIntExact
+- Math.floorDiv
+- Math.floorMod
+- Math.nextAfter
+- Math.nextUp
+- Math.nextDown
+- Math.scalb
+- Math.copySign
+- Math.getExponent
+- Math.IEEEremainder
+- abs
+- max
+- min
+- pow
+- System.out.println
+- System.out.print
+- System.out.printf
+- System.err.println
+- System.in.read
+- System.exit
+- System.currentTimeMillis
+- System.nanoTime
+- System.getProperty
+- System.setProperty
+- System.getenv
+- System.arraycopy
+- System.identityHashCode
+- System.gc
+- System.runFinalization
+- System.load
+- System.loadLibrary
+- System.lineSeparator
+- System.console
+- System.inheritedChannel
+- println
+- print
+- printf
+- currentTimeMillis
+- nanoTime
+intermediate:
+- stream
+- parallelStream
+- of
+- Stream.of
+- Stream.empty
+- Stream.iterate
+- Stream.generate
+- Stream.concat
+- Stream.builder
+- filter
+- map
+- flatMap
+- mapToInt
+- mapToLong
+- mapToDouble
+- flatMapToInt
+- flatMapToLong
+- flatMapToDouble
+- distinct
+- sorted
+- peek
+- limit
+- skip
+- takeWhile
+- dropWhile
+- forEach
+- forEachOrdered
+- toArray
+- reduce
+- collect
+- min
+- max
+- count
+- anyMatch
+- allMatch
+- noneMatch
+- findFirst
+- findAny
+- toList
+- IntStream
+- LongStream
+- DoubleStream
+- IntStream.range
+- IntStream.rangeClosed
+- LongStream.range
+- LongStream.rangeClosed
+- boxed
+- sum
+- average
+- summaryStatistics
+- mapMulti
+- mapMultiToInt
+- mapMultiToLong
+- mapMultiToDouble
+- Stream.toList
+- Stream.ofNullable
+- Stream.dropWhile
+- Stream.takeWhile
+- Collectors.toList
+- Collectors.toSet
+- Collectors.toMap
+- Collectors.toCollection
+- Collectors.joining
+- Collectors.counting
+- Collectors.summingInt
+- Collectors.averagingInt
+- Collectors.summarizingInt
+- Collectors.reducing
+- Collectors.groupingBy
+- Collectors.partitioningBy
+- Collectors.mapping
+- Collectors.flatMapping
+- Collectors.filtering
+- Collectors.collectingAndThen
+- Collectors.maxBy
+- Collectors.minBy
+- Collectors.teeing
+- toUnmodifiableList
+- toUnmodifiableSet
+- Function
+- BiFunction
+- Predicate
+- BiPredicate
+- Consumer
+- BiConsumer
+- Supplier
+- UnaryOperator
+- BinaryOperator
+- IntFunction
+- LongFunction
+- DoubleFunction
+- ToIntFunction
+- ToLongFunction
+- ToDoubleFunction
+- IntToLongFunction
+- IntToDoubleFunction
+- LongToIntFunction
+- LongToDoubleFunction
+- DoubleToIntFunction
+- DoubleToLongFunction
+- IntUnaryOperator
+- LongUnaryOperator
+- DoubleUnaryOperator
+- IntBinaryOperator
+- LongBinaryOperator
+- DoubleBinaryOperator
+- IntPredicate
+- LongPredicate
+- DoublePredicate
+- IntConsumer
+- LongConsumer
+- DoubleConsumer
+- ObjIntConsumer
+- ObjLongConsumer
+- ObjDoubleConsumer
+- IntSupplier
+- LongSupplier
+- DoubleSupplier
+- BooleanSupplier
+- apply
+- test
+- accept
+- get
+- andThen
+- compose
+- and
+- or
+- negate
+- identity
+- Function.identity
+- Predicate.not
+- Comparator.comparing
+- Comparator.comparingInt
+- Comparator.comparingLong
+- Comparator.comparingDouble
+- Comparator.naturalOrder
+- Comparator.reverseOrder
+- Comparator.nullsFirst
+- Comparator.nullsLast
+- thenComparing
+- Optional
+- OptionalInt
+- OptionalLong
+- OptionalDouble
+- Optional.empty
+- Optional.of
+- Optional.ofNullable
+- isPresent
+- isEmpty
+- get
+- orElse
+- orElseGet
+- orElseThrow
+- ifPresent
+- ifPresentOrElse
+- filter
+- map
+- flatMap
+- or
+- stream
+- OptionalInt.empty
+- OptionalInt.of
+- getAsInt
+- orElse
+- orElseThrow
+- ifPresent
+- isPresent
+- isEmpty
+- stream
+- getAsLong
+- getAsDouble
+- LocalDate
+- LocalTime
+- LocalDateTime
+- ZonedDateTime
+- OffsetDateTime
+- OffsetTime
+- Instant
+- Duration
+- Period
+- Year
+- YearMonth
+- MonthDay
+- DayOfWeek
+- Month
+- ZoneId
+- ZoneOffset
+- Clock
+- DateTimeFormatter
+- LocalDate.now
+- LocalDate.of
+- LocalDate.parse
+- LocalTime.now
+- LocalTime.of
+- LocalDateTime.now
+- LocalDateTime.of
+- Instant.now
+- Instant.ofEpochMilli
+- Duration.ofDays
+- Duration.ofHours
+- Duration.ofMinutes
+- Duration.ofSeconds
+- Duration.between
+- Period.ofDays
+- Period.ofWeeks
+- Period.ofMonths
+- Period.ofYears
+- Period.between
+- plusDays
+- plusMonths
+- plusYears
+- minusDays
+- minusMonths
+- minusYears
+- withYear
+- withMonth
+- withDayOfMonth
+- atTime
+- atZone
+- toLocalDate
+- toLocalTime
+- getYear
+- getMonth
+- getDayOfMonth
+- getDayOfWeek
+- getHour
+- getMinute
+- getSecond
+- getNano
+- isBefore
+- isAfter
+- isEqual
+- until
+- Thread
+- Runnable
+- Callable
+- Future
+- CompletableFuture
+- ExecutorService
+- Executors
+- ThreadPoolExecutor
+- ScheduledExecutorService
+- CountDownLatch
+- CyclicBarrier
+- Semaphore
+- Phaser
+- Exchanger
+- ReentrantLock
+- ReadWriteLock
+- ReentrantReadWriteLock
+- StampedLock
+- Condition
+- Lock
+- synchronized
+- volatile
+- atomic
+- AtomicInteger
+- AtomicLong
+- AtomicBoolean
+- AtomicReference
+- ConcurrentHashMap
+- ConcurrentLinkedQueue
+- ConcurrentLinkedDeque
+- CopyOnWriteArrayList
+- CopyOnWriteArraySet
+- BlockingQueue
+- ArrayBlockingQueue
+- LinkedBlockingQueue
+- PriorityBlockingQueue
+- DelayQueue
+- SynchronousQueue
+- LinkedTransferQueue
+- CompletionService
+- ExecutorCompletionService
+- ForkJoinPool
+- ForkJoinTask
+- RecursiveAction
+- RecursiveTask
+- Thread.start
+- Thread.run
+- Thread.sleep
+- Thread.join
+- Thread.interrupt
+- Thread.yield
+- Thread.currentThread
+- ExecutorService.submit
+- ExecutorService.execute
+- ExecutorService.shutdown
+- ExecutorService.shutdownNow
+- Future.get
+- Future.cancel
+- Future.isDone
+- Future.isCancelled
+- CompletableFuture.supplyAsync
+- CompletableFuture.runAsync
+- thenApply
+- thenAccept
+- thenRun
+- thenCompose
+- thenCombine
+- whenComplete
+- exceptionally
+- handle
+- allOf
+- anyOf
+- List<E>
+- Set<E>
+- Map<K,V>
+- Collection<E>
+- Iterable<T>
+- Iterator<E>
+- Class<T>
+- Comparable<T>
+- Comparator<T>
+- Function<T,R>
+- Predicate<T>
+- Consumer<T>
+- Supplier<T>
+- Optional<T>
+- Stream<T>
+- extends
+- super
+- wildcard
+- bounded
+- unbounded
+- type parameter
+- type variable
+- generic method
+- generic class
+- generic interface
+- PECS
+- producer extends
+- consumer super
+- type erasure
+- bridge method
+- List<String>
+- Map<String,Integer>
+- Set<Long>
+- Queue<T>
+- Deque<E>
+- ArrayList<E>
+- HashMap<K,V>
+- HashSet<E>
+- LinkedList<E>
+- TreeMap<K,V>
+- TreeSet<E>
+- '@Override'
+- '@Deprecated'
+- '@SuppressWarnings'
+- '@FunctionalInterface'
+- '@SafeVarargs'
+- '@Retention'
+- '@Target'
+- '@Documented'
+- '@Inherited'
+- '@Repeatable'
+- '@interface'
+- ElementType
+- RetentionPolicy
+- RetentionPolicy.RUNTIME
+- RetentionPolicy.CLASS
+- RetentionPolicy.SOURCE
+- ElementType.TYPE
+- ElementType.FIELD
+- ElementType.METHOD
+- ElementType.PARAMETER
+- ElementType.CONSTRUCTOR
+- ElementType.LOCAL_VARIABLE
+- ElementType.ANNOTATION_TYPE
+- ElementType.PACKAGE
+- ElementType.TYPE_PARAMETER
+- ElementType.TYPE_USE
+- '@Nullable'
+- '@NonNull'
+- '@NotNull'
+- AnnotationFormatError
+- AnnotationTypeMismatchException
+- IncompleteAnnotationException
+- Annotation
+- AnnotatedElement
+- getDeclaredAnnotations
+- getAnnotations
+- getAnnotation
+- isAnnotationPresent
+- '@Entity'
+- '@Table'
+- '@Column'
+- '@Id'
+- '@GeneratedValue'
+- '@ManyToOne'
+- '@OneToMany'
+- '@ManyToMany'
+- '@OneToOne'
+- '@JoinColumn'
+- '@Transactional'
+- '@Autowired'
+- '@Component'
+- '@Service'
+- '@Repository'
+- '@Controller'
+- File
+- Path
+- Paths
+- Files
+- FileInputStream
+- FileOutputStream
+- FileReader
+- FileWriter
+- BufferedReader
+- BufferedWriter
+- BufferedInputStream
+- BufferedOutputStream
+- InputStreamReader
+- OutputStreamWriter
+- PrintWriter
+- Scanner
+- FileChannel
+- ByteBuffer
+- CharBuffer
+- DirectoryStream
+- WatchService
+- Files.exists
+- Files.createFile
+- Files.createDirectory
+- Files.delete
+- Files.copy
+- Files.move
+- Files.readAllLines
+- Files.readAllBytes
+- Files.readString
+- Files.write
+- Files.writeString
+- Files.lines
+- Files.list
+- Files.walk
+- Files.find
+- Paths.get
+- Path.of
+- Path.resolve
+- Path.relativize
+- Path.normalize
+- Path.toAbsolutePath
+- Path.getFileName
+- Path.getParent
+- Path.toFile
+- StandardOpenOption
+- OpenOption
+- FileAttribute
+- FileVisitor
+- SimpleFileVisitor
+- walkFileTree
+- visitFile
+- preVisitDirectory
+- postVisitDirectory
+- visitFileFailed
+- FileVisitResult
+- LinkOption
+- CopyOption
+- StandardCopyOption
+advanced:
+- '@SpringBootApplication'
+- '@Configuration'
+- '@Bean'
+- '@Component'
+- '@Service'
+- '@Repository'
+- '@Controller'
+- '@RestController'
+- '@RequestMapping'
+- '@GetMapping'
+- '@PostMapping'
+- '@PutMapping'
+- '@DeleteMapping'
+- '@PatchMapping'
+- '@RequestBody'
+- '@RequestParam'
+- '@PathVariable'
+- '@RequestHeader'
+- '@ResponseBody'
+- '@ResponseStatus'
+- '@Autowired'
+- '@Qualifier'
+- '@Primary'
+- '@Lazy'
+- '@Scope'
+- '@Value'
+- '@PropertySource'
+- '@ConfigurationProperties'
+- '@EnableAutoConfiguration'
+- '@ComponentScan'
+- '@Import'
+- '@ImportResource'
+- '@DependsOn'
+- '@Profile'
+- '@Conditional'
+- '@ConditionalOnProperty'
+- '@ConditionalOnClass'
+- '@ConditionalOnMissingBean'
+- '@ConditionalOnBean'
+- ApplicationContext
+- BeanFactory
+- Environment
+- PropertyResolver
+- ResourceLoader
+- ApplicationEventPublisher
+- MessageSource
+- '@EventListener'
+- '@TransactionalEventListener'
+- '@Async'
+- '@Scheduled'
+- '@EnableAsync'
+- '@EnableScheduling'
+- '@Cacheable'
+- '@CacheEvict'
+- '@CachePut'
+- '@EnableCaching'
+- CacheManager
+- '@Transactional'
+- PlatformTransactionManager
+- TransactionTemplate
+- '@EnableTransactionManagement'
+- JpaRepository
+- CrudRepository
+- PagingAndSortingRepository
+- JpaSpecificationExecutor
+- '@Query'
+- '@Modifying'
+- '@Param'
+- '@EntityGraph'
+- Specification
+- Pageable
+- Page
+- Sort
+- Example
+- ExampleMatcher
+- Criteria
+- CriteriaBuilder
+- CriteriaQuery
+- Root
+- Join
+- Predicate
+- RestTemplate
+- WebClient
+- '@WebMvcTest'
+- '@DataJpaTest'
+- '@SpringBootTest'
+- '@MockBean'
+- '@SpyBean'
+- '@TestConfiguration'
+- '@TestPropertySource'
+- '@DirtiesContext'
+- '@Sql'
+- MockMvc
+- TestRestTemplate
+- WebTestClient
+- '@WebFluxTest'
+- '@JsonTest'
+- JacksonTester
+- GsonTester
+- ObjectMapper
+- JsonNode
+- '@Entity'
+- '@Table'
+- '@Column'
+- '@Id'
+- '@GeneratedValue'
+- '@SequenceGenerator'
+- '@TableGenerator'
+- '@GenerationType'
+- GenerationType.AUTO
+- GenerationType.IDENTITY
+- GenerationType.SEQUENCE
+- GenerationType.TABLE
+- '@Temporal'
+- TemporalType
+- '@Enumerated'
+- EnumType
+- '@Lob'
+- '@Transient'
+- '@Basic'
+- '@Version'
+- '@Embeddable'
+- '@Embedded'
+- '@EmbeddedId'
+- '@AttributeOverride'
+- '@AttributeOverrides'
+- '@ManyToOne'
+- '@OneToMany'
+- '@ManyToMany'
+- '@OneToOne'
+- '@JoinColumn'
+- '@JoinTable'
+- '@MapKey'
+- '@MapKeyColumn'
+- '@OrderBy'
+- '@OrderColumn'
+- FetchType
+- FetchType.EAGER
+- FetchType.LAZY
+- CascadeType
+- CascadeType.ALL
+- CascadeType.PERSIST
+- CascadeType.MERGE
+- CascadeType.REMOVE
+- CascadeType.REFRESH
+- CascadeType.DETACH
+- '@NamedQuery'
+- '@NamedQueries'
+- '@NamedNativeQuery'
+- '@SqlResultSetMapping'
+- '@EntityListeners'
+- '@PrePersist'
+- '@PostPersist'
+- '@PreUpdate'
+- '@PostUpdate'
+- '@PreRemove'
+- '@PostRemove'
+- '@PostLoad'
+- EntityManager
+- persist
+- merge
+- remove
+- find
+- getReference
+- flush
+- refresh
+- detach
+- clear
+- contains
+- createQuery
+- createNamedQuery
+- createNativeQuery
+- TypedQuery
+- Query
+- setParameter
+- setFirstResult
+- setMaxResults
+- getSingleResult
+- getResultList
+- executeUpdate
+- EntityManagerFactory
+- Persistence
+- JPAQuery
+- JPQLQuery
+- CriteriaBuilder
+- CriteriaQuery
+- CriteriaUpdate
+- CriteriaDelete
+- Root
+- Path
+- Expression
+- Subquery
+- NavigableSet
+- NavigableMap
+- SortedSet
+- SortedMap
+- EnumSet
+- EnumMap
+- IdentityHashMap
+- WeakHashMap
+- ConcurrentSkipListSet
+- ConcurrentSkipListMap
+- BlockingDeque
+- TransferQueue
+- Collections.checkedList
+- Collections.checkedSet
+- Collections.checkedMap
+- Collections.synchronizedCollection
+- Collections.unmodifiableCollection
+- ImmutableList
+- ImmutableSet
+- ImmutableMap
+- List.of
+- Set.of
+- Map.of
+- Map.entry
+- Map.ofEntries
+- List.copyOf
+- Set.copyOf
+- Map.copyOf
+- Arrays.compareUnsigned
+- Arrays.equals
+- Arrays.mismatch
+- Collections.frequency
+- Collections.disjoint
+- Collections.nCopies
+- Collections.rotate
+- Collections.replaceAll
+- Spliterator
+- Spliterators
+- StreamSupport
+- AbstractCollection
+- AbstractList
+- AbstractSet
+- AbstractMap
+- AbstractSequentialList
+- AbstractQueue
+- RandomAccess
+- Cloneable
+- Serializable
+- ListIterator
+- descendingIterator
+- descendingSet
+- descendingMap
+- Class.forName
+- getClass
+- getSuperclass
+- getInterfaces
+- getConstructors
+- getDeclaredConstructors
+- getMethods
+- getDeclaredMethods
+- getFields
+- getDeclaredFields
+- getAnnotations
+- getDeclaredAnnotations
+- getAnnotation
+- isAnnotationPresent
+- Constructor
+- Method
+- Field
+- Parameter
+- invoke
+- newInstance
+- setAccessible
+- isAccessible
+- getModifiers
+- Modifier.isPublic
+- Modifier.isPrivate
+- Modifier.isProtected
+- Modifier.isStatic
+- Modifier.isFinal
+- Modifier.isAbstract
+- Modifier.isInterface
+- getReturnType
+- getParameterTypes
+- getGenericReturnType
+- getGenericParameterTypes
+- getTypeParameters
+- ParameterizedType
+- TypeVariable
+- WildcardType
+- GenericArrayType
+- Type
+- getActualTypeArguments
+- getRawType
+- getOwnerType
+- getUpperBounds
+- getLowerBounds
+- MethodHandle
+- MethodHandles
+- MethodHandles.lookup
+- MethodType
+- CallSite
+- VarHandle
+- MethodHandles.privateLookupIn
+- MethodHandles.arrayElementVarHandle
+- invokeExact
+- invokeWithArguments
+- bindTo
+- VarHandle.get
+- VarHandle.set
+- VarHandle.getAndSet
+- VarHandle.compareAndSet
+- VarHandle.compareAndExchange
+- VarHandle.getAcquire
+- VarHandle.setRelease
+- record
+- sealed
+- non-sealed
+- permits
+- canonical constructor
+- compact constructor
+- record component
+- accessor method
+- Record.class
+- isRecord
+- getRecordComponents
+- RecordComponent
+- sealed interface
+- sealed class
+- permits clause
+- exhaustive switch
+- pattern matching
+- instanceof pattern
+- record pattern
+- deconstruction pattern
+- type pattern
+- guarded pattern
+- switch expression
+- yield
+- case constant
+- case pattern
+- case null
+- default case
+- exhaustiveness
+- sealed hierarchy
+- var
+- local variable type inference
+- diamond operator
+- try-with-resources
+- multi-catch
+- switch expression
+- text blocks
+- pattern matching for instanceof
+- pattern matching for switch
+- virtual threads
+- structured concurrency
+- scoped values
+- foreign function
+- memory API
+- vector API
+- project loom
+- project panama
+- project valhalla
+- record patterns
+- unnamed patterns
+- unnamed variables
+- String templates
+- sequenced collections
+- SequencedCollection
+- SequencedSet
+- SequencedMap
+- addFirst
+- addLast
+- getFirst
+- getLast
+- removeFirst
+- removeLast
+- reversed
+- Thread.ofVirtual
+- Thread.ofPlatform
+- Thread.startVirtualThread
+- StructuredTaskScope
+- StructuredTaskScope.ShutdownOnSuccess
+- StructuredTaskScope.ShutdownOnFailure
+- ScopedValue
+- ScopedValue.newInstance
+- ScopedValue.where
+- MemorySegment
+- MemoryLayout
+- Arena
+- SegmentAllocator
+- ValueLayout
+- SequenceLayout
+- StructLayout
+- UnionLayout
+- FunctionDescriptor
+- Linker
+- SymbolLookup
+- VectorSpecies
+- VectorMask
+- VectorShuffle
+- IntVector
+- LongVector
+- FloatVector
+- DoubleVector
+- Maven
+- Gradle
+- pom.xml
+- build.gradle
+- settings.gradle
+- dependency
+- plugin
+- repository
+- maven-compiler-plugin
+- maven-surefire-plugin
+- maven-jar-plugin
+- spring-boot-maven-plugin
+- task
+- implementation
+- api
+- compileOnly
+- runtimeOnly
+- testImplementation
+- annotationProcessor
+- repositories
+- mavenCentral
+- mavenLocal
+- jcenter
+- dependencies
+- configurations
+- sourceSet
+- jar
+- war
+- bootJar
+- bootRun
+- test
+- clean
+- build
+- assemble
+- compile
+- JavaCompile
+- JUnit
+- JUnit5
+- TestNG
+- Mockito
+- AssertJ
+- Hamcrest
+- '@Test'
+- '@BeforeEach'
+- '@AfterEach'
+- '@BeforeAll'
+- '@AfterAll'
+- '@DisplayName'
+- '@Disabled'
+- '@ParameterizedTest'
+- '@ValueSource'
+- '@CsvSource'
+- '@MethodSource'
+- '@RepeatedTest'
+- '@Tag'
+- Spring Cloud
+- Eureka
+- Ribbon
+- Feign
+- Hystrix
+- Zuul
+- Spring Cloud Gateway
+- Config Server
+- '@EnableEurekaServer'
+- '@EnableEurekaClient'
+- '@EnableDiscoveryClient'
+- '@FeignClient'
+- '@LoadBalanced'
+- '@HystrixCommand'
+- '@EnableCircuitBreaker'
+- RestTemplate
+- WebClient
+- ServiceInstance
+- DiscoveryClient
+- LoadBalancerClient
+- '@RefreshScope'
+- '@ConfigurationProperties'
+- Spring Cloud Config
+- Spring Cloud Bus
+- Spring Cloud Stream
+- '@EnableBinding'
+- '@StreamListener'
+- '@Input'
+- '@Output'
+- MessageChannel
+- Spring Cloud Sleuth
+- Spring Cloud Zipkin
+- distributed tracing
+- circuit breaker
+- service discovery
+- API gateway
+- config management
+- load balancing
+- resilience
+- fault tolerance
+- backpressure
+- bulkhead
+boss_words:
+  beginner:
+  - public class Main { }
+  - public static void main(String[] args) { }
+  - System.out.println("Hello");
+  - int x = 10;
+  - String name = "Alice";
+  - boolean flag = true;
+  - double price = 9.99;
+  - int[] numbers = new int[5];
+  - String[] names = {"A", "B", "C"};
+  - for (int i = 0; i < 10; i++) { }
+  - 'for (String item : items) { }'
+  - while (count > 0) { }
+  - if (x > 5) { } else { }
+  - 'switch (value) { case 1: break; }'
+  - public int add(int a, int b) { return a + b; }
+  - public String getName() { return name; }
+  - public void setName(String name) { this.name = name; }
+  - try { } catch (Exception e) { }
+  - throw new Exception("Error");
+  - public class Person { private String name; }
+  - public Person(String name) { this.name = name; }
+  - public class Dog extends Animal { }
+  - public interface Drawable { void draw(); }
+  - public class Circle implements Drawable { }
+  - '@Override public String toString() { }'
+  - list.add(item);
+  - list.remove(item);
+  - list.get(index);
+  - list.size();
+  - map.put(key, value);
+  - map.get(key);
+  - set.add(element);
+  - String result = str.toUpperCase();
+  - String[] parts = str.split(",");
+  - int length = str.length();
+  - boolean contains = str.contains("test");
+  - String sub = str.substring(0, 5);
+  - int num = Integer.parseInt("42");
+  - String text = String.valueOf(123);
+  - Math.max(a, b);
+  - Math.min(a, b);
+  - Math.random();
+  - Arrays.sort(array);
+  - Arrays.asList(1, 2, 3);
+  - Collections.sort(list);
+  - Collections.reverse(list);
+  - List<String> names = new ArrayList<>();
+  - Map<String, Integer> ages = new HashMap<>();
+  - Set<Integer> numbers = new HashSet<>();
+  - List<Integer> list = List.of(1, 2, 3);
+  - Map<String, String> map = Map.of("key", "value");
+  - Optional<String> opt = Optional.of("test");
+  - String value = opt.orElse("default");
+  - LocalDate today = LocalDate.now();
+  - LocalDateTime now = LocalDateTime.now();
+  - 'String formatted = String.format("%s: %d", name, count);'
+  - StringBuilder sb = new StringBuilder();
+  - sb.append("Hello").append(" World");
+  - File file = new File("data.txt");
+  - Scanner scanner = new Scanner(System.in);
+  - int input = scanner.nextInt();
+  - String line = scanner.nextLine();
+  - try (Scanner s = new Scanner(file)) { }
+  - Objects.equals(obj1, obj2);
+  - Objects.requireNonNull(obj);
+  - Objects.toString(obj, "default");
+  - final int MAX = 100;
+  - static final String NAME = "Test";
+  - public enum Color { RED, GREEN, BLUE }
+  - Color.RED.ordinal();
+  - Color.valueOf("RED");
+  - abstract class Shape { abstract double area(); }
+  - public final class Utils { }
+  - private static int counter = 0;
+  - public static int getCounter() { return counter; }
+  - this.name = name;
+  - super.method();
+  - super(parameter);
+  - instanceof String
+  - obj instanceof List
+  - (String) obj;
+  - new Thread(() -> { }).start();
+  - Runnable task = () -> System.out.println("Task");
+  intermediate:
+  - List<String> names = list.stream().filter(s -> s.length() > 3).collect(Collectors.toList());
+  - list.stream().map(String::toUpperCase).forEach(System.out::println);
+  - int sum = numbers.stream().reduce(0, Integer::sum);
+  - Optional<String> first = list.stream().findFirst();
+  - long count = items.stream().filter(item -> item.isActive()).count();
+  - Map<String, List<Person>> grouped = people.stream().collect(Collectors.groupingBy(Person::getCity));
+  - List<Integer> sorted = numbers.stream().sorted().collect(Collectors.toList());
+  - boolean anyMatch = list.stream().anyMatch(s -> s.startsWith("A"));
+  - IntStream.range(0, 10).forEach(System.out::println);
+  - List<String> result = Stream.of("a", "b", "c").collect(Collectors.toList());
+  - Predicate<String> isLong = s -> s.length() > 5;
+  - Function<String, Integer> length = String::length;
+  - Consumer<String> printer = System.out::println;
+  - Supplier<List<String>> listSupplier = ArrayList::new;
+  - BiFunction<Integer, Integer, Integer> add = (a, b) -> a + b;
+  - Comparator<Person> byAge = Comparator.comparing(Person::getAge);
+  - list.sort(Comparator.comparing(Person::getName));
+  - Optional<String> opt = Optional.ofNullable(value);
+  - String result = opt.map(String::toUpperCase).orElse("NONE");
+  - opt.ifPresent(System.out::println);
+  - String value = opt.orElseThrow(() -> new RuntimeException("Not found"));
+  - LocalDate date = LocalDate.of(2024, 1, 15);
+  - LocalDateTime dateTime = LocalDateTime.now();
+  - ZonedDateTime zoned = ZonedDateTime.now();
+  - Duration duration = Duration.ofHours(2);
+  - Period period = Period.ofMonths(3);
+  - LocalDate tomorrow = today.plusDays(1);
+  - long days = ChronoUnit.DAYS.between(start, end);
+  - DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+  - String formatted = date.format(formatter);
+  - LocalDate parsed = LocalDate.parse("2024-01-15", formatter);
+  - CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "result");
+  - future.thenApply(String::toUpperCase).thenAccept(System.out::println);
+  - CompletableFuture.allOf(future1, future2).join();
+  - ExecutorService executor = Executors.newFixedThreadPool(4);
+  - Future<Integer> result = executor.submit(() -> compute());
+  - executor.shutdown();
+  - Thread thread = new Thread(() -> { /* task */ });
+  - thread.start();
+  - AtomicInteger counter = new AtomicInteger(0);
+  - counter.incrementAndGet();
+  - counter.compareAndSet(0, 1);
+  - ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+  - map.putIfAbsent("key", 1);
+  - map.computeIfAbsent("key", k -> compute());
+  - List<String> lines = Files.readAllLines(Paths.get("file.txt"));
+  - Files.write(path, lines, StandardOpenOption.CREATE);
+  - Stream<String> lines = Files.lines(path);
+  - Files.walk(path).filter(Files::isRegularFile).forEach(System.out::println);
+  - Path resolved = path.resolve("subdir/file.txt");
+  - Path normalized = path.normalize();
+  - try (BufferedReader reader = Files.newBufferedReader(path)) { }
+  - record Person(String name, int age) { }
+  - Person person = new Person("Alice", 30);
+  - String name = person.name();
+  - sealed interface Shape permits Circle, Rectangle { }
+  - public enum Day { MONDAY, TUESDAY, WEDNESDAY }
+  - switch (day) { case MONDAY -> System.out.println("Monday"); }
+  - int result = switch (value) { case 1 -> 10; case 2 -> 20; default -> 0; };
+  - '@FunctionalInterface interface Calculator { int calculate(int a, int b); }'
+  - Calculator add = (a, b) -> a + b;
+  - list.forEach(item -> System.out.println(item));
+  - list.removeIf(item -> item.isEmpty());
+  - map.replaceAll((k, v) -> v.toUpperCase());
+  - Map<String, Integer> map = Map.of("one", 1, "two", 2);
+  - List<String> immutable = List.copyOf(mutableList);
+  - var list = new ArrayList<String>();
+  - var map = Map.of("key", "value");
+  - if (obj instanceof String s) { System.out.println(s.length()); }
+  - "String text = \"\"\"  \n    Multi-line\n    string\n    \"\"\";"
+  - '@Deprecated(since="1.5", forRemoval=true) public void oldMethod() { }'
+  - '@SuppressWarnings("unchecked") List<String> list = (List<String>) obj;'
+  - Class<?> clazz = Class.forName("com.example.MyClass");
+  - Method method = clazz.getMethod("getName");
+  - Object result = method.invoke(instance);
+  - Field field = clazz.getDeclaredField("name");
+  - field.setAccessible(true);
+  - Object value = field.get(instance);
+  advanced:
+  - '@RestController @RequestMapping("/api/users") public class UserController { }'
+  - '@GetMapping("/{id}") public User getUser(@PathVariable Long id) { }'
+  - '@PostMapping public User create(@RequestBody User user) { }'
+  - '@Autowired private UserService userService;'
+  - '@Service public class UserService { @Transactional public void save(User user)
+    { } }'
+  - '@Repository public interface UserRepository extends JpaRepository<User, Long>
+    { }'
+  - '@Query("SELECT u FROM User u WHERE u.email = :email") User findByEmail(@Param("email")
+    String email);'
+  - '@Entity @Table(name = "users") public class User { }'
+  - '@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;'
+  - '@Column(nullable = false, unique = true) private String email;'
+  - '@ManyToOne @JoinColumn(name = "department_id") private Department department;'
+  - '@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) private List<Order>
+    orders;'
+  - Page<User> findAll(Pageable pageable);
+  - List<User> findByAgeGreaterThan(int age, Sort sort);
+  - Specification<User> spec = (root, query, cb) -> cb.equal(root.get("status"), "ACTIVE");
+  - List<User> users = userRepository.findAll(spec);
+  - '@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)'
+  - EntityManager entityManager;
+  - CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+  - CriteriaQuery<User> query = cb.createQuery(User.class);
+  - Root<User> root = query.from(User.class);
+  - query.select(root).where(cb.equal(root.get("status"), "ACTIVE"));
+  - List<User> results = entityManager.createQuery(query).getResultList();
+  - '@Cacheable(value = "users", key = "#id") public User findById(Long id) { }'
+  - '@CacheEvict(value = "users", allEntries = true) public void clearCache() { }'
+  - '@Async public CompletableFuture<String> asyncMethod() { }'
+  - '@Scheduled(fixedRate = 5000) public void scheduledTask() { }'
+  - '@Configuration public class AppConfig { @Bean public DataSource dataSource()
+    { } }'
+  - '@Value("${app.name}") private String appName;'
+  - '@ConfigurationProperties(prefix = "app") public class AppProperties { }'
+  - '@Profile("dev") @Component public class DevConfig { }'
+  - RestTemplate restTemplate = new RestTemplate();
+  - ResponseEntity<User> response = restTemplate.getForEntity(url, User.class);
+  - WebClient client = WebClient.create("https://api.example.com");
+  - Mono<User> user = client.get().uri("/users/{id}", id).retrieve().bodyToMono(User.class);
+  - '@SpringBootApplication public class Application { public static void main(String[]
+    args) { } }'
+  - '@MockBean private UserService userService;'
+  - '@WebMvcTest(UserController.class) public class UserControllerTest { }'
+  - mockMvc.perform(get("/api/users/1")).andExpect(status().isOk());
+  - when(userService.findById(1L)).thenReturn(Optional.of(user));
+  - CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> fetchData());
+  - future.thenCompose(data -> processAsync(data)).thenAccept(result -> save(result));
+  - CompletableFuture.allOf(task1, task2, task3).thenRun(() -> System.out.println("Done"));
+  - future.exceptionally(ex -> { log.error("Error", ex); return defaultValue; });
+  - Stream.of(items).parallel().map(this::process).collect(Collectors.toList());
+  - ForkJoinPool.commonPool().submit(() -> heavyComputation());
+  - Proxy.newProxyInstance(loader, interfaces, (proxy, method, args) -> method.invoke(target,
+    args));
+  - MethodHandles.Lookup lookup = MethodHandles.lookup();
+  - MethodHandle mh = lookup.findVirtual(String.class, "length", MethodType.methodType(int.class));
+  - int length = (int) mh.invoke("test");
+  - VarHandle vh = MethodHandles.lookup().findVarHandle(MyClass.class, "field", int.class);
+  - vh.compareAndSet(instance, 0, 1);
+  - sealed interface Result<T> permits Success, Failure { }
+  - record Success<T>(T value) implements Result<T> { }
+  - record Failure<T>(String error) implements Result<T> { }
+  - Object obj = switch (shape) { case Circle c -> Math.PI * c.radius() * c.radius();
+    case Rectangle r -> r.width() * r.height(); };
+  - if (obj instanceof Point(int x, int y)) { System.out.println(x + y); }
+  - Thread.ofVirtual().start(() -> handleRequest());
+  - try (var scope = new StructuredTaskScope.ShutdownOnFailure()) { }
+  - ScopedValue<User> CURRENT_USER = ScopedValue.newInstance();
+  - ScopedValue.where(CURRENT_USER, user).run(() -> process());
+  - '@FeignClient(name = "user-service") public interface UserClient { @GetMapping("/users/{id}")
+    User getUser(@PathVariable Long id); }'
+  - '@EnableEurekaClient @SpringBootApplication public class ServiceApplication {
+    }'
+  - '@LoadBalanced @Bean public RestTemplate restTemplate() { }'
+  - '@HystrixCommand(fallbackMethod = "defaultUser") public User getUser(Long id)
+    { }'
+  - '@RefreshScope @Component public class DynamicConfig { }'
+  - List<ServiceInstance> instances = discoveryClient.getInstances("service-name");
+  - List<String> results = list.stream().parallel().map(this::expensiveOperation).collect(Collectors.toList());
+  - Optional<User> user = repository.findById(id).filter(u -> u.isActive()).map(u
+    -> enhance(u));
+  - Map<Status, List<Order>> byStatus = orders.stream().collect(Collectors.groupingBy(Order::getStatus));
+  - DoubleSummaryStatistics stats = orders.stream().collect(Collectors.summarizingDouble(Order::getTotal));
+  - String joined = names.stream().collect(Collectors.joining(", ", "[", "]"));
+  - Map<Boolean, List<User>> partitioned = users.stream().collect(Collectors.partitioningBy(User::isActive));
+  - Collector<Person, ?, Map<City, Set<String>>> collector = Collectors.groupingBy(Person::getCity,
+    Collectors.mapping(Person::getName, Collectors.toSet()));
+  - List<CompletableFuture<Result>> futures = items.stream().map(item -> CompletableFuture.supplyAsync(()
+    -> process(item))).toList();
+  - CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).thenApply(v
+    -> futures.stream().map(CompletableFuture::join).toList());
+  - Stream.iterate(0, n -> n + 1).limit(100).parallel().forEach(this::process);
+  - Pattern pattern = Pattern.compile("\\d+"); Matcher matcher = pattern.matcher(text);
+    while (matcher.find()) { }
+  - record Point(int x, int y) { public Point { if (x < 0 || y < 0) throw new IllegalArgumentException();
+    } }
+  - List<String> sequenced = new ArrayList<>(); sequenced.addFirst("first"); sequenced.addLast("last");

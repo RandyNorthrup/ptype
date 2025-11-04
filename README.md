@@ -1,17 +1,26 @@
 # P-Type: The Typing Game
 
-![P-Type Logo](core/assets/images/ptype_logo.png)
+A modern, educational typing game where players defend against waves of enemy spaceships by typing words as fast and accurately as possible. Built with React, TypeScript, and Three.js for immersive 3D graphics.
 
-P-Type is a modern, educational typing game where players defend against waves of enemy spaceships by typing words as fast and accurately as possible. With a sleek space-themed interface and multiple game modes, P-Type combines the thrill of action gaming with typing practice to improve WPM and accuracy.
+🎮 **Live Demo**: [Deployed on Vercel](https://ptype.vercel.app)
+
+## Versions
+
+This repository contains two versions:
+
+- **Web Version** - Modern React/Three.js implementation (primary, actively developed)
+- **[Python Version](./python-version/)** - Original Pygame implementation (legacy reference)
 
 ## Features
 
 ### Core Gameplay
 - **Real-time Typing Combat**: Defend your spaceship by typing words that destroy incoming enemy ships
+- **Dynamic Word Destruction**: Type letters from left to right to destroy words - each letter explodes with dramatic particle effects
 - **Progressive Difficulty**: Advance through 100 levels with increasing speed and complexity
 - **Health & Shield System**: Survive enemy attacks with health points and shield boosts
-- **Boss Battles**: Face tougher enemies requiring longer text strings
-- **Timer-based Play**: See how long you can survive against endless waves
+- **Boss Battles**: Face larger, tougher enemies every 3 levels with enhanced visual effects
+- **Enemy Type Progression**: Basic ships in early levels, fast ships appear later with longer words
+- **3-Lane Spawn System**: Enemies spawn in three positions (left, center, right) with intelligent rotation
 
 ### Game Modes
 - **Normal Mode**: Practice typing English words organized by difficulty (beginner/intermediate/advanced)
@@ -25,21 +34,29 @@ P-Type is a modern, educational typing game where players defend against waves o
   - HTML
 
 ### Advanced Features
-- **Bonus Items**: Collect power-ups including:
-  - Seeking Missiles (homing projectiles)
-  - Shield Boost (instant shield restoration)
-  - Health Pack (HP regeneration)
-  - Time Freeze (pause enemies temporarily)
-- **EMP Weapon**: Area-of-effect attack to clear multiple enemies
-- **Visual Effects**: Lasers, explosions, particle effects, and animated typing feedback
-- **Multiple Ship Types**: Upgradeable player ships with different abilities
+- **EMP Weapon**: Press Enter to trigger area-of-effect attack to clear multiple enemies (with cooldown)
+- **Target Switching**: Press Tab to cycle between enemy targets
+- **Visual Effects**: 
+  - Dynamic laser beams that shoot from player ship wings
+  - Orange glowing words with individual letter glow effects
+  - 15-particle explosions when letters are destroyed
+  - Ship debris explosions on collision with 20-30 particles
+  - Dynamic text scaling (larger when far, smaller when close)
+- **Smart Enemy AI**: 
+  - Ships maintain separation with dynamic collision avoidance
+  - Position-based repulsion forces prevent overlapping
+  - Word-width-aware boundaries
+- **Collision System**: Ships explode into debris particles on contact with player
 
 ### Progression & Stats
 - **Profile System**: Multiple player profiles with persistent statistics
 - **Achievements**: Unlock 18+ achievements for milestones like typing speed, accuracy, and boss defeats
+- **Achievement Toasts**: 3-second notification popups when achievements are unlocked
 - **High Scores**: Global and personal best scoreboards
 - **Detailed Statistics**: Track WPM, accuracy, words typed, perfection streaks, and more
-- **Trivia Mode**: Answer questions after boss defeats for bonus items and rewards
+- **Trivia Mode**: Answer programming trivia questions every 2 boss defeats for rewards
+- **Smart Word Cycling**: Words are shuffled and cycled to prevent immediate repetition
+- **Level Progression**: Advance every 5 words defeated or immediately after defeating a boss
 
 ### Technical Features
 - **Cross-platform**: Runs on Windows, macOS, and Linux
@@ -48,42 +65,28 @@ P-Type is a modern, educational typing game where players defend against waves o
 - **Save/Load**: Continue games across sessions with automatic saving
 - **Settings**: Adjustable music/sound volumes and preference control
 
-## Installation
+## Installation & Development
 
-### Prerequisites
-- Python 3.8 or higher
-- pip package manager
-
-### Dependencies
-Install required packages using pip:
+### Quick Start
 
 ```bash
-pip install -r requirements.txt
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-Required packages:
-- pygame>=2.5.0
-- numpy>=1.24.0  # Required for sound effect generation
-- pytablericons>=1.1.0  # Icon system for UI elements
-- Pillow>=10.0.0  # Image processing for icon conversion
-- PyYAML>=6.0.0 
-
-### Running the Game
-1. Navigate to the project root directory
-2. Run the entry script:
-   ```bash
-   python ptype/ptype.py
-   ```
-   Or from within the ptype directory:
-   ```bash
-   python ptype.py
-   ```
-
-### Build for Distribution
-For creating standalone executables, use PyInstaller:
-```bash
-pyinstaller ptype/ptype.spec
-```
+### Requirements
+- Node.js 18+ and npm
+- Modern browser with WebGL support
+- Internet connection for 3D models (first load)
 
 ## Usage Guide
 
@@ -99,13 +102,14 @@ pyinstaller ptype/ptype.spec
 - **Statistics Tracking**: Comprehensive metrics across all game modes
 
 ### Controls
-- **Typing**: Type letters to spell enemy words
-- **Backspace**: Correct mistakes in current word
-- **Enter**: Activate EMP weapon (with cooldown)
-- **↑/↓ Arrows**: Cycle through bonus items
-- **←/→ Arrows**: Switch between ship types
+
+- **Typing**: Type letters to destroy words letter by letter
+- **Backspace**: Delete last character (keeps target locked)
+- **Tab**: Switch between enemy targets
+- **Enter**: Activate EMP weapon (10-second cooldown)
 - **Escape**: Pause/unpause game
-- **F11/Alt+Enter**: Toggle fullscreen (handled by window manager)
+- **Auto-targeting**: Automatically targets enemies by first letter
+- **Bonus Items**: Arrow keys to cycle through collected power-ups
 
 ### Power-ups & Abilities
 - **Rapid Fire**: Increased firing rate for a limited time
@@ -118,16 +122,28 @@ pyinstaller ptype/ptype.spec
 
 ### Typing System
 - Type words exactly as shown on enemy ships
-- Correct letters turn green, incorrect letters cause visual feedback
+- **Letter-by-Letter Destruction**: Each correct letter explodes with 15 particles in a radial pattern
+- **Centered Display**: Remaining letters automatically re-center as word shrinks
+- **Orange Glowing Text**: Words glow with orange color (#ff9800) matching the health bar theme
+- **Target Locking**: Once a word is targeted, it stays locked until destroyed or Tab is pressed
+- **Visual Feedback**: Laser beams shoot from ship wings on each keypress
 - Complete words to destroy enemies and earn points
-- Incorrect words take no action and may cause partial damage
 
 ### Progression
-- **Levels 1-7**: Beginner difficulty words
+- **Levels 1-7**: Beginner difficulty words with basic enemy ships
 - **Levels 8-15**: Intermediate difficulty
 - **Levels 16+**: Advanced difficulty
-- **Boss Waves**: Every few levels, face extra resilient bosses
-- **Scaling Difficulty**: Enemy spawn rates increase with level progression
+- **Boss Battles**: Every 3 levels (3, 6, 9, 12...) with larger ships (2.5x scale)
+- **Enemy Types**:
+  - **Basic Ships**: Start from level 1, standard speed
+  - **Fast Ships**: Begin appearing at level 5, gradually increase in frequency
+  - **Fast ships get longer words** for additional challenge
+  - **Boss ships always include fast enemies** alongside the boss
+- **Dynamic Speed Scaling**: Ships move 2-3x faster than legacy version
+  - Regular enemies: 1.0-8.0 speed units
+  - Boss enemies: 0.4-2.5 speed units
+- **Spawn Control**: Maximum 3 enemies initially, slowly increases to prevent overwhelming
+- **Spawn Rate**: 4 seconds base, decreases to 1.5 second minimum as level increases
 
 ### Scoring
 - **Word Completion**: Base points per word typed
@@ -136,113 +152,82 @@ pyinstaller ptype/ptype.spec
 - **Boss Multipliers**: Extra points for defeating boss enemies
 - **Survival Bonus**: Points based on game duration and health remaining
 
-### Difficulty Scaling
-- Enemy speed increases with level
-- Boss frequency increases over time
-- Word length and complexity ramps progressively
-- Some modes introduce special enemy types with unique mechanics
+### Dynamic Speed Scaling
+- **Fast-Paced Action**: Ships move 1.8-10.0 speed units (regular), 0.6-3.5 (bosses)
+- **Progressive Difficulty**: Speed increases with level and word complexity
+- **3-Lane Spawn System**: Enemies spawn at positions -25, 0, +25 with intelligent rotation
+- **Smart Collision Avoidance**: Ships maintain dynamic separation to prevent overlapping
+- **Boss Encounters**: Every 3 levels with 2.5x ship scale and double health
+- **Enemy Variety**: Basic ships early game, fast ships (20-60% spawn rate) from level 5+
 
-## Architecture
+## Tech Stack
 
-### Code Structure
-The game follows a modular architecture with clear separation of concerns:
+Built with modern web technologies:
+- **React 19** - UI framework with concurrent features
+- **TypeScript 5.9** - Type-safe development
+- **Three.js 0.181** / **React Three Fiber** - 3D graphics rendering
+- **React Three Drei** - Three.js helpers and abstractions
+- **Zustand** - Lightweight state management with persistence
+- **Vite 7** - Lightning-fast build tooling and HMR
+- **PWA** - Progressive Web App with offline support
+- **Vercel** - Serverless deployment platform
 
+### Project Structure
 ```
-ptype/
-├── ptype.py                 # Entry point and environment setup
-├── core/
-│   ├── app.py              # Main game class and loop
-│   ├── game_state.py       # State management and saves
-│   ├── types.py            # Enums and dataclasses
-│   ├── settings.py         # Persistence and configuration
-│   ├── profiles.py         # Player data structures
-│   ├── profile_manager.py  # Profile CRUD operations
-│   ├── achievements.py     # Achievement definitions
-│   ├── environment.py      # Cross-platform compatibility
-│   └── initialization.py   # Asset loading and setup
-├── gameplay/
-│   ├── game_updates.py      # Main game update loop
-│   ├── enemy_management.py  # Enemy AI and spawning
-│   ├── input_management.py  # Typing input handling
-│   ├── bonuses.py          # Power-up effects
-│   └── emp.py              # EMP weapon system
-├── entities/
-│   ├── player.py           # Player ship logic
-│   └── enemies.py          # Enemy ship classes
-├── ui/
-│   ├── ui_manager.py       # UI element coordination
-│   ├── screens.py          # Screen renderers
-│   ├── hud.py              # In-game overlay
-│   ├── window_manager.py   # Window handling
-│   └── widgets.py          # Custom UI components
-├── graphics/
-│   ├── ships.py            # Ship visuals
-│   └── stars.py            # Background effects
-├── effects/
-│   └── effects.py          # Visual effects
-├── audio/
-│   └── sound_manager.py    # Sound effects system
-├── data/
-│   ├── word_dictionary.py  # Word collections
-│   └── trivia_db.py        # Trivia and bonuses
-└── core/assets/            # Images and sounds
+src/
+├── components/       # React components (UI & game)
+├── entities/         # 3D entities (ships, objects)
+├── engine/          # Game loop and physics
+├── store/           # Zustand state management
+├── utils/           # Helpers and utilities
+└── data/            # Game data (words, achievements)
 ```
-
-### Technical Details
-- **Engine**: Pygame 2.x for game logic and rendering
-- **Language**: Python 3.8+
-- **Architecture**: Object-oriented with modular design
-- **Persistence**: JSON-based save system
-- **Audio**: Procedural sound generation and MP3 playback
-- **Performance**: Optimized for 60 FPS with particle effects
 
 ## Contributing
 
-Contributions are welcome! The project follows standard Python development practices.
-
-### Development Setup
-1. Fork and clone the repository
-2. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Run tests and add features
+Contributions are welcome! Please follow these guidelines:
 
 ### Code Style
-- Follow PEP 8 conventions
-- Use type hints where possible
-- Keep functions small and focused
-- Document complex logic with comments
+- **TypeScript**: Strict mode enabled, full typing
+- **React**: Functional components with hooks, memoization
+- **Components**: Single responsibility, test IDs for E2E testing
+- **Error Handling**: Comprehensive error logging, no console.log in production
+- **State Management**: Zustand with proper selectors and persistence
 
-### Adding Features
-- New game modes: Extend `GameMode` enum and add rendering logic
-- New programming languages: Update `ProgrammingLanguage` enum and word dictionaries
-- New achievements: Add to `ACHIEVEMENTS` dictionary in achievements.py
+### Development Workflow
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes with proper TypeScript types
+4. Test thoroughly (build, dev server, game mechanics)
+5. Commit with clear messages
+6. Push and open a Pull Request
+
+## Performance & Optimization
+
+- **Production Build**: 724KB Three.js core, 408KB total gzipped
+- **PWA**: 2.4MB precached for offline play
+- **React 19**: Automatic memo with compiler optimizations
+- **Zero Console Output**: All logging stripped in production
+- **Lazy Loading**: Components and assets load on demand
+- **WebGL**: Hardware-accelerated 3D rendering
 
 ## Troubleshooting
 
 ### Common Issues
-- **No audio**: Check pygame mixer initialization; fallback to no sound mode
-- **Window sizing**: Issues on some Linux systems; uses fallback sizing
-- **Performance**: Reduce particle effects or lower resolution on slow systems
-- **Unicode issues**: Game handles most printable characters; some special chars may not work
+- **Performance**: Ensure hardware acceleration enabled in browser
+- **3D Models**: First load may be slow, models cached after
+- **Audio**: Browser autoplay policies may require user interaction
+- **Mobile**: Game designed for desktop/laptop with physical keyboard
 
 ### Debug Mode
-Enable debug output by checking console for initialization messages and error details.
+Check browser console for detailed logs in development mode.
 
-## Version History
+## Documentation
 
-- **v1.5.3** (WIP Edition, 2025-09-29): Current development version
-  - Enhanced UI responsiveness
-  - Improved cross-platform compatibility
-  - Expanded programming language support
-  - New achievement system
-  - Modern visual design updates
+Additional documentation in [`docs/`](docs/):
+- **[CONTENT.md](docs/CONTENT.md)** - Game content (12,388 words, trivia questions)
+- **[DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Deployment instructions for Vercel
+- **[3D_MODELS_INTEGRATION.md](docs/3D_MODELS_INTEGRATION.md)** - 3D model details
 
 ## License
 
@@ -250,13 +235,19 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Credits
 
-P-Type - The Typing Game is developed in Python with pygame.
+Developed by Randy Northrup
+
+### Technologies
+- React, TypeScript, Three.js, React Three Fiber, React Three Drei
+- Vite, Zustand, Vercel
+- 3D models generated with Rodin AI and Polyhaven assets
+- Icons from Tabler Icons
 
 ### Special Thanks
-- Open source community for pygame and pysdl2
-- Icon providers (Tabler Icons)
-- Python community for extensive ecosystem
+- Open source community for amazing tools and libraries
+- Three.js and React Three Fiber communities
+- Contributors and players providing feedback
 
 ---
 
-Enjoy improving your typing skills while defending the galaxy in P-Type!
+**Enjoy improving your typing skills while defending the galaxy! 🚀**

@@ -1,0 +1,1659 @@
+beginner:
+- var
+- let
+- const
+- function
+- return
+- if
+- else
+- for
+- while
+- do
+- switch
+- case
+- default
+- break
+- continue
+- 'true'
+- 'false'
+- 'null'
+- undefined
+- typeof
+- new
+- this
+- delete
+- in
+- instanceof
+- void
+- await
+- async
+- class
+- extends
+- super
+- static
+- export
+- import
+- from
+- as
+- try
+- catch
+- finally
+- throw
+- Object
+- Array
+- String
+- Number
+- Boolean
+- Symbol
+- BigInt
+- Math
+- Date
+- RegExp
+- Error
+- Map
+- Set
+- WeakMap
+- WeakSet
+- Promise
+- Proxy
+- Reflect
+- JSON
+- console
+- window
+- document
+- navigator
+- location
+- history
+- localStorage
+- sessionStorage
+- setTimeout
+- setInterval
+- clearTimeout
+- clearInterval
+- fetch
+- XMLHttpRequest
+- FormData
+- Blob
+- File
+- FileReader
+- URL
+- URLSearchParams
+- TextEncoder
+- TextDecoder
+- ArrayBuffer
+- DataView
+- Int8Array
+- Uint8Array
+- Int16Array
+- Uint16Array
+- Int32Array
+- Uint32Array
+- Float32Array
+- Float64Array
+- push
+- pop
+- shift
+- unshift
+- slice
+- splice
+- concat
+- join
+- reverse
+- sort
+- indexOf
+- lastIndexOf
+- includes
+- find
+- findIndex
+- findLast
+- findLastIndex
+- filter
+- map
+- reduce
+- reduceRight
+- forEach
+- some
+- every
+- flat
+- flatMap
+- fill
+- copyWithin
+- entries
+- keys
+- values
+- at
+- toSorted
+- toReversed
+- toSpliced
+- with
+- Array.from
+- Array.of
+- Array.isArray
+- length
+- constructor
+- toString
+- toLocaleString
+- concat
+- group
+- groupToMap
+- reduceRight
+- flatMap
+- flat
+- entries
+- keys
+- values
+- Symbol.iterator
+- fill
+- copyWithin
+- at
+- findLast
+- findLastIndex
+- toReversed
+- toSorted
+- toSpliced
+- charAt
+- charCodeAt
+- codePointAt
+- concat
+- endsWith
+- includes
+- indexOf
+- lastIndexOf
+- localeCompare
+- match
+- matchAll
+- normalize
+- padEnd
+- padStart
+- repeat
+- replace
+- replaceAll
+- search
+- slice
+- split
+- startsWith
+- substring
+- substr
+- toLowerCase
+- toLocaleLowerCase
+- toUpperCase
+- toLocaleUpperCase
+- trim
+- trimStart
+- trimEnd
+- trimLeft
+- trimRight
+- valueOf
+- at
+- isWellFormed
+- toWellFormed
+- String.fromCharCode
+- String.fromCodePoint
+- String.raw
+- anchor
+- big
+- blink
+- bold
+- fixed
+- fontcolor
+- fontsize
+- italics
+- link
+- small
+- strike
+- sub
+- sup
+- length
+- constructor
+- toString
+- localeCompare
+- normalize
+- padEnd
+- padStart
+- repeat
+- replaceAll
+- search
+- slice
+- split
+- startsWith
+- substring
+- toLocaleLowerCase
+- toLocaleUpperCase
+- trim
+- trimEnd
+- trimStart
+- Object.assign
+- Object.create
+- Object.defineProperty
+- Object.defineProperties
+- Object.entries
+- Object.freeze
+- Object.fromEntries
+- Object.getOwnPropertyDescriptor
+- Object.getOwnPropertyDescriptors
+- Object.getOwnPropertyNames
+- Object.getOwnPropertySymbols
+- Object.getPrototypeOf
+- Object.hasOwn
+- Object.is
+- Object.isExtensible
+- Object.isFrozen
+- Object.isSealed
+- Object.keys
+- Object.preventExtensions
+- Object.seal
+- Object.setPrototypeOf
+- Object.values
+- hasOwnProperty
+- isPrototypeOf
+- propertyIsEnumerable
+- toLocaleString
+- toString
+- valueOf
+- constructor
+- __proto__
+- __defineGetter__
+- __defineSetter__
+- __lookupGetter__
+- __lookupSetter__
+- getOwnPropertyDescriptor
+- getOwnPropertyNames
+- getOwnPropertySymbols
+- getPrototypeOf
+- setPrototypeOf
+- preventExtensions
+- seal
+- freeze
+- isSealed
+- isFrozen
+- isExtensible
+- hasOwn
+- fromEntries
+- entries
+- values
+- keys
+- apply
+- call
+- bind
+- toString
+- Function.prototype
+- arguments
+- caller
+- length
+- name
+- prototype
+- constructor
+- call
+- apply
+- bind
+- toString
+- Symbol.hasInstance
+- arguments.callee
+- arguments.length
+- Function.length
+- Function.name
+- Function.prototype.apply
+- Function.prototype.call
+- Function.prototype.bind
+- Function.prototype.toString
+- Function.prototype.constructor
+- Math.abs
+- Math.acos
+- Math.acosh
+- Math.asin
+- Math.asinh
+- Math.atan
+- Math.atan2
+- Math.atanh
+- Math.cbrt
+- Math.ceil
+- Math.clz32
+- Math.cos
+- Math.cosh
+- Math.exp
+- Math.expm1
+- Math.floor
+- Math.fround
+- Math.hypot
+- Math.imul
+- Math.log
+- Math.log10
+- Math.log1p
+- Math.log2
+- Math.max
+- Math.min
+- Math.pow
+- Math.random
+- Math.round
+- Math.sign
+- Math.sin
+- Math.sinh
+- Math.sqrt
+- Math.tan
+- Math.tanh
+- Math.trunc
+- Math.E
+- Math.LN10
+- Math.LN2
+- Math.LOG10E
+- Math.LOG2E
+- Math.PI
+- Math.SQRT1_2
+- Math.SQRT2
+- Number.isFinite
+- Number.isInteger
+- Number.isNaN
+- Number.isSafeInteger
+- Number.parseFloat
+- Number.parseInt
+- Number.EPSILON
+- Date.now
+- Date.parse
+- Date.UTC
+- getDate
+- getDay
+- getFullYear
+- getHours
+- getMilliseconds
+- getMinutes
+- getMonth
+- getSeconds
+- getTime
+- getTimezoneOffset
+- getUTCDate
+- getUTCDay
+- getUTCFullYear
+- getUTCHours
+- getUTCMilliseconds
+- getUTCMinutes
+- getUTCMonth
+- getUTCSeconds
+- setDate
+- setFullYear
+- setHours
+- setMilliseconds
+- setMinutes
+- setMonth
+- setSeconds
+- setTime
+- setUTCDate
+- setUTCFullYear
+- setUTCHours
+- setUTCMilliseconds
+- setUTCMinutes
+- setUTCMonth
+- setUTCSeconds
+- toDateString
+- toISOString
+- toJSON
+- toLocaleDateString
+- toLocaleString
+- toLocaleTimeString
+- console.log
+- console.error
+- console.warn
+- console.info
+- console.debug
+- console.table
+- console.group
+- console.groupCollapsed
+- console.groupEnd
+- console.time
+- console.timeEnd
+- console.timeLog
+- console.trace
+- console.assert
+- console.clear
+- console.count
+- console.countReset
+- console.dir
+- console.dirxml
+- console.profile
+- console.profileEnd
+- console.timeStamp
+- log
+- error
+- warn
+- info
+- debug
+- table
+- group
+- groupEnd
+- trace
+- Promise.all
+- Promise.allSettled
+- Promise.any
+- Promise.race
+- Promise.reject
+- Promise.resolve
+- then
+- catch
+- finally
+- Promise.prototype.then
+- Promise.prototype.catch
+- Promise.prototype.finally
+- resolve
+- reject
+- all
+- race
+- allSettled
+- any
+- withResolvers
+- try
+- Promise.try
+- Promise.withResolvers
+- PromiseRejectionEvent
+- unhandledrejection
+- rejectionhandled
+- Map.prototype.set
+- Map.prototype.get
+- Map.prototype.has
+- Map.prototype.delete
+- Map.prototype.clear
+- Map.prototype.keys
+- Map.prototype.values
+- Map.prototype.entries
+- Map.prototype.forEach
+- Map.prototype.size
+- Set.prototype.add
+- Set.prototype.has
+- Set.prototype.delete
+- Set.prototype.clear
+- Set.prototype.keys
+- Set.prototype.values
+- Set.prototype.entries
+- Set.prototype.forEach
+- Set.prototype.size
+- set
+- get
+- has
+- delete
+- clear
+- add
+- size
+- keys
+- values
+- entries
+- forEach
+- getElementById
+- getElementsByClassName
+- getElementsByTagName
+- querySelector
+- querySelectorAll
+- createElement
+- createTextNode
+- appendChild
+- removeChild
+- replaceChild
+- insertBefore
+- addEventListener
+- removeEventListener
+- dispatchEvent
+- getAttribute
+- setAttribute
+- removeAttribute
+- hasAttribute
+- classList
+- className
+- id
+- innerHTML
+- outerHTML
+- textContent
+- innerText
+- value
+- checked
+- disabled
+- hidden
+- style
+- dataset
+- parentNode
+- parentElement
+- children
+- childNodes
+- firstChild
+- lastChild
+- nextSibling
+- previousSibling
+- nextElementSibling
+- previousElementSibling
+- cloneNode
+- contains
+- matches
+- closest
+- append
+- prepend
+- after
+- before
+- remove
+- replaceWith
+intermediate:
+- destructuring
+- spread
+- rest
+- template
+- literals
+- arrow
+- default
+- parameters
+- computed
+- property
+- shorthand
+- method
+- generator
+- iterator
+- Symbol.iterator
+- yield
+- async
+- await
+- Promise
+- fetch
+- module
+- import
+- export
+- class
+- extends
+- super
+- static
+- get
+- set
+- constructor
+- prototype
+- WeakMap
+- WeakSet
+- Proxy
+- Reflect
+- BigInt
+- Symbol
+- Map
+- Set
+- Array.from
+- Array.of
+- Object.assign
+- Object.entries
+- Object.values
+- Object.keys
+- Object.freeze
+- Object.seal
+- String.includes
+- String.startsWith
+- String.endsWith
+- String.repeat
+- String.padStart
+- String.padEnd
+- Array.find
+- Array.findIndex
+- Array.includes
+- Number.isNaN
+- Number.isFinite
+- flatMap
+- flat
+- group
+- groupToMap
+- toSorted
+- toReversed
+- toSpliced
+- with
+- at
+- findLast
+- findLastIndex
+- reduce
+- reduceRight
+- every
+- some
+- filter
+- map
+- forEach
+- find
+- findIndex
+- includes
+- indexOf
+- lastIndexOf
+- sort
+- reverse
+- concat
+- slice
+- splice
+- join
+- push
+- pop
+- shift
+- unshift
+- fill
+- copyWithin
+- entries
+- keys
+- values
+- Symbol.iterator
+- matchAll
+- replaceAll
+- at
+- trimStart
+- trimEnd
+- padStart
+- padEnd
+- repeat
+- startsWith
+- endsWith
+- includes
+- search
+- match
+- replace
+- split
+- slice
+- substring
+- substr
+- toLowerCase
+- toUpperCase
+- trim
+- normalize
+- localeCompare
+- codePointAt
+- fromCodePoint
+- isWellFormed
+- toWellFormed
+- charCodeAt
+- charAt
+- concat
+- indexOf
+- lastIndexOf
+- String.raw
+- toString
+- valueOf
+- length
+- constructor
+- async function
+- await
+- Promise.all
+- Promise.allSettled
+- Promise.any
+- Promise.race
+- then
+- catch
+- finally
+- async arrow
+- Promise.resolve
+- Promise.reject
+- async/await
+- try/catch
+- async generator
+- for await
+- async iterator
+- AsyncFunction
+- AsyncGenerator
+- AsyncIterator
+- queueMicrotask
+- process.nextTick
+- setImmediate
+- requestAnimationFrame
+- requestIdleCallback
+- AbortController
+- AbortSignal
+- fetch API
+- Response
+- Request
+- Headers
+- Body
+- ReadableStream
+- WritableStream
+- TransformStream
+- TextDecoder
+- TextEncoder
+- Blob
+- File
+- FileReader
+- FormData
+- URLSearchParams
+- URL
+- WebSocket
+- EventSource
+- MessageChannel
+- BroadcastChannel
+- Worker
+- SharedWorker
+- ServiceWorker
+- Cache
+- CacheStorage
+- useState
+- useEffect
+- useContext
+- useReducer
+- useCallback
+- useMemo
+- useRef
+- useImperativeHandle
+- useLayoutEffect
+- useDebugValue
+- useId
+- useDeferredValue
+- useTransition
+- useSyncExternalStore
+- useInsertionEffect
+- React.Component
+- React.PureComponent
+- React.memo
+- React.Fragment
+- React.createElement
+- React.cloneElement
+- React.isValidElement
+- React.Children
+- React.createContext
+- React.forwardRef
+- React.lazy
+- React.Suspense
+- React.StrictMode
+- React.Profiler
+- ReactDOM.render
+- ReactDOM.createRoot
+- ReactDOM.hydrateRoot
+- ReactDOM.unmountComponentAtNode
+- ReactDOM.findDOMNode
+- ReactDOM.createPortal
+- props
+- state
+- setState
+- forceUpdate
+- componentDidMount
+- componentDidUpdate
+- componentWillUnmount
+- componentDidCatch
+- getDerivedStateFromError
+- getDerivedStateFromProps
+- shouldComponentUpdate
+- getSnapshotBeforeUpdate
+- render
+- JSX
+- Fragment
+- key
+- ref
+- children
+- className
+- htmlFor
+- onChange
+- onClick
+- onSubmit
+- onBlur
+- onFocus
+- onInput
+- onKeyDown
+- onKeyUp
+- onKeyPress
+- onMouseDown
+- onMouseUp
+- onMouseEnter
+- onMouseLeave
+- onMouseMove
+- onTouchStart
+- onTouchEnd
+- onTouchMove
+- onDrag
+- onDrop
+- onScroll
+- onWheel
+- onCopy
+- onCut
+- onPaste
+- require
+- module.exports
+- exports
+- __dirname
+- __filename
+- process
+- process.env
+- process.argv
+- process.exit
+- process.cwd
+- process.chdir
+- Buffer
+- Buffer.from
+- Buffer.alloc
+- Buffer.concat
+- fs
+- fs.readFile
+- fs.writeFile
+- fs.readFileSync
+- fs.writeFileSync
+- fs.readdir
+- fs.mkdir
+- fs.rmdir
+- fs.unlink
+- fs.stat
+- fs.access
+- fs.promises
+- path
+- path.join
+- path.resolve
+- path.dirname
+- path.basename
+- path.extname
+- path.parse
+- path.format
+- http
+- http.createServer
+- http.request
+- http.get
+- https
+- url
+- querystring
+- stream
+- events
+- EventEmitter
+- util
+- util.promisify
+- util.inspect
+- crypto
+- crypto.createHash
+- crypto.randomBytes
+- os
+- os.platform
+- os.cpus
+- os.freemem
+- os.totalmem
+- child_process
+- cluster
+- net
+- dgram
+- dns
+- interface
+- type
+- enum
+- namespace
+- module
+- declare
+- abstract
+- implements
+- private
+- protected
+- public
+- readonly
+- static
+- as
+- is
+- keyof
+- typeof
+- instanceof
+- in
+- extends
+- implements
+- abstract
+- any
+- unknown
+- never
+- void
+- 'null'
+- undefined
+- string
+- number
+- boolean
+- symbol
+- bigint
+- object
+- Array
+- Tuple
+- Union
+- Intersection
+- Literal
+- Template
+- Mapped
+- Conditional
+- Generic
+- Utility
+- Partial
+- Required
+- Readonly
+- Record
+- Pick
+- Omit
+- Exclude
+- Extract
+- NonNullable
+- Parameters
+- ReturnType
+- webpack
+- vite
+- rollup
+- parcel
+- esbuild
+- babel
+- tsc
+- npm
+- yarn
+- pnpm
+- package.json
+- node_modules
+- import
+- export
+- require
+- module
+- commonjs
+- esm
+- umd
+- amd
+- define
+- loader
+- plugin
+- config
+- entry
+- output
+- resolve
+- optimization
+- devServer
+- hot
+- hmr
+- watch
+- build
+- serve
+- start
+- test
+- lint
+- format
+- scripts
+- dependencies
+- jest
+- mocha
+- chai
+- jasmine
+- vitest
+- describe
+- it
+- test
+- expect
+- toBe
+- toEqual
+- toMatch
+- toContain
+- toHaveLength
+- toThrow
+- toBeTruthy
+- toBeFalsy
+- toBeNull
+- toBeUndefined
+- toBeDefined
+- toBeGreaterThan
+- toBeLessThan
+- toBeCloseTo
+- toMatchSnapshot
+- toHaveBeenCalled
+- toHaveBeenCalledWith
+- beforeEach
+- afterEach
+- beforeAll
+- afterAll
+- mock
+- spy
+- stub
+- fake
+- assert
+- should
+- mount
+- shallow
+- render
+- screen
+- fireEvent
+advanced:
+- Proxy
+- Reflect
+- Reflect.get
+- Reflect.set
+- Reflect.has
+- Reflect.deleteProperty
+- Reflect.apply
+- Reflect.construct
+- Reflect.defineProperty
+- Reflect.getOwnPropertyDescriptor
+- Reflect.getPrototypeOf
+- Reflect.setPrototypeOf
+- Reflect.isExtensible
+- Reflect.preventExtensions
+- Reflect.ownKeys
+- Proxy.revocable
+- Proxy handler
+- get trap
+- set trap
+- has trap
+- deleteProperty
+- apply trap
+- construct trap
+- getPrototypeOf
+- setPrototypeOf
+- isExtensible
+- preventExtensions
+- getOwnPropertyDescriptor
+- defineProperty
+- ownKeys
+- WeakRef
+- FinalizationRegistry
+- globalThis
+- Symbol.toStringTag
+- Symbol.toPrimitive
+- Symbol.iterator
+- Symbol.asyncIterator
+- Symbol.hasInstance
+- Symbol.isConcatSpreadable
+- Symbol.species
+- Symbol.split
+- Symbol.search
+- Symbol.replace
+- Symbol.match
+- Symbol.matchAll
+- Symbol.unscopables
+- Symbol.for
+- Symbol.keyFor
+- BigInt64Array
+- BigUint64Array
+- Atomics
+- Atomics.add
+- Atomics.and
+- Atomics.compareExchange
+- Atomics.exchange
+- Atomics.load
+- Atomics.or
+- Atomics.store
+- Atomics.sub
+- Atomics.xor
+- Atomics.wait
+- Atomics.notify
+- Atomics.isLockFree
+- React.lazy
+- React.Suspense
+- React.startTransition
+- React.useDeferredValue
+- React.useTransition
+- React.useSyncExternalStore
+- React.useInsertionEffect
+- React.useId
+- Server Components
+- use server
+- use client
+- React.cache
+- React.use
+- Suspense boundaries
+- Error boundaries
+- Concurrent features
+- Automatic batching
+- Selective hydration
+- Streaming SSR
+- React.createPortal
+- ReactDOM.flushSync
+- ReactDOM.preload
+- ReactDOM.preinit
+- ReactDOM.prefetchDNS
+- ReactDOM.preconnect
+- React.forwardRef
+- useImperativeHandle
+- React.memo
+- React.Fragment
+- React.StrictMode
+- React.Profiler
+- onRender callback
+- Custom hooks
+- Hook rules
+- Hook dependencies
+- Hook optimization
+- Context API
+- Context.Provider
+- Context.Consumer
+- useContext
+- createContext
+- Redux
+- Redux Toolkit
+- useSelector
+- useDispatch
+- configureStore
+- createSlice
+- createAsyncThunk
+- Redux middleware
+- Redux thunk
+- Redux saga
+- Recoil
+- Zustand
+- MobX
+- Jotai
+- Valtio
+- React Query
+- SWR
+- Apollo Client
+- GraphQL
+- Relay
+- Next.js
+- Remix
+- Gatsby
+- Astro
+- Solid.js
+- Qwik
+- React Router
+- React Hook Form
+- Formik
+- Yup
+- Zod
+- cluster
+- worker_threads
+- child_process.spawn
+- child_process.fork
+- child_process.exec
+- Stream
+- Readable
+- Writable
+- Transform
+- Duplex
+- pipeline
+- finished
+- EventEmitter
+- events.once
+- events.on
+- AbortController
+- AbortSignal
+- async_hooks
+- AsyncLocalStorage
+- performance
+- perf_hooks
+- worker_threads
+- Worker
+- parentPort
+- MessageChannel
+- SharedArrayBuffer
+- Atomics
+- vm
+- v8
+- inspector
+- trace_events
+- wasi
+- zlib
+- readline
+- repl
+- tty
+- diagnostics_channel
+- timers.promises
+- setImmediate
+- process.nextTick
+- process.hrtime
+- process.memoryUsage
+- process.cpuUsage
+- Buffer.poolSize
+- StringDecoder
+- punycode
+- domain
+- assert
+- assert.strict
+- http2
+- https.Agent
+- net.Server
+- net.Socket
+- tls
+- dgram.Socket
+- dns.promises
+- fs.Dirent
+- fs.Stats
+- fs.FSWatcher
+- fs.createReadStream
+- fs.createWriteStream
+- Performance API
+- performance.now
+- performance.mark
+- performance.measure
+- performance.getEntries
+- performance.getEntriesByName
+- performance.getEntriesByType
+- performance.clearMarks
+- performance.clearMeasures
+- PerformanceObserver
+- PerformanceEntry
+- PerformanceMark
+- PerformanceMeasure
+- PerformanceNavigationTiming
+- PerformanceResourceTiming
+- Web Workers
+- SharedWorker
+- ServiceWorker
+- Worklet
+- AudioWorklet
+- PaintWorklet
+- LayoutWorklet
+- OffscreenCanvas
+- ImageBitmap
+- requestIdleCallback
+- IntersectionObserver
+- ResizeObserver
+- MutationObserver
+- ReportingObserver
+- WebAssembly
+- WebAssembly.Module
+- WebAssembly.Instance
+- WebAssembly.Memory
+- WebAssembly.Table
+- WebAssembly.compile
+- WebAssembly.instantiate
+- SIMD
+- Intl
+- Intl.DateTimeFormat
+- Intl.NumberFormat
+- Intl.Collator
+- Intl.PluralRules
+- Intl.RelativeTimeFormat
+- Intl.ListFormat
+- Intl.DisplayNames
+- Intl.Locale
+- Intl.Segmenter
+- ImageData
+- ImageBitmapRenderingContext
+- webpack.config.js
+- DefinePlugin
+- HtmlWebpackPlugin
+- MiniCssExtractPlugin
+- TerserPlugin
+- CompressionPlugin
+- BundleAnalyzerPlugin
+- ModuleFederationPlugin
+- optimization.splitChunks
+- vite.config.js
+- rollup.config.js
+- .babelrc
+- babel.config.js
+- tsconfig.json
+- .eslintrc
+- prettier.config.js
+- jest.config.js
+- vitest.config.js
+- package-lock.json
+- yarn.lock
+- pnpm-lock.yaml
+- .npmrc
+- .yarnrc
+- nx.json
+- lerna.json
+- turbo.json
+- next.config.js
+- nuxt.config.js
+- svelte.config.js
+- astro.config.js
+- remix.config.js
+- vite-plugin-pwa
+- workbox
+- service-worker.js
+- manifest.json
+- robots.txt
+- sitemap.xml
+- .gitignore
+- .dockerignore
+- Dockerfile
+- docker-compose.yml
+- vercel.json
+- netlify.toml
+- render.yaml
+- .github/workflows
+- CI/CD
+- GitHub Actions
+- GitLab CI
+- CircleCI
+- Travis CI
+- Jenkins
+- Azure Pipelines
+- Generics
+- Constraints
+- Mapped Types
+- Conditional Types
+- Template Literal Types
+- Recursive Types
+- Infer keyword
+- Type Guards
+- Type Predicates
+- Type Assertions
+- Type Narrowing
+- Discriminated Unions
+- Exhaustive Checks
+- Index Signatures
+- Index Access Types
+- Utility Types
+- Awaited
+- Partial
+- Required
+- Readonly
+- Record
+- Pick
+- Omit
+- Exclude
+- Extract
+- NonNullable
+- Parameters
+- ConstructorParameters
+- ReturnType
+- InstanceType
+- ThisParameterType
+- OmitThisParameter
+- ThisType
+- Uppercase
+- Lowercase
+- Capitalize
+- Uncapitalize
+- NoInfer
+- Satisfies operator
+- const assertions
+- readonly arrays
+- readonly tuples
+- Variance annotations
+- in modifier
+- out modifier
+- Declaration files
+- Ambient declarations
+- Triple-slash directives
+- Module augmentation
+- Global augmentation
+- Namespace merging
+- Interface merging
+- Module resolution
+- Path mapping
+- Base URL
+- Composite projects
+- Project references
+- Incremental compilation
+- Build mode
+- tsbuildinfo
+- JWT
+- JSON Web Token
+- OAuth
+- OAuth2
+- OpenID Connect
+- PKCE
+- Authorization Code Flow
+- Implicit Flow
+- Client Credentials
+- Resource Owner Password
+- Refresh Token
+- Access Token
+- ID Token
+- CORS
+- CSRF
+- XSS
+- SQL Injection
+- CSP
+- Content Security Policy
+- SameSite cookies
+- HttpOnly
+- Secure flag
+- HSTS
+- X-Frame-Options
+- X-Content-Type-Options
+- Referrer-Policy
+- Permissions-Policy
+- bcrypt
+- scrypt
+- argon2
+- PBKDF2
+- crypto.subtle
+- SubtleCrypto
+- Web Crypto API
+- AES-GCM
+- RSA-OAEP
+- ECDSA
+- HMAC
+- SHA-256
+- SHA-512
+- generateKey
+- importKey
+- exportKey
+boss_words:
+  beginner:
+  - const name = 'Alice';
+  - let count = 0;
+  - var isValid = true;
+  - function greet() { }
+  - function add(x, y) { }
+  - return x + y;
+  - return result;
+  - if (x > 5) { }
+  - if (count === 0) { }
+  - for (let i = 0; i < 10; i++) { }
+  - for (const item of items) { }
+  - while (isRunning) { }
+  - items.push(item);
+  - items.pop();
+  - items.map(x => x * 2)
+  - items.filter(x => x > 0)
+  - array.forEach(item => console.log(item))
+  - const sum = numbers.reduce((a, b) => a + b, 0)
+  - const found = items.find(x => x.id === 1)
+  - console.log('Hello World');
+  - 'console.log(`Sum: ${total}`);'
+  - console.error('Error occurred');
+  - 'const obj = { key: ''value'' };'
+  - const arr = [1, 2, 3];
+  - const { name, age } = person;
+  - const [first, second] = array;
+  - const func = () => { };
+  - const double = x => x * 2;
+  - const result = await fetchData();
+  - try { } catch (error) { }
+  - throw new Error('Failed');
+  - class Person { }
+  - class Dog extends Animal { }
+  - constructor(name) { this.name = name; }
+  - get fullName() { return this.name; }
+  - set age(value) { this._age = value; }
+  - static create() { return new this(); }
+  - document.getElementById('id')
+  - document.querySelector('.class')
+  - element.addEventListener('click', handler)
+  - element.classList.add('active')
+  - element.style.color = 'red';
+  - element.textContent = 'Hello';
+  - element.innerHTML = '<div></div>';
+  - fetch('/api/data')
+  - response.json()
+  - Math.random()
+  - Math.floor(Math.random() * 10)
+  - Date.now()
+  - new Date().toISOString()
+  - JSON.stringify(data)
+  - JSON.parse(jsonString)
+  - Object.keys(obj)
+  - Object.values(obj)
+  - Object.entries(obj)
+  - Array.isArray(value)
+  - Array.from(arrayLike)
+  - String.includes('test')
+  - text.split(' ')
+  - array.join(', ')
+  - str.trim()
+  - str.toLowerCase()
+  - str.toUpperCase()
+  - parseInt('42')
+  - parseFloat('3.14')
+  - Number.isNaN(value)
+  - typeof value
+  - value instanceof Array
+  - '''key'' in object'
+  - delete obj.key
+  - Promise.resolve(value)
+  - Promise.reject(error)
+  - new Promise((resolve, reject) => { })
+  - setTimeout(() => { }, 1000)
+  - setInterval(() => { }, 1000)
+  - clearTimeout(timerId)
+  - clearInterval(intervalId)
+  intermediate:
+  - const [state, setState] = useState(0);
+  - useEffect(() => { }, [dependencies]);
+  - const value = useContext(MyContext);
+  - const memoized = useMemo(() => compute(), [deps]);
+  - const callback = useCallback(() => { }, [deps]);
+  - const ref = useRef(null);
+  - async function fetchData() { }
+  - const data = await fetch(url).then(r => r.json());
+  - await Promise.all([fetch1(), fetch2()]);
+  - await Promise.race([promise1, promise2]);
+  - const results = await Promise.allSettled(promises);
+  - for await (const item of asyncIterable) { }
+  - const Component = React.memo(({ props }) => { });
+  - const MyContext = React.createContext(defaultValue);
+  - const ref = React.forwardRef((props, ref) => { });
+  - const Lazy = React.lazy(() => import('./Component'));
+  - <Suspense fallback={<Loading />}><Lazy /></Suspense>
+  - const [isPending, startTransition] = useTransition();
+  - const deferredValue = useDeferredValue(value);
+  - class ErrorBoundary extends React.Component { }
+  - componentDidCatch(error, errorInfo) { }
+  - static getDerivedStateFromError(error) { }
+  - 'const obj = { ...spread, newProp: ''value'' };'
+  - const arr = [...array1, ...array2];
+  - const { prop1, ...rest } = object;
+  - const [first, ...remaining] = array;
+  - function func(...args) { }
+  - func(...arguments);
+  - const result = array?.map(x => x.value);
+  - const value = obj?.nested?.property ?? 'default';
+  - const name = person?.name ?? 'Anonymous';
+  - const items = array.flatMap(x => x.items);
+  - const nested = array.flat(2);
+  - const grouped = array.group(x => x.category);
+  - const sorted = array.toSorted((a, b) => a - b);
+  - const reversed = array.toReversed();
+  - const item = array.at(-1);
+  - const last = array.findLast(x => x.active);
+  - const matches = str.matchAll(/\d+/g);
+  - const replaced = str.replaceAll('old', 'new');
+  - for (const [key, value] of Object.entries(obj)) { }
+  - for (const [index, item] of array.entries()) { }
+  - const map = new Map([['key', 'value']]);
+  - map.set('newKey', 'newValue');
+  - const value = map.get('key');
+  - const set = new Set([1, 2, 3]);
+  - set.add(4);
+  - set.has(2);
+  - const weakMap = new WeakMap();
+  - weakMap.set(obj, data);
+  - const proxy = new Proxy(target, handler);
+  - const handler = { get(target, prop) { } };
+  - const sym = Symbol('description');
+  - const sym = Symbol.for('global');
+  - const bigint = 1234567890123456789012345n;
+  - const gen = function* () { yield 1; yield 2; }
+  - const iterator = gen();
+  - const { value, done } = iterator.next();
+  - const Class = class { };
+  - const obj = Object.create(proto);
+  - Object.freeze(obj);
+  - Object.seal(obj);
+  - Object.defineProperty(obj, 'prop', descriptor);
+  - const descriptor = Object.getOwnPropertyDescriptor(obj, 'prop');
+  - const proto = Object.getPrototypeOf(obj);
+  - Object.setPrototypeOf(obj, proto);
+  - const merged = Object.assign({}, obj1, obj2);
+  - const from = Object.fromEntries(entries);
+  - const regex = /pattern/gi;
+  - const match = str.match(/\d+/g);
+  - const replaced = str.replace(/\d+/g, replacement);
+  - const parts = str.split(/\s+/);
+  - const test = regex.test(string);
+  - const exec = regex.exec(string);
+  - const encoded = encodeURIComponent(str);
+  - const decoded = decodeURIComponent(encoded);
+  - const url = new URL('https://example.com/path');
+  - const params = new URLSearchParams('key=value');
+  - const formData = new FormData();
+  - formData.append('file', file);
+  advanced:
+  - const handler = { get(target, prop, receiver) { return Reflect.get(target, prop,
+    receiver); } };
+  - const revocable = Proxy.revocable(target, handler);
+  - const result = Reflect.apply(func, thisArg, args);
+  - const instance = Reflect.construct(Constructor, args);
+  - Reflect.defineProperty(obj, prop, descriptor);
+  - const descriptor = Reflect.getOwnPropertyDescriptor(obj, prop);
+  - const proto = Reflect.getPrototypeOf(obj);
+  - Reflect.setPrototypeOf(obj, proto);
+  - const extensible = Reflect.isExtensible(obj);
+  - Reflect.preventExtensions(obj);
+  - const keys = Reflect.ownKeys(obj);
+  - const weakRef = new WeakRef(target);
+  - const ref = weakRef.deref();
+  - const registry = new FinalizationRegistry(callback);
+  - registry.register(target, heldValue);
+  - const shared = new SharedArrayBuffer(1024);
+  - const view = new Int32Array(shared);
+  - Atomics.add(view, index, value);
+  - Atomics.wait(view, index, value, timeout);
+  - Atomics.notify(view, index, count);
+  - const wasm = await WebAssembly.instantiateStreaming(fetch('module.wasm'));
+  - const module = await WebAssembly.compile(bytes);
+  - const instance = await WebAssembly.instantiate(module, imports);
+  - 'const memory = new WebAssembly.Memory({ initial: 10 });'
+  - 'const table = new WebAssembly.Table({ initial: 1, element: ''anyfunc'' });'
+  - const worker = new Worker('worker.js');
+  - 'worker.postMessage({ type: ''START'', data });'
+  - worker.addEventListener('message', (e) => { console.log(e.data); });
+  - const sharedWorker = new SharedWorker('shared-worker.js');
+  - sharedWorker.port.postMessage(data);
+  - const registration = await navigator.serviceWorker.register('/sw.js');
+  - const cache = await caches.open('v1');
+  - await cache.addAll(['/index.html', '/style.css']);
+  - const response = await cache.match(request);
+  - const channel = new MessageChannel();
+  - channel.port1.postMessage(data);
+  - channel.port2.onmessage = (e) => { };
+  - const bc = new BroadcastChannel('channel-name');
+  - 'bc.postMessage({ type: ''UPDATE'', data });'
+  - const stream = new ReadableStream({ start(controller) { } });
+  - const reader = stream.getReader();
+  - const { value, done } = await reader.read();
+  - const writable = new WritableStream({ write(chunk) { } });
+  - const writer = writable.getWriter();
+  - await writer.write(chunk);
+  - const transform = new TransformStream({ transform(chunk, controller) { } });
+  - const piped = readable.pipeThrough(transform).pipeTo(writable);
+  - const observer = new IntersectionObserver(callback, options);
+  - observer.observe(element);
+  - const resizeObserver = new ResizeObserver(callback);
+  - resizeObserver.observe(element);
+  - const mutationObserver = new MutationObserver(callback);
+  - 'mutationObserver.observe(element, { childList: true, subtree: true });'
+  - const perfObserver = new PerformanceObserver(callback);
+  - 'perfObserver.observe({ entryTypes: [''measure''] });'
+  - performance.mark('start');
+  - performance.mark('end');
+  - performance.measure('operation', 'start', 'end');
+  - const entries = performance.getEntriesByType('measure');
+  - requestIdleCallback((deadline) => { });
+  - const offscreen = new OffscreenCanvas(width, height);
+  - const ctx = offscreen.getContext('2d');
+  - const bitmap = await createImageBitmap(image);
+  - const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+  - const asyncFunc = new AsyncFunction('a', 'b', 'return await a + b');
+  - const GeneratorFunction = Object.getPrototypeOf(function*(){}).constructor;
+  - const AsyncGeneratorFunction = Object.getPrototypeOf(async function*(){}).constructor;
+  - async function* asyncGenerator() { yield await promise; }
+  - for await (const value of asyncGenerator()) { }
+  - const controller = new AbortController();
+  - const signal = controller.signal;
+  - controller.abort();
+  - fetch(url, { signal }).catch(err => { });
+  - const promise = Promise.withResolvers();
+  - promise.resolve(value);
+  - promise.reject(error);
+  - const result = await Promise.try(() => maybeAsyncFunction());
+  - const aggregator = new AggregateError([error1, error2], 'Multiple errors');
+  - try { await Promise.any(promises); } catch (error) { if (error instanceof AggregateError)
+    { } }
+  - const locale = new Intl.Locale('en-US');
+  - const formatter = new Intl.DateTimeFormat('en-US', options);
+  - const formatted = formatter.format(date);
+  - 'const numberFormatter = new Intl.NumberFormat(''en-US'', { style: ''currency'',
+    currency: ''USD'' });'
+  - 'const collator = new Intl.Collator(''en-US'', { sensitivity: ''base'' });'
+  - const compared = collator.compare(str1, str2);
+  - const plural = new Intl.PluralRules('en-US').select(count);
+  - const relative = new Intl.RelativeTimeFormat('en-US').format(-1, 'day');
+  - 'const list = new Intl.ListFormat(''en-US'', { style: ''long'', type: ''conjunction''
+    }).format(items);'
+  - 'const segmenter = new Intl.Segmenter(''en-US'', { granularity: ''word'' });'
+  - const segments = segmenter.segment(text);
+  - const encrypted = await crypto.subtle.encrypt(algorithm, key, data);
+  - const decrypted = await crypto.subtle.decrypt(algorithm, key, encrypted);
+  - const key = await crypto.subtle.generateKey(algorithm, extractable, keyUsages);
+  - const exported = await crypto.subtle.exportKey(format, key);
+  - const imported = await crypto.subtle.importKey(format, keyData, algorithm, extractable,
+    keyUsages);
+  - const signature = await crypto.subtle.sign(algorithm, key, data);
+  - const valid = await crypto.subtle.verify(algorithm, key, signature, data);
+  - const derived = await crypto.subtle.deriveKey(algorithm, baseKey, derivedKeyAlgorithm,
+    extractable, keyUsages);
+  - const bits = await crypto.subtle.deriveBits(algorithm, baseKey, length);
+  - const hash = await crypto.subtle.digest(algorithm, data);
