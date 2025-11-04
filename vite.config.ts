@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['assets/images/ptype.ico'],
+      injectRegister: 'auto',
       manifest: {
         name: 'P-Type: 3D Typing Game',
         short_name: 'P-Type',
@@ -20,17 +20,17 @@ export default defineConfig({
         orientation: 'landscape',
         icons: [
           {
-            src: 'assets/images/ptype_logo.png',
+            src: '/assets/images/ptype_logo.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'assets/images/ptype_logo.png',
+            src: '/assets/images/ptype_logo.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'assets/images/ptype_logo.png',
+            src: '/assets/images/ptype_logo.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
@@ -38,7 +38,8 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,yaml}'],
+        globPatterns: ['**/*.{js,css,html,png,svg,woff2,ttf,yaml,json}'],
+        globIgnores: ['**/node_modules/**/*', '**/assets/models/**/*'],
         maximumFileSizeToCacheInBytes: 30 * 1024 * 1024, // 30MB for large assets
         navigateFallback: null, // Disable for SPA
         runtimeCaching: [
