@@ -1,0 +1,1285 @@
+beginner:
+- html
+- head
+- body
+- title
+- meta
+- link
+- style
+- script
+- div
+- span
+- p
+- h1
+- h2
+- h3
+- h4
+- h5
+- h6
+- a
+- img
+- br
+- hr
+- strong
+- em
+- b
+- i
+- u
+- s
+- small
+- mark
+- del
+- ins
+- sub
+- sup
+- code
+- pre
+- kbd
+- samp
+- var
+- abbr
+- cite
+- dfn
+- q
+- blockquote
+- ul
+- ol
+- li
+- dl
+- dt
+- dd
+- table
+- thead
+- tbody
+- tfoot
+- tr
+- th
+- td
+- caption
+- col
+- colgroup
+- form
+- input
+- button
+- select
+- option
+- optgroup
+- textarea
+- label
+- fieldset
+- legend
+- datalist
+- output
+- progress
+- meter
+- iframe
+- embed
+- object
+- param
+- video
+- audio
+- source
+- track
+- canvas
+- svg
+- math
+- noscript
+- template
+- slot
+- base
+- comment
+- article
+- section
+- nav
+- aside
+- header
+- footer
+- main
+- figure
+- figcaption
+- address
+- time
+- details
+- summary
+- dialog
+- menu
+- menuitem
+- data
+- ruby
+- rt
+- rp
+- bdi
+- bdo
+- wbr
+- picture
+- search
+- hgroup
+- portal
+- fencedframe
+- selectmenu
+- popup
+- id
+- class
+- style
+- title
+- lang
+- dir
+- hidden
+- tabindex
+- accesskey
+- contenteditable
+- draggable
+- spellcheck
+- translate
+- autocapitalize
+- autofocus
+- disabled
+- readonly
+- required
+- checked
+- selected
+- multiple
+- value
+- name
+- type
+- placeholder
+- pattern
+- min
+- max
+- step
+- minlength
+- maxlength
+- size
+- src
+- href
+- alt
+- width
+- height
+- loading
+- decoding
+- crossorigin
+- integrity
+- referrerpolicy
+- rel
+- target
+- download
+- hreflang
+- type
+- media
+- sizes
+- srcset
+- usemap
+- ismap
+- controls
+- autoplay
+- loop
+- muted
+- preload
+- poster
+- playsinline
+- disablepictureinpicture
+- controlslist
+- kind
+- srclang
+- default
+- label
+- scope
+- headers
+- colspan
+- rowspan
+- abbr
+- axis
+- nowrap
+- valign
+- align
+- bgcolor
+- border
+- cellpadding
+- cellspacing
+- frame
+- rules
+- char
+- charoff
+- span
+- action
+- method
+- enctype
+- accept-charset
+- novalidate
+- formaction
+- formenctype
+- formmethod
+- formnovalidate
+- formtarget
+- accept
+- capture
+- dirname
+- form
+- inputmode
+- list
+- autocomplete
+- cols
+- rows
+- wrap
+- for
+- high
+- low
+- optimum
+- sandbox
+- allow
+- allowfullscreen
+- allowpaymentrequest
+- csp
+- fetchpriority
+- importance
+- intrinsicsize
+- elementtiming
+- blocking
+- async
+- defer
+- nonce
+- charset
+- content
+- http-equiv
+- property
+- itemprop
+- itemscope
+- itemtype
+- itemid
+- itemref
+- slot
+- part
+- exportparts
+- inert
+- popover
+- popovertarget
+- popovertargetaction
+- enterkeyhint
+- virtualkeyboardpolicy
+- text
+- password
+- email
+- tel
+- url
+- search
+- number
+- range
+- date
+- time
+- datetime-local
+- month
+- week
+- color
+- checkbox
+- radio
+- file
+- hidden
+- image
+- button
+- submit
+- reset
+- datetime
+- button
+- tel
+- email
+- url
+- search
+- date
+- time
+- viewport
+- description
+- keywords
+- author
+- robots
+- googlebot
+- generator
+- application-name
+- msapplication-TileColor
+- msapplication-TileImage
+- theme-color
+- apple-mobile-web-app-capable
+- apple-mobile-web-app-status-bar-style
+- apple-mobile-web-app-title
+- apple-touch-icon
+- apple-touch-startup-image
+- format-detection
+- mobile-web-app-capable
+- og:title
+- og:type
+- og:url
+- og:image
+- og:description
+- og:site_name
+- og:locale
+- twitter:card
+- twitter:site
+- twitter:creator
+- twitter:title
+- twitter:description
+- twitter:image
+- canonical
+- alternate
+- prev
+- next
+- dns-prefetch
+- preconnect
+- prefetch
+- prerender
+- preload
+- modulepreload
+- stylesheet
+- icon
+- apple-touch-icon
+- manifest
+- canonical
+- alternate
+- author
+- license
+- help
+- search
+- prev
+- next
+- bookmark
+- external
+- nofollow
+- noopener
+- noreferrer
+- tag
+- prefetch
+- preload
+- prerender
+- dns-prefetch
+- preconnect
+- modulepreload
+- me
+- pingback
+- webmention
+- micropub
+- payment
+- privacy-policy
+- _blank
+- _self
+- _parent
+- _top
+- _unfencedTop
+- framename
+- windowname
+- _new
+- browsing-context-name
+- keyword
+- aria-label
+- aria-labelledby
+- aria-describedby
+- aria-hidden
+- aria-live
+- aria-atomic
+- aria-relevant
+- aria-busy
+- aria-controls
+- aria-owns
+- aria-flowto
+- aria-activedescendant
+- aria-expanded
+- aria-haspopup
+- aria-pressed
+- aria-selected
+- aria-checked
+- aria-disabled
+- aria-readonly
+- aria-required
+- aria-invalid
+- aria-errormessage
+- aria-valuemin
+- aria-valuemax
+- aria-valuenow
+- aria-valuetext
+- aria-orientation
+- aria-sort
+- aria-level
+- aria-posinset
+- aria-setsize
+- aria-current
+- aria-autocomplete
+- aria-multiline
+- aria-multiselectable
+- aria-placeholder
+- aria-roledescription
+- aria-keyshortcuts
+- aria-modal
+- aria-colcount
+- aria-colindex
+- aria-colspan
+- aria-rowcount
+- aria-rowindex
+- aria-rowspan
+- aria-details
+- role
+- aria-braillelabel
+- aria-brailleroledescription
+intermediate:
+- alert
+- alertdialog
+- application
+- article
+- banner
+- button
+- cell
+- checkbox
+- columnheader
+- combobox
+- command
+- complementary
+- composite
+- contentinfo
+- definition
+- dialog
+- directory
+- document
+- feed
+- figure
+- form
+- grid
+- gridcell
+- group
+- heading
+- img
+- input
+- landmark
+- link
+- list
+- listbox
+- listitem
+- log
+- main
+- marquee
+- math
+- menu
+- menubar
+- menuitem
+- menuitemcheckbox
+- menuitemradio
+- meter
+- navigation
+- none
+- note
+- option
+- presentation
+- progressbar
+- radio
+- radiogroup
+- range
+- region
+- roletype
+- row
+- rowgroup
+- rowheader
+- scrollbar
+- search
+- searchbox
+- section
+- sectionhead
+- select
+- separator
+- slider
+- spinbutton
+- status
+- structure
+- switch
+- tab
+- table
+- tablist
+- tabpanel
+- term
+- textbox
+- timer
+- toolbar
+- tooltip
+- tree
+- treegrid
+- treeitem
+- widget
+- window
+- autocomplete="on"
+- autocomplete="off"
+- autocomplete="name"
+- autocomplete="email"
+- autocomplete="username"
+- autocomplete="new-password"
+- autocomplete="current-password"
+- autocomplete="tel"
+- autocomplete="street-address"
+- autocomplete="postal-code"
+- autocomplete="country"
+- autocomplete="cc-number"
+- autocomplete="cc-exp"
+- autocomplete="cc-csc"
+- inputmode="none"
+- inputmode="text"
+- inputmode="decimal"
+- inputmode="numeric"
+- inputmode="tel"
+- inputmode="search"
+- inputmode="email"
+- inputmode="url"
+- enterkeyhint="enter"
+- enterkeyhint="done"
+- enterkeyhint="go"
+- enterkeyhint="next"
+- enterkeyhint="previous"
+- enterkeyhint="search"
+- enterkeyhint="send"
+- pattern="[0-9]*"
+- pattern="[A-Za-z]+"
+- pattern="\d{3}-\d{4}"
+- accept="image/*"
+- accept=".pdf,.doc"
+- accept="audio/*"
+- accept="video/*"
+- capture="user"
+- capture="environment"
+- multiple
+- webkitdirectory
+- mozdirectory
+- directory
+- formnovalidate
+- novalidate
+- enctype="multipart/form-data"
+- enctype="application/x-www-form-urlencoded"
+- enctype="text/plain"
+- method="get"
+- method="post"
+- method="dialog"
+- autoplay
+- controls
+- loop
+- muted
+- preload="none"
+- preload="metadata"
+- preload="auto"
+- poster
+- playsinline
+- controlslist="nodownload"
+- controlslist="nofullscreen"
+- controlslist="noremoteplayback"
+- disablepictureinpicture
+- disableremoteplayback
+- crossorigin="anonymous"
+- crossorigin="use-credentials"
+- kind="subtitles"
+- kind="captions"
+- kind="descriptions"
+- kind="chapters"
+- kind="metadata"
+- srclang
+- default
+- label
+- width
+- height
+- srcset
+- sizes
+- loading="lazy"
+- loading="eager"
+- decoding="sync"
+- decoding="async"
+- decoding="auto"
+- fetchpriority="high"
+- fetchpriority="low"
+- fetchpriority="auto"
+- importance="high"
+- importance="low"
+- importance="auto"
+- elementtiming
+- intrinsicsize
+- async
+- defer
+- type="module"
+- type="text/javascript"
+- type="importmap"
+- type="speculationrules"
+- nomodule
+- crossorigin
+- integrity
+- referrerpolicy="no-referrer"
+- referrerpolicy="no-referrer-when-downgrade"
+- referrerpolicy="origin"
+- referrerpolicy="origin-when-cross-origin"
+- referrerpolicy="same-origin"
+- referrerpolicy="strict-origin"
+- referrerpolicy="strict-origin-when-cross-origin"
+- referrerpolicy="unsafe-url"
+- nonce
+- blocking="render"
+- fetchpriority
+- charset
+- language
+- event
+- for
+- src
+- text
+- attributionsrc
+- attributionsrctoken
+- attributiondestination
+- attributionreportto
+- data-*
+- data-id
+- data-name
+- data-value
+- data-index
+- data-action
+- data-target
+- data-toggle
+- data-dismiss
+- data-parent
+- data-slide
+- data-slide-to
+- data-ride
+- data-spy
+- data-offset
+- data-method
+- data-confirm
+- data-remote
+- data-type
+- data-url
+- itemscope
+- itemtype
+- itemprop
+- itemid
+- itemref
+- http://schema.org/Person
+- http://schema.org/Product
+- http://schema.org/Organization
+- http://schema.org/Event
+- http://schema.org/Article
+- http://schema.org/Review
+- http://schema.org/Recipe
+- http://schema.org/BreadcrumbList
+- http://schema.org/WebSite
+- http://schema.org/WebPage
+- http://schema.org/ImageObject
+- http://schema.org/VideoObject
+- http://schema.org/Place
+- http://schema.org/Offer
+- http://schema.org/AggregateRating
+- sandbox="allow-forms"
+- sandbox="allow-modals"
+- sandbox="allow-orientation-lock"
+- sandbox="allow-pointer-lock"
+- sandbox="allow-popups"
+- sandbox="allow-popups-to-escape-sandbox"
+- sandbox="allow-presentation"
+- sandbox="allow-same-origin"
+- sandbox="allow-scripts"
+- sandbox="allow-top-navigation"
+- sandbox="allow-top-navigation-by-user-activation"
+- sandbox="allow-top-navigation-to-custom-protocols"
+- sandbox="allow-downloads"
+- allow="accelerometer"
+- allow="ambient-light-sensor"
+- allow="autoplay"
+- allow="battery"
+- allow="camera"
+- allow="display-capture"
+- allow="document-domain"
+- allow="encrypted-media"
+- allow="fullscreen"
+- allow="geolocation"
+- allow="gyroscope"
+- allow="magnetometer"
+- allow="microphone"
+- allow="midi"
+- allow="payment"
+- allow="picture-in-picture"
+- allow="publickey-credentials-get"
+- scope="row"
+- scope="col"
+- scope="rowgroup"
+- scope="colgroup"
+- headers
+- colspan
+- rowspan
+- abbr
+- axis
+- nowrap
+- valign="top"
+- valign="middle"
+- valign="bottom"
+- valign="baseline"
+- align="left"
+- align="center"
+- align="right"
+- align="justify"
+- bgcolor
+- border
+- cellpadding
+- cellspacing
+- frame
+- rules
+- summary
+- char
+- charoff
+- span
+- width
+- height
+- canvas
+- svg
+- path
+- rect
+- circle
+- ellipse
+- line
+- polyline
+- polygon
+- text
+- tspan
+- g
+- defs
+- use
+- symbol
+- marker
+- clipPath
+- mask
+- pattern
+- linearGradient
+- radialGradient
+- stop
+- animate
+- animateTransform
+- animateMotion
+- set
+- title
+- desc
+- foreignObject
+- viewBox
+- preserveAspectRatio
+- xmlns
+- xmlns:xlink
+- d
+- fill
+- stroke
+- stroke-width
+- stroke-linecap
+- stroke-linejoin
+- opacity
+advanced:
+- custom elements
+- shadow DOM
+- HTML templates
+- is attribute
+- customElements.define()
+- attachShadow()
+- shadowRoot
+- slot
+- slot="name"
+- ::slotted()
+- ::part()
+- exportparts
+- part
+- shadowrootmode
+- shadowrootdelegatesfocus
+- shadowrootclonable
+- template
+- template content
+- DocumentFragment
+- connectedCallback
+- disconnectedCallback
+- adoptedCallback
+- attributeChangedCallback
+- observedAttributes
+- extends
+- HTMLElement
+- CustomElementRegistry
+- ShadowRoot
+- open mode
+- closed mode
+- delegatesFocus
+- slotchange event
+- ElementInternals
+- attachInternals()
+- formAssociated
+- form-associated custom elements
+- autonomous custom element
+- customized built-in element
+- lifecycle callbacks
+- CE reactions
+- custom state pseudo-class
+- aria-atomic="true"
+- aria-live="polite"
+- aria-live="assertive"
+- aria-live="off"
+- aria-relevant="additions"
+- aria-relevant="removals"
+- aria-relevant="text"
+- aria-relevant="all"
+- aria-busy="true"
+- aria-current="page"
+- aria-current="step"
+- aria-current="location"
+- aria-current="date"
+- aria-current="time"
+- aria-current="true"
+- aria-haspopup="true"
+- aria-haspopup="menu"
+- aria-haspopup="listbox"
+- aria-haspopup="tree"
+- aria-haspopup="grid"
+- aria-haspopup="dialog"
+- aria-autocomplete="inline"
+- aria-autocomplete="list"
+- aria-autocomplete="both"
+- aria-orientation="horizontal"
+- aria-orientation="vertical"
+- aria-sort="ascending"
+- aria-sort="descending"
+- aria-sort="none"
+- aria-sort="other"
+- aria-dropeffect="copy"
+- aria-dropeffect="move"
+- aria-dropeffect="link"
+- aria-dropeffect="execute"
+- aria-dropeffect="popup"
+- aria-grabbed="true"
+- aria-grabbed="false"
+- aria-grabbed="undefined"
+- aria-pressed="true"
+- aria-pressed="false"
+- aria-pressed="mixed"
+- aria-selected="true"
+- aria-selected="false"
+- aria-selected="undefined"
+- aria-checked="true"
+- aria-checked="false"
+- aria-checked="mixed"
+- aria-expanded="true"
+- aria-expanded="false"
+- aria-expanded="undefined"
+- aria-invalid="true"
+- aria-invalid="false"
+- aria-invalid="grammar"
+- aria-invalid="spelling"
+- aria-multiselectable="true"
+- aria-readonly="true"
+- aria-required="true"
+- aria-disabled="true"
+- aria-hidden="true"
+- aria-modal="true"
+- Content-Security-Policy
+- X-UA-Compatible
+- X-Frame-Options
+- Permissions-Policy
+- Referrer-Policy
+- refresh
+- expires
+- pragma
+- cache-control
+- color-scheme
+- supported-color-schemes
+- theme-color media
+- apple-mobile-web-app-status-bar-style
+- apple-touch-fullscreen
+- mobile-web-app-capable
+- msapplication-config
+- msapplication-navbutton-color
+- msapplication-starturl
+- msapplication-tap-highlight
+- msapplication-task
+- msapplication-tooltip
+- msapplication-window
+- og:audio
+- og:video
+- og:determiner
+- og:locale:alternate
+- og:see_also
+- article:published_time
+- article:modified_time
+- article:author
+- article:section
+- article:tag
+- profile:first_name
+- profile:last_name
+- profile:username
+- profile:gender
+- twitter:card summary
+- twitter:card summary_large_image
+- twitter:card app
+- twitter:card player
+- dns-prefetch
+- preconnect
+- prefetch
+- prerender
+- preload
+- modulepreload
+- as="script"
+- as="style"
+- as="image"
+- as="font"
+- as="fetch"
+- as="document"
+- as="video"
+- as="audio"
+- as="track"
+- as="embed"
+- as="object"
+- as="worker"
+- as="manifest"
+- fetchpriority
+- manifest
+- manifest.json
+- name
+- short_name
+- description
+- start_url
+- display
+- 'display: standalone'
+- 'display: fullscreen'
+- 'display: minimal-ui'
+- 'display: browser'
+- orientation
+- theme_color
+- background_color
+- icons
+- scope
+- serviceworker
+- categories
+- screenshots
+- share_target
+- picture
+- source media
+- source type
+- source srcset
+- source sizes
+- type="image/webp"
+- type="image/avif"
+- type="image/jxl"
+- 'media="(min-width: 768px)"'
+- 'media="(orientation: portrait)"'
+- 'media="(prefers-color-scheme: dark)"'
+- srcset with descriptors
+- srcset="image-1x.jpg 1x"
+- srcset="image-2x.jpg 2x"
+- srcset="image-320w.jpg 320w"
+- 'sizes="(max-width: 600px) 100vw"'
+- sizes="50vw"
+- loading="lazy"
+- decoding="async"
+- fetchpriority="high"
+- form validation
+- constraint validation
+- custom validity
+- setCustomValidity()
+- validity
+- validationMessage
+- willValidate
+- checkValidity()
+- reportValidity()
+- valueMissing
+- typeMismatch
+- patternMismatch
+- tooLong
+- tooShort
+- rangeUnderflow
+- rangeOverflow
+- stepMismatch
+- badInput
+- customError
+- valid
+- :valid
+- :invalid
+- :required
+- :optional
+- :in-range
+- :out-of-range
+- :read-only
+- :read-write
+- :placeholder-shown
+- :default
+- :checked
+- :indeterminate
+- :blank
+- :user-invalid
+- :user-valid
+- formdata event
+- FormData
+- FormDataEvent
+- requestSubmit()
+- SubmitEvent
+- formdata
+- submit
+- dialog
+- dialog[open]
+- showModal()
+- show()
+- close()
+- returnValue
+- cancel event
+- close event
+- ::backdrop
+- inert
+- autofocus
+- method="dialog"
+- formmethod="dialog"
+- <dialog> accessibility
+- modal dialog
+- non-modal dialog
+- dialog focus management
+- dialog keyboard handling
+- dialog backdrop
+- dialog close button
+- details
+- summary
+- details[open]
+- toggle event
+- details name
+- exclusive details
+- details marker
+- ::marker
+- details accordion
+- details animations
+- details keyboard handling
+- details accessibility
+- summary marker removal
+- nested details
+- details state
+- popover
+- popover="auto"
+- popover="manual"
+- popovertarget
+- popovertargetaction="toggle"
+- popovertargetaction="show"
+- popovertargetaction="hide"
+- showPopover()
+- hidePopover()
+- togglePopover()
+- beforetoggle event
+- ::backdrop
+- popover anchor positioning
+- popover light dismiss
+- popover focus management
+- popover stacking
+- top layer
+- popover accessibility
+- nested popovers
+- popover animations
+- loading="lazy"
+- loading="eager"
+- IntersectionObserver
+- 'content-visibility: auto'
+- contain-intrinsic-size
+- native lazy loading
+- lazy loading threshold
+- lazy load polyfill
+- progressive image loading
+- LQIP
+- blur-up
+- lazy hydration
+- import() dynamic
+- import.meta
+- modulepreload
+- fetchpriority="high"
+- fetchpriority="low"
+- fetchpriority="auto"
+- importance="high"
+- importance="low"
+- importance="auto"
+- blocking="render"
+- elementtiming
+- PerformanceObserver
+- Largest Contentful Paint
+- First Input Delay
+- Cumulative Layout Shift
+- Core Web Vitals
+- Time to Interactive
+- Total Blocking Time
+- First Contentful Paint
+- prefetch
+- preload
+- preconnect
+- dns-prefetch
+- priority hints
+- resource hints
+- critical CSS
+- defer JavaScript
+- async scripts
+- module preload
+- font-display
+- will-change
+- contain
+- content-visibility
+boss_words:
+  beginner:
+  - <!DOCTYPE html>
+  - <html lang="en">
+  - <head><meta charset="UTF-8"></head>
+  - <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  - <title>Page Title</title>
+  - <link rel="stylesheet" href="style.css">
+  - <script src="script.js"></script>
+  - <body></body>
+  - <div class="container"></div>
+  - <p>This is a paragraph.</p>
+  - <h1>Main Heading</h1>
+  - <a href="https://example.com">Link</a>
+  - <a href="#section" target="_blank">External Link</a>
+  - <img src="image.jpg" alt="Description">
+  - <img src="photo.jpg" width="300" height="200" loading="lazy">
+  - <ul><li>Item 1</li><li>Item 2</li></ul>
+  - <ol><li>First</li><li>Second</li></ol>
+  - <table><tr><th>Header</th></tr><tr><td>Data</td></tr></table>
+  - <form action="/submit" method="post"></form>
+  - <input type="text" name="username" required>
+  - <input type="email" placeholder="Enter email">
+  - <input type="password" minlength="8">
+  - <input type="checkbox" checked>
+  - <input type="radio" name="choice" value="option1">
+  - <input type="number" min="0" max="100" step="5">
+  - <input type="range" min="0" max="100">
+  - <input type="date">
+  - <input type="file" accept="image/*">
+  - <textarea rows="4" cols="50"></textarea>
+  - <select><option value="1">Option 1</option></select>
+  - <button type="submit">Submit</button>
+  - <label for="name">Name:</label>
+  - <br>
+  - <hr>
+  - <strong>Bold text</strong>
+  - <em>Italic text</em>
+  - <span class="highlight">Highlighted</span>
+  - <div id="main" class="container"></div>
+  - <video controls src="video.mp4"></video>
+  - <audio controls><source src="audio.mp3" type="audio/mpeg"></audio>
+  - <iframe src="page.html" width="600" height="400"></iframe>
+  - <canvas id="myCanvas" width="400" height="300"></canvas>
+  - <code>console.log("Hello")</code>
+  - <pre><code>function hello() { }</code></pre>
+  - <blockquote cite="source">Quote text</blockquote>
+  - <abbr title="HyperText Markup Language">HTML</abbr>
+  - <!-- Comment -->
+  - <meta name="description" content="Page description">
+  - <meta name="keywords" content="html, web, tutorial">
+  - <link rel="icon" href="favicon.ico">
+  - '<style>body { margin: 0; }</style>'
+  - <script>console.log("Hello");</script>
+  intermediate:
+  - <header><nav><ul><li><a href="#home">Home</a></li></ul></nav></header>
+  - <main><article><h2>Article Title</h2><p>Content</p></article></main>
+  - <footer><p>&copy; 2024 Company Name</p></footer>
+  - <section id="about"><h2>About Us</h2></section>
+  - <aside><h3>Related Links</h3></aside>
+  - <figure><img src="chart.png" alt="Chart"><figcaption>Sales Data</figcaption></figure>
+  - <details><summary>Click to expand</summary><p>Hidden content</p></details>
+  - <dialog id="myDialog"><p>Dialog content</p><button>Close</button></dialog>
+  - <time datetime="2024-01-01">January 1, 2024</time>
+  - <mark>Highlighted text</mark>
+  - <progress value="70" max="100"></progress>
+  - <meter value="0.6" min="0" max="1">60%</meter>
+  - <datalist id="browsers"><option value="Chrome"><option value="Firefox"></datalist>
+  - <input list="browsers" name="browser">
+  - <output name="result" for="a b"></output>
+  - <form autocomplete="off" novalidate></form>
+  - <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+  - <input type="tel" pattern="[0-9]{3}-[0-9]{4}">
+  - <input type="url" placeholder="https://example.com">
+  - <input type="color" value="#ff0000">
+  - <input type="search" results="5" autosave="searchHistory">
+  - <textarea maxlength="500" placeholder="Max 500 characters"></textarea>
+  - <select multiple size="5"><option>Option 1</option></select>
+  - <fieldset><legend>Personal Information</legend></fieldset>
+  - <button type="button" onclick="handleClick()">Click Me</button>
+  - <input type="submit" value="Submit Form">
+  - <input type="reset" value="Reset Form">
+  - <label><input type="checkbox" name="agree"> I agree to terms</label>
+  - <video controls poster="thumbnail.jpg"><source src="video.webm" type="video/webm"><source
+    src="video.mp4" type="video/mp4"></video>
+  - <video autoplay muted loop playsinline></video>
+  - <audio controls preload="metadata"><source src="song.mp3" type="audio/mpeg"></audio>
+  - <track kind="subtitles" src="subs.vtt" srclang="en" label="English" default>
+  - '<picture><source media="(min-width: 768px)" srcset="large.jpg"><img src="small.jpg"
+    alt="Responsive"></picture>'
+  - '<img srcset="small.jpg 480w, medium.jpg 768w, large.jpg 1200w" sizes="(max-width:
+    600px) 480px, (max-width: 900px) 768px, 1200px" src="fallback.jpg" alt="Image">'
+  - <table><thead><tr><th scope="col">Name</th><th scope="col">Age</th></tr></thead><tbody><tr><td>Alice</td><td>30</td></tr></tbody></table>
+  - <table><caption>Employee Data</caption></table>
+  - <iframe sandbox="allow-scripts allow-same-origin" src="page.html"></iframe>
+  - <iframe allow="camera; microphone" allowfullscreen></iframe>
+  - <meta property="og:title" content="Page Title">
+  - <meta property="og:image" content="image.jpg">
+  - <meta name="twitter:card" content="summary_large_image">
+  - <link rel="canonical" href="https://example.com/page">
+  - <link rel="alternate" hreflang="es" href="https://example.com/es/page">
+  - <link rel="preconnect" href="https://fonts.googleapis.com">
+  - <link rel="preload" href="font.woff2" as="font" type="font/woff2" crossorigin>
+  - <link rel="modulepreload" href="module.js">
+  - <link rel="dns-prefetch" href="https://api.example.com">
+  - <script type="module" src="main.js"></script>
+  - <script async src="analytics.js"></script>
+  - <script defer src="app.js"></script>
+  - <noscript><p>JavaScript is required for this site.</p></noscript>
+  - <template id="card-template"><div class="card"><h3></h3></div></template>
+  advanced:
+  - <div itemscope itemtype="http://schema.org/Person"><span itemprop="name">John
+    Doe</span></div>
+  - <article itemscope itemtype="http://schema.org/Article"><h1 itemprop="headline">Article
+    Title</h1><time itemprop="datePublished" datetime="2024-01-01">Jan 1, 2024</time></article>
+  - <div itemscope itemtype="http://schema.org/Product"><span itemprop="name">Product
+    Name</span><span itemprop="price" content="29.99">$29.99</span></div>
+  - <nav aria-label="Main navigation"><ul role="menubar"></ul></nav>
+  - <button aria-expanded="false" aria-controls="menu" aria-haspopup="true">Menu</button>
+  - <div role="alert" aria-live="assertive" aria-atomic="true">Error message</div>
+  - <div role="status" aria-live="polite">Loading...</div>
+  - <input type="text" aria-label="Search" aria-describedby="search-help">
+  - <span id="search-help">Enter keywords to search</span>
+  - <div role="tablist" aria-label="Tabs"><button role="tab" aria-selected="true"
+    aria-controls="panel1">Tab 1</button></div>
+  - <div role="tabpanel" id="panel1" aria-labelledby="tab1" hidden>Panel content</div>
+  - <button aria-pressed="false" aria-label="Toggle notifications">Notifications</button>
+  - <ul role="list"><li role="listitem">Item</li></ul>
+  - <table role="table" aria-label="Data table"><tr role="row"><th role="columnheader"
+    scope="col">Name</th></tr></table>
+  - <div role="dialog" aria-modal="true" aria-labelledby="dialog-title"><h2 id="dialog-title">Dialog
+    Title</h2></div>
+  - '<picture><source media="(prefers-color-scheme: dark)" srcset="dark.jpg"><source
+    media="(prefers-color-scheme: light)" srcset="light.jpg"><img src="default.jpg"
+    alt="Theme aware image"></picture>'
+  - <img src="image.avif" type="image/avif" loading="lazy" decoding="async" fetchpriority="high">
+  - <video controls disablepictureinpicture controlslist="nodownload nofullscreen"><source
+    src="video.mp4"></video>
+  - <form action="/api/submit" method="post" enctype="multipart/form-data"><input
+    type="file" name="upload" multiple accept=".pdf,.doc,.docx" required></form>
+  - <input type="email" autocomplete="email" inputmode="email" enterkeyhint="send"
+    required>
+  - <input type="text" autocomplete="username" pattern="^[a-zA-Z0-9]{3,20}$" title="Username
+    must be 3-20 alphanumeric characters">
+  - <input type="password" autocomplete="new-password" minlength="8" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+    title="Password must contain uppercase, lowercase, and number">
+  - <dialog id="modal"><form method="dialog"><button value="cancel">Cancel</button><button
+    value="confirm">Confirm</button></form></dialog>
+  - <details name="accordion" open><summary>Section 1</summary><p>Content</p></details>
+  - <div popover id="mypopover"><p>Popover content</p></div><button popovertarget="mypopover">Show
+    Popover</button>
+  - <button popovertarget="menu" popovertargetaction="toggle">Toggle Menu</button>
+  - <iframe sandbox="allow-scripts allow-same-origin allow-popups allow-forms" allow="camera;
+    microphone; fullscreen" loading="lazy"></iframe>
+  - <link rel="manifest" href="/manifest.json">
+  - <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  - '<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">'
+  - '<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">'
+  - <meta name="color-scheme" content="light dark">
+  - <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src
+    'self' 'unsafe-inline'">
+  - <meta http-equiv="Permissions-Policy" content="geolocation=(), camera=(), microphone=()">
+  - '<script type="importmap">{ "imports": { "lodash": "/node_modules/lodash/lodash.js"
+    } }</script>'
+  - <script type="module">import { func } from "./module.js"; func();</script>
+  - <script async src="analytics.js" integrity="sha384-..." crossorigin="anonymous"></script>
+  - <link rel="preload" href="critical.css" as="style" onload="this.rel='stylesheet'">
+  - <link rel="preload" href="hero.jpg" as="image" imagesrcset="hero-1x.jpg 1x, hero-2x.jpg
+    2x" imagesizes="100vw">
+  - <template shadowrootmode="open"><slot></slot></template>
+  - <my-element><span slot="title">Custom Element</span></my-element>
+  - <div part="button" exportparts="icon">Custom component</div>
+  - '<style>::part(button) { background: blue; }</style>'
+  - <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  - <link rel="dns-prefetch" href="https://cdn.example.com">
+  - <link rel="prefetch" href="/next-page.html" as="document">
+  - <link rel="modulepreload" href="app.js" integrity="sha384-...">
+  - <meta name="robots" content="index, follow, max-image-preview:large">
+  - <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">

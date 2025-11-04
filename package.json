@@ -1,0 +1,65 @@
+{
+  "name": "ptype",
+  "version": "2.0.0",
+  "description": "P-Type: 3D Typing Game - Defend against enemy spaceships by typing words in this immersive 3D typing game",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:analyze": "ANALYZE=true tsc && vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:demo": "tsx tests/demo.ts",
+    "test:manual": "tsx tests/manual-runner.ts",
+    "test:run": "tsx tests/run-tests.ts",
+    "test:all": "tsx tests/run-tests.ts --all",
+    "generate:assets": "tsx scripts/generate-assets.ts",
+    "generate:textures": "tsx scripts/generate-textures.ts",
+    "check:models": "tsx scripts/check-existing-jobs.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RandyNorthrup/ptype.git"
+  },
+  "keywords": [
+    "typing",
+    "game",
+    "3d",
+    "threejs",
+    "pwa",
+    "education"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RandyNorthrup/ptype/issues"
+  },
+  "homepage": "https://github.com/RandyNorthrup/ptype#readme",
+  "devDependencies": {
+    "@types/node": "^24.9.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@types/three": "^0.181.0",
+    "@vercel/node": "^5.5.3",
+    "@vitejs/plugin-react": "^5.1.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "dotenv": "^17.2.3",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-pwa": "^1.1.0",
+    "workbox-window": "^7.3.0"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.4.0",
+    "@vercel/postgres": "^0.10.0",
+    "framer-motion": "^12.23.24",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "three": "^0.181.0",
+    "zustand": "^5.0.8"
+  }
+}

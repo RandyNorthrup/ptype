@@ -1,0 +1,1896 @@
+beginner:
+- print
+- input
+- if
+- else
+- elif
+- for
+- while
+- def
+- return
+- class
+- import
+- from
+- as
+- in
+- not
+- and
+- or
+- is
+- 'True'
+- 'False'
+- None
+- break
+- continue
+- pass
+- try
+- except
+- finally
+- with
+- raise
+- assert
+- del
+- global
+- nonlocal
+- lambda
+- yield
+- async
+- await
+- match
+- case
+- type
+- int
+- str
+- float
+- bool
+- list
+- dict
+- tuple
+- set
+- bytes
+- bytearray
+- range
+- slice
+- complex
+- frozenset
+- object
+- type
+- None
+- Ellipsis
+- NotImplemented
+- property
+- classmethod
+- staticmethod
+- super
+- isinstance
+- issubclass
+- callable
+- hasattr
+- getattr
+- setattr
+- delattr
+- len
+- abs
+- all
+- any
+- bin
+- chr
+- dir
+- divmod
+- enumerate
+- eval
+- exec
+- filter
+- format
+- hash
+- help
+- hex
+- id
+- iter
+- map
+- max
+- min
+- next
+- oct
+- open
+- ord
+- pow
+- print
+- range
+- repr
+- reversed
+- round
+- sorted
+- sum
+- vars
+- zip
+- __name__
+- __file__
+- __doc__
+- __dict__
+- __class__
+- __init__
+- __str__
+- __repr__
+- __len__
+- __iter__
+- __next__
+- __enter__
+- __exit__
+- __call__
+- __getitem__
+- __setitem__
+- upper
+- lower
+- title
+- capitalize
+- strip
+- lstrip
+- rstrip
+- split
+- join
+- replace
+- find
+- index
+- count
+- startswith
+- endswith
+- isalpha
+- isdigit
+- isalnum
+- isspace
+- islower
+- isupper
+- istitle
+- format
+- center
+- ljust
+- rjust
+- zfill
+- encode
+- decode
+- expandtabs
+- partition
+- rpartition
+- rsplit
+- splitlines
+- swapcase
+- translate
+- maketrans
+- casefold
+- removeprefix
+- removesuffix
+- isprintable
+- isidentifier
+- isdecimal
+- isnumeric
+- isascii
+- slice
+- append
+- extend
+- insert
+- remove
+- pop
+- clear
+- index
+- count
+- sort
+- reverse
+- copy
+- get
+- keys
+- values
+- items
+- update
+- setdefault
+- popitem
+- fromkeys
+- add
+- discard
+- union
+- intersection
+- difference
+- symmetric
+- subset
+- superset
+- disjoint
+- list
+- dict
+- tuple
+- set
+- append
+- extend
+- insert
+- remove
+- pop
+- clear
+- index
+- count
+- sort
+- reverse
+- copy
+- get
+- keys
+- values
+- items
+- update
+- setdefault
+- popitem
+- fromkeys
+- add
+- discard
+- remove
+- union
+- intersection
+- difference
+- symmetric
+- issubset
+- issuperset
+- isdisjoint
+- comprehension
+- slicing
+- unpacking
+- packing
+- indexing
+- negative
+- stride
+- open
+- read
+- write
+- close
+- readline
+- readlines
+- writelines
+- seek
+- tell
+- flush
+- truncate
+- mode
+- encoding
+- newline
+- buffering
+- binary
+- text
+- append
+- exclusive
+- readable
+- writable
+- seekable
+- closed
+- fileno
+- isatty
+- name
+- errors
+- line
+- buffer
+- os
+- sys
+- math
+- random
+- time
+- datetime
+- json
+- re
+- pathlib
+- collections
+- itertools
+- functools
+- operator
+- copy
+- pickle
+- csv
+- urllib
+- http
+- socket
+- threading
+- subprocess
+- argparse
+- logging
+- unittest
+- doctest
+- pdb
+- cProfile
+- timeit
+- trace
+- warnings
+- contextlib
+- abc
+- typing
+- dataclasses
+- enum
+- decimal
+- fractions
+- statistics
+- array
+- queue
+- heapq
+- bisect
+- weakref
+- struct
+- codecs
+- base64
+- binascii
+- hashlib
+- hmac
+- secrets
+- uuid
+- textwrap
+- string
+- pprint
+- shutil
+- tempfile
+- glob
+- fnmatch
+- Exception
+- Error
+- ValueError
+- TypeError
+- KeyError
+- IndexError
+- AttributeError
+- NameError
+- ImportError
+- ModuleNotFoundError
+- FileNotFoundError
+- IOError
+- OSError
+- RuntimeError
+- SystemError
+- MemoryError
+- RecursionError
+- StopIteration
+- StopAsyncIteration
+- GeneratorExit
+- KeyboardInterrupt
+- SystemExit
+- NotImplementedError
+- IndentationError
+- TabError
+- SyntaxError
+- ZeroDivisionError
+- AssertionError
+- OverflowError
+- FloatingPointError
+- ArithmeticError
+- LookupError
+- BufferError
+- UnicodeError
+- UnicodeEncodeError
+- UnicodeDecodeError
+- UnicodeTranslateError
+- ReferenceError
+- ConnectionError
+- BrokenPipeError
+- ConnectionAbortedError
+- ConnectionRefusedError
+- ConnectionResetError
+- TimeoutError
+- InterruptedError
+- PermissionError
+- ProcessLookupError
+- ChildProcessError
+- __add__
+- __sub__
+- __mul__
+- __truediv__
+- __floordiv__
+- __mod__
+- __pow__
+- __and__
+- __or__
+- __xor__
+- __lshift__
+- __rshift__
+- __neg__
+- __pos__
+- __abs__
+- __invert__
+- __eq__
+- __ne__
+- __lt__
+- __le__
+- __gt__
+- __ge__
+- __hash__
+- __bool__
+- __bytes__
+- __format__
+- __sizeof__
+- __delattr__
+- __getattribute__
+- __setattr__
+- __dir__
+- __get__
+- __set__
+- __delete__
+- __set_name__
+- __init_subclass__
+- __prepare__
+- __instancecheck__
+- __subclasscheck__
+- __class_getitem__
+- main
+- args
+- kwargs
+- self
+- cls
+- value
+- key
+- item
+- items
+- data
+- result
+- output
+- input
+- name
+- path
+- file
+- content
+- text
+- line
+- lines
+- word
+- words
+- number
+- numbers
+- count
+- total
+- sum
+- average
+- min
+- max
+- first
+- last
+- start
+- end
+- begin
+- finish
+- temp
+- tmp
+- buffer
+- cache
+- config
+- settings
+- options
+- params
+- attrs
+- props
+- fields
+- columns
+- rows
+intermediate:
+- f-string
+- format_spec
+- format_map
+- str.format
+- template
+- Template
+- substitute
+- safe_substitute
+- get_identifiers
+- is_valid
+- __format__
+- format_field
+- convert_field
+- vformat
+- parse
+- format_string
+- field_name
+- conversion
+- format_spec
+- precision
+- width
+- alignment
+- fill
+- sign
+- alternate
+- comma
+- percentage
+- exponent
+- fixed_point
+- general
+- deque
+- Counter
+- OrderedDict
+- defaultdict
+- ChainMap
+- namedtuple
+- UserDict
+- UserList
+- UserString
+- OrderedDict
+- Counter.most_common
+- Counter.elements
+- Counter.subtract
+- Counter.update
+- deque.append
+- deque.appendleft
+- deque.extend
+- deque.extendleft
+- deque.pop
+- deque.popleft
+- deque.rotate
+- deque.clear
+- deque.count
+- deque.remove
+- deque.reverse
+- ChainMap.new_child
+- ChainMap.parents
+- ChainMap.maps
+- defaultdict.default_factory
+- OrderedDict.move_to_end
+- OrderedDict.popitem
+- namedtuple._fields
+- namedtuple._asdict
+- namedtuple._replace
+- namedtuple._make
+- namedtuple._field_defaults
+- UserDict.data
+- UserList.data
+- UserString.data
+- Counter.total
+- deque.maxlen
+- deque.index
+- deque.insert
+- deque.copy
+- ChainMap.get
+- ChainMap.keys
+- ChainMap.values
+- ChainMap.items
+- chain
+- combinations
+- permutations
+- product
+- accumulate
+- compress
+- dropwhile
+- takewhile
+- cycle
+- repeat
+- count
+- groupby
+- islice
+- starmap
+- tee
+- zip_longest
+- chain.from_iterable
+- combinations_with_replacement
+- filterfalse
+- accumulate.func
+- accumulate.initial
+- chain.from
+- compress.selectors
+- cycle.iterable
+- dropwhile.predicate
+- takewhile.predicate
+- groupby.key
+- groupby.iterable
+- islice.start
+- islice.stop
+- islice.step
+- product.repeat
+- repeat.times
+- starmap.function
+- tee.n
+- zip_longest.fillvalue
+- pairwise
+- batched
+- sliding_window
+- chunked
+- partition
+- unique_everseen
+- unique_justseen
+- iter_except
+- first_true
+- quantify
+- nth
+- all_equal
+- consume
+- tail
+- prepend
+- tabulate
+- repeatfunc
+- partial
+- reduce
+- lru_cache
+- cache
+- wraps
+- total_ordering
+- cmp_to_key
+- singledispatch
+- update_wrapper
+- cached_property
+- partialmethod
+- singledispatchmethod
+- partial.func
+- partial.args
+- partial.keywords
+- lru_cache.maxsize
+- lru_cache.typed
+- cache_clear
+- cache_info
+- cache_parameters
+- wraps.assigned
+- wraps.updated
+- total_ordering.lt
+- total_ordering.le
+- total_ordering.gt
+- total_ordering.ge
+- total_ordering.eq
+- total_ordering.ne
+- singledispatch.register
+- singledispatch.registry
+- singledispatch.dispatch
+- update_wrapper.wrapper
+- update_wrapper.wrapped
+- cached_property.func
+- partialmethod.func
+- partialmethod.args
+- partialmethod.keywords
+- singledispatchmethod.register
+- singledispatchmethod.registry
+- singledispatchmethod.dispatch
+- List
+- Dict
+- Set
+- Tuple
+- Optional
+- Union
+- Any
+- Callable
+- Iterable
+- Iterator
+- Generator
+- Sequence
+- Mapping
+- MutableMapping
+- MutableSequence
+- MutableSet
+- Awaitable
+- Coroutine
+- AsyncIterable
+- AsyncIterator
+- AsyncGenerator
+- ContextManager
+- AsyncContextManager
+- Generic
+- TypeVar
+- Protocol
+- runtime_checkable
+- TypedDict
+- NamedTuple
+- NewType
+- Literal
+- Final
+- ClassVar
+- Annotated
+- get_type_hints
+- get_origin
+- get_args
+- cast
+- TYPE_CHECKING
+- overload
+- final
+- NoReturn
+- Never
+- Self
+- TypeAlias
+- ParamSpec
+- Concatenate
+- TypeGuard
+- Type
+- Text
+- AnyStr
+- IO
+- TextIO
+- BinaryIO
+- Pattern
+- Match
+- Deque
+- DefaultDict
+- OrderedDict
+- Counter
+- ChainMap
+- ByteString
+- Collection
+- Container
+- Hashable
+- Sized
+- Reversible
+- SupportsAbs
+- SupportsBytes
+- SupportsComplex
+- SupportsFloat
+- SupportsIndex
+- SupportsInt
+- SupportsRound
+- AbstractSet
+- FrozenSet
+- ByteString
+- SupportsLenAndGetItem
+- Unpack
+- Required
+- NotRequired
+- Path
+- PurePath
+- PosixPath
+- WindowsPath
+- PurePosixPath
+- PureWindowsPath
+- Path.home
+- Path.cwd
+- Path.stat
+- Path.exists
+- Path.is_file
+- Path.is_dir
+- Path.is_symlink
+- Path.is_socket
+- Path.is_fifo
+- Path.is_block_device
+- Path.is_char_device
+- Path.is_absolute
+- Path.is_reserved
+- Path.is_relative_to
+- Path.match
+- Path.glob
+- Path.rglob
+- Path.iterdir
+- Path.mkdir
+- Path.rmdir
+- Path.unlink
+- Path.rename
+- Path.replace
+- Path.chmod
+- Path.touch
+- Path.symlink_to
+- Path.hardlink_to
+- Path.readlink
+- Path.resolve
+- Path.absolute
+- Path.relative_to
+- Path.with_name
+- Path.with_stem
+- Path.with_suffix
+- Path.joinpath
+- Path.parent
+- Path.parents
+- Path.name
+- Path.stem
+- Path.suffix
+- Path.suffixes
+- Path.anchor
+- Path.drive
+- Path.root
+- datetime
+- date
+- time
+- timedelta
+- timezone
+- tzinfo
+- datetime.now
+- datetime.today
+- datetime.utcnow
+- datetime.fromtimestamp
+- datetime.utcfromtimestamp
+- datetime.fromordinal
+- datetime.combine
+- datetime.strptime
+- datetime.strftime
+- datetime.date
+- datetime.time
+- datetime.replace
+- datetime.timetuple
+- datetime.timestamp
+- datetime.isoformat
+- datetime.ctime
+- datetime.weekday
+- datetime.isoweekday
+- datetime.isocalendar
+- date.today
+- date.fromtimestamp
+- date.fromordinal
+- date.fromisoformat
+- date.strftime
+- date.replace
+- date.timetuple
+- date.toordinal
+- date.isoformat
+- date.ctime
+- date.weekday
+- date.isoweekday
+- date.isocalendar
+- time.hour
+- time.minute
+- time.second
+- time.microsecond
+- time.tzinfo
+- time.replace
+- time.isoformat
+- time.strftime
+- timedelta.days
+- timedelta.seconds
+- timedelta.microseconds
+- timedelta.total_seconds
+- timezone.utc
+- timezone.utcoffset
+- timezone.dst
+- timezone.tzname
+- timezone.fromutc
+- tzinfo.utcoffset
+- tzinfo.dst
+- tzinfo.tzname
+- tzinfo.fromutc
+- dataclass
+- field
+- Field
+- fields
+- asdict
+- astuple
+- make_dataclass
+- replace
+- is_dataclass
+- FrozenInstanceError
+- InitVar
+- MISSING
+- KW_ONLY
+- dataclass.init
+- dataclass.repr
+- dataclass.eq
+- dataclass.order
+- dataclass.unsafe_hash
+- dataclass.frozen
+- dataclass.match_args
+- dataclass.kw_only
+- dataclass.slots
+- field.default
+- field.default_factory
+- field.init
+- field.repr
+- field.hash
+- field.compare
+- field.metadata
+- field.kw_only
+- Field.name
+- Field.type
+- Field.default
+- Field.default_factory
+- Field.init
+- Field.repr
+- Field.hash
+- Field.compare
+- Field.metadata
+- Field.kw_only
+- Enum
+- IntEnum
+- Flag
+- IntFlag
+- StrEnum
+- auto
+- unique
+- Enum.name
+- Enum.value
+- Enum._generate_next_value_
+- Enum._missing_
+- Enum._ignore_
+- IntEnum.name
+- IntEnum.value
+- Flag.name
+- Flag.value
+- IntFlag.name
+- IntFlag.value
+- StrEnum.name
+- StrEnum.value
+- auto.value
+- unique.func
+- EnumMeta
+- FlagBoundary
+- STRICT
+- CONFORM
+- EJECT
+- KEEP
+- verify
+- UNIQUE
+- CONTINUOUS
+- ABC
+- ABCMeta
+- abstractmethod
+- abstractproperty
+- abstractclassmethod
+- abstractstaticmethod
+- get_cache_token
+- update_abstractmethods
+- ABC.register
+- ABC.__subclasshook__
+- ABCMeta.__instancecheck__
+- ABCMeta.__subclasscheck__
+- abstractmethod.func
+- abstractproperty.fget
+- abstractproperty.fset
+- abstractproperty.fdel
+- abstractclassmethod.func
+- abstractstaticmethod.func
+- register.subclass
+- update_abstractmethods.cls
+- get_cache_token.value
+- ABCMeta.register
+- ABCMeta._abc_registry
+- ABCMeta._abc_cache
+- ABCMeta._abc_negative_cache
+- ABCMeta._abc_negative_cache_version
+- ABCMeta._abc_impl
+- ABC.__abstractmethods__
+- ABC.__subclasshook__
+- ABC.register
+- asyncio
+- async
+- await
+- coroutine
+- Task
+- Future
+- Event
+- Lock
+- Semaphore
+- Condition
+- Queue
+- PriorityQueue
+- LifoQueue
+- gather
+- wait
+- wait_for
+- as_completed
+- ensure_future
+- create_task
+- run
+- run_until_complete
+- get_event_loop
+- new_event_loop
+- set_event_loop
+- get_running_loop
+- current_task
+- all_tasks
+- sleep
+- shield
+- timeout
+- timeout_at
+- run_in_executor
+- wrap_future
+- to_thread
+- create_subprocess_exec
+- create_subprocess_shell
+- StreamReader
+- StreamWriter
+- start_server
+- open_connection
+- BoundedSemaphore
+- Barrier
+- TaskGroup
+- Runner
+- timeout
+- timeout_at
+- current_task
+- all_tasks
+- gather
+- shield
+- wait_for
+- wait
+- as_completed
+- re.match
+- re.search
+- re.findall
+- re.finditer
+- re.sub
+- re.subn
+- re.split
+- re.escape
+- re.purge
+- re.compile
+- Pattern.search
+- Pattern.match
+- Pattern.fullmatch
+- Pattern.split
+- Pattern.findall
+- Pattern.finditer
+- Pattern.sub
+- Pattern.subn
+- Pattern.flags
+- Pattern.groups
+- Pattern.groupindex
+- Pattern.pattern
+- Match.expand
+- Match.group
+- Match.groups
+- Match.groupdict
+- Match.start
+- Match.end
+- Match.span
+- Match.pos
+- Match.endpos
+- Match.lastindex
+- Match.lastgroup
+- Match.re
+- Match.string
+- re.IGNORECASE
+- re.MULTILINE
+- re.DOTALL
+- re.VERBOSE
+- re.ASCII
+- re.LOCALE
+- re.UNICODE
+- re.DEBUG
+- re.I
+- re.M
+- re.S
+- re.X
+- re.A
+- re.L
+- re.U
+- re.RegexFlag
+- json.dump
+- json.dumps
+- json.load
+- json.loads
+- json.JSONEncoder
+- json.JSONDecoder
+- json.JSONDecodeError
+- JSONEncoder.default
+- JSONEncoder.encode
+- JSONEncoder.iterencode
+- JSONEncoder.indent
+- JSONEncoder.separators
+- JSONEncoder.sort_keys
+- JSONEncoder.skipkeys
+- JSONEncoder.ensure_ascii
+- JSONEncoder.check_circular
+- JSONEncoder.allow_nan
+- JSONDecoder.decode
+- JSONDecoder.raw_decode
+- JSONDecoder.object_hook
+- JSONDecoder.parse_float
+- JSONDecoder.parse_int
+- JSONDecoder.parse_constant
+- JSONDecoder.strict
+- JSONDecoder.object_pairs_hook
+- JSONDecodeError.msg
+- JSONDecodeError.doc
+- JSONDecodeError.pos
+- JSONDecodeError.lineno
+- JSONDecodeError.colno
+advanced:
+- aiohttp
+- aiofiles
+- asyncpg
+- aiomysql
+- aioredis
+- aiokafka
+- ClientSession
+- ClientResponse
+- ClientTimeout
+- ClientError
+- TCPConnector
+- UnixConnector
+- FormData
+- MultipartWriter
+- MultipartReader
+- WebSocketResponse
+- WebSocketClient
+- WSMessage
+- WSMsgType
+- WSCloseCode
+- ClientWebSocketResponse
+- StreamResponse
+- Response
+- FileResponse
+- Application
+- web.run_app
+- middleware
+- web.middleware
+- AppRunner
+- TCPSite
+- UnixSite
+- NamedPipeSite
+- Request
+- BaseRequest
+- StreamReader
+- payload
+- BodyPartReader
+- JsonPayload
+- BytesPayload
+- StringPayload
+- IOBasePayload
+- BufferedReaderPayload
+- BytesIOPayload
+- StringIOPayload
+- HttpProcessingError
+- ClientConnectionError
+- ServerConnectionError
+- ContentTypeError
+- ClientPayloadError
+- InvalidURL
+- Flask
+- Django
+- FastAPI
+- Tornado
+- Pyramid
+- Bottle
+- CherryPy
+- Falcon
+- Sanic
+- Starlette
+- Quart
+- BlackSheep
+- app.route
+- app.get
+- app.post
+- app.put
+- app.delete
+- app.patch
+- Request
+- Response
+- render_template
+- redirect
+- url_for
+- jsonify
+- make_response
+- abort
+- session
+- g
+- current_app
+- Blueprint
+- before_request
+- after_request
+- teardown_request
+- context_processor
+- template_filter
+- template_global
+- template_test
+- middleware
+- dependency
+- HTTPException
+- HTTPBearer
+- OAuth2
+- Path
+- Query
+- Body
+- Header
+- Cookie
+- Form
+- File
+- Depends
+- BackgroundTasks
+- APIRouter
+- SQLAlchemy
+- Alembic
+- Peewee
+- Tortoise
+- SQLModel
+- Pony
+- declarative_base
+- sessionmaker
+- scoped_session
+- create_engine
+- Column
+- Integer
+- String
+- Text
+- Float
+- Boolean
+- DateTime
+- Date
+- Time
+- Interval
+- Enum
+- JSON
+- ARRAY
+- ForeignKey
+- relationship
+- backref
+- primaryjoin
+- secondaryjoin
+- lazy
+- cascade
+- passive_deletes
+- passive_updates
+- uselist
+- viewonly
+- Query
+- select
+- insert
+- update
+- delete
+- join
+- outerjoin
+- filter
+- filter_by
+- order_by
+- group_by
+- having
+- limit
+- offset
+- distinct
+- union
+- intersect
+- except_
+- subquery
+- numpy
+- pandas
+- matplotlib
+- scipy
+- sklearn
+- tensorflow
+- pytorch
+- keras
+- seaborn
+- plotly
+- bokeh
+- altair
+- np.array
+- np.ndarray
+- np.arange
+- np.linspace
+- np.zeros
+- np.ones
+- np.empty
+- np.full
+- np.eye
+- np.identity
+- np.random
+- np.mean
+- np.median
+- np.std
+- np.var
+- np.sum
+- np.prod
+- np.min
+- np.max
+- np.argmin
+- np.argmax
+- np.sort
+- np.argsort
+- np.concatenate
+- np.stack
+- np.hstack
+- np.vstack
+- np.dstack
+- np.split
+- np.hsplit
+- np.vsplit
+- np.reshape
+- np.transpose
+- np.dot
+- np.matmul
+- np.cross
+- np.inner
+- np.outer
+- pd.DataFrame
+- pd.Series
+- pd.Index
+- pd.MultiIndex
+- pd.read_csv
+- pd.read_excel
+- pd.read_json
+- pd.read_sql
+- pd.read_parquet
+- pd.to_csv
+- pd.to_excel
+- pd.to_json
+- pd.to_sql
+- pd.to_parquet
+- df.head
+- df.tail
+- df.info
+- df.describe
+- df.shape
+- df.dtypes
+- df.columns
+- df.index
+- df.values
+- df.loc
+- df.iloc
+- df.at
+- df.iat
+- df.query
+- df.eval
+- df.filter
+- df.drop
+- df.dropna
+- df.fillna
+- df.replace
+- df.rename
+- df.sort_values
+- df.sort_index
+- pytest
+- unittest
+- doctest
+- nose
+- hypothesis
+- tox
+- coverage
+- pytest.fixture
+- pytest.mark
+- pytest.parametrize
+- pytest.raises
+- pytest.warns
+- pytest.skip
+- pytest.skipif
+- pytest.xfail
+- pytest.approx
+- pytest.fail
+- pytest.importorskip
+- pytest.deprecated_call
+- TestCase
+- TestSuite
+- TestLoader
+- TextTestRunner
+- TestResult
+- setUp
+- tearDown
+- setUpClass
+- tearDownClass
+- setUpModule
+- tearDownModule
+- assertEqual
+- assertNotEqual
+- assertTrue
+- assertFalse
+- assertIs
+- assertIsNot
+- assertIsNone
+- assertIsNotNone
+- assertIn
+- assertNotIn
+- assertIsInstance
+- assertNotIsInstance
+- assertRaises
+- assertWarns
+- assertLogs
+- assertAlmostEqual
+- assertNotAlmostEqual
+- assertGreater
+- assertGreaterEqual
+- assertLess
+- assertLessEqual
+- assertRegex
+- assertNotRegex
+- assertCountEqual
+- mypy
+- pyright
+- pyre
+- pytype
+- reveal_type
+- assert_type
+- cast
+- TYPE_CHECKING
+- type_guard
+- overload
+- final
+- Protocol
+- runtime_checkable
+- Generic
+- TypeVar
+- ParamSpec
+- Concatenate
+- Literal
+- TypedDict
+- NamedTuple
+- NewType
+- TypeAlias
+- Self
+- Never
+- NoReturn
+- Annotated
+- Required
+- NotRequired
+- ReadOnly
+- Unpack
+- TypeGuard
+- TypeIs
+- get_type_hints
+- get_origin
+- get_args
+- get_overloads
+- clear_overloads
+- is_typeddict
+- ForwardRef
+- Union
+- Optional
+- Any
+- AnyStr
+- ClassVar
+- Final
+- InitVar
+- Type
+- Callable
+- Awaitable
+- Coroutine
+- AsyncIterable
+- AsyncIterator
+- AsyncGenerator
+- ContextManager
+- cProfile
+- profile
+- pstats
+- timeit
+- tracemalloc
+- memory_profiler
+- line_profiler
+- numba
+- cython
+- pypy
+- multiprocessing
+- threading
+- concurrent.futures
+- ProcessPoolExecutor
+- ThreadPoolExecutor
+- Queue
+- SimpleQueue
+- JoinableQueue
+- Manager
+- Lock
+- RLock
+- Semaphore
+- BoundedSemaphore
+- Event
+- Condition
+- Barrier
+- Process
+- Thread
+- Pool
+- Value
+- Array
+- Pipe
+- Connection
+- shared_memory
+- ShareableList
+- SharedMemory
+- resource_tracker
+- cpu_count
+- active_children
+- current_process
+- boto3
+- botocore
+- aws
+- s3
+- ec2
+- lambda
+- dynamodb
+- sqs
+- sns
+- cloudformation
+- cloudwatch
+- iam
+- rds
+- elasticache
+- kubernetes
+- docker
+- terraform
+- ansible
+- prometheus
+- grafana
+- jenkins
+- gitlab
+- github
+- circleci
+- travis
+- azure
+- gcp
+- heroku
+- digitalocean
+- linode
+- vultr
+- cloudflare
+- nginx
+- apache
+- gunicorn
+- uwsgi
+- celery
+- redis
+- rabbitmq
+- kafka
+- elasticsearch
+- logstash
+- kibana
+- splunk
+- datadog
+- newrelic
+- sentry
+- rollbar
+- bugsnag
+- airbrake
+- honeybadger
+- papertrail
+- loggly
+- sumologic
+- cloudwatch
+- stackdriver
+- prometheus
+- alertmanager
+- thanos
+- cortex
+- loki
+- cryptography
+- pycryptodome
+- bcrypt
+- passlib
+- jwt
+- oauth
+- openssl
+- ssl
+- tls
+- certificate
+- privatekey
+- publickey
+- rsa
+- aes
+- des
+- sha
+- md5
+- hmac
+- pbkdf2
+- scrypt
+- argon2
+- secrets
+- hashlib
+- base64
+- urlsafe
+- constant_time
+- token_bytes
+- token_hex
+- token_urlsafe
+- compare_digest
+- SystemRandom
+- HKDF
+- PBKDF2HMAC
+- Scrypt
+- ChaCha20Poly1305
+- AESGCM
+- AESCCM
+- AESOCB3
+- AESSIV
+- scikit-learn
+- xgboost
+- lightgbm
+- catboost
+- statsmodels
+- LinearRegression
+- LogisticRegression
+- DecisionTreeClassifier
+- RandomForestClassifier
+- GradientBoostingClassifier
+- SVC
+- KNN
+- NaiveBayes
+- KMeans
+- DBSCAN
+- PCA
+- TSNE
+- ICA
+- LDA
+- train_test_split
+- cross_val_score
+- GridSearchCV
+- RandomizedSearchCV
+- Pipeline
+- ColumnTransformer
+- StandardScaler
+- MinMaxScaler
+- RobustScaler
+- Normalizer
+- OneHotEncoder
+- LabelEncoder
+- CountVectorizer
+- TfidfVectorizer
+- TfidfTransformer
+- HashingVectorizer
+- accuracy_score
+- precision_score
+- recall_score
+- f1_score
+- roc_auc_score
+- confusion_matrix
+- classification_report
+- mean_squared_error
+- mean_absolute_error
+- r2_score
+- explained_variance
+- silhouette_score
+- davies_bouldin_score
+- calinski_harabasz_score
+- adjusted_rand_score
+- normalized_mutual_info_score
+- homogeneity_score
+- completeness_score
+- v_measure_score
+- fowlkes_mallows_score
+boss_words:
+  beginner:
+  - print('Hello World')
+  - print('Hello', name)
+  - 'print(f''Sum: {total}'')'
+  - x = 10
+  - name = 'Alice'
+  - is_valid = True
+  - items = [1, 2, 3]
+  - 'data = {''key'': ''value''}'
+  - 'for i in range(10):'
+  - 'for item in items:'
+  - 'for key, value in data.items():'
+  - 'while count < 10:'
+  - 'while is_running:'
+  - 'if x > 5:'
+  - 'if name == ''Alice'':'
+  - 'if x > 0 and y < 10:'
+  - 'if items:'
+  - 'elif count == 5:'
+  - 'else:'
+  - 'def greet():'
+  - 'def calculate(x, y):'
+  - 'def process_data(items):'
+  - return result
+  - return x + y
+  - return None
+  - 'def get_name(person):'
+  - 'def set_value(key, value):'
+  - 'def is_valid(data):'
+  - 'def create_user(name, age):'
+  - 'def find_item(items, target):'
+  - 'lambda x: x * 2'
+  - 'lambda x, y: x + y'
+  - 'map(lambda x: x * 2, numbers)'
+  - 'filter(lambda x: x > 0, values)'
+  - 'sorted(items, key=lambda x: x.name)'
+  - 'def factorial(n):'
+  - 'def fibonacci(n):'
+  - 'def is_prime(n):'
+  - 'def gcd(a, b):'
+  - 'def lcm(a, b):'
+  - 'class Person:'
+  - 'class Calculator:'
+  - 'class User:'
+  - 'def __init__(self):'
+  - 'def __init__(self, name):'
+  - 'def __str__(self):'
+  - 'def __repr__(self):'
+  - self.name = name
+  - self.age = age
+  - self.items = []
+  - return self.value
+  - self.count += 1
+  - 'class Dog(Animal):'
+  - super().__init__()
+  - super().__init__(name, age)
+  - '@property'
+  - '@classmethod'
+  - '@staticmethod'
+  - 'class Rectangle:'
+  - 'class Circle:'
+  - items.append(item)
+  - items.extend([1, 2, 3])
+  - items.insert(0, value)
+  - items.remove(item)
+  - items.pop()
+  - items.pop(0)
+  - items.clear()
+  - items.sort()
+  - items.reverse()
+  - len(items)
+  - data['key'] = value
+  - data.get('key')
+  - data.get('key', default)
+  - data.keys()
+  - data.values()
+  - data.items()
+  - data.pop('key')
+  - 'data.update({''new'': ''value''})'
+  - '[x * 2 for x in numbers]'
+  - '{k: v for k, v in items}'
+  intermediate:
+  - 'def process_data(items: List[str]) -> Dict[str, int]:'
+  - 'def calculate(x: int, y: int = 0) -> float:'
+  - 'def fetch_data(*args, **kwargs):'
+  - 'def decorator(func):'
+  - '    @wraps(func)'
+  - '    def wrapper(*args, **kwargs):'
+  - '        return func(*args, **kwargs)'
+  - '    return wrapper'
+  - '@lru_cache(maxsize=128)'
+  - '@property
+
+    def name(self) -> str:'
+  - '@name.setter
+
+    def name(self, value: str):'
+  - '@classmethod
+
+    def from_dict(cls, data: Dict):'
+  - '@staticmethod
+
+    def validate(value: Any) -> bool:'
+  - 'def __enter__(self):'
+  - 'def __exit__(self, exc_type, exc_val, exc_tb):'
+  - 'with open(''file.txt'', ''r'') as f:'
+  - 'with open(''data.json'', ''w'') as f:'
+  - '    content = f.read()'
+  - '    lines = f.readlines()'
+  - '    f.write(json.dumps(data))'
+  - 'with lock:'
+  - 'with timer():'
+  - 'with db.transaction():'
+  - 'async with aiohttp.ClientSession() as session:'
+  - 'async with session.get(url) as response:'
+  - '[x * 2 for x in range(10) if x % 2 == 0]'
+  - '{x: x**2 for x in range(10)}'
+  - '{item for item in items if item.is_valid}'
+  - '[[row[i] for row in matrix] for i in range(len(matrix[0]))]'
+  - '[item.upper() for item in names if len(item) > 3]'
+  - '{k: v for k, v in data.items() if v > 0}'
+  - (x for x in range(1000000) if x % 2 == 0)
+  - '[process(item) for batch in batches for item in batch]'
+  - '{user.id: user.name for user in users}'
+  - '[f(x) for f in functions for x in values]'
+  - '[[i*j for j in range(n)] for i in range(m)]'
+  - '{key: [v for v in values if v.key == key] for key in keys}'
+  - '[item async for item in async_generator()]'
+  - '{k: v async for k, v in async_items()}'
+  - '[await process(item) for item in items]'
+  - from collections import Counter, defaultdict
+  - Counter(words).most_common(10)
+  - defaultdict(list)['key'].append(value)
+  - deque(maxlen=100).append(item)
+  - OrderedDict([('a', 1), ('b', 2)])
+  - ChainMap(dict1, dict2, dict3)
+  - namedtuple('Point', ['x', 'y'])(10, 20)
+  - Counter(items).update(new_items)
+  - Counter(text).elements()
+  - deque([1, 2, 3]).rotate(1)
+  - OrderedDict().move_to_end('key')
+  - defaultdict(int)['count'] += 1
+  - 'ChainMap({''a'': 1}, {''b'': 2}).new_child()'
+  - namedtuple('User', 'name age')._asdict()
+  - Counter('mississippi').most_common(3)
+  - from itertools import chain, combinations, permutations
+  - list(chain.from_iterable([[1,2], [3,4]]))
+  - list(combinations([1,2,3,4], 2))
+  - list(permutations([1,2,3]))
+  - list(product([1,2], repeat=3))
+  - list(accumulate([1,2,3,4], operator.mul))
+  - list(compress('ABCDEF', [1,0,1,0,1,1]))
+  - 'list(dropwhile(lambda x: x<5, [1,4,6,4,1]))'
+  - 'list(takewhile(lambda x: x<5, [1,4,6,4,1]))'
+  - list(islice(range(10), 2, 8, 2))
+  - 'for key, group in groupby(data, key=lambda x: x.category):'
+  - list(zip_longest([1,2,3], ['a','b'], fillvalue='-'))
+  - list(starmap(pow, [(2,5), (3,2)]))
+  - a, b = tee(iterable, 2)
+  - list(cycle([1,2,3]))
+  - 'async def fetch(url: str) -> dict:'
+  - '    response = await session.get(url)'
+  - '    return await response.json()'
+  - await asyncio.gather(*[fetch(url) for url in urls])
+  - await asyncio.sleep(1)
+  - task = asyncio.create_task(coro())
+  - results = await asyncio.wait_for(coro(), timeout=5)
+  - 'async for item in async_generator():'
+  - 'async with aiofiles.open(''file.txt'') as f:'
+  - '    data = await f.read()'
+  advanced:
+  - 'class Meta(type):'
+  - '    def __new__(mcs, name, bases, attrs):'
+  - '        return super().__new__(mcs, name, bases, attrs)'
+  - 'class Descriptor:'
+  - '    def __get__(self, obj, objtype=None):'
+  - '    def __set__(self, obj, value):'
+  - '    def __delete__(self, obj):'
+  - 'class Singleton(type):'
+  - '    _instances = {}'
+  - '    def __call__(cls, *args, **kwargs):'
+  - '        if cls not in cls._instances:'
+  - '            cls._instances[cls] = super().__call__(*args, **kwargs)'
+  - '        return cls._instances[cls]'
+  - 'class AbstractMeta(ABCMeta):'
+  - '    def __new__(mcs, name, bases, namespace):'
+  - '@functools.wraps(func)'
+  - '@functools.lru_cache(maxsize=128, typed=False)'
+  - '@contextlib.contextmanager'
+  - 'def timer(name: str = None):'
+  - '    start = time.perf_counter()'
+  - '    yield'
+  - '    elapsed = time.perf_counter() - start'
+  - '    print(f''{name}: {elapsed:.3f}s'')'
+  - '@dataclass(frozen=True, slots=True)'
+  - '@overload
+
+    def process(x: int) -> int: ...'
+  - '@overload
+
+    def process(x: str) -> str: ...'
+  - 'def process(x):'
+  - '@singledispatch'
+  - 'def serialize(value):'
+  - '@serialize.register(dict)'
+  - 'def process[T](items: List[T]) -> Dict[str, T]:'
+  - 'class Repository[T]:'
+  - '    def get(self, id: int) -> Optional[T]:'
+  - '    def save(self, item: T) -> None:'
+  - type Point = tuple[float, float]
+  - type Vector = list[float]
+  - 'class Container[T: (str, bytes)]:'
+  - 'def concat[T: (str, bytes)](x: T, y: T) -> T:'
+  - P = ParamSpec('P')
+  - R = TypeVar('R')
+  - 'def add_logging[**P, R](f: Callable[P, R]) -> Callable[P, R]:'
+  - 'class Validator[T]:'
+  - '    def validate(self, value: T) -> TypeGuard[T]:'
+  - 'def is_str_list(val: list[object]) -> TypeGuard[list[str]]:'
+  - 'class Generic[T, U, V]:'
+  - '@runtime_checkable'
+  - 'class Drawable(Protocol):'
+  - '    def draw(self) -> None: ...'
+  - '    @property'
+  - '    def x(self) -> float: ...'
+  - 'class SupportsWrite[T_contra](Protocol):'
+  - '    def write(self, data: T_contra) -> int: ...'
+  - 'def log_items[T: Drawable](items: Sequence[T]) -> None:'
+  - 'class Closable(Protocol):'
+  - '    def close(self) -> None: ...'
+  - 'async def worker(queue: asyncio.Queue, results: list):'
+  - '    while True:'
+  - '        item = await queue.get()'
+  - '        result = await process(item)'
+  - '        results.append(result)'
+  - '        queue.task_done()'
+  - 'async with asyncio.TaskGroup() as tg:'
+  - '    task1 = tg.create_task(coro1())'
+  - '    task2 = tg.create_task(coro2())'
+  - 'async with asyncio.timeout(10):'
+  - '    result = await long_running_task()'
+  - 'async def aiter(iterable):'
+  - '    for item in iterable:'
+  - '        yield await process(item)'
+  - 'async def process_stream():'
+  - '    async for chunk in stream:'
+  - 'class DatabaseConnection:'
+  - '    def __enter__(self) -> ''DatabaseConnection'':'
+  - '        self.conn = create_connection()'
+  - '        return self'
+  - '    def __exit__(self, exc_type, exc_val, exc_tb):'
+  - '        self.conn.close()'
+  - '        return False'
+  - '@contextlib.contextmanager'
+  - 'def managed_resource(*args, **kwargs):'
+  - '    resource = acquire_resource(*args, **kwargs)'
+  - '    try:'
+  - '        yield resource'
+  - '    finally:'
+  - '        release_resource(resource)'
+  - matrix_transpose = [[row[i] for row in matrix] for i in range(len(matrix[0]))]
+  - flattened = [item for sublist in nested for item in sublist]
+  - 'def fibonacci():'
+  - '    a, b = 0, 1'
+  - '    while True:'
+  - '        yield a'
+  - '        a, b = b, a + b'
+  - gen = (x**2 for x in range(1000000) if x % 2 == 0)
+  - result = sum(x for x in range(1000000) if is_prime(x))
+  - 'grouped = {k: list(g) for k, g in groupby(sorted(items, key=key), key=key)}'
+  - transposed = list(zip(*matrix))
+  - cartesian = [(x, y) for x in range(10) for y in range(10) if x != y]
+  - 'nested_dict = {outer_key: {inner_key: value for inner_key, value in inner_dict.items()}
+    for outer_key, inner_dict in data.items()}'
+  - '@numba.jit(nopython=True)'
+  - 'def compute_intensive(arr: np.ndarray) -> float:'
+  - '@cython.cfunc'
+  - '@cython.returns(cython.double)'
+  - 'def fast_loop(n: cython.int) -> cython.double:'
+  - 'with concurrent.futures.ProcessPoolExecutor(max_workers=8) as executor:'
+  - '    futures = [executor.submit(process, item) for item in items]'
+  - '    results = [future.result() for future in futures]'
+  - 'with multiprocessing.Pool(processes=cpu_count()) as pool:'
+  - '    results = pool.map(process_item, items, chunksize=100)'
+  - 'class PluginRegistry(type):'
+  - '    plugins = {}'
+  - '    def __init__(cls, name, bases, attrs):'
+  - '        super().__init__(name, bases, attrs)'
+  - '        if name != ''Plugin'':'
+  - '            cls.plugins[name] = cls'
+  - 'class Plugin(metaclass=PluginRegistry):'
+  - '    pass'

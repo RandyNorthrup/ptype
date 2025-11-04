@@ -1,0 +1,1508 @@
+beginner:
+- alignas
+- alignof
+- and
+- and_eq
+- asm
+- auto
+- bitand
+- bitor
+- bool
+- break
+- case
+- catch
+- char
+- char8_t
+- char16_t
+- char32_t
+- class
+- compl
+- concept
+- const
+- consteval
+- constexpr
+- constinit
+- const_cast
+- continue
+- co_await
+- co_return
+- co_yield
+- decltype
+- default
+- delete
+- do
+- double
+- dynamic_cast
+- else
+- enum
+- explicit
+- export
+- extern
+- 'false'
+- float
+- for
+- friend
+- goto
+- if
+- inline
+- int
+- long
+- mutable
+- namespace
+- new
+- noexcept
+- not
+- not_eq
+- nullptr
+- operator
+- or
+- or_eq
+- private
+- protected
+- public
+- register
+- reinterpret_cast
+- requires
+- return
+- short
+- signed
+- sizeof
+- static
+- static_assert
+- static_cast
+- struct
+- switch
+- template
+- this
+- thread_local
+- throw
+- 'true'
+- try
+- typedef
+- typeid
+- typename
+- union
+- unsigned
+- using
+- virtual
+- void
+- volatile
+- wchar_t
+- while
+- xor
+- xor_eq
+- int8_t
+- int16_t
+- int32_t
+- int64_t
+- uint8_t
+- uint16_t
+- uint32_t
+- uint64_t
+- size_t
+- ptrdiff_t
+- intptr_t
+- uintptr_t
+- nullptr_t
+- std::string
+- std::wstring
+- std::u8string
+- std::u16string
+- std::u32string
+- std::vector
+- std::array
+- std::list
+- std::deque
+- std::map
+- std::set
+- std::unordered_map
+- std::unordered_set
+- std::multimap
+- std::multiset
+- std::queue
+- std::stack
+- std::priority_queue
+- std::pair
+- std::tuple
+- std::optional
+- std::variant
+- std::any
+- std::function
+- std::shared_ptr
+- std::unique_ptr
+- std::weak_ptr
+- std::span
+- std::string_view
+- std::byte
+- std::complex
+- std::bitset
+- std::valarray
+- std::error_code
+- std::error_condition
+- std::exception
+- std::runtime_error
+- length
+- size
+- empty
+- clear
+- substr
+- find
+- rfind
+- find_first_of
+- find_last_of
+- find_first_not_of
+- find_last_not_of
+- compare
+- append
+- push_back
+- pop_back
+- insert
+- erase
+- replace
+- resize
+- reserve
+- capacity
+- shrink_to_fit
+- at
+- front
+- back
+- c_str
+- data
+- begin
+- end
+- rbegin
+- rend
+- cbegin
+- cend
+- crbegin
+- crend
+- starts_with
+- ends_with
+- contains
+- std::getline
+- std::stoi
+- std::stol
+- push_back
+- pop_back
+- emplace_back
+- insert
+- erase
+- clear
+- resize
+- reserve
+- capacity
+- shrink_to_fit
+- size
+- empty
+- at
+- front
+- back
+- data
+- begin
+- end
+- rbegin
+- rend
+- cbegin
+- cend
+- crbegin
+- crend
+- emplace
+- assign
+- swap
+- max_size
+- get_allocator
+- std::vector::iterator
+- std::vector::const_iterator
+- std::vector::reverse_iterator
+- push_front
+- pop_front
+- emplace_front
+- splice
+- remove
+- remove_if
+- unique
+- merge
+- sort
+- reverse
+- std::make_unique
+- std::make_shared
+- std::move
+- std::forward
+- std::swap
+- std::find
+- std::find_if
+- std::count
+- std::count_if
+- insert
+- emplace
+- erase
+- clear
+- find
+- count
+- contains
+- lower_bound
+- upper_bound
+- equal_range
+- begin
+- end
+- rbegin
+- rend
+- cbegin
+- cend
+- crbegin
+- crend
+- empty
+- size
+- max_size
+- operator[]
+- at
+- insert_or_assign
+- try_emplace
+- extract
+- merge
+- swap
+- key_comp
+- value_comp
+- get_allocator
+- bucket_count
+- max_bucket_count
+- bucket_size
+- bucket
+- load_factor
+- max_load_factor
+- rehash
+- reserve
+- hash_function
+- key_eq
+- equal_range
+- find_as
+- contains_key
+- std::make_pair
+- first
+- second
+- std::tie
+- std::ignore
+- std::sort
+- std::stable_sort
+- std::partial_sort
+- std::is_sorted
+- std::reverse
+- std::rotate
+- std::shuffle
+- std::random_shuffle
+- std::unique
+- std::remove
+- std::remove_if
+- std::replace
+- std::replace_if
+- std::fill
+- std::generate
+- std::copy
+- std::copy_if
+- std::move
+- std::transform
+- std::for_each
+- std::find
+- std::find_if
+- std::find_if_not
+- std::count
+- std::count_if
+- std::min
+- std::max
+- std::minmax
+- std::min_element
+- std::max_element
+- std::minmax_element
+- std::accumulate
+- std::inner_product
+- std::adjacent_difference
+- std::partial_sum
+- std::iota
+- std::all_of
+- std::any_of
+- std::none_of
+- std::equal
+- std::mismatch
+- std::lexicographical_compare
+- std::is_permutation
+- std::next_permutation
+- std::prev_permutation
+- std::lower_bound
+- std::upper_bound
+- std::binary_search
+- std::equal_range
+- std::merge
+- std::set_union
+- std::set_intersection
+- std::set_difference
+- std::set_symmetric_difference
+- std::includes
+- std::partition
+- std::stable_partition
+- std::is_partitioned
+- std::unique_ptr
+- std::shared_ptr
+- std::weak_ptr
+- std::make_unique
+- std::make_shared
+- std::allocate_shared
+- get
+- reset
+- release
+- swap
+- operator*
+- operator->
+- operator bool
+- use_count
+- unique
+- lock
+- expired
+- owner_before
+- std::enable_shared_from_this
+- shared_from_this
+- weak_from_this
+- std::default_delete
+- std::unique_ptr::deleter_type
+- std::shared_ptr::element_type
+- std::weak_ptr::element_type
+- std::make_unique_for_overwrite
+- std::make_shared_for_overwrite
+- std::out_ptr
+- std::inout_ptr
+- std::to_address
+- std::pointer_traits
+- std::cout
+- std::cin
+- std::cerr
+- std::clog
+- std::endl
+- std::flush
+- std::ifstream
+- std::ofstream
+- std::fstream
+- std::istringstream
+- std::ostringstream
+- std::stringstream
+- open
+- close
+- is_open
+- good
+- eof
+- fail
+- bad
+- clear
+- operator<<
+- operator>>
+- getline
+- get
+- put
+- read
+- write
+- seekg
+- seekp
+- tellg
+- tellp
+- peek
+- putback
+- unget
+- ignore
+- width
+- precision
+- setw
+- setprecision
+- std::hex
+- std::dec
+- std::oct
+- std::fixed
+- new
+- delete
+- new[]
+- delete[]
+- malloc
+- calloc
+- realloc
+- free
+- std::malloc
+- std::free
+- std::memcpy
+- std::memmove
+- std::memset
+- std::memcmp
+- std::allocator
+- allocate
+- deallocate
+- construct
+- destroy
+- std::allocator_traits
+- std::uninitialized_copy
+- std::uninitialized_fill
+- std::uninitialized_move
+- std::destroy_at
+- std::destroy_n
+- std::construct_at
+- std::addressof
+- std::align
+- std::aligned_storage
+- std::aligned_union
+intermediate:
+- template
+- typename
+- class
+- template<typename T>
+- template<class T>
+- template<typename... Args>
+- variadic template
+- template specialization
+- partial specialization
+- template<>
+- std::enable_if
+- std::enable_if_t
+- std::conditional
+- std::conditional_t
+- std::is_same
+- std::is_base_of
+- std::is_convertible
+- std::is_integral
+- std::is_floating_point
+- std::is_pointer
+- std::is_reference
+- std::is_const
+- std::is_volatile
+- std::is_trivial
+- std::is_standard_layout
+- std::is_pod
+- std::is_empty
+- std::is_polymorphic
+- std::is_abstract
+- std::is_final
+- std::is_aggregate
+- std::decay
+- std::decay_t
+- std::remove_const
+- std::remove_volatile
+- std::remove_cv
+- std::remove_reference
+- std::remove_pointer
+- std::add_const
+- std::add_volatile
+- std::add_cv
+- std::add_lvalue_reference
+- std::add_rvalue_reference
+- std::add_pointer
+- std::make_signed
+- std::make_unsigned
+- std::underlying_type
+- std::invoke_result
+- std::result_of
+- std::void_t
+- std::conjunction
+- std::disjunction
+- std::negation
+- std::integer_sequence
+- std::make_index_sequence
+- std::index_sequence_for
+- SFINAE
+- substitution failure
+- std::declval
+- decltype
+- decltype(auto)
+- auto
+- auto&&
+- template<auto>
+- template parameter pack
+- parameter pack expansion
+- sizeof...
+- fold expression
+- unary fold
+- binary fold
+- '...'
+- fold operator
+- std::tuple_size
+- std::tuple_element
+- std::get
+- std::apply
+- std::make_from_tuple
+- std::forward_as_tuple
+- std::tuple_cat
+- std::move
+- std::forward
+- rvalue reference
+- '&&'
+- move constructor
+- move assignment
+- std::move_if_noexcept
+- noexcept
+- noexcept()
+- lvalue
+- rvalue
+- xvalue
+- glvalue
+- prvalue
+- value category
+- std::move_iterator
+- std::make_move_iterator
+- std::movable
+- std::copyable
+- std::swappable
+- std::swap
+- std::exchange
+- perfect forwarding
+- universal reference
+- forwarding reference
+- reference collapsing
+- std::reference_wrapper
+- std::ref
+- std::cref
+- std::invoke
+- std::invoke_r
+- std::is_invocable
+- std::is_nothrow_invocable
+- std::is_invocable_r
+- RAII
+- resource acquisition
+- destructor
+- rule of three
+- rule of five
+- rule of zero
+- copy elision
+- return value optimization
+- RVO
+- named RVO
+- NRVO
+- guaranteed copy elision
+- std::in_place
+- std::in_place_t
+- std::in_place_type
+- std::in_place_index
+- emplace
+- emplace_back
+- try_emplace
+- std::piecewise_construct
+- std::allocator_arg
+- std::uses_allocator
+- std::scoped_allocator_adaptor
+- lambda
+- '[]'
+- '[=]'
+- '[&]'
+- '[this]'
+- '[*this]'
+- '[=, &x]'
+- '[&, x]'
+- capture
+- capture list
+- lambda expression
+- closure
+- mutable lambda
+- mutable
+- -> return_type
+- trailing return type
+- generic lambda
+- auto parameter
+- template lambda
+- template<typename T> lambda
+- constexpr lambda
+- consteval lambda
+- noexcept lambda
+- std::function
+- std::bind
+- std::bind_front
+- std::bind_back
+- std::placeholders
+- std::placeholders::_1
+- std::placeholders::_2
+- std::mem_fn
+- std::not_fn
+- std::identity
+- std::plus
+- std::minus
+- std::multiplies
+- std::divides
+- std::modulus
+- std::negate
+- std::equal_to
+- std::not_equal_to
+- std::greater
+- std::less
+- std::greater_equal
+- std::less_equal
+- std::logical_and
+- std::logical_or
+- std::logical_not
+- std::bit_and
+- std::bit_or
+- std::bit_xor
+- std::bit_not
+- std::ranges
+- ranges::begin
+- ranges::end
+- ranges::cbegin
+- ranges::cend
+- ranges::rbegin
+- ranges::rend
+- ranges::size
+- ranges::empty
+- ranges::data
+- ranges::sort
+- ranges::find
+- ranges::find_if
+- ranges::count
+- ranges::count_if
+- ranges::copy
+- ranges::transform
+- ranges::filter
+- ranges::reverse
+- ranges::unique
+- ranges::remove_if
+- ranges::for_each
+- ranges::all_of
+- ranges::any_of
+- ranges::none_of
+- std::views
+- views::all
+- views::filter
+- views::transform
+- views::take
+- views::drop
+- views::reverse
+- views::split
+- views::join
+- views::keys
+- views::values
+- views::elements
+- views::counted
+- views::common
+- views::iota
+- views::istream
+- views::zip
+- views::zip_transform
+- views::adjacent
+- views::chunk
+- views::slide
+- views::stride
+- range adaptor
+- view
+- borrowed_range
+- sized_range
+- input_range
+- output_range
+- forward_range
+- bidirectional_range
+- random_access_range
+- contiguous_range
+- viewable_range
+- range_value_t
+- range_reference_t
+- iterator_t
+- sentinel_t
+- iterator
+- const_iterator
+- reverse_iterator
+- const_reverse_iterator
+- input_iterator
+- output_iterator
+- forward_iterator
+- bidirectional_iterator
+- random_access_iterator
+- contiguous_iterator
+- std::iterator_traits
+- difference_type
+- value_type
+- pointer
+- reference
+- iterator_category
+- std::advance
+- std::distance
+- std::next
+- std::prev
+- std::iter_move
+- std::iter_swap
+- std::input_iterator_tag
+- std::output_iterator_tag
+- std::forward_iterator_tag
+- std::bidirectional_iterator_tag
+- std::random_access_iterator_tag
+- std::contiguous_iterator_tag
+- std::back_inserter
+- std::front_inserter
+- std::inserter
+- std::back_insert_iterator
+- std::front_insert_iterator
+- std::insert_iterator
+- std::istream_iterator
+- std::ostream_iterator
+- std::istreambuf_iterator
+- std::ostreambuf_iterator
+- std::reverse_iterator
+- std::make_reverse_iterator
+- std::counted_iterator
+- std::common_iterator
+- std::default_sentinel
+- std::unreachable_sentinel
+- std::counted_iterator
+- std::move_sentinel
+- std::projected
+- std::indirect_result_t
+- std::indirectly_readable
+- std::indirectly_writable
+- std::weakly_incrementable
+- std::thread
+- std::jthread
+- std::this_thread
+- join
+- joinable
+- detach
+- get_id
+- native_handle
+- hardware_concurrency
+- std::this_thread::sleep_for
+- std::this_thread::sleep_until
+- std::this_thread::yield
+- std::mutex
+- std::recursive_mutex
+- std::timed_mutex
+- std::recursive_timed_mutex
+- std::shared_mutex
+- std::shared_timed_mutex
+- lock
+- unlock
+- try_lock
+- try_lock_for
+- try_lock_until
+- std::lock_guard
+- std::scoped_lock
+- std::unique_lock
+- std::shared_lock
+- std::defer_lock
+- std::try_to_lock
+- std::adopt_lock
+- std::condition_variable
+- std::condition_variable_any
+- wait
+- wait_for
+- wait_until
+- notify_one
+- notify_all
+- std::future
+- std::promise
+- std::packaged_task
+- std::async
+- std::launch
+- std::launch::async
+- std::launch::deferred
+- get
+- set_value
+- set_exception
+- get_future
+- valid
+- wait
+- wait_for
+- wait_until
+- std::shared_future
+- std::atomic
+- std::atomic_flag
+- load
+- store
+- exchange
+- compare_exchange_weak
+- compare_exchange_strong
+- fetch_add
+- fetch_sub
+- fetch_and
+- fetch_or
+- fetch_xor
+- is_lock_free
+- std::memory_order
+- memory_order_relaxed
+- memory_order_consume
+- memory_order_acquire
+- memory_order_release
+- memory_order_acq_rel
+- memory_order_seq_cst
+- std::atomic_thread_fence
+- std::atomic_signal_fence
+- std::chrono
+- std::chrono::duration
+- std::chrono::time_point
+- std::chrono::system_clock
+- std::chrono::steady_clock
+- std::chrono::high_resolution_clock
+- std::chrono::seconds
+- std::chrono::milliseconds
+- std::chrono::microseconds
+- std::chrono::nanoseconds
+- std::chrono::minutes
+- std::chrono::hours
+- std::chrono::days
+- std::chrono::weeks
+- std::chrono::months
+- std::chrono::years
+- count
+- zero
+- min
+- max
+- now
+- time_since_epoch
+- duration_cast
+- time_point_cast
+- std::chrono::floor
+- std::chrono::ceil
+- std::chrono::round
+- std::chrono::abs
+- std::literals::chrono_literals
+- operator""s
+- operator""ms
+- operator""us
+- operator""ns
+- operator""h
+- operator""min
+- std::chrono::year_month_day
+- std::chrono::hh_mm_ss
+- std::chrono::tzdb
+- std::chrono::zoned_time
+- std::chrono::local_time
+- std::chrono::utc_clock
+advanced:
+- concept
+- requires
+- requires clause
+- requires expression
+- std::same_as
+- std::derived_from
+- std::convertible_to
+- std::common_reference_with
+- std::common_with
+- std::integral
+- std::signed_integral
+- std::unsigned_integral
+- std::floating_point
+- std::assignable_from
+- std::swappable
+- std::swappable_with
+- std::destructible
+- std::constructible_from
+- std::default_initializable
+- std::move_constructible
+- std::copy_constructible
+- std::equality_comparable
+- std::equality_comparable_with
+- std::totally_ordered
+- std::totally_ordered_with
+- std::movable
+- std::copyable
+- std::semiregular
+- std::regular
+- std::invocable
+- std::regular_invocable
+- std::predicate
+- std::relation
+- std::equivalence_relation
+- std::strict_weak_order
+- std::indirectly_readable
+- std::indirectly_writable
+- std::weakly_incrementable
+- std::incrementable
+- std::input_or_output_iterator
+- std::sentinel_for
+- std::sized_sentinel_for
+- std::input_iterator
+- std::output_iterator
+- std::forward_iterator
+- std::bidirectional_iterator
+- std::random_access_iterator
+- std::contiguous_iterator
+- std::indirectly_unary_invocable
+- std::indirectly_regular_unary_invocable
+- std::indirect_unary_predicate
+- std::indirect_binary_predicate
+- std::indirect_equivalence_relation
+- std::indirect_strict_weak_order
+- std::indirectly_movable
+- std::indirectly_movable_storable
+- std::indirectly_copyable
+- std::indirectly_copyable_storable
+- std::indirectly_swappable
+- std::indirectly_comparable
+- std::permutable
+- std::mergeable
+- std::sortable
+- std::three_way_comparable
+- std::three_way_comparable_with
+- operator<=>
+- spaceship operator
+- std::strong_ordering
+- std::weak_ordering
+- std::partial_ordering
+- std::compare_three_way
+- std::compare_three_way_result
+- std::strong_order
+- std::weak_order
+- std::partial_order
+- std::compare_strong_order_fallback
+- std::compare_weak_order_fallback
+- std::compare_partial_order_fallback
+- co_await
+- co_yield
+- co_return
+- coroutine
+- std::coroutine_handle
+- std::coroutine_traits
+- std::suspend_always
+- std::suspend_never
+- promise_type
+- initial_suspend
+- final_suspend
+- return_void
+- return_value
+- yield_value
+- unhandled_exception
+- get_return_object
+- await_ready
+- await_suspend
+- await_resume
+- awaitable
+- awaiter
+- resume
+- destroy
+- done
+- promise
+- address
+- from_promise
+- from_address
+- std::noop_coroutine
+- std::noop_coroutine_handle
+- std::noop_coroutine_promise
+- generator
+- task
+- lazy
+- eager
+- sync_wait
+- when_all
+- when_any
+- async_generator
+- recursive_generator
+- std::generator
+- operator co_await
+- co_await operator
+- await_transform
+- symmetric transfer
+- continuation
+- coroutine_handle<void>
+- coroutine_handle<Promise>
+- std::experimental::generator
+- std::experimental::coroutine_handle
+- cppcoro
+- folly::coro
+- boost::asio::awaitable
+- asio::co_spawn
+- asio::use_awaitable
+- structured concurrency
+- cancellation
+- cancellation_token
+- stop_token
+- stop_source
+- stop_callback
+- request_stop
+- stop_requested
+- stop_possible
+- module
+- export
+- import
+- module partition
+- module interface
+- module implementation
+- global module fragment
+- private module fragment
+- module purview
+- module linkage
+- export module
+- export import
+- import <header>
+- module;
+- 'module:'
+- export namespace
+- export class
+- export template
+- export using
+- export typedef
+- module declaration
+- module name
+- module partition name
+- header unit
+- importable header
+- std
+- std.compat
+- import std;
+- import std.compat;
+- module interface unit
+- module implementation unit
+- constexpr
+- consteval
+- constinit
+- if constexpr
+- constexpr function
+- constexpr variable
+- constexpr constructor
+- constexpr destructor
+- constexpr if
+- static_assert
+- std::is_constant_evaluated
+- immediate function
+- constant expression
+- core constant expression
+- literal type
+- std::integral_constant
+- std::true_type
+- std::false_type
+- std::bool_constant
+- constexpr lambda
+- constexpr std::vector
+- constexpr std::string
+- constexpr dynamic allocation
+- constexpr new
+- constexpr delete
+- constexpr virtual
+- constexpr dynamic_cast
+- constexpr typeid
+- constexpr try-catch
+- transient allocation
+- non-transient constexpr allocation
+- std::construct_at
+- std::destroy_at
+- std::bit_cast
+- std::to_underlying
+- std::unreachable
+- std::assume
+- std::is_within_lifetime
+- std::start_lifetime_as
+- std::start_lifetime_as_array
+- constexpr union
+- constexpr placement new
+- constexpr reinterpret_cast
+- constexpr std::allocator
+- constexpr container
+- constexpr algorithm
+- constexpr numeric
+- constexpr cmath
+- constexpr complex
+- std::source_location
+- std::stacktrace
+- std::stacktrace_entry
+- template metaprogramming
+- TMP
+- type trait
+- SFINAE
+- tag dispatching
+- policy-based design
+- curiously recurring template pattern
+- CRTP
+- Barton-Nackman trick
+- expression templates
+- type list
+- variadic templates
+- parameter pack
+- pack expansion
+- fold expressions
+- std::tuple
+- std::variant
+- std::visit
+- std::holds_alternative
+- std::get_if
+- std::variant_size
+- std::variant_alternative
+- std::monostate
+- std::bad_variant_access
+- std::any
+- std::any_cast
+- std::make_any
+- std::bad_any_cast
+- std::type_identity
+- std::type_identity_t
+- std::remove_cvref
+- std::remove_cvref_t
+- std::unwrap_reference
+- std::unwrap_ref_decay
+- std::common_type
+- std::common_type_t
+- std::common_reference
+- std::common_reference_t
+- std::basic_common_reference
+- std::invoke_result_t
+- std::is_invocable_v
+- std::is_nothrow_invocable_v
+- std::conjunction_v
+- std::disjunction_v
+- std::negation_v
+- std::has_virtual_destructor
+- std::is_trivially_copyable
+- std::is_trivially_constructible
+- std::is_nothrow_constructible
+- std::is_nothrow_destructible
+- std::alignment_of
+- std::rank
+- std::extent
+- std::is_bounded_array
+- std::is_unbounded_array
+- std::is_scoped_enum
+- std::endian
+- std::endian::native
+- std::endian::big
+- std::endian::little
+- std::pmr
+- polymorphic allocator
+- std::pmr::memory_resource
+- std::pmr::new_delete_resource
+- std::pmr::null_memory_resource
+- std::pmr::synchronized_pool_resource
+- std::pmr::unsynchronized_pool_resource
+- std::pmr::monotonic_buffer_resource
+- std::pmr::pool_options
+- std::pmr::vector
+- std::pmr::string
+- std::pmr::map
+- std::pmr::polymorphic_allocator
+- std::execution
+- parallel algorithms
+- std::execution::seq
+- std::execution::par
+- std::execution::par_unseq
+- std::execution::unseq
+- execution policy
+- std::reduce
+- std::transform_reduce
+- std::inclusive_scan
+- std::exclusive_scan
+- std::transform_inclusive_scan
+- std::transform_exclusive_scan
+- std::for_each_n
+- std::shift_left
+- std::shift_right
+- std::sample
+- std::clamp
+- std::lerp
+- std::midpoint
+- std::gcd
+- std::lcm
+- std::popcount
+- std::countl_zero
+- std::countl_one
+- std::countr_zero
+- std::countr_one
+- std::has_single_bit
+- std::bit_ceil
+- std::bit_floor
+- std::bit_width
+- std::rotl
+- std::rotr
+- std::byteswap
+- std::expected
+- std::unexpected
+- std::bad_expected_access
+- std::unexpect
+- std::expected::value
+- std::expected::error
+- designated initializers
+- aggregate initialization
+- brace initialization
+- uniform initialization
+- direct initialization
+- value initialization
+- zero initialization
+- default initialization
+- list initialization
+- copy initialization
+- structured bindings
+- auto [x, y]
+- tuple decomposition
+- if with initializer
+- switch with initializer
+- range-based for loop
+- init-statement
+- constexpr if
+- if consteval
+- static operator()
+- static operator[]
+- multidimensional subscript
+- deducing this
+- explicit this
+- explicit(bool)
+- conditional explicit
+- inline variable
+- inline constexpr
+- template argument deduction
+- CTAD
+- class template argument deduction
+- deduction guides
+- user-defined deduction guides
+- aggregate CTAD
+- alias CTAD
+- std::make_from_tuple
+- std::apply
+- std::invoke
+- std::bind_front
+- std::bind_back
+- placeholder literal
+- user-defined literal
+- literal operator
+- operator""_suffix
+- raw literal operator
+- cooked literal operator
+- std::literals::string_literals
+- operator""s
+- std::literals::chrono_literals
+- std::literals::complex_literals
+- using enum
+- using enum Color
+- attribute
+- '[[nodiscard]]'
+- '[[nodiscard("reason")]]'
+- '[[maybe_unused]]'
+- '[[likely]]'
+- '[[unlikely]]'
+- '[[fallthrough]]'
+- '[[noreturn]]'
+- '[[deprecated]]'
+- '[[deprecated("reason")]]'
+- '[[carries_dependency]]'
+- '[[no_unique_address]]'
+- '[[assume]]'
+boss_words:
+  beginner:
+  - '#include <iostream>'
+  - '#include <vector>'
+  - '#include <string>'
+  - int main() { return 0; }
+  - std::cout << "Hello" << std::endl;
+  - std::cin >> input;
+  - int x = 10;
+  - double y = 3.14;
+  - std::string name = "Alice";
+  - bool flag = true;
+  - int arr[5] = {1, 2, 3, 4, 5};
+  - std::vector<int> vec = {1, 2, 3};
+  - vec.push_back(4);
+  - vec.pop_back();
+  - int size = vec.size();
+  - for (int i = 0; i < 10; ++i) { }
+  - 'for (const auto& item : vec) { }'
+  - while (x > 0) { --x; }
+  - if (x > 5) { } else { }
+  - 'switch (value) { case 1: break; default: break; }'
+  - int add(int a, int b) { return a + b; }
+  - void printName() { std::cout << name; }
+  - 'class Person { public: std::string name; };'
+  - Person p; p.name = "Alice";
+  - 'class Dog : public Animal { };'
+  - virtual void draw() = 0;
+  - Dog* dog = new Dog();
+  - delete dog;
+  - std::unique_ptr<Dog> ptr = std::make_unique<Dog>();
+  - std::shared_ptr<Dog> sptr = std::make_shared<Dog>();
+  - try { } catch (const std::exception& e) { }
+  - throw std::runtime_error("Error");
+  - std::map<std::string, int> ages;
+  - ages["Alice"] = 30;
+  - auto it = ages.find("Alice");
+  - if (it != ages.end()) { }
+  - std::set<int> numbers = {1, 2, 3};
+  - numbers.insert(4);
+  - std::string str = "Hello";
+  - str.substr(0, 5);
+  - str.find("llo");
+  - str.length();
+  - std::getline(std::cin, line);
+  - std::sort(vec.begin(), vec.end());
+  - std::reverse(vec.begin(), vec.end());
+  - auto it = std::find(vec.begin(), vec.end(), 5);
+  - int count = std::count(vec.begin(), vec.end(), 3);
+  - std::ifstream file("input.txt");
+  - std::ofstream outfile("output.txt");
+  - if (file.is_open()) { }
+  - file >> data;
+  - outfile << data;
+  - file.close();
+  - int* ptr = nullptr;
+  - int& ref = x;
+  - const int MAX = 100;
+  - static int counter = 0;
+  - enum class Color { Red, Green, Blue };
+  - Color c = Color::Red;
+  - namespace MyNamespace { }
+  - using namespace std;
+  - typedef std::vector<int> IntVec;
+  - using IntVec = std::vector<int>;
+  - 'template<typename T> T max(T a, T b) { return (a > b) ? a : b; }'
+  - auto lambda = [](int x) { return x * 2; };
+  - int result = lambda(5);
+  - std::pair<int, std::string> p = {1, "one"};
+  - auto [id, name] = p;
+  - std::tuple<int, std::string, double> t = {1, "Alice", 3.14};
+  - std::optional<int> opt = 42;
+  - if (opt.has_value()) { int x = opt.value(); }
+  - std::variant<int, std::string> v = 42;
+  - int x = std::get<int>(v);
+  - sizeof(int);
+  - sizeof(arr) / sizeof(arr[0]);
+  - nullptr;
+  - auto x = 42;
+  - decltype(x) y = x;
+  intermediate:
+  - 'template<typename T> class Container { T data; public: void set(T val) { data
+    = val; } };'
+  - template<typename T, typename U> auto add(T a, U b) -> decltype(a + b) { return
+    a + b; }
+  - template<typename... Args> void print(Args... args) { (std::cout << ... << args)
+    << '\n'; }
+  - std::vector<int> vec = {1, 2, 3}; vec.emplace_back(4);
+  - auto ptr = std::make_unique<int>(42);
+  - auto sptr = std::make_shared<std::string>("Hello");
+  - std::weak_ptr<int> wptr = sptr;
+  - std::move(vec);
+  - int&& rvalue_ref = 42;
+  - template<typename T> void func(T&& param) { auto x = std::forward<T>(param); }
+  - auto lambda = [x = 42](int y) mutable { return x += y; };
+  - auto lambda = [](auto x, auto y) { return x + y; };
+  - std::function<int(int, int)> func = [](int a, int b) { return a + b; };
+  - std::ranges::sort(vec);
+  - auto result = std::ranges::find_if(vec, [](int x) { return x > 5; });
+  - auto view = vec | std::views::filter([](int x) { return x % 2 == 0; }) | std::views::transform([](int
+    x) { return x * 2; });
+  - 'for (int val : view) { std::cout << val; }'
+  - std::thread t([](){ std::cout << "Thread\n"; }); t.join();
+  - std::mutex mtx; std::lock_guard<std::mutex> lock(mtx);
+  - std::atomic<int> counter = 0; counter++;
+  - auto future = std::async(std::launch::async, [](){ return 42; });
+  - int result = future.get();
+  - std::promise<int> promise; auto future = promise.get_future(); promise.set_value(42);
+  - using namespace std::chrono_literals; std::this_thread::sleep_for(100ms);
+  - auto start = std::chrono::steady_clock::now();
+  - auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+  - if constexpr (std::is_integral_v<T>) { /* compile-time branch */ }
+  - 'constexpr int factorial(int n) { return n <= 1 ? 1 : n * factorial(n-1); }'
+  - static_assert(sizeof(int) == 4, "int must be 4 bytes");
+  - std::enable_if_t<std::is_integral_v<T>, T> func(T value) { }
+  - template<typename T> concept Addable = requires(T a, T b) { a + b; };
+  - std::span<int> span(arr, 5);
+  - std::string_view sv = "Hello";
+  - std::optional<int> opt = std::nullopt;
+  - int value = opt.value_or(0);
+  - std::variant<int, float, std::string> var = "text";
+  - std::visit([](auto&& arg) { std::cout << arg; }, var);
+  - std::any a = 42; int x = std::any_cast<int>(a);
+  - auto [x, y, z] = std::tuple{1, 2.5, "three"};
+  - std::unordered_map<std::string, int> map; map.emplace("key", 1);
+  - if (auto it = map.find("key"); it != map.end()) { }
+  - std::filesystem::path p = "file.txt";
+  - if (std::filesystem::exists(p)) { }
+  - 'for (const auto& entry : std::filesystem::directory_iterator(".")) { }'
+  - std::regex pattern(R"(\d+)"); std::smatch matches;
+  - if (std::regex_search(text, matches, pattern)) { }
+  - std::accumulate(vec.begin(), vec.end(), 0);
+  - std::transform(vec.begin(), vec.end(), result.begin(), [](int x) { return x *
+    2; });
+  - std::copy_if(vec.begin(), vec.end(), std::back_inserter(result), [](int x) { return
+    x > 0; });
+  - bool all_positive = std::all_of(vec.begin(), vec.end(), [](int x) { return x >
+    0; });
+  - std::partition(vec.begin(), vec.end(), [](int x) { return x % 2 == 0; });
+  - std::sort(vec.begin(), vec.end(), std::greater<int>());
+  - std::unique(vec.begin(), vec.end());
+  - std::set_union(set1.begin(), set1.end(), set2.begin(), set2.end(), std::back_inserter(result));
+  - std::lower_bound(vec.begin(), vec.end(), 5);
+  - std::binary_search(vec.begin(), vec.end(), 5);
+  - std::iota(vec.begin(), vec.end(), 0);
+  - std::generate(vec.begin(), vec.end(), [n=0]() mutable { return n++; });
+  - std::for_each(vec.begin(), vec.end(), [](int& x) { x *= 2; });
+  - template<typename T> using Vec = std::vector<T>;
+  - Vec<int> numbers = {1, 2, 3};
+  - std::array<int, 5> arr = {1, 2, 3, 4, 5};
+  - std::tuple t{1, "hello", 3.14}; auto [a, b, c] = t;
+  - std::apply([](auto... args) { ((std::cout << args << ' '), ...); }, t);
+  - template<typename... Ts> void print(const Ts&... args) { ((std::cout << args <<
+    ' '), ...); }
+  - std::invoke(&MyClass::method, obj, args...);
+  advanced:
+  - template<typename T> concept Numeric = std::integral<T> || std::floating_point<T>;
+  - template<Numeric T> T add(T a, T b) requires std::is_arithmetic_v<T> { return
+    a + b; }
+  - template<typename T> requires std::copyable<T> && std::equality_comparable<T>
+    class Container { };
+  - auto cmp = [](const auto& a, const auto& b) { return a <=> b; };
+  - std::strong_ordering result = 5 <=> 10;
+  - if (result == std::strong_ordering::less) { }
+  - template<typename T> struct Generator { struct promise_type { /* ... */ }; };
+  - Generator<int> counter() { for (int i = 0; ; ++i) co_yield i; }
+  - Task<int> async_compute() { int result = co_await async_operation(); co_return
+    result; }
+  - std::coroutine_handle<> handle; if (!handle.done()) handle.resume();
+  - export module math; export int add(int a, int b) { return a + b; }
+  - import math; int result = add(5, 10);
+  - constexpr std::vector<int> vec = {1, 2, 3}; constexpr int sum = vec[0] + vec[1]
+    + vec[2];
+  - consteval int square(int x) { return x * x; }
+  - if consteval { /* compile-time */ } else { /* runtime */ }
+  - template<typename T> concept Container = requires(T t) { t.begin(); t.end(); t.size();
+    };
+  - template<std::ranges::range R> void process(R&& range) { }
+  - auto pipeline = vec | std::views::filter([](int x) { return x % 2 == 0; }) | std::views::transform([](int
+    x) { return x * x; }) | std::views::take(5);
+  - std::ranges::for_each(pipeline, [](int x) { std::cout << x; });
+  - std::jthread t([](std::stop_token st) { while (!st.stop_requested()) { } });
+  - std::atomic_ref<int> atomic(x); atomic.fetch_add(1, std::memory_order_relaxed);
+  - std::latch done{3}; done.count_down(); done.wait();
+  - std::barrier sync{3}; sync.arrive_and_wait();
+  - std::counting_semaphore<10> sem{5}; sem.acquire(); sem.release();
+  - std::execution::par, std::sort(vec.begin(), vec.end());
+  - std::reduce(std::execution::par, vec.begin(), vec.end(), 0);
+  - std::transform_reduce(std::execution::par_unseq, vec.begin(), vec.end(), 0, std::plus<>(),
+    [](int x) { return x * x; });
+  - std::pmr::monotonic_buffer_resource pool{1024}; std::pmr::vector<int> vec{&pool};
+  - std::expected<int, std::string> result = compute(); if (result) { int val = *result;
+    } else { std::string err = result.error(); }
+  - template<typename T> struct my_iterator { using iterator_concept = std::random_access_iterator_tag;
+    };
+  - std::visit([](auto&& arg) { using T = std::decay_t<decltype(arg)>; if constexpr
+    (std::is_same_v<T, int>) { } }, variant);
+  - 'template<typename... Bases> struct overload : Bases... { using Bases::operator()...;
+    };'
+  - template<typename... Ts> overload(Ts...) -> overload<Ts...>;
+  - std::variant<int, float, std::string> v; std::visit(overload{ [](int) {}, [](float)
+    {}, [](const std::string&) {} }, v);
+  - template<typename T, typename... Args> constexpr T* construct_at(T* p, Args&&...
+    args) { return ::new (static_cast<void*>(p)) T(std::forward<Args>(args)...); }
+  - std::bit_cast<uint32_t>(3.14f);
+  - '[[nodiscard("expensive computation")]] int compute();'
+  - '[[likely]] if (x > 0) { } [[unlikely]] else { }'
+  - void func([[maybe_unused]] int param) { }
+  - enum class Result [[nodiscard]] { Success, Failure };
+  - struct [[no_unique_address]] Empty { };
+  - using enum Color; auto c = Red;
+  - auto lambda = [this] { return this->value; };
+  - auto lambda = [*this] { return value; };
+  - template<typename Self> void func(this Self&& self) { }
+  - std::array arr = {1, 2, 3, 4, 5}; // CTAD
+  - std::vector vec{arr.begin(), arr.end()}; // CTAD
+  - Person p{.name = "Alice", .age = 30}; // designated initializers
+  - if (auto [it, inserted] = map.try_emplace("key", value); inserted) { }
+  - template<auto V> struct constant { static constexpr auto value = V; };
+  - template<std::size_t... Is> constexpr auto make_array(std::index_sequence<Is...>)
+    { return std::array{Is...}; }
+  - constexpr auto arr = make_array(std::make_index_sequence<10>{});
+  - std::source_location loc = std::source_location::current();
+  - std::println("{}:{}:{}", loc.file_name(), loc.line(), loc.function_name());
+  - std::format("{:>10.2f}", 3.14159);
+  - std::print("Hello, {}!\n", name);
+  - std::mdspan<int, std::extents<int, std::dynamic_extent, std::dynamic_extent>>
+    matrix(data.data(), 3, 4);
+  - std::flat_map<std::string, int> map{{"a", 1}, {"b", 2}};
+  - std::generator<int> fibonacci() { int a = 0, b = 1; while (true) { co_yield a;
+    auto tmp = a; a = b; b += tmp; } }
+  - template<typename T> T read_value() { if (std::is_constant_evaluated()) { return
+    T{}; } else { T val; std::cin >> val; return val; } }
+  - 'std::stacktrace st = std::stacktrace::current(); for (const auto& frame : st)
+    { std::cout << frame; }'
+  - constexpr int compute() { std::vector<int> vec{1, 2, 3}; return std::accumulate(vec.begin(),
+    vec.end(), 0); }
+  - template<typename T> void process() requires requires { typename T::value_type;
+    typename T::iterator; { std::declval<T>().begin() } -> std::same_as<typename T::iterator>;
+    } { }

@@ -1,0 +1,33 @@
+# Test screenshots and artifacts
+screenshots/
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Test reports
+reports/
+coverage/
+*.html
+*.xml
+*.json
+
+# Video recordings
+videos/
+*.mp4
+*.webm
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db

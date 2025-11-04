@@ -1,0 +1,2063 @@
+pop_culture:
+  beginner:
+  - question: Which movie features the line 'May the Force be with you'?
+    options:
+    - Star Trek
+    - Star Wars
+    - Avatar
+    correct: 1
+  - question: What social media platform has a bird as its logo?
+    options:
+    - Facebook
+    - Twitter
+    - TikTok
+    correct: 1
+  - question: Who played Iron Man in the Marvel movies?
+    options:
+    - Chris Evans
+    - Robert Downey Jr.
+    - Chris Hemsworth
+    correct: 1
+  - question: What streaming service is known for 'Stranger Things'?
+    options:
+    - Hulu
+    - Netflix
+    - Disney+
+    correct: 1
+  - question: Which superhero is known as 'The Dark Knight'?
+    options:
+    - Superman
+    - Batman
+    - Spider-Man
+    correct: 1
+  - question: What is the name of Harry Potter's owl?
+    options:
+    - Hedwig
+    - Errol
+    - Pigwidgeon
+    correct: 0
+  - question: Which video game features a plumber named Mario?
+    options:
+    - Sonic
+    - Super Mario
+    - Zelda
+    correct: 1
+  - question: What company makes the iPhone?
+    options:
+    - Samsung
+    - Apple
+    - Google
+    correct: 1
+  - question: What is the name of the main character in The Legend of Zelda?
+    options:
+    - Zelda
+    - Link
+    - Ganon
+    correct: 1
+  - question: Which console is made by Sony?
+    options:
+    - Xbox
+    - PlayStation
+    - Switch
+    correct: 1
+  - question: What does 'www' stand for?
+    options:
+    - World Wide Web
+    - Web World Wide
+    - Wide Web World
+    correct: 0
+  - question: Which company created Minecraft?
+    options:
+    - Epic Games
+    - Mojang
+    - Valve
+    correct: 1
+  intermediate:
+  - question: Which band released the album 'Bohemian Rhapsody'?
+    options:
+    - The Beatles
+    - Queen
+    - The Rolling Stones
+    correct: 1
+  - question: What is the highest-grossing film of all time?
+    options:
+    - Titanic
+    - Avatar
+    - 'Avengers: Endgame'
+    correct: 1
+  - question: Who directed the movie 'Inception'?
+    options:
+    - Steven Spielberg
+    - Christopher Nolan
+    - Quentin Tarantino
+    correct: 1
+  advanced:
+  - question: Which film won the first Academy Award for Best Picture?
+    options:
+    - Wings
+    - Sunrise
+    - The Jazz Singer
+    correct: 0
+  - question: What year did MTV launch?
+    options:
+    - '1980'
+    - '1981'
+    - '1982'
+    correct: 1
+sports:
+  beginner:
+  - question: How many players are on a basketball team?
+    options:
+    - '4'
+    - '5'
+    - '6'
+    correct: 1
+  - question: What sport is played at Wimbledon?
+    options:
+    - Golf
+    - Tennis
+    - Cricket
+    correct: 1
+  - question: How often are the Olympics held?
+    options:
+    - Every 2 years
+    - Every 4 years
+    - Every 5 years
+    correct: 1
+  intermediate: []
+  advanced: []
+history:
+  beginner:
+  - question: In which year did World War II end?
+    options:
+    - '1944'
+    - '1945'
+    - '1946'
+    correct: 1
+  - question: Who was the first President of the United States?
+    options:
+    - Thomas Jefferson
+    - George Washington
+    - John Adams
+    correct: 1
+  intermediate: []
+  advanced: []
+python:
+  beginner:
+  - question: What keyword is used to define a function in Python?
+    options:
+    - function
+    - def
+    - func
+    correct: 1
+  - question: Which of these is NOT a Python data type?
+    options:
+    - int
+    - string
+    - float
+    correct: 1
+  - question: What symbol starts a comment in Python?
+    options:
+    - //
+    - '#'
+    - /*
+    correct: 1
+  - question: How do you print 'Hello' in Python?
+    options:
+    - echo('Hello')
+    - print('Hello')
+    - console.log('Hello')
+    correct: 1
+  - question: What does 'len()' return?
+    options:
+    - Length of object
+    - Last element
+    - Type of object
+    correct: 0
+  - question: Which operator is used for exponentiation?
+    options:
+    - ^
+    - '**'
+    - pow
+    correct: 1
+  - question: What is the correct file extension for Python files?
+    options:
+    - .py
+    - .python
+    - .pt
+    correct: 0
+  - question: Which keyword is used for loops?
+    options:
+    - loop
+    - for
+    - repeat
+    correct: 1
+  - question: How do you create a list?
+    options:
+    - '[]'
+    - '{}'
+    - ()
+    correct: 0
+  - question: 'What is the output of: 5 // 2?'
+    options:
+    - '2'
+    - '2.5'
+    - '3'
+    correct: 0
+  - question: Which keyword imports modules?
+    options:
+    - include
+    - import
+    - require
+    correct: 1
+  - question: What does 'str()' do?
+    options:
+    - Converts to string
+    - Returns string length
+    - Sorts string
+    correct: 0
+  - question: How do you start an if statement?
+    options:
+    - 'if x:'
+    - if (x)
+    - if x then
+    correct: 0
+  - question: What is None in Python?
+    options:
+    - Empty string
+    - Null value
+    - Zero
+    correct: 1
+  - question: Which creates a dictionary?
+    options:
+    - '{}'
+    - '[]'
+    - dict()
+    correct: 0
+  intermediate:
+  - question: What does PEP stand for in Python?
+    options:
+    - Python Enhancement Proposal
+    - Python Execution Protocol
+    - Python Extension Package
+    correct: 0
+  - question: What is a list comprehension?
+    options:
+    - A loop
+    - Compact way to create lists
+    - A function
+    correct: 1
+  - question: What does *args do?
+    options:
+    - Multiplies arguments
+    - Variable arguments
+    - Pointer to args
+    correct: 1
+  - question: What is a decorator in Python?
+    options:
+    - Design pattern
+    - Function modifier
+    - Class method
+    correct: 1
+  - question: 'Which is mutable: tuple or list?'
+    options:
+    - Tuple
+    - List
+    - Both
+    correct: 1
+  - question: What does 'with' statement do?
+    options:
+    - Context manager
+    - Loop modifier
+    - Import helper
+    correct: 0
+  - question: What is the difference between '==' and 'is'?
+    options:
+    - No difference
+    - == value, is identity
+    - is is faster
+    correct: 1
+  - question: What is __init__?
+    options:
+    - Class initializer
+    - Import function
+    - Main function
+    correct: 0
+  - question: What does lambda create?
+    options:
+    - Anonymous function
+    - New class
+    - List
+    correct: 0
+  - question: What is a generator?
+    options:
+    - Function returning iterator
+    - Random number creator
+    - Class method
+    correct: 0
+  - question: What does yield do?
+    options:
+    - Returns value but remembers state
+    - Stops function
+    - Raises error
+    correct: 0
+  - question: What is self in Python?
+    options:
+    - Instance reference
+    - Class reference
+    - Module reference
+    correct: 0
+  - question: What does **kwargs represent?
+    options:
+    - Power operator
+    - Keyword arguments
+    - Dictionary unpacking
+    correct: 1
+  - question: What is a set in Python?
+    options:
+    - Unordered unique collection
+    - Ordered list
+    - Key-value pairs
+    correct: 0
+  - question: What does map() return?
+    options:
+    - List
+    - Iterator
+    - Generator
+    correct: 1
+  advanced:
+  - question: What is the Global Interpreter Lock (GIL)?
+    options:
+    - Security feature
+    - Thread synchronization mechanism
+    - Garbage collector
+    correct: 1
+  - question: What is metaclass in Python?
+    options:
+    - Class of a class
+    - Abstract class
+    - Interface
+    correct: 0
+  - question: What does __slots__ do?
+    options:
+    - Limits attributes
+    - Creates properties
+    - Defines methods
+    correct: 0
+  - question: What is monkey patching?
+    options:
+    - Debugging technique
+    - Runtime modification
+    - Testing method
+    correct: 1
+  - question: What is the difference between deepcopy and copy?
+    options:
+    - No difference
+    - deepcopy copies nested objects
+    - copy is faster
+    correct: 1
+  - question: What is asyncio used for?
+    options:
+    - Asynchronous programming
+    - Threading
+    - Multiprocessing
+    correct: 0
+  - question: What does __call__ method do?
+    options:
+    - Makes instance callable
+    - Constructor
+    - Destructor
+    correct: 0
+  - question: What is descriptor protocol?
+    options:
+    - Attribute access control
+    - Class inheritance
+    - Module import
+    correct: 0
+  - question: What does @property decorator do?
+    options:
+    - Creates managed attribute
+    - Makes method static
+    - Adds documentation
+    correct: 0
+  - question: What is the purpose of __new__?
+    options:
+    - Creates instance
+    - Initializes instance
+    - Destroys instance
+    correct: 0
+  - question: What is MRO in Python?
+    options:
+    - Method Resolution Order
+    - Module Reference Object
+    - Memory Read Operation
+    correct: 0
+  - question: What does functools.wraps do?
+    options:
+    - Preserves function metadata
+    - Creates wrapper
+    - Caches results
+    correct: 0
+  - question: What is context manager protocol?
+    options:
+    - __enter__ and __exit__
+    - __init__ and __del__
+    - __get__ and __set__
+    correct: 0
+  - question: What is the difference between classmethod and staticmethod?
+    options:
+    - classmethod receives class
+    - No difference
+    - staticmethod is faster
+    correct: 0
+  - question: What does __getattr__ do?
+    options:
+    - Called when attribute not found
+    - Gets all attributes
+    - Sets attribute
+    correct: 0
+javascript:
+  beginner:
+  - question: Which keyword declares a variable?
+    options:
+    - var
+    - let
+    - const
+    correct: 0
+  - question: How do you write a comment?
+    options:
+    - '#'
+    - //
+    - /*
+    correct: 1
+  - question: What logs to console?
+    options:
+    - print()
+    - console.log()
+    - echo()
+    correct: 1
+  - question: Which creates an array?
+    options:
+    - '[]'
+    - '{}'
+    - ()
+    correct: 0
+  - question: What is NaN?
+    options:
+    - Not a Number
+    - Null and None
+    - New Array Number
+    correct: 0
+  - question: Which is a string?
+    options:
+    - '''hello'''
+    - hello
+    - '[hello]'
+    correct: 0
+  - question: What does typeof return?
+    options:
+    - Data type
+    - Value
+    - Variable name
+    correct: 0
+  - question: How do you declare a function?
+    options:
+    - function name()
+    - def name()
+    - func name()
+    correct: 0
+  - question: What is null?
+    options:
+    - Empty value
+    - Zero
+    - 'False'
+    correct: 0
+  - question: Which loops through arrays?
+    options:
+    - loop
+    - for
+    - each
+    correct: 1
+  - question: What is the correct syntax for if?
+    options:
+    - 'if x:'
+    - if (x)
+    - if x then
+    correct: 1
+  - question: Which operator means 'not equal'?
+    options:
+    - '!='
+    - <>
+    - =/=
+    correct: 0
+  - question: What does '===' check?
+    options:
+    - Value only
+    - Type and value
+    - Reference
+    correct: 1
+  - question: How do you add to array?
+    options:
+    - push()
+    - add()
+    - append()
+    correct: 0
+  - question: What is undefined?
+    options:
+    - Declared but not assigned
+    - Null value
+    - Error
+    correct: 0
+  intermediate:
+  - question: What is the difference between == and ===?
+    options:
+    - No difference
+    - === checks type and value
+    - == is faster
+    correct: 1
+  - question: What is a callback?
+    options:
+    - Function passed as argument
+    - Return value
+    - Loop condition
+    correct: 0
+  - question: What does 'this' refer to?
+    options:
+    - Current object
+    - Parent object
+    - Global object
+    correct: 0
+  - question: What is a Promise?
+    options:
+    - Async operation result
+    - Variable type
+    - Function type
+    correct: 0
+  - question: What does async/await do?
+    options:
+    - Handles promises
+    - Creates threads
+    - Pauses execution
+    correct: 0
+  - question: What is event bubbling?
+    options:
+    - Event propagation upward
+    - Event prevention
+    - Event timing
+    correct: 0
+  - question: What is closure?
+    options:
+    - Function with outer scope access
+    - Class method
+    - Loop type
+    correct: 0
+  - question: What does map() do?
+    options:
+    - Transforms array elements
+    - Filters array
+    - Sorts array
+    correct: 0
+  - question: What is destructuring?
+    options:
+    - Unpacking values
+    - Breaking objects
+    - Error handling
+    correct: 0
+  - question: What is spread operator?
+    options:
+    - '...'
+    - '***'
+    - ~~~
+    correct: 0
+  - question: What does filter() return?
+    options:
+    - New filtered array
+    - Boolean
+    - Index
+    correct: 0
+  - question: What is arrow function?
+    options:
+    - () =>
+    - function()
+    - func()
+    correct: 0
+  - question: What is hoisting?
+    options:
+    - Variable/function moved to top
+    - DOM manipulation
+    - Event handling
+    correct: 0
+  - question: What does reduce() do?
+    options:
+    - Reduces array to single value
+    - Removes elements
+    - Sorts array
+    correct: 0
+  - question: What is prototype?
+    options:
+    - Object inheritance mechanism
+    - Variable type
+    - Function type
+    correct: 0
+  advanced:
+  - question: What is event loop?
+    options:
+    - Handles async operations
+    - Loops through events
+    - Event counter
+    correct: 0
+  - question: What is the difference between call and apply?
+    options:
+    - Arguments format
+    - No difference
+    - Return type
+    correct: 0
+  - question: What is Symbol?
+    options:
+    - Unique identifier
+    - Math operator
+    - Variable type
+    correct: 0
+  - question: What is WeakMap?
+    options:
+    - Map with weak references
+    - Weak variable storage
+    - Performance map
+    correct: 0
+  - question: What is Proxy?
+    options:
+    - Object intercept operations
+    - Network proxy
+    - Variable proxy
+    correct: 0
+  - question: What is generator function?
+    options:
+    - Pausable function
+    - Random generator
+    - Array creator
+    correct: 0
+  - question: What does Object.freeze() do?
+    options:
+    - Makes object immutable
+    - Stops execution
+    - Deletes object
+    correct: 0
+  - question: What is Reflect API?
+    options:
+    - Object operation methods
+    - DOM reflection
+    - Type checking
+    correct: 0
+  - question: What is the difference between bind and apply?
+    options:
+    - bind returns function
+    - No difference
+    - apply is faster
+    correct: 0
+  - question: What is module pattern?
+    options:
+    - Encapsulation technique
+    - Import method
+    - Class pattern
+    correct: 0
+  - question: What is currying?
+    options:
+    - Partial function application
+    - Function optimization
+    - Array method
+    correct: 0
+  - question: What is memoization?
+    options:
+    - Caching function results
+    - Memory management
+    - Variable storage
+    correct: 0
+  - question: What is the temporal dead zone?
+    options:
+    - Time before variable initialization
+    - Async zone
+    - Error zone
+    correct: 0
+  - question: What is the difference between microtask and macrotask?
+    options:
+    - Queue priority
+    - No difference
+    - Execution speed
+    correct: 0
+  - question: What is the prototype chain?
+    options:
+    - Object inheritance hierarchy
+    - Function chain
+    - Method chain
+    correct: 0
+java:
+  beginner:
+  - question: What is the main method signature?
+    options:
+    - public static void main(String[])
+    - void main()
+    - public main()
+    correct: 0
+  - question: Which keyword creates a class?
+    options:
+    - class
+    - Class
+    - new
+    correct: 0
+  - question: What is the correct way to declare a variable?
+    options:
+    - int x;
+    - x int;
+    - var x;
+    correct: 0
+  - question: What does 'public' mean?
+    options:
+    - Accessible everywhere
+    - Private to class
+    - Protected
+    correct: 0
+  - question: How do you print in Java?
+    options:
+    - print()
+    - System.out.println()
+    - console.log()
+    correct: 1
+  - question: What is a String?
+    options:
+    - Sequence of characters
+    - Number type
+    - Boolean
+    correct: 0
+  - question: Which creates an array?
+    options:
+    - int[]
+    - array<int>
+    - Array[int]
+    correct: 0
+  - question: What is 'new' keyword?
+    options:
+    - Creates object
+    - Declares variable
+    - Imports class
+    correct: 0
+  - question: What does 'void' mean?
+    options:
+    - No return value
+    - Empty
+    - 'Null'
+    correct: 0
+  - question: What is inheritance?
+    options:
+    - Class extends another
+    - Variable type
+    - Method type
+    correct: 0
+  - question: Which loops a specific number of times?
+    options:
+    - for
+    - while
+    - do-while
+    correct: 0
+  - question: What is a constructor?
+    options:
+    - Initializes object
+    - Main method
+    - Destructor
+    correct: 0
+  - question: What does 'static' mean?
+    options:
+    - Belongs to class
+    - Cannot change
+    - Private
+    correct: 0
+  - question: What is null?
+    options:
+    - No object reference
+    - Zero
+    - Empty string
+    correct: 0
+  - question: Which keyword extends a class?
+    options:
+    - extends
+    - inherit
+    - super
+    correct: 0
+  intermediate:
+  - question: What is the difference between ArrayList and LinkedList?
+    options:
+    - ArrayList faster random access
+    - No difference
+    - LinkedList always better
+    correct: 0
+  - question: What is an interface?
+    options:
+    - Contract for classes
+    - Abstract class
+    - Variable type
+    correct: 0
+  - question: What does 'final' keyword do?
+    options:
+    - Prevents modification
+    - Makes static
+    - Makes public
+    correct: 0
+  - question: What is polymorphism?
+    options:
+    - Multiple forms
+    - Many classes
+    - Many methods
+    correct: 0
+  - question: What is encapsulation?
+    options:
+    - Data hiding
+    - Class inheritance
+    - Method overriding
+    correct: 0
+  - question: What is method overloading?
+    options:
+    - Same name different parameters
+    - Override parent method
+    - Multiple returns
+    correct: 0
+  - question: What is method overriding?
+    options:
+    - Redefine parent method
+    - Same method twice
+    - Multiple parameters
+    correct: 0
+  - question: What is abstract class?
+    options:
+    - Cannot instantiate
+    - Final class
+    - Interface
+    correct: 0
+  - question: What does 'super' refer to?
+    options:
+    - Parent class
+    - Current class
+    - Sub class
+    correct: 0
+  - question: What is a package?
+    options:
+    - Group of classes
+    - Variable type
+    - Method type
+    correct: 0
+  - question: What is exception handling?
+    options:
+    - Managing errors
+    - Preventing errors
+    - Logging errors
+    correct: 0
+  - question: What is try-catch?
+    options:
+    - Error handling block
+    - Loop type
+    - Conditional
+    correct: 0
+  - question: What is garbage collection?
+    options:
+    - Automatic memory management
+    - Manual cleanup
+    - Error handling
+    correct: 0
+  - question: What is StringBuilder?
+    options:
+    - Mutable string
+    - Immutable string
+    - String array
+    correct: 0
+  - question: What is generics?
+    options:
+    - Type parameters
+    - Generic method
+    - Default type
+    correct: 0
+  advanced:
+  - question: What is the difference between abstract class and interface in Java
+      8+?
+    options:
+    - Both can have concrete methods
+    - Abstract classes only
+    - No difference
+    correct: 0
+  - question: What is lambda expression?
+    options:
+    - Anonymous function
+    - Variable type
+    - Class type
+    correct: 0
+  - question: What is Stream API?
+    options:
+    - Functional operations on collections
+    - I/O operations
+    - Threading
+    correct: 0
+  - question: What is Optional?
+    options:
+    - Container for nullable values
+    - Required value
+    - Array type
+    correct: 0
+  - question: What is CompletableFuture?
+    options:
+    - Async computation
+    - Thread pool
+    - Synchronous task
+    correct: 0
+  - question: What is annotation?
+    options:
+    - Metadata
+    - Comment
+    - Variable
+    correct: 0
+  - question: What is reflection?
+    options:
+    - Runtime class inspection
+    - Class mirror
+    - Type checking
+    correct: 0
+  - question: What is volatile keyword?
+    options:
+    - Ensures visibility across threads
+    - Cannot change
+    - Fast access
+    correct: 0
+  - question: What is synchronized?
+    options:
+    - Thread-safe execution
+    - Async execution
+    - Fast execution
+    correct: 0
+  - question: What is the difference between == and equals()?
+    options:
+    - == checks reference, equals() value
+    - No difference
+    - == is faster
+    correct: 0
+  - question: What is functional interface?
+    options:
+    - Interface with one abstract method
+    - Function type
+    - Lambda type
+    correct: 0
+  - question: What is method reference?
+    options:
+    - Shorthand for lambda
+    - Method pointer
+    - Function call
+    correct: 0
+  - question: What is the diamond problem?
+    options:
+    - Multiple inheritance ambiguity
+    - Generic issue
+    - Syntax error
+    correct: 0
+  - question: What is transient keyword?
+    options:
+    - Skip serialization
+    - Temporary variable
+    - Thread-local
+    correct: 0
+  - question: What is the difference between Comparable and Comparator?
+    options:
+    - Comparable natural, Comparator custom
+    - No difference
+    - Comparable is faster
+    correct: 0
+csharp:
+  beginner:
+  - question: What is the main method in C#?
+    options:
+    - static void Main()
+    - void main()
+    - public Main()
+    correct: 0
+  - question: How do you print in C#?
+    options:
+    - print()
+    - Console.WriteLine()
+    - echo()
+    correct: 1
+  - question: Which creates a class?
+    options:
+    - class
+    - Class
+    - new
+    correct: 0
+  - question: What is a namespace?
+    options:
+    - Container for classes
+    - Variable type
+    - Method type
+    correct: 0
+  - question: Which declares a variable?
+    options:
+    - int x;
+    - x int;
+    - var x;
+    correct: 0
+  - question: What does 'using' do?
+    options:
+    - Imports namespace
+    - Uses variable
+    - Loops
+    correct: 0
+  - question: What is string?
+    options:
+    - Text data type
+    - Number type
+    - Boolean
+    correct: 0
+  - question: Which creates an array?
+    options:
+    - int[]
+    - array<int>
+    - Array[int]
+    correct: 0
+  - question: What is null?
+    options:
+    - No value
+    - Zero
+    - Empty
+    correct: 0
+  - question: What does 'public' mean?
+    options:
+    - Accessible everywhere
+    - Private
+    - Protected
+    correct: 0
+  - question: What is a constructor?
+    options:
+    - Initializes object
+    - Main method
+    - Destructor
+    correct: 0
+  - question: Which loops through arrays?
+    options:
+    - foreach
+    - for
+    - while
+    correct: 0
+  - question: What is inheritance?
+    options:
+    - Class derives from another
+    - Variable type
+    - Method
+    correct: 0
+  - question: What does 'void' mean?
+    options:
+    - No return value
+    - Empty
+    - 'Null'
+    correct: 0
+  - question: What is an interface?
+    options:
+    - Contract
+    - Class
+    - Variable
+    correct: 0
+  intermediate:
+  - question: What is LINQ?
+    options:
+    - Language Integrated Query
+    - Link Query
+    - List Query
+    correct: 0
+  - question: What is async/await?
+    options:
+    - Asynchronous programming
+    - Thread creation
+    - Parallel execution
+    correct: 0
+  - question: What is a delegate?
+    options:
+    - Type-safe function pointer
+    - Variable type
+    - Class type
+    correct: 0
+  - question: What is lambda expression?
+    options:
+    - Anonymous function
+    - Loop
+    - Conditional
+    correct: 0
+  - question: What does 'var' keyword do?
+    options:
+    - Implicit typing
+    - Variable
+    - Value
+    correct: 0
+  - question: What is property?
+    options:
+    - Accessor for field
+    - Variable
+    - Method
+    correct: 0
+  - question: What is event?
+    options:
+    - Notification mechanism
+    - Method call
+    - Variable
+    correct: 0
+  - question: What is extension method?
+    options:
+    - Adds method to type
+    - Extended class
+    - Long method
+    correct: 0
+  - question: What is nullable type?
+    options:
+    - Can be null
+    - Cannot be null
+    - Always null
+    correct: 0
+  - question: What is partial class?
+    options:
+    - Split across files
+    - Incomplete class
+    - Abstract class
+    correct: 0
+  - question: What is sealed class?
+    options:
+    - Cannot inherit
+    - Final class
+    - Private class
+    correct: 0
+  - question: What is generic?
+    options:
+    - Type parameter
+    - General class
+    - Default type
+    correct: 0
+  - question: What does 'override' do?
+    options:
+    - Redefines virtual method
+    - Creates method
+    - Hides method
+    correct: 0
+  - question: What is interface implementation?
+    options:
+    - Implements contract
+    - Extends class
+    - Creates interface
+    correct: 0
+  - question: What is exception handling?
+    options:
+    - try-catch
+    - if-else
+    - switch
+    correct: 0
+  advanced:
+  - question: What is reflection?
+    options:
+    - Runtime type inspection
+    - Class mirror
+    - Type checking
+    correct: 0
+  - question: What is Task<T>?
+    options:
+    - Asynchronous operation
+    - Thread
+    - Process
+    correct: 0
+  - question: What is expression tree?
+    options:
+    - Code as data
+    - Binary tree
+    - Syntax tree
+    correct: 0
+  - question: What is IDisposable?
+    options:
+    - Resource cleanup interface
+    - Disposal method
+    - Garbage collection
+    correct: 0
+  - question: What is dependency injection?
+    options:
+    - Design pattern
+    - Class inheritance
+    - Method injection
+    correct: 0
+  - question: What is covariance?
+    options:
+    - Generic type variance
+    - Variable change
+    - Co-routine
+    correct: 0
+  - question: What is contravariance?
+    options:
+    - Generic type variance
+    - Opposite variance
+    - Variable type
+    correct: 0
+  - question: What is yield return?
+    options:
+    - Iterator pattern
+    - Return value
+    - Async return
+    correct: 0
+  - question: What is record type?
+    options:
+    - Immutable reference type
+    - Database record
+    - Variable type
+    correct: 0
+  - question: What is pattern matching?
+    options:
+    - Type and value checking
+    - String matching
+    - Regular expression
+    correct: 0
+  - question: What is deconstruction?
+    options:
+    - Unpacking values
+    - Object destruction
+    - Decompiling
+    correct: 0
+  - question: What is local function?
+    options:
+    - Function inside function
+    - Local variable
+    - Static function
+    correct: 0
+  - question: What is tuple?
+    options:
+    - Multiple values
+    - Two values
+    - Triple value
+    correct: 0
+  - question: What is dynamic type?
+    options:
+    - Runtime type resolution
+    - Fast type
+    - Variable type
+    correct: 0
+  - question: What is the difference between IEnumerable and IQueryable?
+    options:
+    - IQueryable for databases
+    - No difference
+    - IEnumerable faster
+    correct: 0
+cplusplus:
+  beginner:
+  - question: What is the main function in C++?
+    options:
+    - int main()
+    - void main()
+    - main()
+    correct: 0
+  - question: How do you print in C++?
+    options:
+    - print()
+    - cout <<
+    - printf()
+    correct: 1
+  - question: Which includes iostream?
+    options:
+    - '#include <iostream>'
+    - import iostream
+    - using iostream
+    correct: 0
+  - question: What is a pointer?
+    options:
+    - Address variable
+    - Number type
+    - String type
+    correct: 0
+  - question: What is a reference?
+    options:
+    - Alias
+    - Pointer
+    - Variable
+    correct: 0
+  - question: Which creates a class?
+    options:
+    - class
+    - Class
+    - struct
+    correct: 0
+  - question: What is inheritance?
+    options:
+    - Class derives from another
+    - Variable type
+    - Function
+    correct: 0
+  - question: What does 'new' do?
+    options:
+    - Allocates memory
+    - Declares variable
+    - Creates function
+    correct: 0
+  - question: What does 'delete' do?
+    options:
+    - Frees memory
+    - Removes variable
+    - Deletes file
+    correct: 0
+  - question: What is namespace?
+    options:
+    - Scope container
+    - Variable type
+    - Function type
+    correct: 0
+  - question: What is constructor?
+    options:
+    - Initializes object
+    - Main function
+    - Destructor
+    correct: 0
+  - question: What is destructor?
+    options:
+    - Cleanup object
+    - Constructs object
+    - Deletes class
+    correct: 0
+  - question: What is array?
+    options:
+    - Collection of elements
+    - Single value
+    - Pointer
+    correct: 0
+  - question: What does 'const' mean?
+    options:
+    - Cannot change
+    - Constant speed
+    - Constructor
+    correct: 0
+  - question: What is function overloading?
+    options:
+    - Same name different parameters
+    - Override function
+    - Multiple returns
+    correct: 0
+  intermediate:
+  - question: What is virtual function?
+    options:
+    - Enables polymorphism
+    - Virtual memory
+    - Abstract function
+    correct: 0
+  - question: What is pure virtual function?
+    options:
+    - = 0 declaration
+    - Virtual only
+    - Pure function
+    correct: 0
+  - question: What is abstract class?
+    options:
+    - Has pure virtual function
+    - Cannot instantiate
+    - Final class
+    correct: 0
+  - question: What is multiple inheritance?
+    options:
+    - Inherit from multiple classes
+    - Many instances
+    - Multiple methods
+    correct: 0
+  - question: What is template?
+    options:
+    - Generic programming
+    - Design template
+    - Code template
+    correct: 0
+  - question: What is STL?
+    options:
+    - Standard Template Library
+    - String Template Library
+    - System Template Library
+    correct: 0
+  - question: What is vector?
+    options:
+    - Dynamic array
+    - Math vector
+    - Pointer array
+    correct: 0
+  - question: What is iterator?
+    options:
+    - Traverses container
+    - Counter
+    - Pointer
+    correct: 0
+  - question: What is exception handling?
+    options:
+    - try-catch
+    - if-else
+    - error check
+    correct: 0
+  - question: What is operator overloading?
+    options:
+    - Redefine operator
+    - Multiple operators
+    - Operator type
+    correct: 0
+  - question: What is copy constructor?
+    options:
+    - Creates copy
+    - Constructor copy
+    - Copy method
+    correct: 0
+  - question: What is friend function?
+    options:
+    - Access private members
+    - Friendly function
+    - Public function
+    correct: 0
+  - question: What is static member?
+    options:
+    - Belongs to class
+    - Cannot change
+    - Static memory
+    correct: 0
+  - question: What is inline function?
+    options:
+    - Expands at call site
+    - Inside function
+    - Line function
+    correct: 0
+  - question: What is namespace std?
+    options:
+    - Standard namespace
+    - String namespace
+    - System namespace
+    correct: 0
+  advanced:
+  - question: What is move semantics?
+    options:
+    - Transfer ownership
+    - Move pointer
+    - Change location
+    correct: 0
+  - question: What is rvalue reference?
+    options:
+    - '&&'
+    - '*'
+    - '&'
+    correct: 0
+  - question: What is smart pointer?
+    options:
+    - Automatic memory management
+    - Smart variable
+    - Fast pointer
+    correct: 0
+  - question: What is unique_ptr?
+    options:
+    - Single ownership
+    - Unique value
+    - Pointer type
+    correct: 0
+  - question: What is shared_ptr?
+    options:
+    - Shared ownership
+    - Shared memory
+    - Pointer sharing
+    correct: 0
+  - question: What is weak_ptr?
+    options:
+    - Non-owning reference
+    - Weak reference
+    - Weak pointer
+    correct: 0
+  - question: What is lambda expression?
+    options:
+    - Anonymous function
+    - Greek letter
+    - Loop
+    correct: 0
+  - question: What is perfect forwarding?
+    options:
+    - Preserve value category
+    - Perfect copy
+    - Forward reference
+    correct: 0
+  - question: What is variadic template?
+    options:
+    - Variable template parameters
+    - Variable template
+    - Template array
+    correct: 0
+  - question: What is RAII?
+    options:
+    - Resource Acquisition Is Initialization
+    - Reference And Instance
+    - Resource Allocation
+    correct: 0
+  - question: What is constexpr?
+    options:
+    - Compile-time constant
+    - Const expression
+    - Expression
+    correct: 0
+  - question: What is decltype?
+    options:
+    - Deduce type
+    - Declare type
+    - Type declaration
+    correct: 0
+  - question: What is auto keyword?
+    options:
+    - Type deduction
+    - Automatic
+    - Auto variable
+    correct: 0
+  - question: What is type trait?
+    options:
+    - Compile-time type info
+    - Type check
+    - Trait class
+    correct: 0
+  - question: What is SFINAE?
+    options:
+    - Substitution Failure Is Not An Error
+    - Syntax Error
+    - Function Error
+    correct: 0
+css:
+  beginner:
+  - question: What does CSS stand for?
+    options:
+    - Cascading Style Sheets
+    - Computer Style Sheets
+    - Creative Style System
+    correct: 0
+  - question: Which property changes text color?
+    options:
+    - color
+    - text-color
+    - font-color
+    correct: 0
+  - question: Which property changes background?
+    options:
+    - background
+    - bg
+    - back-color
+    correct: 0
+  - question: What is the syntax for class selector?
+    options:
+    - .classname
+    - '#classname'
+    - '*classname'
+    correct: 0
+  - question: What is the syntax for ID selector?
+    options:
+    - '#idname'
+    - .idname
+    - '*idname'
+    correct: 0
+  - question: Which property changes font size?
+    options:
+    - font-size
+    - text-size
+    - size
+    correct: 0
+  - question: What does 'px' stand for?
+    options:
+    - Pixels
+    - Points
+    - Percentage
+    correct: 0
+  - question: Which property adds spacing inside?
+    options:
+    - padding
+    - margin
+    - spacing
+    correct: 0
+  - question: Which property adds spacing outside?
+    options:
+    - margin
+    - padding
+    - border
+    correct: 0
+  - question: 'What does ''display: none'' do?'
+    options:
+    - Hides element
+    - Shows element
+    - Removes element
+    correct: 0
+  - question: Which creates a border?
+    options:
+    - border
+    - outline
+    - frame
+    correct: 0
+  - question: What is hex color format?
+    options:
+    - '#RRGGBB'
+    - rgb()
+    - color()
+    correct: 0
+  - question: Which property makes text bold?
+    options:
+    - font-weight
+    - text-bold
+    - bold
+    correct: 0
+  - question: Which aligns text center?
+    options:
+    - 'text-align: center'
+    - 'align: center'
+    - 'center: text'
+    correct: 0
+  - question: What is CSS comment syntax?
+    options:
+    - /* */
+    - //
+    - '#'
+    correct: 0
+  intermediate:
+  - question: What is flexbox?
+    options:
+    - Layout model
+    - Flexible box
+    - Grid system
+    correct: 0
+  - question: What is CSS Grid?
+    options:
+    - 2D layout system
+    - Table layout
+    - Flexbox
+    correct: 0
+  - question: What is media query?
+    options:
+    - Responsive design rule
+    - Media file
+    - Query selector
+    correct: 0
+  - question: What is pseudo-class?
+    options:
+    - Special state
+    - Fake class
+    - Class type
+    correct: 0
+  - question: What is pseudo-element?
+    options:
+    - Style part of element
+    - Fake element
+    - Element type
+    correct: 0
+  - question: 'What does ''position: absolute'' do?'
+    options:
+    - Position relative to parent
+    - Fixed position
+    - Normal flow
+    correct: 0
+  - question: What is z-index?
+    options:
+    - Stacking order
+    - Zoom index
+    - Z position
+    correct: 0
+  - question: What is specificity?
+    options:
+    - Selector priority
+    - Specific style
+    - CSS weight
+    correct: 0
+  - question: What is CSS variable?
+    options:
+    - Custom property
+    - Variable value
+    - Dynamic value
+    correct: 0
+  - question: What is transition?
+    options:
+    - Animated change
+    - Transform
+    - Translation
+    correct: 0
+  - question: What is animation?
+    options:
+    - Keyframe animation
+    - Movement
+    - Transition
+    correct: 0
+  - question: What is transform?
+    options:
+    - Modify element
+    - Transition
+    - Animation
+    correct: 0
+  - question: 'What does ''box-sizing: border-box'' do?'
+    options:
+    - Include padding in width
+    - Add border
+    - Box model
+    correct: 0
+  - question: What is rem unit?
+    options:
+    - Relative to root
+    - Relative to parent
+    - Responsive measure
+    correct: 0
+  - question: What is em unit?
+    options:
+    - Relative to font-size
+    - Relative to root
+    - Exact measure
+    correct: 0
+  advanced:
+  - question: What is CSS cascade?
+    options:
+    - Style priority algorithm
+    - Waterfall effect
+    - Style chain
+    correct: 0
+  - question: What is BEM methodology?
+    options:
+    - Block Element Modifier
+    - Best Element Method
+    - Basic Element Model
+    correct: 0
+  - question: What is CSS containment?
+    options:
+    - Performance optimization
+    - Container property
+    - Box contain
+    correct: 0
+  - question: What is will-change?
+    options:
+    - Performance hint
+    - Future change
+    - Animation property
+    correct: 0
+  - question: What is @supports?
+    options:
+    - Feature query
+    - Support rule
+    - Browser check
+    correct: 0
+  - question: What is @layer?
+    options:
+    - Cascade layer
+    - Layer style
+    - Z-layer
+    correct: 0
+  - question: What is container query?
+    options:
+    - Query container size
+    - Container style
+    - Media query
+    correct: 0
+  - question: What is :has() selector?
+    options:
+    - Parent selector
+    - Has property
+    - Contain selector
+    correct: 0
+  - question: What is aspect-ratio?
+    options:
+    - Width to height ratio
+    - Screen ratio
+    - Image ratio
+    correct: 0
+  - question: What is clamp()?
+    options:
+    - Constrain value
+    - Clip value
+    - Calculate value
+    correct: 0
+  - question: What is CSS Houdini?
+    options:
+    - Low-level CSS API
+    - Magic trick
+    - CSS framework
+    correct: 0
+  - question: What is @property?
+    options:
+    - Custom property definition
+    - Property rule
+    - CSS variable
+    correct: 0
+  - question: What is subgrid?
+    options:
+    - Inherit parent grid
+    - Sub-layout
+    - Grid type
+    correct: 0
+  - question: What is logical property?
+    options:
+    - Writing-mode aware
+    - Logic style
+    - Property logic
+    correct: 0
+  - question: What is color-mix()?
+    options:
+    - Blend colors
+    - Mix function
+    - Color combination
+    correct: 0
+html:
+  beginner:
+  - question: What does HTML stand for?
+    options:
+    - HyperText Markup Language
+    - High Tech Modern Language
+    - Home Tool Markup Language
+    correct: 0
+  - question: Which tag creates a paragraph?
+    options:
+    - <p>
+    - <para>
+    - <paragraph>
+    correct: 0
+  - question: Which tag creates a link?
+    options:
+    - <a>
+    - <link>
+    - <href>
+    correct: 0
+  - question: Which attribute specifies link destination?
+    options:
+    - href
+    - src
+    - link
+    correct: 0
+  - question: Which tag creates a heading?
+    options:
+    - <h1>
+    - <head>
+    - <heading>
+    correct: 0
+  - question: Which tag inserts an image?
+    options:
+    - <img>
+    - <image>
+    - <pic>
+    correct: 0
+  - question: Which tag creates a list?
+    options:
+    - <ul>
+    - <list>
+    - <li>
+    correct: 0
+  - question: Which tag creates a table?
+    options:
+    - <table>
+    - <tab>
+    - <tbl>
+    correct: 0
+  - question: Which tag defines document body?
+    options:
+    - <body>
+    - <content>
+    - <main>
+    correct: 0
+  - question: Which tag contains metadata?
+    options:
+    - <head>
+    - <meta>
+    - <info>
+    correct: 0
+  - question: What is the correct DOCTYPE for HTML5?
+    options:
+    - <!DOCTYPE html>
+    - <!DOCTYPE html5>
+    - <!HTML5>
+    correct: 0
+  - question: Which tag creates a button?
+    options:
+    - <button>
+    - <btn>
+    - <input>
+    correct: 0
+  - question: Which tag creates a form?
+    options:
+    - <form>
+    - <input>
+    - <field>
+    correct: 0
+  - question: Which creates a line break?
+    options:
+    - <br>
+    - <break>
+    - <lb>
+    correct: 0
+  - question: Which creates a horizontal line?
+    options:
+    - <hr>
+    - <line>
+    - <hl>
+    correct: 0
+  intermediate:
+  - question: What is semantic HTML?
+    options:
+    - Meaningful tags
+    - SEO HTML
+    - Smart HTML
+    correct: 0
+  - question: Which tag is semantic for navigation?
+    options:
+    - <nav>
+    - <menu>
+    - <navigation>
+    correct: 0
+  - question: Which tag is semantic for article?
+    options:
+    - <article>
+    - <post>
+    - <content>
+    correct: 0
+  - question: What is the purpose of <section>?
+    options:
+    - Thematic grouping
+    - Page section
+    - Division
+    correct: 0
+  - question: What is <aside> used for?
+    options:
+    - Sidebar content
+    - Side menu
+    - Extra info
+    correct: 0
+  - question: What is data attribute?
+    options:
+    - data-*
+    - attribute
+    - custom
+    correct: 0
+  - question: What is aria-label?
+    options:
+    - Accessibility label
+    - Area label
+    - Label attribute
+    correct: 0
+  - question: What is role attribute?
+    options:
+    - ARIA role
+    - User role
+    - Element role
+    correct: 0
+  - question: What is <canvas> used for?
+    options:
+    - Draw graphics
+    - Container
+    - Canvas art
+    correct: 0
+  - question: What is <svg> used for?
+    options:
+    - Vector graphics
+    - Save file
+    - Scalable view
+    correct: 0
+  - question: What is <video> tag?
+    options:
+    - Embed video
+    - Video player
+    - Media file
+    correct: 0
+  - question: What is <audio> tag?
+    options:
+    - Embed audio
+    - Audio player
+    - Sound file
+    correct: 0
+  - question: What is <picture> element?
+    options:
+    - Responsive images
+    - Picture frame
+    - Image container
+    correct: 0
+  - question: What is <template> tag?
+    options:
+    - Reusable content
+    - Page template
+    - Layout
+    correct: 0
+  - question: What is contenteditable?
+    options:
+    - Makes element editable
+    - Content editor
+    - Edit mode
+    correct: 0
+  advanced:
+  - question: What is Shadow DOM?
+    options:
+    - Encapsulated DOM
+    - Hidden DOM
+    - Dark DOM
+    correct: 0
+  - question: What are Web Components?
+    options:
+    - Custom reusable elements
+    - Component library
+    - Web parts
+    correct: 0
+  - question: What is <slot> in Shadow DOM?
+    options:
+    - Content placeholder
+    - Slot machine
+    - Element slot
+    correct: 0
+  - question: What is custom element?
+    options:
+    - User-defined tag
+    - Custom tag
+    - Element type
+    correct: 0
+  - question: What is <dialog> element?
+    options:
+    - Modal dialog
+    - Conversation
+    - Dialog box
+    correct: 0
+  - question: What is <details> element?
+    options:
+    - Collapsible content
+    - Details info
+    - More info
+    correct: 0
+  - question: What is lazy loading?
+    options:
+    - loading='lazy'
+    - Slow loading
+    - Lazy load
+    correct: 0
+  - question: What is preload?
+    options:
+    - Early resource fetch
+    - Pre-load page
+    - Fast load
+    correct: 0
+  - question: What is prefetch?
+    options:
+    - Future resource fetch
+    - Fetch before
+    - Pre-cache
+    correct: 0
+  - question: What is Service Worker?
+    options:
+    - Background script
+    - Worker thread
+    - Service script
+    correct: 0
+  - question: What is Web Manifest?
+    options:
+    - PWA configuration
+    - Manifest file
+    - Web config
+    correct: 0
+  - question: What is CSP?
+    options:
+    - Content Security Policy
+    - Cross Site Protection
+    - Content Safety Protocol
+    correct: 0
+  - question: What is CORS?
+    options:
+    - Cross-Origin Resource Sharing
+    - Cross Origin Request
+    - Content Origin Resource
+    correct: 0
+  - question: What is viewport meta tag?
+    options:
+    - Responsive layout control
+    - View port
+    - Mobile viewport
+    correct: 0
+  - question: What is Open Graph?
+    options:
+    - Social media metadata
+    - Graph protocol
+    - Open source
+    correct: 0

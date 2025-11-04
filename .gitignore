@@ -1,47 +1,81 @@
-# Python
+# ============================================
+# OS Specific
+# ============================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+desktop.ini
+*~
+
+# ============================================
+# IDE / Editors
+# ============================================
+.vscode/*
+!.vscode/mcp.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# ============================================
+# Node.js / Dependencies
+# ============================================
+node_modules/
+.pnp
+.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.yarn/
+
+# ============================================
+# Environment Variables
+# ============================================
+.env
+.env*.local
+!.env.example
+
+# ============================================
+# Build Output
+# ============================================
+dist/
+build/
+out/
+.cache/
+*.tsbuildinfo
+vite.config.ts.timestamp-*
+
+# ============================================
+# Python (python-version/)
+# ============================================
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 *.egg
 *.egg-info/
-dist/
-build/
 eggs/
 .eggs/
+*.pyc
+*.pyo
 
-# Virtual Environment
+# Python Virtual Environments
 venv/
 env/
 ENV/
 .venv/
+python-version/.venv/
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-
-# Game Data (user-specific - these contain player profiles and scores)
-data/ptype_profiles.json
-data/ptype_scores.json
-data/ptype_settings.json
-!data/.gitkeep
-
-# Logs
-*.log
-logs/
-
-# Testing
+# Python Testing
 .pytest_cache/
 .coverage
 htmlcov/
 .tox/
 .hypothesis/
 
-# Distribution / packaging
+# Python Distribution
 .Python
 develop-eggs/
 downloads/
@@ -56,44 +90,84 @@ share/python-wheels/
 
 # PyInstaller
 *.manifest
-build/
-dist/
-*.exe
+*.spec.bak
 
-# Documentation build
-docs/_build/
+# Python Build Scripts (local use only)
+build.py
+create_*.py
 
-# Temporary files
+# ============================================
+# Game Data (User-Specific)
+# ============================================
+# Python version user data
+python-version/data/ptype_profiles.json
+python-version/data/ptype_scores.json
+python-version/data/ptype_settings.json
+*.save
+saves/
+
+# Keep directory structure
+!.gitkeep
+!**/data/.gitkeep
+!**/assets/.gitkeep
+
+# ============================================
+# Logs
+# ============================================
+*.log
+logs/*.log
+!logs/.gitkeep
+
+# ============================================
+# Temporary Files
+# ============================================
 *.tmp
 *.bak
 *.backup
 temp/
 tmp/
+.temp/
 
-# OS specific
-Thumbs.db
-desktop.ini
-.DS_Store
-.AppleDouble
-.LSOverride
+# ============================================
+# Vercel
+# ============================================
+.vercel
+.vercel.json.bak
 
-# User save files (if stored locally instead of home directory)
-*.save
-saves/
+# ============================================
+# PWA
+# ============================================
+sw.js
+workbox-*.js
+*.sw.js
 
-# Compiled assets
-*.pyc
-*.pyo
+# ============================================
+# Testing
+# ============================================
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+.playwright/
 
-# Build script (local use only)
-build.py
-create_*.py
+# ============================================
+# Asset Generation
+# ============================================
+asset-generation*.log
+generation-*.log
 
-# Keep directory structure
-!.gitkeep
-!data/.gitkeep
-!assets/.gitkeep
-!assets/images/.gitkeep
-!assets/sounds/.gitkeep
-!src/.gitkeep
-!docs/.gitkeep
+# ============================================
+# Sensitive / Private
+# ============================================
+*.key
+*.pem
+*.cer
+*.crt
+secrets/
+.secrets/
+
+# ============================================
+# MCP Tools
+# ============================================
+.playwright-mcp/
+.mcp-cache/
