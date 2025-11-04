@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+      includeAssets: ['assets/images/ptype.ico'],
       manifest: {
         name: 'P-Type: 3D Typing Game',
         short_name: 'P-Type',
@@ -20,17 +20,17 @@ export default defineConfig({
         orientation: 'landscape',
         icons: [
           {
-            src: 'pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'pwa-512x512.png',
+            src: 'assets/images/ptype_logo.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'assets/images/ptype_logo.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'assets/images/ptype_logo.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
