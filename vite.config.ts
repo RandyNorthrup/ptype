@@ -38,10 +38,15 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,png,svg,woff2,ttf,yaml,json}'],
-        globIgnores: ['**/node_modules/**/*', '**/assets/models/**/*'],
+        globPatterns: ['**/*.{js,css,html,woff2,ttf,yaml,json}'],
+        globIgnores: [
+          '**/node_modules/**/*', 
+          '**/assets/models/**/*',
+          '**/assets/images/ptype_logo.png' // Handled by manifest, avoid duplicate
+        ],
         maximumFileSizeToCacheInBytes: 30 * 1024 * 1024, // 30MB for large assets
         navigateFallback: null, // Disable for SPA
+        dontCacheBustURLsMatching: /\.(png|jpg|jpeg|svg|gif|webp)$/,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/api\.hyperhuman\.deemos\.com\/.*/i,
