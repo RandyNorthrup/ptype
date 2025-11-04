@@ -2,7 +2,7 @@
  * Global game state management using Zustand
  */
 import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
 import type { GameState, PlayerProfile, Enemy, Achievement, ProgrammingLanguage, BonusItem, TriviaQuestion } from '../types';
 import { GAME_CONSTANTS, GameMode } from '../types';
 import { achievementsManager, ACHIEVEMENTS_DEFINITIONS } from '../utils/achievementsManager';
@@ -116,8 +116,7 @@ const initialGameState: GameState = {
 };
 
 export const useGameStore = create<GameStore>()(
-  devtools(
-    persist(
+  persist(
       (set, get) => ({
         ...initialGameState,
         currentProfile: null,
@@ -644,5 +643,4 @@ export const useGameStore = create<GameStore>()(
         },
       }
     )
-  )
 );
