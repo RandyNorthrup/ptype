@@ -1,5 +1,6 @@
 /**
  * Global game state management using Zustand
+ * React 19 compatible - no devtools middleware
  */
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
