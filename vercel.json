@@ -9,27 +9,13 @@
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
     }
   ],
-  "env": {
-    "RODIN_API_KEY": "@rodin-api-key",
-    "RODIN_MODE": "MAIN_SITE",
-    "POSTGRES_URL": "@postgres-url",
-    "POSTGRES_PRISMA_URL": "@postgres-prisma-url",
-    "POSTGRES_URL_NON_POOLING": "@postgres-url-non-pooling",
-    "POSTGRES_USER": "@postgres-user",
-    "POSTGRES_HOST": "@postgres-host",
-    "POSTGRES_PASSWORD": "@postgres-password",
-    "POSTGRES_DATABASE": "@postgres-database"
-  },
+
   "headers": [
     {
       "source": "/(.*)",
