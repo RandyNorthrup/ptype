@@ -1,9 +1,8 @@
 /**
  * Global game state management using Zustand
- * React 19 compatible - no devtools middleware
+ * React 19 compatible - no middleware
  */
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import type { GameState, PlayerProfile, Enemy, Achievement, ProgrammingLanguage, BonusItem, TriviaQuestion } from '../types';
 import { GAME_CONSTANTS, GameMode } from '../types';
 import { achievementsManager, ACHIEVEMENTS_DEFINITIONS } from '../utils/achievementsManager';
@@ -116,9 +115,7 @@ const initialGameState: GameState = {
   currentDifficulty: 'Normal', // Will be updated based on settings + level
 };
 
-export const useGameStore = create<GameStore>()(
-  persist(
-      (set, get) => ({
+export const useGameStore = create<GameStore>()((set, get) => ({
         ...initialGameState,
         currentProfile: null,
         enemies: [],
@@ -594,54 +591,5 @@ export const useGameStore = create<GameStore>()(
           const managerAchievements = achievementsManager.getAchievements();
           set({ achievements: managerAchievements });
         },
-
-      }),
-      {
-        name: 'ptype-game-storage',
-        partialize: (state) => ({
-          // Only persist: profile, achievements, and high scores
-          // Game state is never persisted - always start fresh from menu
-          currentProfile: state.currentProfile,
-          achievements: state.achievements,
-          highScores: state.highScores,
-        }),
-        merge: (persistedState, currentState) => {
-          // Explicitly merge only the persisted fields, ensuring game state is NOT restored
-          return {
-            ...currentState,
-            ...(persistedState as Partial<GameStore>),
-            // Force reset all game state to initial values
-            mode: 'menu' as GameMode,
-            level: 1,
-            score: 0,
-            health: GAME_CONSTANTS.STARTING_HEALTH,
-            maxHealth: GAME_CONSTANTS.STARTING_HEALTH,
-            shield: GAME_CONSTANTS.STARTING_SHIELD,
-            maxShield: GAME_CONSTANTS.STARTING_SHIELD,
-            wordsTyped: 0,
-            wordsCorrect: 0,
-            wordsMissed: 0,
-            currentWord: '',
-            activeEnemyId: null,
-            wpm: 0,
-            accuracy: 100,
-            startTime: 0,
-            elapsedTime: 0,
-            bonusItems: [],
-            selectedBonusIndex: 0,
-            empCooldown: 0,
-            empMaxCooldown: GAME_CONSTANTS.EMP_COOLDOWN_FRAMES,
-            isPaused: false,
-            isGameOver: false,
-            bossesDefeated: 0,
-            enemies: [],
-            currentTrivia: null,
-            triviaAnswered: false,
-            triviaResult: false,
-            selectedTriviaAnswer: 0,
-            programmingLanguage: undefined,
-          };
-        },
-      }
-    )
+      })
 );
