@@ -593,3 +593,69 @@ export const useGameStore = create<GameStore>()((set, get) => ({
         },
       })
 );
+
+// Custom localStorage persistence (React 19 compatible)
+const STORAGE_KEY = 'ptype-game-storage';
+
+interface PersistedState {
+  currentProfile: PlayerProfile | null;
+  achievements: Achievement[];
+  highScores: HighScoreEntry[];
+}
+
+// Load persisted state on initialization
+const loadPersistedState = (): Partial<PersistedState> => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return {
+        currentProfile: parsed.currentProfile || null,
+        achievements: parsed.achievements || useGameStore.getState().achievements,
+        highScores: parsed.highScores || [],
+      };
+    }
+  } catch (error) {
+    console.error('Failed to load persisted state:', error);
+  }
+  return {};
+};
+
+// Save state to localStorage
+const savePersistedState = () => {
+  try {
+    const state = useGameStore.getState();
+    const toSave: PersistedState = {
+      currentProfile: state.currentProfile,
+      achievements: state.achievements,
+      highScores: state.highScores,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+  } catch (error) {
+    console.error('Failed to save persisted state:', error);
+  }
+};
+
+// Initialize persisted state
+const persistedState = loadPersistedState();
+if (persistedState.currentProfile !== undefined) {
+  useGameStore.setState({ currentProfile: persistedState.currentProfile });
+}
+if (persistedState.achievements) {
+  useGameStore.setState({ achievements: persistedState.achievements });
+}
+if (persistedState.highScores) {
+  useGameStore.setState({ highScores: persistedState.highScores });
+}
+
+// Subscribe to changes and save to localStorage
+useGameStore.subscribe((state, prevState) => {
+  // Only save if relevant fields changed
+  if (
+    state.currentProfile !== prevState.currentProfile ||
+    state.achievements !== prevState.achievements ||
+    state.highScores !== prevState.highScores
+  ) {
+    savePersistedState();
+  }
+});
