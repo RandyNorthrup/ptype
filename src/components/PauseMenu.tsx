@@ -2,7 +2,7 @@
  * PauseMenu - Overlay displayed when game is paused (ESC key)
  */
 import { memo } from 'react';
-import { useGameStore } from '../store/gameStore';
+import { useGameStore } from '../store/gameContext';
 
 interface PauseMenuProps {
   onResume: () => void;

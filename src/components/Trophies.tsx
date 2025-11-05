@@ -8,6 +8,7 @@ import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
+import { error as logError } from '../utils/logger';
 
 interface AchievementProps {
   position?: [number, number, number];
@@ -28,13 +29,37 @@ export function AchievementBadge({
   emissiveColor = color,
 }: AchievementProps) {
   const groupRef = useRef<any>(null);
-  const iconTexture = useTexture(iconPath);
+  
+  // Load texture with error handling
+  let iconTexture;
+  try {
+    iconTexture = useTexture(iconPath);
+  } catch (err) {
+    logError(`Failed to load achievement icon: ${iconPath}`, err, 'Trophies');
+    // Return a basic badge without icon on error
+    return (
+      <group ref={groupRef} position={position} scale={scale}>
+        <mesh position={[0, 0, 0]}>
+          <cylinderGeometry args={[0.5, 0.5, 0.1, 32]} />
+          <meshStandardMaterial 
+            color={color} 
+            metalness={0.85} 
+            roughness={0.15}
+            emissive={emissiveColor}
+            emissiveIntensity={0.3}
+          />
+        </mesh>
+      </group>
+    );
+  }
   
   // Configure texture for SVG
   useMemo(() => {
-    iconTexture.colorSpace = THREE.SRGBColorSpace;
-    iconTexture.minFilter = THREE.LinearFilter;
-    iconTexture.magFilter = THREE.LinearFilter;
+    if (iconTexture) {
+      iconTexture.colorSpace = THREE.SRGBColorSpace;
+      iconTexture.minFilter = THREE.LinearFilter;
+      iconTexture.magFilter = THREE.LinearFilter;
+    }
   }, [iconTexture]);
   
   useFrame(() => {

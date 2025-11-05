@@ -3,7 +3,7 @@
  * Matches Python version's draw_stats_popup layout
  */
 import { memo } from 'react';
-import { useGameStore } from '../store/gameStore';
+import { useGameStore } from '../store/gameContext';
 import { ACHIEVEMENTS_DEFINITIONS } from '../utils/achievementsManager';
 import { TEST_IDS } from '../utils/testIds';
 import { error as logError } from '../utils/logger';

@@ -3,7 +3,7 @@
  */
 import { useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
-import { useGameStore } from '../store/gameStore';
+import { useGameStore } from '../store/gameContext';
 import * as THREE from 'three';
 
 // Global reference that LaserEffect can access
@@ -11,13 +11,14 @@ export let laserTargetPosition: { x: number; y: number } | null = null;
 
 export function LaserTargetHelper() {
   const { camera, size } = useThree();
-  const { enemies, activeEnemyId } = useGameStore();
+  const store = useGameStore();
+  const { enemies, activeEnemyId } = store;
 
   // Update target position whenever enemies or activeEnemyId changes
   useEffect(() => {
     const updateTargetPosition = () => {
       // Always get the latest activeEnemyId from the store
-      const currentActiveId = useGameStore.getState().activeEnemyId;
+      const currentActiveId = activeEnemyId;
       const activeEnemy = enemies.find(e => e.id === currentActiveId);
       
       if (activeEnemy) {

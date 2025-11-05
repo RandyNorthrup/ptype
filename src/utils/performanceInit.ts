@@ -25,16 +25,17 @@ export async function initializePerformanceOptimizations() {
     await resourcePreloader.preloadCriticalAssets();
   });
 
-  // Preload UI images in background
+  // Preload UI images in background (only SVG icons that exist)
   const uiImages = [
-    '/assets/icons/health.png',
-    '/assets/icons/shield.png',
-    '/assets/icons/score.png',
-  ];
+    '/assets/icons/star.svg',
+    '/assets/icons/lightning-bolt.svg',
+  ].filter(url => url.endsWith('.svg')); // Only preload existing SVG icons
   
-  imageOptimizer.preloadImages(uiImages).catch(err => {
-    warn('Failed to preload UI images', err, 'PerformanceInit');
-  });
+  if (uiImages.length > 0) {
+    imageOptimizer.preloadImages(uiImages).catch(err => {
+      debug('Some UI images could not be preloaded', err, 'PerformanceInit');
+    });
+  }
 
   // Queue non-critical game assets for background loading
   resourcePreloader.queueAssets([

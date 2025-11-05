@@ -130,7 +130,7 @@ describe('Trivia System', () => {
       
       // Check for bonus item in UI
       const hasBonusItem = await page.evaluate(() => {
-        const bonusItems = document.querySelector('[data-testid="bonus-items"]');
+        const bonusItems = document.querySelector('[data-testid="hud-bonus-items"]');
         return bonusItems?.children.length > 0;
       });
       

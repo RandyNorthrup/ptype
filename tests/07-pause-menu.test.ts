@@ -219,11 +219,15 @@ describe('Pause Menu', () => {
     await gameCanvas.pressEscape();
     await wait(500);
     
-    // Check pause state
-    const isPaused = await page.evaluate(() => {
-      const store = (window as any).__gameStore__;
-      return store?.getState().isPaused;
+    // Check pause state - React Context doesn't expose global store like Zustand did
+    // Instead verify pause menu is visible
+    const isPauseMenuVisible = await page.evaluate(() => {
+      return !!document.querySelector('[data-testid="pause-menu-overlay"]');
     });
+    
+    if (!isPauseMenuVisible) {
+      throw new Error('Pause menu should be visible when paused');
+    }
     
     await pauseMenu.takeScreenshot('pause-state');
   });

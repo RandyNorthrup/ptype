@@ -38,8 +38,8 @@ describe('Game Modes', () => {
       throw new Error('Game should be active after starting Normal mode');
     }
     
-    // Verify HUD shows Level 1
-    await assertTextContent(page, '[data-testid="level-display"]', /Level.*1/i);
+    // Verify HUD shows Level 1 using correct test ID
+    await assertTextContent(page, '[data-testid="hud-level"]', /Level.*1/i);
     
     await gameCanvas.takeScreenshot('normal-mode-start');
   });
@@ -160,12 +160,12 @@ describe('Game Modes', () => {
       await mainMenu.clickNewGame();
       await gameCanvas.waitForGameStart();
       
-      // Verify HUD elements
-      await assertVisible(page, '[data-testid="health-display"]');
-      await assertVisible(page, '[data-testid="score-display"]');
-      await assertVisible(page, '[data-testid="level-display"]');
-      await assertVisible(page, '[data-testid="wpm-display"]');
-      await assertVisible(page, '[data-testid="accuracy-display"]');
+      // Verify HUD elements using correct TEST_IDS
+      await assertVisible(page, '[data-testid="hud-health-bar"]');
+      await assertVisible(page, '[data-testid="hud-score"]');
+      await assertVisible(page, '[data-testid="hud-level"]');
+      await assertVisible(page, '[data-testid="hud-wpm"]');
+      await assertVisible(page, '[data-testid="hud-accuracy"]');
       
       await gameCanvas.takeScreenshot(`${mode.toLowerCase()}-mode-hud`);
     }

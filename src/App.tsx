@@ -17,7 +17,7 @@ const PauseMenu = lazy(() => import('./components/PauseMenu').then(m => ({ defau
 const SpaceScene = lazy(() => import('./components/SpaceScene').then(m => ({ default: m.SpaceScene })));
 const LaserEffect = lazy(() => import('./components/LaserEffect').then(m => ({ default: m.LaserEffect })));
 
-import { useGameStore } from './store/gameStore';
+import { useGameStore } from './store/gameContext';
 import { GameMode, Achievement } from './types';
 import { wordDictionary } from './utils/wordDictionary';
 import { triviaDatabase } from './utils/triviaDatabase';

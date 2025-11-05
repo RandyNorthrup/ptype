@@ -116,7 +116,7 @@ describe('Gameplay', () => {
     await wait(1000);
     
     // Verify EMP is on cooldown
-    const cooldownText = await page.textContent('[data-testid="emp-cooldown"]');
+    const cooldownText = await page.textContent('[data-testid="hud-emp-cooldown"]');
     if (!cooldownText || cooldownText === 'READY') {
       throw new Error('EMP should be on cooldown after activation');
     }
@@ -312,7 +312,7 @@ describe('Gameplay', () => {
     await wait(1000);
     
     // Verify pause menu appears
-    await assertVisible(page, '[data-testid="pause-menu"]');
+    await assertVisible(page, '[data-testid="pause-menu-overlay"]');
     
     await gameCanvas.takeScreenshot('game-paused');
   });
@@ -378,7 +378,7 @@ describe('Gameplay', () => {
     await wait(10000);
     
     // Check for bonus items UI
-    await page.isVisible('[data-testid="bonus-items"]');
+    await page.isVisible('[data-testid="hud-bonus-items"]');
     
     // Bonus items may not be available yet
     await gameCanvas.takeScreenshot('bonus-items-ui');

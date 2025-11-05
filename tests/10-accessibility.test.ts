@@ -216,7 +216,7 @@ describe('Accessibility', () => {
     
     // Health indicator should have text or icons, not just color
     const healthEl = await page.evaluate(() => {
-      const health = document.querySelector('[data-testid="health-display"]');
+      const health = document.querySelector('[data-testid="hud-health-bar"]');
       return {
         hasText: health?.textContent !== '',
         hasIcon: !!health?.querySelector('svg, img'),

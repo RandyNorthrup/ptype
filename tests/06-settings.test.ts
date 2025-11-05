@@ -49,7 +49,7 @@ describe('Settings Menu', () => {
     await mainMenu.openSettings();
     await wait(500);
     
-    await assertVisible(page, '[data-testid="sound-volume-slider"]');
+    await assertVisible(page, '[data-testid="sfx-volume-slider"]');
     
     await settingsMenu.takeScreenshot('sound-volume-slider');
   });
@@ -84,7 +84,7 @@ describe('Settings Menu', () => {
     await wait(500);
     
     const volume = await page.evaluate(() => {
-      const slider = document.querySelector('[data-testid="sound-volume-slider"]') as HTMLInputElement;
+      const slider = document.querySelector('[data-testid="sfx-volume-slider"]') as HTMLInputElement;
       return slider?.value;
     });
     

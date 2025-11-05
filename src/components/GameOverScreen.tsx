@@ -2,7 +2,7 @@
  * GameOverScreen - Shows when player dies
  */
 import { memo } from 'react';
-import { useGameStore } from '../store/gameStore';
+import { useGameStore } from '../store/gameContext';
 
 const GameOverScreenComponent = () => {
   const { score, level, wpm, accuracy, resetGame } = useGameStore();

@@ -4,6 +4,7 @@
 import { useEffect, useRef } from 'react';
 import { getAudioManager } from '../utils/audioManager';
 import { laserTargetPosition } from './LaserTargetHelper';
+import { error as logError } from '../utils/logger';
 
 interface BeamBurst {
   x: number;
@@ -35,10 +36,16 @@ export function LaserEffect() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {
+      logError('LaserEffect canvas ref is null', new Error('Canvas not found'), 'LaserEffect');
+      return;
+    }
 
     const ctx = canvas.getContext('2d', { alpha: true });
-    if (!ctx) return;
+    if (!ctx) {
+      logError('Failed to get 2D context for laser canvas', new Error('Context unavailable'), 'LaserEffect');
+      return;
+    }
 
     // Set canvas size
     const resizeCanvas = () => {

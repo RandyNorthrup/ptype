@@ -3,7 +3,7 @@
  * Captures keyboard input and handles word matching logic
  */
 import { useEffect, useCallback } from 'react';
-import { useGameStore } from '../store/gameStore';
+import { useGameStore } from '../store/gameContext';
 import { debug, error as logError } from '../utils/logger';
 
 export function TypingHandler() {

@@ -5,7 +5,7 @@
  */
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
-import { useGameStore } from '../store/gameStore';
+import { useGameStore } from '../store/gameContext';
 import { enemySpawner } from '../utils/enemySpawner';
 import { EnemyShip } from '../entities/EnemyShip';
 import { PlayerShip } from '../entities/PlayerShip';
@@ -15,6 +15,7 @@ import { getAudioManager } from '../utils/audioManager';
 import { debug, error as logError, info } from '../utils/logger';
 
 function GameLogic() {
+  const store = useGameStore();
   const { 
     level, 
     mode, 
@@ -41,9 +42,8 @@ function GameLogic() {
       // Force spawn first enemy after a short delay
       setTimeout(() => {
         const isBossLevel = level % 3 === 0 && level > 0;
-        const state = useGameStore.getState();
-        debug('Force spawning first enemy', { level, isBoss: isBossLevel, difficulty: state.currentDifficulty }, 'GameCanvas');
-        const firstEnemy = enemySpawner.forceSpawn(level, mode, programmingLanguage, isBossLevel, state.currentDifficulty);
+        debug('Force spawning first enemy', { level, isBoss: isBossLevel, difficulty: store.currentDifficulty }, 'GameCanvas');
+        const firstEnemy = enemySpawner.forceSpawn(level, mode, programmingLanguage, isBossLevel, store.currentDifficulty);
         if (firstEnemy) {
           debug('First enemy spawned', { word: firstEnemy.word, isBoss: firstEnemy.isBoss }, 'GameCanvas');
           addEnemy(firstEnemy);
