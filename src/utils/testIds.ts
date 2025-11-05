@@ -34,6 +34,10 @@ export const TEST_IDS = {
   GAME_OVER_SCREEN: 'game-over-screen',
   PLAY_AGAIN_BUTTON: 'play-again-button',
   GAME_OVER_MAIN_MENU_BUTTON: 'game-over-main-menu-button',
+  FINAL_SCORE: 'final-score',
+  FINAL_LEVEL: 'final-level',
+  FINAL_WPM: 'final-wpm',
+  FINAL_ACCURACY: 'final-accuracy',
   
   // Trivia Overlay
   TRIVIA_OVERLAY: 'trivia-overlay',

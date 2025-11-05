@@ -177,10 +177,29 @@ const initialStats: PlayerStats = {
   bestAccuracy: 0,
 };
 
+// Default player profile
+const createDefaultProfile = (): PlayerProfile => ({
+  name: 'Player',
+  createdAt: new Date().toISOString(),
+  lastPlayed: new Date().toISOString(),
+  totalScore: 0,
+  highScore: 0,
+  totalWordsTyped: 0,
+  totalAccuracy: 100,
+  totalGamesPlayed: 0,
+  totalTimePlayed: 0,
+  averageWPM: 0,
+  bestWPM: 0,
+  achievements: [],
+  level: 1,
+  currentStreak: 0,
+  longestStreak: 0,
+});
+
 export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
   const [gameState, setGameState] = useState<GameState>(initialGameState);
   const [enemies, setEnemies] = useState<Enemy[]>([]);
-  const [currentProfile, setCurrentProfile] = useState<PlayerProfile | null>(null);
+  const [currentProfile, setCurrentProfile] = useState<PlayerProfile | null>(createDefaultProfile());
   const [achievements, setAchievements] = useState<Achievement[]>(
     ACHIEVEMENTS_DEFINITIONS.map(def => ({
       ...def,

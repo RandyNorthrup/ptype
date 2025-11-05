@@ -1,11 +1,32 @@
 /**
  * GameOverScreen - Shows when player dies
  */
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { useGameStore } from '../store/gameContext';
+import { TEST_IDS } from '../utils/testIds';
 
 const GameOverScreenComponent = () => {
-  const { score, level, wpm, accuracy, resetGame } = useGameStore();
+  const { score, level, wpm, accuracy, resetGame, highScores, mode, programmingLanguage } = useGameStore();
+  const [highScorePosition, setHighScorePosition] = useState<number>(0);
+  const [isNewHighScore, setIsNewHighScore] = useState(false);
+
+  useEffect(() => {
+    // Check if this is a new high score
+    const relevantScores = highScores
+      .filter(s => {
+        if (s.mode !== mode) return false;
+        if (programmingLanguage && s.language !== programmingLanguage) return false;
+        return true;
+      })
+      .sort((a, b) => b.score - a.score);
+    
+    const position = relevantScores.findIndex(s => s.score === score && s.level === level) + 1;
+    
+    if (position > 0 && position <= 10) {
+      setHighScorePosition(position);
+      setIsNewHighScore(true);
+    }
+  }, [highScores, score, level, mode, programmingLanguage]);
 
   const handleMainMenu = () => {
     resetGame();
@@ -40,13 +61,29 @@ const GameOverScreenComponent = () => {
           color: '#ef4444',
           fontSize: '5rem',
           fontWeight: '700',
-          marginBottom: '2rem',
+          marginBottom: '1rem',
           textShadow: '0 0 40px rgba(239, 68, 68, 0.8)',
           animation: 'pulse 2s ease-in-out infinite',
         }}
       >
         GAME OVER
       </h1>
+
+      {/* High Score Badge */}
+      {isNewHighScore && (
+        <div
+          style={{
+            color: '#fbbf24',
+            fontSize: '1.8rem',
+            fontWeight: '700',
+            marginBottom: '1.5rem',
+            textShadow: '0 0 30px rgba(251, 191, 36, 0.8)',
+            animation: 'bounce 1s ease-in-out infinite',
+          }}
+        >
+          🏆 NEW HIGH SCORE! #{highScorePosition} 🏆
+        </div>
+      )}
 
       {/* Stats Panel */}
       <div
@@ -93,6 +130,7 @@ const GameOverScreenComponent = () => {
               Score
             </div>
             <div
+              data-testid={TEST_IDS.FINAL_SCORE}
               style={{
                 color: '#fbbf24',
                 fontSize: '2.5rem',
@@ -116,6 +154,7 @@ const GameOverScreenComponent = () => {
               Level
             </div>
             <div
+              data-testid={TEST_IDS.FINAL_LEVEL}
               style={{
                 color: '#00d4ff',
                 fontSize: '2.5rem',
@@ -139,6 +178,7 @@ const GameOverScreenComponent = () => {
               WPM
             </div>
             <div
+              data-testid={TEST_IDS.FINAL_WPM}
               style={{
                 color: '#a78bfa',
                 fontSize: '2.5rem',
@@ -162,6 +202,7 @@ const GameOverScreenComponent = () => {
               Accuracy
             </div>
             <div
+              data-testid={TEST_IDS.FINAL_ACCURACY}
               style={{
                 color: '#09ff00',
                 fontSize: '2.5rem',
@@ -249,6 +290,15 @@ const GameOverScreenComponent = () => {
             50% {
               opacity: 0.8;
               transform: scale(1.05);
+            }
+          }
+          
+          @keyframes bounce {
+            0%, 100% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-10px);
             }
           }
         `}

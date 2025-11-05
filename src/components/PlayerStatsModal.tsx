@@ -18,10 +18,18 @@ const PlayerStatsModalComponent = ({ onClose }: PlayerStatsModalProps) => {
   // Sort high scores by score (descending)
   const sortedHighScores = [...highScores].sort((a, b) => b.score - a.score);
   
-  // Calculate stats (TODO: implement profile stats tracking)
-  const gamesPlayed = highScores.length;
-  const bestScore = highScores.length > 0 ? Math.max(...highScores.map(s => s.score)) : 0;
-  const bestLevel = highScores.length > 0 ? Math.max(...highScores.map(s => s.level)) : 0;
+  // Get stats from store
+  const { stats } = useGameStore();
+  
+  // Format play time
+  const formatPlayTime = (seconds: number): string => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    if (hours > 0) {
+      return `${hours}h ${minutes}m`;
+    }
+    return `${minutes}m`;
+  };
 
   const handleClose = () => {
     try {
@@ -93,25 +101,63 @@ const PlayerStatsModalComponent = ({ onClose }: PlayerStatsModalProps) => {
             <div>
               <span style={{ color: '#64748b' }}>Games Played:</span>
               <span style={{ color: '#09ff00', fontWeight: '700', marginLeft: '0.5rem' }}>
-                {gamesPlayed}
+                {stats.totalGamesPlayed}
+              </span>
+            </div>
+            <div>
+              <span style={{ color: '#64748b' }}>Total Score:</span>
+              <span style={{ color: '#09ff00', fontWeight: '700', marginLeft: '0.5rem' }}>
+                {stats.totalScore.toLocaleString()}
               </span>
             </div>
             <div>
               <span style={{ color: '#64748b' }}>Best Score:</span>
-              <span style={{ color: '#09ff00', fontWeight: '700', marginLeft: '0.5rem' }}>
-                {bestScore.toLocaleString()}
+              <span style={{ color: '#fbbf24', fontWeight: '700', marginLeft: '0.5rem' }}>
+                {stats.bestScore.toLocaleString()}
               </span>
             </div>
             <div>
-              <span style={{ color: '#64748b' }}>Highest Level:</span>
+              <span style={{ color: '#64748b' }}>Best Level:</span>
+              <span style={{ color: '#00d4ff', fontWeight: '700', marginLeft: '0.5rem' }}>
+                {stats.bestLevel}
+              </span>
+            </div>
+            <div>
+              <span style={{ color: '#64748b' }}>Best WPM:</span>
+              <span style={{ color: '#a78bfa', fontWeight: '700', marginLeft: '0.5rem' }}>
+                {stats.bestWPM.toFixed(0)}
+              </span>
+            </div>
+            <div>
+              <span style={{ color: '#64748b' }}>Best Accuracy:</span>
               <span style={{ color: '#09ff00', fontWeight: '700', marginLeft: '0.5rem' }}>
-                {bestLevel}
+                {stats.bestAccuracy.toFixed(1)}%
+              </span>
+            </div>
+            <div>
+              <span style={{ color: '#64748b' }}>Total Time:</span>
+              <span style={{ color: '#09ff00', fontWeight: '700', marginLeft: '0.5rem' }}>
+                {formatPlayTime(stats.totalTimePlayed)}
               </span>
             </div>
             <div>
               <span style={{ color: '#64748b' }}>Achievements:</span>
               <span style={{ color: '#09ff00', fontWeight: '700', marginLeft: '0.5rem' }}>
                 {achievements.filter(a => a.unlocked).length}/{ACHIEVEMENTS_DEFINITIONS.length}
+              </span>
+            </div>
+            <div>
+              <span style={{ color: '#64748b' }}>Words Typed:</span>
+              <span style={{ color: '#09ff00', fontWeight: '700', marginLeft: '0.5rem' }}>
+                {stats.totalWordsTyped.toLocaleString()}
+              </span>
+            </div>
+            <div>
+              <span style={{ color: '#64748b' }}>Accuracy:</span>
+              <span style={{ color: '#09ff00', fontWeight: '700', marginLeft: '0.5rem' }}>
+                {stats.totalWordsTyped > 0 
+                  ? ((stats.totalWordsCorrect / stats.totalWordsTyped) * 100).toFixed(1) 
+                  : '0.0'}%
               </span>
             </div>
           </div>
