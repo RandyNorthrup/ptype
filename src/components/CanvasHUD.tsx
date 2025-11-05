@@ -4,7 +4,7 @@
  */
 import { memo } from 'react';
 import { Html } from '@react-three/drei';
-import { useGameStore } from '../store/gameStore';
+import { useGameStore } from '../store/gameContext';
 import { getTargetWPM, getWPMColor } from '../types';
 import { TEST_IDS } from '../utils/testIds';
 import { getDifficultyColor } from '../utils/difficultyManager';

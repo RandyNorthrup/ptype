@@ -3,8 +3,6 @@
  * Handles background music and sound effects
  */
 
-import { warn } from './logger';
-
 export class AudioManager {
   private bgMusic: HTMLAudioElement | null = null;
   private soundEffects: Map<string, HTMLAudioElement> = new Map();
@@ -12,12 +10,43 @@ export class AudioManager {
   private sfxVolume = 0.7;
   private isMusicEnabled = true;
   private isSfxEnabled = true;
+  private hasUserInteracted = false;
+  private pendingMusicPlay = false;
 
   constructor() {
     // Initialize background music
     this.bgMusic = new Audio('/assets/sounds/game_music.mp3');
     this.bgMusic.loop = true;
     this.bgMusic.volume = this.musicVolume;
+    
+    // Wait for user interaction before playing audio
+    this.setupUserInteractionHandler();
+  }
+
+  /**
+   * Setup handler to enable audio on first user interaction
+   */
+  private setupUserInteractionHandler(): void {
+    const enableAudio = () => {
+      this.hasUserInteracted = true;
+      
+      // Play pending music if requested
+      if (this.pendingMusicPlay && this.isMusicEnabled && this.bgMusic) {
+        // Let audio errors surface naturally
+        this.bgMusic.play();
+        this.pendingMusicPlay = false;
+      }
+      
+      // Remove listeners after first interaction
+      document.removeEventListener('click', enableAudio);
+      document.removeEventListener('keydown', enableAudio);
+      document.removeEventListener('touchstart', enableAudio);
+    };
+    
+    // Listen for various user interactions
+    document.addEventListener('click', enableAudio, { once: true });
+    document.addEventListener('keydown', enableAudio, { once: true });
+    document.addEventListener('touchstart', enableAudio, { once: true });
   }
 
   /**
@@ -26,9 +55,15 @@ export class AudioManager {
   playMusic(): void {
     if (!this.isMusicEnabled || !this.bgMusic) return;
 
-    this.bgMusic.play().catch(err => {
-      warn('Could not play background music', err, 'audioManager');
-    });
+    // If user hasn't interacted yet, queue the music to play later
+    if (!this.hasUserInteracted) {
+      this.pendingMusicPlay = true;
+      console.info('🎵 Music queued - will start after user interaction');
+      return;
+    }
+
+    // Let audio errors surface naturally
+    this.bgMusic.play();
   }
 
   /**

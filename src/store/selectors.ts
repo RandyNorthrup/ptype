@@ -1,87 +1,90 @@
 /**
- * Optimized Zustand selectors to prevent unnecessary re-renders
+ * Optimized selectors to prevent unnecessary re-renders
  * Use these selectors instead of accessing the full state
  */
-import { useGameStore } from './gameStore';
+import { useGameStore } from './gameContext';
 
 // Game mode selector
-export const useGameMode = () => useGameStore(state => state.mode);
+export const useGameMode = () => useGameStore().mode;
 
 // Enemy selectors
-export const useEnemies = () => useGameStore(state => state.enemies);
-export const useEnemyCount = () => useGameStore(state => state.enemies.length);
-export const useActiveEnemyId = () => useGameStore(state => state.activeEnemyId);
+export const useEnemies = () => useGameStore().enemies;
+export const useEnemyCount = () => useGameStore().enemies.length;
+export const useActiveEnemyId = () => useGameStore().activeEnemyId;
 
-// Player stats selectors
-export const usePlayerStats = () => useGameStore(
-  state => ({
-    health: state.health,
-    maxHealth: state.maxHealth,
-    shield: state.shield,
-    maxShield: state.maxShield,
-  })
-);
+// Health and shield selectors
+export const useHealthAndShield = () => {
+  const store = useGameStore();
+  return {
+    health: store.health,
+    maxHealth: store.maxHealth,
+    shield: store.shield,
+    maxShield: store.maxShield,
+  };
+};
 
-export const useScore = () => useGameStore(state => state.score);
-export const useLevel = () => useGameStore(state => state.level);
-export const useWPM = () => useGameStore(state => state.wpm);
-export const useAccuracy = () => useGameStore(state => state.accuracy);
+// Score and stats selectors
+export const useScore = () => useGameStore().score;
+export const useLevel = () => useGameStore().level;
+export const useWPM = () => useGameStore().wpm;
+export const useAccuracy = () => useGameStore().accuracy;
 
-// Game state selectors
-export const useIsPaused = () => useGameStore(state => state.isPaused);
-export const useIsGameOver = () => useGameStore(state => state.isGameOver);
+// State flags
+export const useIsPaused = () => useGameStore().isPaused;
+export const useIsGameOver = () => useGameStore().isGameOver;
 
-// Current word selector
-export const useCurrentWord = () => useGameStore(state => state.currentWord);
+// Typing selectors
+export const useCurrentWord = () => useGameStore().currentWord;
 
 // Trivia selectors
-export const useCurrentTrivia = () => useGameStore(state => state.currentTrivia);
-export const useTriviaState = () => useGameStore(
-  state => ({
-    currentTrivia: state.currentTrivia,
-    triviaAnswered: state.triviaAnswered,
-    triviaResult: state.triviaResult,
-    selectedTriviaAnswer: state.selectedTriviaAnswer,
-  })
-);
+export const useCurrentTrivia = () => useGameStore().currentTrivia;
+export const useTriviaState = () => {
+  const store = useGameStore();
+  return {
+    currentTrivia: store.currentTrivia,
+    triviaAnswered: store.triviaAnswered,
+    triviaResult: store.triviaResult,
+    selectedTriviaAnswer: store.selectedTriviaAnswer,
+  };
+};
 
 // Bonus items selectors
-export const useBonusItems = () => useGameStore(state => state.bonusItems);
-export const useSelectedBonusIndex = () => useGameStore(state => state.selectedBonusIndex);
+export const useBonusItems = () => useGameStore().bonusItems;
+export const useSelectedBonusIndex = () => useGameStore().selectedBonusIndex;
 
-// EMP selector
-export const useEMPCooldown = () => useGameStore(state => state.empCooldown);
+// EMP selectors
+export const useEMPCooldown = () => useGameStore().empCooldown;
 
-// Achievements selector
-export const useAchievements = () => useGameStore(state => state.achievements);
+// Achievement selectors
+export const useAchievements = () => useGameStore().achievements;
 
-// Profile selector
-export const useCurrentProfile = () => useGameStore(state => state.currentProfile);
+// Profile selectors
+export const useCurrentProfile = () => useGameStore().currentProfile;
 
-// Game actions selectors (these don't cause re-renders)
-export const useGameActions = () => useGameStore(
-  state => ({
-    startGame: state.startGame,
-    pauseGame: state.pauseGame,
-    resumeGame: state.resumeGame,
-    endGame: state.endGame,
-    resetGame: state.resetGame,
-  })
-);
+// Composite selectors for HUD
+export const useHUDData = () => {
+  const store = useGameStore();
+  return {
+    health: store.health,
+    maxHealth: store.maxHealth,
+    shield: store.shield,
+    maxShield: store.maxShield,
+    score: store.score,
+    level: store.level,
+    wpm: store.wpm,
+    accuracy: store.accuracy,
+  };
+};
 
-export const useEnemyActions = () => useGameStore(
-  state => ({
-    addEnemy: state.addEnemy,
-    removeEnemy: state.removeEnemy,
-    updateEnemy: state.updateEnemy,
-    clearEnemies: state.clearEnemies,
-  })
-);
-
-export const useTypingActions = () => useGameStore(
-  state => ({
-    typeCharacter: state.typeCharacter,
-    deleteCharacter: state.deleteCharacter,
-    submitWord: state.submitWord,
-  })
-);
+// Composite selectors for gameplay
+export const useGameplayData = () => {
+  const store = useGameStore();
+  return {
+    enemies: store.enemies,
+    bonusItems: store.bonusItems,
+    selectedBonusIndex: store.selectedBonusIndex,
+    empCooldown: store.empCooldown,
+    currentWord: store.currentWord,
+    isPaused: store.isPaused,
+  };
+};

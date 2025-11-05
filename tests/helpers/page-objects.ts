@@ -132,18 +132,18 @@ export class MainMenuPage extends BasePage {
  * Game Canvas Page Object
  */
 export class GameCanvasPage extends BasePage {
-  // Selectors
+  // Selectors - Updated to match actual TEST_IDS from testIds.ts
   private selectors = {
     canvas: 'canvas',
-    hud: '[data-testid="canvas-hud"]',
-    health: '[data-testid="health-display"]',
-    score: '[data-testid="score-display"]',
-    level: '[data-testid="level-display"]',
-    wpm: '[data-testid="wpm-display"]',
-    accuracy: '[data-testid="accuracy-display"]',
-    empCooldown: '[data-testid="emp-cooldown"]',
-    currentWord: '[data-testid="current-word"]',
-    bonusItems: '[data-testid="bonus-items"]',
+    hud: '[data-testid="hud-container"]',
+    health: '[data-testid="hud-health-bar"]',
+    shield: '[data-testid="hud-shield-bar"]',
+    score: '[data-testid="hud-score"]',
+    level: '[data-testid="hud-level"]',
+    wpm: '[data-testid="hud-wpm"]',
+    accuracy: '[data-testid="hud-accuracy"]',
+    empCooldown: '[data-testid="hud-emp-cooldown"]',
+    bonusItems: '[data-testid="hud-bonus-items"]',
   };
 
   async isGameActive(): Promise<boolean> {
@@ -194,8 +194,8 @@ export class GameCanvasPage extends BasePage {
     return await this.getText(this.selectors.accuracy);
   }
 
-  async getCurrentWord(): Promise<string> {
-    return await this.getText(this.selectors.currentWord);
+  async getShield(): Promise<string> {
+    return await this.getText(this.selectors.shield);
   }
 
   async isEMPReady(): Promise<boolean> {

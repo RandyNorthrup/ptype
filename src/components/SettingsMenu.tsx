@@ -3,6 +3,7 @@
  */
 import { useState, useEffect, memo } from 'react';
 import { getAudioManager } from '../utils/audioManager';
+import { error as logError } from '../utils/logger';
 
 interface SettingsMenuProps {
   onClose: () => void;
@@ -16,33 +17,47 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProps) => {
 
   // Load saved settings on mount
   useEffect(() => {
-    const savedSettings = localStorage.getItem('game-settings');
-    if (savedSettings) {
-      const settings = JSON.parse(savedSettings);
-      setMusicVolume(settings.musicVolume ?? 50);
-      setSfxVolume(settings.sfxVolume ?? 50);
-      setDifficulty(settings.difficulty ?? 'Normal');
-      
-      // Apply volumes to audio manager
-      audioManager.setMusicVolume(settings.musicVolume ?? 50);
-      audioManager.setSfxVolume(settings.sfxVolume ?? 50);
+    try {
+      const savedSettings = localStorage.getItem('game-settings');
+      if (savedSettings) {
+        const settings = JSON.parse(savedSettings);
+        setMusicVolume(settings.musicVolume ?? 50);
+        setSfxVolume(settings.sfxVolume ?? 50);
+        setDifficulty(settings.difficulty ?? 'Normal');
+        
+        // Apply volumes to audio manager
+        audioManager.setMusicVolume(settings.musicVolume ?? 50);
+        audioManager.setSfxVolume(settings.sfxVolume ?? 50);
+      }
+    } catch (err) {
+      logError('Failed to load settings from localStorage', err, 'SettingsMenu');
+      // Use defaults on error
+      setMusicVolume(50);
+      setSfxVolume(50);
+      setDifficulty('Normal');
     }
   }, [audioManager]);
 
   const handleSave = () => {
-    // Save to localStorage
-    const settings = {
-      musicVolume,
-      sfxVolume,
-      difficulty,
-    };
-    localStorage.setItem('game-settings', JSON.stringify(settings));
-    
-    // Apply volumes
-    audioManager.setMusicVolume(musicVolume);
-    audioManager.setSfxVolume(sfxVolume);
-    
-    onClose();
+    try {
+      // Save to localStorage
+      const settings = {
+        musicVolume,
+        sfxVolume,
+        difficulty,
+      };
+      localStorage.setItem('game-settings', JSON.stringify(settings));
+      
+      // Apply volumes
+      audioManager.setMusicVolume(musicVolume);
+      audioManager.setSfxVolume(sfxVolume);
+      
+      onClose();
+    } catch (err) {
+      logError('Failed to save settings to localStorage', err, 'SettingsMenu');
+      // Still close the menu even if save failed
+      onClose();
+    }
   };
 
   const handleMusicVolumeChange = (value: number) => {

@@ -2,10 +2,11 @@
  * MainMenu Component - Matches Python desktop app layout
  */
 import { useState, useRef, useEffect, memo } from 'react';
-import { useGameStore } from '../store/gameStore';
+import { useGameStore } from '../store/gameContext';
 import { GameMode, ProgrammingLanguage } from '../types';
 import { PlayerStatsModal } from './PlayerStatsModal';
 import { SettingsMenu } from './SettingsMenu';
+import { error as logError } from '../utils/logger';
 
 const MainMenuComponent = () => {
   const { startGame } = useGameStore();
@@ -46,12 +47,16 @@ const MainMenuComponent = () => {
       return; // Button is disabled
     }
     
-    if (selectedMode === 'Normal') {
-      startGame(GameMode.NORMAL);
-    } else {
-      // It's a programming language
-      const lang = selectedMode as ProgrammingLanguage;
-      startGame(GameMode.PROGRAMMING, lang);
+    try {
+      if (selectedMode === 'Normal') {
+        startGame(GameMode.NORMAL);
+      } else {
+        // It's a programming language
+        const lang = selectedMode as ProgrammingLanguage;
+        startGame(GameMode.PROGRAMMING, lang);
+      }
+    } catch (err) {
+      logError(`Failed to start game with mode: ${selectedMode}`, err, 'MainMenu');
     }
   };
 

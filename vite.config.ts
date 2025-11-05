@@ -18,22 +18,26 @@ export default defineConfig({
         background_color: '#0f172a',
         display: 'fullscreen',
         orientation: 'landscape',
+        start_url: '/',
+        scope: '/',
         icons: [
           {
-            src: '/assets/images/ptype_logo.png',
-            sizes: '512x512',
-            type: 'image/png'
-          },
-          {
-            src: '/assets/images/ptype_logo.png',
+            src: '/icons/icon-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any'
           },
           {
-            src: '/assets/images/ptype_logo.png',
+            src: '/icons/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable'
+            purpose: 'any'
+          },
+          {
+            src: '/icons/icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable'
           }
         ]
       },
@@ -42,11 +46,13 @@ export default defineConfig({
         globIgnores: [
           '**/node_modules/**/*', 
           '**/assets/models/**/*',
-          '**/assets/images/ptype_logo.png' // Handled by manifest, avoid duplicate
         ],
         maximumFileSizeToCacheInBytes: 30 * 1024 * 1024, // 30MB for large assets
         navigateFallback: null, // Disable for SPA
         dontCacheBustURLsMatching: /\.(png|jpg|jpeg|svg|gif|webp)$/,
+        // Reduce console noise in production
+        clientsClaim: true,
+        skipWaiting: true,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/api\.hyperhuman\.deemos\.com\/.*/i,
