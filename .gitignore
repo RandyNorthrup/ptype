@@ -11,9 +11,7 @@ desktop.ini
 # ============================================
 # IDE / Editors
 # ============================================
-.vscode/*
-!.vscode/mcp.json
-!.vscode/settings.json
+.vscode/
 .idea/
 *.swp
 *.swo
@@ -112,11 +110,16 @@ saves/
 !**/assets/.gitkeep
 
 # ============================================
+# Documentation Archive
+# ============================================
+docs/archive/
+scripts/archive/
+
+# ============================================
 # Logs
 # ============================================
 *.log
-logs/*.log
-!logs/.gitkeep
+logs/
 
 # ============================================
 # Temporary Files
