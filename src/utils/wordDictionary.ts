@@ -4,7 +4,8 @@
  */
 
 import type { ProgrammingLanguage, GameMode } from '../types';
-import { info, warn, error as logError } from './logger';
+import { LANGUAGE_FILE_MAP } from '../types';
+import { warn, error as logError } from './logger';
 
 export interface WordData {
   keywords: {
@@ -173,8 +174,12 @@ class WordDictionary {
 
     // Initialize available words if not exists or empty
     if (!this.availableWords.has(poolKey) || this.availableWords.get(poolKey)!.length === 0) {
-      // Shuffle the entire word pool
-      const shuffled = [...wordPool].sort(() => Math.random() - 0.5);
+      // Shuffle the entire word pool using Fisher-Yates
+      const shuffled = [...wordPool];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
       this.availableWords.set(poolKey, shuffled);
     }
 
@@ -187,71 +192,12 @@ class WordDictionary {
   }
 
   /**
-   * Get multiple random words
-   */
-  getWords(language: string, level: number, count: number, isBoss: boolean = false): string[] {
-    const words: string[] = [];
-    const usedWords = new Set<string>();
-
-    for (let i = 0; i < count; i++) {
-      let word = this.getWord(language, level, isBoss);
-      
-      // Avoid duplicates in the same batch
-      let attempts = 0;
-      while (usedWords.has(word) && attempts < 10) {
-        word = this.getWord(language, level, isBoss);
-        attempts++;
-      }
-
-      words.push(word);
-      usedWords.add(word);
-    }
-
-    return words;
-  }
-
-  /**
-   * Determine difficulty based on level
+   * Determine difficulty tier based on level
    */
   private getDifficultyFromLevel(level: number): 'beginner' | 'intermediate' | 'advanced' {
     if (level <= 30) return 'beginner';
     if (level <= 70) return 'intermediate';
     return 'advanced';
-  }
-
-  /**
-   * Preload all dictionaries
-   */
-  async preloadAll(): Promise<void> {
-    const languages = ['python', 'javascript', 'java', 'csharp', 'cplusplus', 'css', 'html', 'normal'];
-    
-    const promises = languages.map(lang => this.loadDictionary(lang));
-    await Promise.all(promises);
-    
-    info('All word dictionaries loaded', undefined, 'wordDictionary');
-  }
-
-  /**
-   * Get dictionary stats
-   */
-  getStats(language: string): { total: number; beginner: number; intermediate: number; advanced: number; bossWords: number } | null {
-    const data = this.cache[language];
-    if (!data) return null;
-
-    const bossWordsTotal = data.boss_words.beginner.length + 
-                           data.boss_words.intermediate.length + 
-                           data.boss_words.advanced.length;
-
-    return {
-      beginner: data.keywords.beginner.length,
-      intermediate: data.keywords.intermediate.length,
-      advanced: data.keywords.advanced.length,
-      bossWords: bossWordsTotal,
-      total: data.keywords.beginner.length + 
-             data.keywords.intermediate.length + 
-             data.keywords.advanced.length + 
-             bossWordsTotal,
-    };
   }
 
   /**
@@ -263,18 +209,7 @@ class WordDictionary {
     }
     
     if (mode === 'programming' && language) {
-      // Map language enum to file name
-      const languageMap: Record<string, string> = {
-        'Python': 'python',
-        'JavaScript': 'javascript',
-        'Java': 'java',
-        'C#': 'csharp',
-        'C++': 'cplusplus',
-        'CSS': 'css',
-        'HTML': 'html',
-      };
-      
-      return languageMap[language] || 'python';
+      return LANGUAGE_FILE_MAP[language] || 'python';
     }
     
     return 'normal';

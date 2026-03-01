@@ -260,9 +260,13 @@ class AchievementsManager {
 
   /**
    * Subscribe to achievement unlocks
+   * @returns Unsubscribe function
    */
-  onUnlock(callback: (achievement: Achievement) => void) {
+  onUnlock(callback: (achievement: Achievement) => void): () => void {
     this.listeners.push(callback);
+    return () => {
+      this.listeners = this.listeners.filter(l => l !== callback);
+    };
   }
 
   /**
@@ -315,19 +319,40 @@ class AchievementsManager {
     this.checkAndUnlock('perfect_trivia', this.stats.triviaStreak);
     this.checkAndUnlock('bonus_collector', this.stats.bonusItemsCollected);
     this.checkAndUnlock('bonus_master', this.stats.bonusItemsUsed);
+
+    // Persist stats to localStorage
+    this.persistStats();
   }
 
   /**
-   * Record a word typed
+   * Persist achievement stats to localStorage
    */
-  onWordTyped(correct: boolean) {
-    if (correct) {
-      this.stats.wordsTyped++;
-      this.stats.perfectWordStreak++;
-    } else {
-      this.stats.perfectWordStreak = 0;
+  private persistStats(): void {
+    try {
+      const serializable = {
+        ...this.stats,
+        languagesPlayed: Array.from(this.stats.languagesPlayed),
+      };
+      localStorage.setItem('ptype-achievement-stats', JSON.stringify(serializable));
+    } catch {
+      // localStorage may be full or unavailable
     }
-    
+  }
+
+  /**
+   * Record a word typed (completed)
+   */
+  onWordCompleted() {
+    this.stats.wordsTyped++;
+    this.stats.perfectWordStreak++;
+    this.updateStats({});
+  }
+
+  /**
+   * Record a missed word (enemy reached player) — breaks perfect streak
+   */
+  onWordMissed() {
+    this.stats.perfectWordStreak = 0;
     this.updateStats({});
   }
 
@@ -337,6 +362,30 @@ class AchievementsManager {
   onBossDefeated() {
     this.stats.bossesDefeated++;
     this.updateStats({});
+  }
+
+  /**
+   * Record a bonus item collected
+   */
+  onBonusCollected() {
+    this.stats.bonusItemsCollected++;
+    this.updateStats({});
+  }
+
+  /**
+   * Record a bonus item used
+   */
+  onBonusUsed() {
+    this.stats.bonusItemsUsed++;
+    this.updateStats({});
+  }
+
+  /**
+   * Record a wrong character typed — breaks perfect streak
+   */
+  onTypingMistake() {
+    this.stats.perfectWordStreak = 0;
+    // Don't persist on every mistake to avoid excessive writes
   }
 
   /**
@@ -350,22 +399,6 @@ class AchievementsManager {
       this.stats.triviaStreak = 0;
     }
     
-    this.updateStats({});
-  }
-
-  /**
-   * Record bonus item collected
-   */
-  onBonusItemCollected() {
-    this.stats.bonusItemsCollected++;
-    this.updateStats({});
-  }
-
-  /**
-   * Record bonus item used
-   */
-  onBonusItemUsed() {
-    this.stats.bonusItemsUsed++;
     this.updateStats({});
   }
 

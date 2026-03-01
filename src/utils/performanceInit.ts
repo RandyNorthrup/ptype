@@ -1,12 +1,10 @@
 /**
  * Performance Optimization Initialization
- * This file demonstrates how to use all performance utilities together
  */
 
 import { resourcePreloader } from './resourcePreloader';
 import { performanceMonitor } from './performanceMonitor';
-import { imageOptimizer } from './imageOptimizer';
-import { info, warn, debug } from './logger';
+import { info, debug } from './logger';
 
 /**
  * Initialize all performance optimizations
@@ -25,18 +23,6 @@ export async function initializePerformanceOptimizations() {
     await resourcePreloader.preloadCriticalAssets();
   });
 
-  // Preload UI images in background (only SVG icons that exist)
-  const uiImages = [
-    '/assets/icons/star.svg',
-    '/assets/icons/lightning-bolt.svg',
-  ].filter(url => url.endsWith('.svg')); // Only preload existing SVG icons
-  
-  if (uiImages.length > 0) {
-    imageOptimizer.preloadImages(uiImages).catch(err => {
-      debug('Some UI images could not be preloaded', err, 'PerformanceInit');
-    });
-  }
-
   // Queue non-critical game assets for background loading
   resourcePreloader.queueAssets([
     '/assets/models/ships/enemy-fast.glb',
@@ -44,28 +30,15 @@ export async function initializePerformanceOptimizations() {
   ], 'medium');
 
   // Log initial cache stats
-  if (window.location.hostname === 'localhost') {
+  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
     setTimeout(() => {
       debug('Initial Cache Stats', {
         resources: resourcePreloader.getCacheStats(),
-        images: imageOptimizer.getCacheStats()
       }, 'PerformanceInit');
     }, 1000);
   }
 
   info('Performance optimizations initialized', undefined, 'PerformanceInit');
-}
-
-/**
- * Cleanup when returning to menu
- */
-export function cleanupGameAssets() {
-  debug('Cleaning up non-critical assets', undefined, 'PerformanceInit');
-  resourcePreloader.clearNonCriticalAssets();
-  
-  if (window.location.hostname === 'localhost') {
-    debug('Cache after cleanup', resourcePreloader.getCacheStats(), 'PerformanceInit');
-  }
 }
 
 /**
@@ -88,45 +61,5 @@ export function getPerformanceStatus() {
     memory,
     cache: cacheStats,
     isGood: rating === 'excellent' || rating === 'good',
-  };
-}
-
-/**
- * Check if performance optimizations should be applied
- */
-export function shouldApplyOptimizations(): boolean {
-  const status = getPerformanceStatus();
-  
-  // Apply optimizations if performance is not excellent
-  if (status.rating !== 'excellent') {
-    info('Performance optimizations recommended', { rating: status.rating }, 'PerformanceInit');
-    return true;
-  }
-  
-  return false;
-}
-
-/**
- * Apply emergency optimizations if performance drops
- */
-export function applyEmergencyOptimizations() {
-  warn('Applying emergency performance optimizations', undefined, 'PerformanceInit');
-  
-  // Clear non-critical assets
-  resourcePreloader.clearNonCriticalAssets();
-  
-  // Clear image cache
-  imageOptimizer.clearCache();
-  
-  info('Emergency optimizations applied', undefined, 'PerformanceInit');
-}
-
-// Expose utilities globally for debugging
-if (typeof window !== 'undefined') {
-  (window as any).__perfUtils = {
-    init: initializePerformanceOptimizations,
-    cleanup: cleanupGameAssets,
-    status: getPerformanceStatus,
-    emergency: applyEmergencyOptimizations,
   };
 }

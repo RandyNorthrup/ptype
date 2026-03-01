@@ -16,9 +16,6 @@ const MainMenuComponent = () => {
   const [showAbout, setShowAbout] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  
-  // Continue functionality disabled for now - reserved for future use
-  const canContinue = false;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -36,11 +33,6 @@ const MainMenuComponent = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [dropdownOpen]);
-
-  // Continue handler disabled - reserved for future implementation
-  // const handleStartContinue = () => {
-  //   // Future: Load saved game state
-  // };
 
   const handleStartNewGame = () => {
     if (selectedMode === 'Choose a Mode') {
@@ -116,47 +108,6 @@ const MainMenuComponent = () => {
           marginBottom: '1rem',
           zIndex: 1,
         }}>
-          {/* Continue Button - Disabled for now, reserved for future use */}
-          <button
-            onClick={() => {/* Future: Implement continue functionality */}}
-            disabled={true}
-            data-testid="continue-game-button"
-            style={{
-              padding: '0.8rem 2.5rem',
-              fontSize: '1.1rem',
-              background: canContinue 
-                ? 'rgba(9, 255, 0, 0.15)'
-                : 'rgba(30, 41, 59, 0.8)',
-              border: canContinue
-                ? '2px solid #09ff00'
-                : '2px solid rgba(100, 116, 139, 0.6)',
-              borderRadius: '12px',
-              color: canContinue ? '#09ff00' : '#94a3b8',
-              fontWeight: '700',
-              cursor: canContinue ? 'pointer' : 'not-allowed',
-              opacity: canContinue ? 1 : 0.85,
-              width: '300px',
-              textAlign: 'center',
-              transition: 'all 0.3s',
-              boxShadow: canContinue ? '0 0 30px #00ff2267, inset 0 0 15px rgba(9, 255, 0, 0.1)' : 'none',
-              textShadow: canContinue ? '0 0 10px rgba(9, 255, 0, 0.8)' : 'none',
-            }}
-            onMouseEnter={(e) => {
-              if (canContinue) {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 0 40px rgba(9, 255, 0, 0.6), inset 0 0 20px rgba(9, 255, 0, 0.2)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              if (canContinue) {
-                e.currentTarget.style.boxShadow = '0 0 30px rgba(9, 255, 0, 0.4), inset 0 0 15px rgba(9, 255, 0, 0.1)';
-              }
-            }}
-          >
-            CONTINUE
-          </button>
-
           {/* New Game Button */}
           <button
             onClick={handleStartNewGame}
@@ -430,8 +381,8 @@ const MainMenuComponent = () => {
           </h3>
           <div style={{ fontSize: '0.75rem', color: '#94a3b8', lineHeight: '1.4' }}>
             <p style={{ marginBottom: '0.3rem' }}>• Type falling words • TAB to switch targets</p>
-            <p style={{ marginBottom: '0.3rem' }}>• Defeat bosses every level • Answer trivia every 5 levels for bonus items</p>
-            <p style={{ marginBottom: '0.3rem' }}>• <span style={{ color: '#09ff00' }}>ENTER:</span> EMP • <span style={{ color: '#09ff00' }}>UP/DOWN:</span> Select item • <span style={{ color: '#09ff00' }}>BACKSPACE:</span> Use item • <span style={{ color: '#09ff00' }}>ESC:</span> Pause</p>
+            <p style={{ marginBottom: '0.3rem' }}>• Defeat bosses every 3 levels • Answer trivia every 6 levels for bonus items</p>
+            <p style={{ marginBottom: '0.3rem' }}>• <span style={{ color: '#09ff00' }}>ENTER:</span> EMP • <span style={{ color: '#09ff00' }}>UP:</span> Cycle items • <span style={{ color: '#09ff00' }}>DOWN:</span> Use item • <span style={{ color: '#09ff00' }}>ESC:</span> Pause</p>
           </div>
         </div>
       </div>
@@ -461,7 +412,7 @@ const MainMenuComponent = () => {
             <p style={{ color: '#00d4ff', marginBottom: '0.25rem' }}>Version 2.0.0</p>
             <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1.5rem' }}>Web Edition</p>
             <p style={{ color: '#e2e8f0', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Created by Randy Northrup</p>
-            <p style={{ color: '#00d4ff', marginBottom: '2rem' }}>© 2025</p>
+            <p style={{ color: '#00d4ff', marginBottom: '2rem' }}>© {new Date().getFullYear()}</p>
             <button onClick={() => setShowAbout(false)} style={{
               padding: '0.5rem 1rem', background: '#09ff00',
               border: 'none', borderRadius: '6px', color: '#0a0a1a',

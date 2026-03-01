@@ -1,12 +1,12 @@
 /**
  * Game state management using React Context + localStorage
- * No external dependencies - pure React solution
+ * Optimized with useMemo to prevent unnecessary re-renders
  */
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef, ReactNode } from 'react';
 import type { GameState, PlayerProfile, Enemy, Achievement, ProgrammingLanguage, BonusItem, TriviaQuestion } from '../types';
 import { GAME_CONSTANTS, GameMode } from '../types';
 import { achievementsManager, ACHIEVEMENTS_DEFINITIONS } from '../utils/achievementsManager';
-import { debug } from '../utils/logger';
+import { debug, error as logError } from '../utils/logger';
 import { getCurrentDifficulty, getStartingDifficulty } from '../utils/difficultyManager';
 
 interface HighScoreEntry {
@@ -31,7 +31,6 @@ interface GameStore extends GameState {
   // High scores
   highScores: HighScoreEntry[];
   addHighScore: (entry: HighScoreEntry) => number;
-  getHighScores: (mode: string, language?: string, limit?: number) => HighScoreEntry[];
 
   // Trivia system
   currentTrivia: TriviaQuestion | null;
@@ -55,12 +54,13 @@ interface GameStore extends GameState {
   updateEnemy: (id: string, updates: Partial<Enemy>) => void;
   removeEnemy: (id: string) => void;
   setActiveEnemy: (id: string | null) => void;
-  getActiveEnemy: () => Enemy | null;
 
   // Game state updates
   setCurrentWord: (word: string) => void;
   incrementScore: (points: number) => void;
+  incrementBossesDefeated: () => void;
   updateStats: (wpm: number, accuracy: number) => void;
+  incrementWordsMissed: () => void;
   takeDamage: (amount: number) => void;
   heal: (amount: number) => void;
   addShield: (amount: number) => void;
@@ -68,15 +68,11 @@ interface GameStore extends GameState {
   
   // Typing actions
   typeCharacter: (char: string) => void;
-  deleteCharacter: () => void;
   submitWord: () => void;
   
   // Bonus system
   addBonusItem: (bonus: BonusItem) => void;
-  removeBonusItem: (id: string) => void;
-  updateBonusItem: (id: string, updates: Partial<BonusItem>) => void;
   selectNextBonus: () => void;
-  selectPreviousBonus: () => void;
   useSelectedBonus: () => BonusItem | null;
   
   // EMP system
@@ -92,7 +88,7 @@ interface GameStore extends GameState {
 }
 
 const initialGameState: GameState = {
-  mode: 'menu' as GameMode,
+  mode: GameMode.MENU,
   level: 1,
   score: 0,
   health: GAME_CONSTANTS.STARTING_HEALTH,
@@ -117,6 +113,8 @@ const initialGameState: GameState = {
   programmingLanguage: undefined,
   bossesDefeated: 0,
   currentDifficulty: 'Normal',
+  previousMode: undefined,
+  previousLanguage: undefined,
 };
 
 // localStorage persistence - ONLY for: high scores, achievements, stats
@@ -149,7 +147,7 @@ const loadPersistedState = (): Partial<PersistedState> => {
       return JSON.parse(stored);
     }
   } catch (error) {
-    console.error('Failed to load persisted state:', error);
+    logError('Failed to load persisted state', error, 'GameStore');
   }
   return {};
 };
@@ -158,7 +156,7 @@ const savePersistedState = (state: PersistedState) => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch (error) {
-    console.error('Failed to save persisted state:', error);
+    logError('Failed to save persisted state', error, 'GameStore');
   }
 };
 
@@ -177,7 +175,12 @@ const initialStats: PlayerStats = {
   bestAccuracy: 0,
 };
 
-// Default player profile
+/** Helper to clamp selectedBonusIndex safely */
+function clampBonusIndex(index: number, length: number): number {
+  if (length === 0) return 0;
+  return Math.min(index, length - 1);
+}
+
 const createDefaultProfile = (): PlayerProfile => ({
   name: 'Player',
   createdAt: new Date().toISOString(),
@@ -215,6 +218,17 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
   const [triviaResult, setTriviaResult] = useState(false);
   const [selectedTriviaAnswer, setSelectedTriviaAnswer] = useState(0);
 
+  // Refs for stable access in callbacks without closure staleness
+  const gameStateRef = useRef(gameState);
+  gameStateRef.current = gameState;
+  const enemiesRef = useRef(enemies);
+  enemiesRef.current = enemies;
+  const currentProfileRef = useRef(currentProfile);
+  currentProfileRef.current = currentProfile;
+
+  // Ref for takeDamage timeout cleanup
+  const deathTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   // Load persisted state on mount
   useEffect(() => {
     const persisted = loadPersistedState();
@@ -238,6 +252,15 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
     });
   }, [achievements, highScores, stats]);
 
+  // Cleanup death timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (deathTimeoutRef.current) {
+        clearTimeout(deathTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const setProfile = useCallback((profile: PlayerProfile) => {
     setCurrentProfile(profile);
   }, []);
@@ -258,17 +281,6 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
     return position;
   }, []);
 
-  const getHighScores = useCallback((mode: string, language?: string, limit = 10): HighScoreEntry[] => {
-    return highScores
-      .filter(s => {
-        if (s.mode !== mode) return false;
-        if (language && s.language !== language) return false;
-        return true;
-      })
-      .sort((a, b) => b.score - a.score)
-      .slice(0, limit);
-  }, [highScores]);
-
   const showTrivia = useCallback((question: TriviaQuestion) => {
     setCurrentTrivia(question);
     setTriviaAnswered(false);
@@ -277,7 +289,8 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
     setGameState(prev => ({
       ...prev,
       isPaused: true,
-      mode: 'trivia' as GameMode,
+      previousMode: prev.mode, // save pre-trivia mode for restoration
+      mode: GameMode.TRIVIA,
     }));
   }, []);
 
@@ -297,18 +310,18 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const hideTrivia = useCallback(() => {
-    setGameState(prev => {
-      const previousMode = prev.mode;
-      setCurrentTrivia(null);
-      setTriviaAnswered(false);
-      setTriviaResult(false);
-      setSelectedTriviaAnswer(0);
-      return {
-        ...prev,
-        isPaused: false,
-        mode: previousMode === 'trivia' ? 'normal' as GameMode : previousMode,
-      };
-    });
+    // Set trivia state outside of setGameState updater to avoid nested setState
+    setCurrentTrivia(null);
+    setTriviaAnswered(false);
+    setTriviaResult(false);
+    setSelectedTriviaAnswer(0);
+    setGameState(prev => ({
+      ...prev,
+      isPaused: false,
+      mode: prev.mode === GameMode.TRIVIA
+        ? (prev.previousMode ?? GameMode.NORMAL)
+        : prev.mode,
+    }));
   }, []);
 
   const startGame = useCallback((mode: GameMode, language?: ProgrammingLanguage) => {
@@ -347,58 +360,66 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const resetGame = useCallback(() => {
+    if (deathTimeoutRef.current) {
+      clearTimeout(deathTimeoutRef.current);
+      deathTimeoutRef.current = null;
+    }
     setGameState(initialGameState);
     setEnemies([]);
   }, []);
 
   const endGame = useCallback(() => {
-    setGameState(prev => {
-      const playTimeSeconds = Math.floor((Date.now() - prev.startTime) / 1000);
-      achievementsManager.onGameEnd({
-        score: prev.score,
-        level: prev.level,
-        wpm: prev.wpm,
-        accuracy: prev.accuracy,
-        playTimeSeconds,
-      });
-      
-      const gameMode = prev.mode === 'trivia' ? 'normal' : prev.mode;
-      if (currentProfile && prev.score > 0) {
-        const entry: HighScoreEntry = {
-          playerName: currentProfile.name,
-          score: prev.score,
-          level: prev.level,
-          wpm: prev.wpm,
-          accuracy: prev.accuracy,
-          timestamp: new Date().toISOString(),
-          mode: gameMode as GameMode,
-          language: prev.programmingLanguage,
-        };
-        addHighScore(entry);
-      }
-      
-      // Update player stats
-      setStats(prevStats => ({
-        totalGamesPlayed: prevStats.totalGamesPlayed + 1,
-        totalScore: prevStats.totalScore + prev.score,
-        totalWordsTyped: prevStats.totalWordsTyped + prev.wordsTyped,
-        totalWordsCorrect: prevStats.totalWordsCorrect + prev.wordsCorrect,
-        totalWordsMissed: prevStats.totalWordsMissed + prev.wordsMissed,
-        totalTimePlayed: prevStats.totalTimePlayed + playTimeSeconds,
-        bestScore: Math.max(prevStats.bestScore, prev.score),
-        bestLevel: Math.max(prevStats.bestLevel, prev.level),
-        bestWPM: Math.max(prevStats.bestWPM, prev.wpm),
-        bestAccuracy: Math.max(prevStats.bestAccuracy, prev.accuracy),
-      }));
-      
-      return {
-        ...prev,
-        isGameOver: true,
-        isPaused: true,
-        mode: 'game_over' as GameMode,
-      };
+    // Read from refs for stable access instead of stale closures
+    const state = gameStateRef.current;
+    const profile = currentProfileRef.current;
+    
+    const playTimeSeconds = Math.max(0, Math.floor((Date.now() - state.startTime) / 1000));
+    achievementsManager.onGameEnd({
+      score: state.score,
+      level: state.level,
+      wpm: state.wpm,
+      accuracy: state.accuracy,
+      playTimeSeconds,
     });
-  }, [currentProfile, addHighScore]);
+    
+    const gameMode = state.previousMode ?? (state.mode === GameMode.TRIVIA ? GameMode.NORMAL : state.mode);
+    if (profile && state.score > 0) {
+      const entry: HighScoreEntry = {
+        playerName: profile.name,
+        score: state.score,
+        level: state.level,
+        wpm: state.wpm,
+        accuracy: state.accuracy,
+        timestamp: new Date().toISOString(),
+        mode: gameMode as string,
+        language: state.programmingLanguage,
+      };
+      addHighScore(entry);
+    }
+    
+    // Update player stats
+    setStats(prevStats => ({
+      totalGamesPlayed: prevStats.totalGamesPlayed + 1,
+      totalScore: prevStats.totalScore + state.score,
+      totalWordsTyped: prevStats.totalWordsTyped + state.wordsTyped,
+      totalWordsCorrect: prevStats.totalWordsCorrect + state.wordsCorrect,
+      totalWordsMissed: prevStats.totalWordsMissed + state.wordsMissed,
+      totalTimePlayed: prevStats.totalTimePlayed + playTimeSeconds,
+      bestScore: Math.max(prevStats.bestScore, state.score),
+      bestLevel: Math.max(prevStats.bestLevel, state.level),
+      bestWPM: Math.max(prevStats.bestWPM, state.wpm),
+      bestAccuracy: Math.max(prevStats.bestAccuracy, state.accuracy),
+    }));
+    
+    setGameState(prev => ({
+      ...prev,
+      isGameOver: true,
+      isPaused: true,
+      previousMode: gameMode as GameMode,
+      previousLanguage: state.programmingLanguage,
+      mode: GameMode.GAME_OVER,
+    }));
+  }, [addHighScore]);
 
   const addEnemy = useCallback((enemy: Enemy) => {
     setEnemies(prev => [...prev, enemy]);
@@ -420,10 +441,6 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
     setGameState(prev => ({ ...prev, activeEnemyId: id }));
   }, []);
 
-  const getActiveEnemy = useCallback((): Enemy | null => {
-    return enemies.find((e: Enemy) => e.id === gameState.activeEnemyId) || null;
-  }, [enemies, gameState.activeEnemyId]);
-
   const setCurrentWord = useCallback((word: string) => {
     setGameState(prev => ({ ...prev, currentWord: word }));
   }, []);
@@ -436,15 +453,28 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
     setGameState(prev => ({ ...prev, wpm, accuracy }));
   }, []);
 
+  const incrementWordsMissed = useCallback(() => {
+    setGameState(prev => ({
+      ...prev,
+      wordsMissed: prev.wordsMissed + 1,
+      wordsTyped: prev.wordsTyped + 1,
+    }));
+    achievementsManager.onWordMissed();
+  }, []);
+
   const takeDamage = useCallback((amount: number) => {
+    if (amount <= 0) return;
     setGameState(prev => {
       const shieldDamage = Math.min(prev.shield, amount);
       const healthDamage = amount - shieldDamage;
       const newShield = Math.max(0, prev.shield - shieldDamage);
       const newHealth = Math.max(0, prev.health - healthDamage);
       
-      if (newHealth <= 0) {
-        setTimeout(() => endGame(), 100);
+      if (newHealth <= 0 && !deathTimeoutRef.current) {
+        deathTimeoutRef.current = setTimeout(() => {
+          deathTimeoutRef.current = null;
+          endGame();
+        }, 100);
       }
       
       return {
@@ -456,6 +486,7 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
   }, [endGame]);
 
   const heal = useCallback((amount: number) => {
+    if (amount <= 0) return;
     setGameState(prev => ({
       ...prev,
       health: Math.min(prev.maxHealth, prev.health + amount),
@@ -463,10 +494,19 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const addShield = useCallback((amount: number) => {
+    if (amount <= 0) return;
     setGameState(prev => ({
       ...prev,
       shield: Math.min(prev.maxShield, prev.shield + amount),
     }));
+  }, []);
+
+  const incrementBossesDefeated = useCallback(() => {
+    setGameState(prev => ({
+      ...prev,
+      bossesDefeated: prev.bossesDefeated + 1,
+    }));
+    achievementsManager.onBossDefeated();
   }, []);
 
   const nextLevel = useCallback(() => {
@@ -490,18 +530,14 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
     }));
   }, []);
 
-  const deleteCharacter = useCallback(() => {
-    setGameState(prev => ({
-      ...prev,
-      currentWord: prev.currentWord.slice(0, -1),
-    }));
-  }, []);
-
   const submitWord = useCallback(() => {
     setGameState(prev => ({
       ...prev,
       wordsTyped: prev.wordsTyped + 1,
+      wordsCorrect: prev.wordsCorrect + 1,
+      currentWord: '',
     }));
+    achievementsManager.onWordCompleted();
   }, []);
 
   const addBonusItem = useCallback((bonus: BonusItem) => {
@@ -509,26 +545,7 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
       ...prev,
       bonusItems: [...prev.bonusItems, bonus],
     }));
-  }, []);
-
-  const removeBonusItem = useCallback((id: string) => {
-    setGameState(prev => {
-      const newBonusItems = prev.bonusItems.filter(b => b.type !== id);
-      return {
-        ...prev,
-        bonusItems: newBonusItems,
-        selectedBonusIndex: Math.min(prev.selectedBonusIndex, newBonusItems.length - 1),
-      };
-    });
-  }, []);
-
-  const updateBonusItem = useCallback((id: string, updates: Partial<BonusItem>) => {
-    setGameState(prev => ({
-      ...prev,
-      bonusItems: prev.bonusItems.map(b => 
-        b.type === id ? { ...b, ...updates } : b
-      ),
-    }));
+    achievementsManager.onBonusCollected();
   }, []);
 
   const selectNextBonus = useCallback(() => {
@@ -538,29 +555,21 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
     }));
   }, []);
 
-  const selectPreviousBonus = useCallback(() => {
-    setGameState(prev => ({
-      ...prev,
-      selectedBonusIndex: prev.selectedBonusIndex === 0 
-        ? Math.max(0, prev.bonusItems.length - 1)
-        : prev.selectedBonusIndex - 1,
-    }));
-  }, []);
-
   const useSelectedBonus = useCallback((): BonusItem | null => {
-    let bonus: BonusItem | null = null;
-    setGameState(prev => {
-      bonus = prev.bonusItems[prev.selectedBonusIndex] || null;
-      if (bonus) {
+    // Read current state from ref to get synchronous result
+    const state = gameStateRef.current;
+    const bonus = state.bonusItems[state.selectedBonusIndex] || null;
+    if (bonus) {
+      setGameState(prev => {
         const newBonusItems = prev.bonusItems.filter((_, i) => i !== prev.selectedBonusIndex);
         return {
           ...prev,
           bonusItems: newBonusItems,
-          selectedBonusIndex: Math.min(prev.selectedBonusIndex, newBonusItems.length - 1),
+          selectedBonusIndex: clampBonusIndex(prev.selectedBonusIndex, newBonusItems.length),
         };
-      }
-      return prev;
-    });
+      });
+      achievementsManager.onBonusUsed();
+    }
     return bonus;
   }, []);
 
@@ -576,14 +585,27 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const useEMP = useCallback(() => {
-    if (gameState.empCooldown === 0) {
+    // Read current state from ref to avoid stale closures
+    const state = gameStateRef.current;
+    if (state.empCooldown !== 0) return;
+
+    const currentEnemies = enemiesRef.current;
+    const nonBossEnemies = currentEnemies.filter(e => !e.isBoss);
+
+    // Remove non-boss enemies (separate setState, not nested)
+    if (nonBossEnemies.length > 0) {
+      const totalPoints = nonBossEnemies.reduce((sum, e) => sum + e.word.length * 10, 0);
+      setEnemies(prevEnemies => prevEnemies.filter(e => e.isBoss));
       setGameState(prev => ({
         ...prev,
         empCooldown: prev.empMaxCooldown,
+        score: prev.score + totalPoints,
+        activeEnemyId: nonBossEnemies.some(e => e.id === prev.activeEnemyId) ? null : prev.activeEnemyId,
       }));
-      // EMP logic handled by caller
+    } else {
+      setGameState(prev => ({ ...prev, empCooldown: prev.empMaxCooldown }));
     }
-  }, [gameState.empCooldown]);
+  }, []);
 
   const unlockAchievement = useCallback((achievementId: string) => {
     setAchievements(prev =>
@@ -605,10 +627,13 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
 
   const syncAchievements = useCallback(() => {
     const managerAchievements = achievementsManager.getAchievements();
-    setAchievements(managerAchievements);
+    // Create new array + shallow-clone each object so React detects the change
+    setAchievements(managerAchievements.map(a => ({ ...a })));
   }, []);
 
-  const store: GameStore = {
+  // CRITICAL: Memoize the store object so context consumers don't re-render
+  // unless actual state values change
+  const store: GameStore = useMemo(() => ({
     ...gameState,
     currentProfile,
     achievements,
@@ -621,7 +646,6 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
     enemies,
     setProfile,
     addHighScore,
-    getHighScores,
     showTrivia,
     answerTrivia,
     hideTrivia,
@@ -634,22 +658,19 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
     updateEnemy,
     removeEnemy,
     setActiveEnemy,
-    getActiveEnemy,
     setCurrentWord,
     incrementScore,
+    incrementBossesDefeated,
     updateStats,
+    incrementWordsMissed,
     takeDamage,
     heal,
     addShield,
     nextLevel,
     typeCharacter,
-    deleteCharacter,
     submitWord,
     addBonusItem,
-    removeBonusItem,
-    updateBonusItem,
     selectNextBonus,
-    selectPreviousBonus,
     useSelectedBonus,
     setEmpCooldown,
     decrementEmpCooldown,
@@ -657,7 +678,22 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
     unlockAchievement,
     updateAchievementProgress,
     syncAchievements,
-  };
+  }), [
+    gameState, currentProfile, achievements, highScores, stats,
+    currentTrivia, triviaAnswered, triviaResult, selectedTriviaAnswer,
+    enemies,
+    setProfile, addHighScore,
+    showTrivia, answerTrivia, hideTrivia,
+    startGame, pauseGame, resumeGame, endGame, resetGame,
+    addEnemy, updateEnemy, removeEnemy, setActiveEnemy,
+    setCurrentWord, incrementScore, incrementBossesDefeated, updateStats, incrementWordsMissed,
+    takeDamage, heal, addShield, nextLevel,
+    typeCharacter, submitWord,
+    addBonusItem,
+    selectNextBonus, useSelectedBonus,
+    setEmpCooldown, decrementEmpCooldown, useEMP,
+    unlockAchievement, updateAchievementProgress, syncAchievements,
+  ]);
 
   return (
     <GameStoreContext.Provider value={store}>

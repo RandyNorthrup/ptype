@@ -3,12 +3,11 @@
  * 3D enemy ship that moves toward player and can be destroyed by typing
  * Optimized with React.memo and useMemo
  */
-import { useRef, useEffect, useState, memo } from 'react';
+import { useRef, useEffect, useState, memo, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useGLTF, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import type { Enemy as EnemyType } from '../types';
-import { error as logError } from '../utils/logger';
 
 interface EnemyShipProps {
   enemy: EnemyType;
@@ -55,13 +54,21 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
   const groupRef = useRef<THREE.Group>(null);
   const destroyingRef = useRef(false);
   const destroyTimeRef = useRef(0);
+  const destroyTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const frameCounter = useRef(0);
   const [explodingLetters, setExplodingLetters] = useState<ExplodingLetter[]>([]);
   const [debrisParticles, setDebrisParticles] = useState<DebrisParticle[]>([]);
   const lastTypedCount = useRef(enemy.typedCharacters);
+
+  // Use refs for callbacks so memo can't stale them
+  const onReachPlayerRef = useRef(onReachPlayer);
+  onReachPlayerRef.current = onReachPlayer;
+  const onDestroyRef = useRef(onDestroy);
+  onDestroyRef.current = onDestroy;
   
-  // Load the appropriate 3D model
   const modelPath = getEnemyModelPath(enemy);
   const { scene } = useGLTF(modelPath);
+  const clonedScene = useMemo(() => scene.clone(), [scene]);
 
   // Detect when a letter is typed and create explosion
   useEffect(() => {
@@ -87,11 +94,11 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
         const totalWidth = (remainingLetters - 1) * letterSpacing;
         const xPos = 0 * letterSpacing - totalWidth / 2; // First letter position
         
-        // Create MORE explosion particles with bigger spread
+        // Create explosion particles
         const particles: ExplodingLetter[] = [];
-        for (let i = 0; i < 15; i++) { // Increased from 8 to 15
-          const angle = (Math.PI * 2 * i) / 15;
-          const speed = 0.4 + Math.random() * 0.5; // Increased speed
+        for (let i = 0; i < 3; i++) {
+          const angle = (Math.PI * 2 * i) / 3;
+          const speed = 0.8 + Math.random() * 0.6; // Fast dispersal
           
           particles.push({
             letter: letter,
@@ -113,7 +120,7 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
             ),
             scale: fontSize * (0.8 + Math.random() * 0.4),
             opacity: 1,
-            life: 40 + Math.random() * 30, // Longer life
+            life: 12 + Math.random() * 8, // Short life — clears quickly
           });
         }
         
@@ -126,11 +133,9 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
 
   useEffect(() => {
     return () => {
-      if (onDestroy && destroyingRef.current) {
-        onDestroy(enemy.id);
-      }
+      if (destroyTimeoutRef.current) clearTimeout(destroyTimeoutRef.current);
     };
-  }, [enemy.id, onDestroy]);
+  }, [enemy.id]);
 
   useFrame((state, delta) => {
     if (!groupRef.current || destroyingRef.current) return;
@@ -219,7 +224,7 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
       const normalizedDy = (dy / distance) * enemy.speed * delta;
       const normalizedDz = (dz / distance) * enemy.speed * delta;
       
-      // Move toward player with very strong separation force applied (increased to 10)
+      // Move toward player with separation force applied
       groupRef.current.position.x += normalizedDx + separationForce.x * delta * 10;
       groupRef.current.position.y += normalizedDy + separationForce.y * delta * 10;
       groupRef.current.position.z += normalizedDz + separationForce.z * delta * 10;
@@ -232,10 +237,24 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
           z: groupRef.current.position.z
         });
       }
+
+      // Recalculate distance AFTER movement for accurate collision detection
+      const newDx = playerPos.x - groupRef.current.position.x;
+      const newDy = playerPos.y - groupRef.current.position.y;
+      const newDz = playerPos.z - groupRef.current.position.z;
+      const newDistance = Math.sqrt(newDx * newDx + newDy * newDy + newDz * newDz);
+
+      // Check collision with player (ship radii overlap)
+      const playerRadius = 3;
+      const enemyRadius = enemy.isBoss ? 4 : 2.5;
+      if (newDistance < playerRadius + enemyRadius) {
+        destroyingRef.current = true;
+        onReachPlayerRef.current(enemy.id);
+      }
     } else {
       // Reached player position
       destroyingRef.current = true;
-      onReachPlayer(enemy.id);
+      onReachPlayerRef.current(enemy.id);
     }
 
     // Pulsing effect based on typing progress
@@ -247,35 +266,49 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
       groupRef.current.scale.setScalar(enemy.isBoss ? 3 : 1.5);
     }
 
-    // Update exploding letters
-    setExplodingLetters(prev => {
-      return prev.map(particle => {
-        particle.position.add(particle.velocity);
-        particle.rotation.x += particle.rotationSpeed.x;
-        particle.rotation.y += particle.rotationSpeed.y;
-        particle.rotation.z += particle.rotationSpeed.z;
-        particle.velocity.y -= 0.01; // Gravity
-        particle.opacity -= 0.02;
-        particle.life -= 1;
-        particle.scale *= 0.97;
-        return particle;
-      }).filter(p => p.life > 0 && p.opacity > 0);
-    });
+    // Update exploding letters and debris particles (throttled to every 3rd frame)
+    const hasParticles = explodingLetters.length > 0 || debrisParticles.length > 0;
+    if (hasParticles) {
+      frameCounter.current++;
+      if (frameCounter.current % 3 === 0) {
+        if (explodingLetters.length > 0) {
+          setExplodingLetters(prev => {
+            const alive: ExplodingLetter[] = [];
+            for (const p of prev) {
+              p.position.add(p.velocity);
+              p.velocity.y -= 0.01;
+              p.rotation.x += p.rotationSpeed.x;
+              p.rotation.y += p.rotationSpeed.y;
+              p.rotation.z += p.rotationSpeed.z;
+              p.scale *= 0.88;
+              p.opacity -= 0.08;
+              p.life -= 1;
+              if (p.life > 0 && p.opacity > 0.01) alive.push(p);
+            }
+            return alive;
+          });
+        }
     
-    // Update debris particles
-    setDebrisParticles(prev => {
-      return prev.map(particle => {
-        particle.position.add(particle.velocity);
-        particle.rotation.x += particle.rotationSpeed.x;
-        particle.rotation.y += particle.rotationSpeed.y;
-        particle.rotation.z += particle.rotationSpeed.z;
-        particle.velocity.y -= 0.015; // Gravity
-        particle.velocity.multiplyScalar(0.98); // Air resistance
-        particle.opacity -= 0.015;
-        particle.life -= 1;
-        return particle;
-      }).filter(p => p.life > 0 && p.opacity > 0);
-    });
+        if (debrisParticles.length > 0) {
+          setDebrisParticles(prev => {
+            const alive: DebrisParticle[] = [];
+            for (const p of prev) {
+              p.position.add(p.velocity);
+              p.velocity.x *= 0.96;
+              p.velocity.y = (p.velocity.y - 0.015) * 0.96;
+              p.velocity.z *= 0.96;
+              p.rotation.x += p.rotationSpeed.x;
+              p.rotation.y += p.rotationSpeed.y;
+              p.rotation.z += p.rotationSpeed.z;
+              p.opacity -= 0.035;
+              p.life -= 1;
+              if (p.life > 0 && p.opacity > 0.01) alive.push(p);
+            }
+            return alive;
+          });
+        }
+      }
+    }
   });
 
   // Destruction animation with debris
@@ -286,13 +319,13 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
       
       // Create debris explosion particles
       const debris: DebrisParticle[] = [];
-      const debrisCount = enemy.isBoss ? 30 : 20;
+      const debrisCount = enemy.isBoss ? 20 : 12;
       const shipColor = enemy.isBoss ? '#ff00ff' : '#09ff00';
       
       for (let i = 0; i < debrisCount; i++) {
         const angle = (Math.PI * 2 * i) / debrisCount;
-        const speed = 0.3 + Math.random() * 0.4;
-        const upwardBias = 0.1 + Math.random() * 0.2; // Slight upward explosion
+        const speed = 0.4 + Math.random() * 0.5;
+        const upwardBias = 0.1 + Math.random() * 0.2;
         
         debris.push({
           position: new THREE.Vector3(0, 0, 0),
@@ -313,7 +346,7 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
           ),
           scale: 0.3 + Math.random() * 0.5,
           opacity: 1,
-          life: 60 + Math.random() * 30,
+          life: 25 + Math.random() * 15,
           color: Math.random() > 0.5 ? shipColor : '#ff4444',
         });
       }
@@ -321,13 +354,13 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
       setDebrisParticles(debris);
       
       // Trigger explosion animation and remove ship
-      setTimeout(() => {
-        if (onDestroy) {
-          onDestroy(enemy.id);
+      destroyTimeoutRef.current = setTimeout(() => {
+        if (onDestroyRef.current) {
+          onDestroyRef.current(enemy.id);
         }
-      }, 800);
+      }, 500);
     }
-  }, [enemy.health, enemy.id, enemy.isBoss, onDestroy]);
+  }, [enemy.health, enemy.id, enemy.isBoss]);
 
   // Color based on enemy type and health
   const getColor = () => {
@@ -356,21 +389,12 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
   const baseLetterSpacing = 1.2;
   const dynamicLetterSpacing = baseLetterSpacing * (dynamicFontSize / 1.0);
   
-  // Calculate ship scale (larger ships, especially bosses)
   const shipScale = enemy.isBoss ? 2.5 : 1.5;
-  
-  // Error logging for model loading failures
-  useEffect(() => {
-    if (!scene) {
-      logError(`Failed to load enemy model: ${modelPath}`, new Error('Model not found'), 'EnemyShip');
-    }
-  }, [scene, modelPath]);
   
   return (
     <group ref={groupRef} position={[enemy.position.x, enemy.position.y, enemy.position.z]}>
-      {/* 3D Model - hide when destroyed */}
       {!destroyingRef.current && (
-        <primitive object={scene.clone()} scale={shipScale} />
+        <primitive object={clonedScene} scale={shipScale} />
       )}
 
       {/* Word Display - Individual letters centered on front of ship */}
@@ -398,13 +422,6 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
               >
                 {letter}
               </Text>
-              {/* Glow effect for each letter */}
-              <pointLight
-                color="#ff9800"
-                intensity={0.5}
-                distance={2}
-                decay={2}
-              />
             </group>
           );
         })}
@@ -427,13 +444,6 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
             >
               {particle.letter}
             </Text>
-            {/* Glow trail for explosion */}
-            <pointLight
-              color="#ff9800"
-              intensity={particle.opacity * 2}
-              distance={1.5}
-              decay={2}
-            />
           </group>
         ))}
         </group>
@@ -501,16 +511,12 @@ const EnemyShipComponent = ({ enemy, onReachPlayer, onDestroy, onPositionUpdate,
 }
 
 // Memoize component to prevent unnecessary re-renders
-// Only re-render when enemy data actually changes
+// Position changes are handled via Three.js refs, not React re-renders
 export const EnemyShip = memo(EnemyShipComponent, (prevProps, nextProps) => {
-  // Custom comparison: only re-render if these specific properties changed
   return (
     prevProps.enemy.id === nextProps.enemy.id &&
     prevProps.enemy.typedCharacters === nextProps.enemy.typedCharacters &&
     prevProps.enemy.health === nextProps.enemy.health &&
-    prevProps.enemy.position.x === nextProps.enemy.position.x &&
-    prevProps.enemy.position.y === nextProps.enemy.position.y &&
-    prevProps.enemy.position.z === nextProps.enemy.position.z &&
     (prevProps.allEnemies?.length ?? 0) === (nextProps.allEnemies?.length ?? 0)
   );
 });

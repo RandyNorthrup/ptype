@@ -252,33 +252,6 @@ class ResourcePreloader {
   }
 
   /**
-   * Preload assets needed for specific game mode
-   */
-  async preloadForMode(mode: string, language?: string): Promise<void> {
-    const assets: string[] = [];
-
-    // Common assets
-    assets.push('/data/normal_words.yaml');
-
-    if (mode === 'programming' && language) {
-      const langMap: Record<string, string> = {
-        'Python': 'python',
-        'JavaScript': 'javascript',
-        'Java': 'java',
-        'C#': 'csharp',
-        'C++': 'cplusplus',
-        'CSS': 'css',
-        'HTML': 'html',
-      };
-      const langFile = langMap[language] || 'python';
-      assets.push(`/data/${langFile}_words.yaml`);
-    }
-
-    // Queue mode-specific assets
-    this.queueAssets(assets, 'high');
-  }
-
-  /**
    * Clear unused assets from memory (called when returning to menu)
    */
   clearNonCriticalAssets(): void {
@@ -293,7 +266,7 @@ class ResourcePreloader {
       this.currentCacheSize -= entry.size;
     });
 
-    info('resourcePreloader', `Cleared ${nonCritical.length} non-critical assets`);
+    info(`Cleared ${nonCritical.length} non-critical assets`, undefined, 'resourcePreloader');
   }
 
   /**
@@ -322,8 +295,3 @@ class ResourcePreloader {
 }
 
 export const resourcePreloader = new ResourcePreloader();
-
-// Expose for debugging
-if (typeof window !== 'undefined') {
-  (window as any).__resourcePreloader = resourcePreloader;
-}

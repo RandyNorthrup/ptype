@@ -216,18 +216,3 @@ class PerformanceMonitor {
 
 // Singleton instance
 export const performanceMonitor = new PerformanceMonitor();
-
-// Auto-start in development
-if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-  performanceMonitor.start();
-  
-  // Log summary every 10 seconds in dev
-  setInterval(() => {
-    performanceMonitor.logStats();
-  }, 10000);
-}
-
-// Expose to window for debugging
-if (typeof window !== 'undefined') {
-  (window as any).__performanceMonitor = performanceMonitor;
-}

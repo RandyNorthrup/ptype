@@ -117,7 +117,7 @@ export class ErrorBoundary extends Component<Props, State> {
               }}
             >
               The game encountered an unexpected error. 
-              {process.env.NODE_ENV === 'development' && this.state.error && (
+              {import.meta.env.DEV && this.state.error && (
                 <>
                   <br /><br />
                   <strong style={{ color: '#fbbf24' }}>Error:</strong> {this.state.error.message}
@@ -152,7 +152,7 @@ export class ErrorBoundary extends Component<Props, State> {
               🔄 Reload Game
             </button>
 
-            {process.env.NODE_ENV === 'development' && this.state.errorInfo && (
+            {import.meta.env.DEV && this.state.errorInfo && (
               <details
                 style={{
                   marginTop: '2rem',

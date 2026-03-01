@@ -2,7 +2,7 @@
  * Main App Component
  * Optimized with intelligent lazy loading and prefetching
  */
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useState, useCallback, lazy, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { MainMenu } from './components/MainMenu';
 import { TypingHandler } from './components/TypingHandler';
@@ -42,7 +42,7 @@ function App() {
   } = store;
   const [isLoading, setIsLoading] = useState(true);
   const [loadingStatus, setLoadingStatus] = useState('Initializing...');
-  const [achievementQueue, setAchievementQueue] = useState<Achievement[]>([]);
+  const [achievementQueue, setAchievementQueue] = useState<(Achievement & { _toastId: number })[]>([]);
 
   // CRITICAL: Force reset to menu on app mount to prevent stale state
   useEffect(() => {
@@ -50,32 +50,34 @@ function App() {
     if (mode !== GameMode.MENU) {
       resetGame();
     }
-
-    // Handle page unload/close - ensure clean state on next load
-    const handleBeforeUnload = () => {
-      debug('Page unloading - state will be reset on next load', undefined, 'App');
-      // The merge function in gameStore will ensure we start at menu
-      // No need to explicitly reset here as it happens on mount
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
   }, []); // Run once on mount only
 
   useEffect(() => {
+    let cancelled = false;
+    let unsubscribeRef: (() => void) | undefined;
+
+    // Subscribe to achievement unlocks synchronously (before any await)
+    // so cleanup can always unsubscribe
+    unsubscribeRef = achievementsManager.onUnlock((achievement) => {
+      if (cancelled) return;
+      setAchievementQueue(prev => [...prev, { ...achievement, _toastId: Date.now() + Math.random() }]);
+      // Sync unlocked state to React store so it gets persisted to localStorage
+      syncAchievements();
+      debug(`Achievement unlocked: ${achievement.name}`, { id: achievement.id }, 'App');
+    });
+
     // Initialize game assets and resources
     const initialize = async () => {
       try {
         // Preload critical 3D assets first
         setLoadingStatus('Loading 3D assets...');
         await resourcePreloader.preloadCriticalAssets();
+        if (cancelled) return;
         
         // Load only essential dictionaries initially (normal mode)
         setLoadingStatus('Loading word dictionaries...');
         await wordDictionary.loadDictionary('normal');
+        if (cancelled) return;
         
         // Load trivia database in background (non-blocking)
         setLoadingStatus('Loading trivia questions...');
@@ -94,44 +96,79 @@ function App() {
         // Initialize achievements manager with saved data
         setLoadingStatus('Loading achievements...');
         const savedAchievements = achievements;
-        const savedStats = undefined; // TODO: Load stats from localStorage
+        // Load achievement stats from localStorage
+        let savedStats: Partial<import('./utils/achievementsManager').AchievementStats> | undefined;
+        try {
+          const raw = localStorage.getItem('ptype-achievement-stats');
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            savedStats = {
+              ...parsed,
+              languagesPlayed: new Set(parsed.languagesPlayed || []),
+            };
+          }
+        } catch {
+          // Ignore parse errors
+        }
         achievementsManager.load(savedAchievements, savedStats);
-        
-        // Subscribe to achievement unlocks
-        achievementsManager.onUnlock((achievement) => {
-          setAchievementQueue(prev => [...prev, achievement]);
-          debug(`Achievement unlocked: ${achievement.name}`, { id: achievement.id }, 'App');
-        });
         
         // Sync achievements back to store
         syncAchievements();
         
-        // TODO: Initialize Rodin manager
-        setLoadingStatus('Preparing 3D assets...');
-        
-        // TODO: Pre-generate common ship models
-        
         // Initialize audio manager
-        setLoadingStatus('Initializing audio...');
+        setLoadingStatus('Preparing assets...');
         const audioManager = getAudioManager();
         // Start background music after a short delay
         setTimeout(() => {
-          audioManager.playMusic();
+          if (!cancelled) audioManager.playMusic();
         }, 1000);
         
         setLoadingStatus('Ready!');
-        setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       } catch (err) {
         logError('Failed to initialize game', err as Error, 'App');
         setLoadingStatus('Error loading game assets');
         // Still allow game to start
-        setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       }
     };
 
     initialize();
+    return () => {
+      cancelled = true;
+      if (unsubscribeRef) unsubscribeRef();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run once on mount
+
+  // All hooks MUST be above the early return to satisfy Rules of Hooks
+  const showGame = mode === GameMode.NORMAL ||
+                   mode === GameMode.PROGRAMMING ||
+                   mode === GameMode.TRIVIA ||
+                   mode === GameMode.GAME_OVER;
+
+  // Stable callbacks for memoized children
+  const handleTriviaAnswer = useCallback((selectedAnswer: number, correct: boolean, bonusItem: import('./types').BonusItem | null) => {
+    answerTrivia(selectedAnswer, correct, bonusItem);
+    setTimeout(() => hideTrivia(), 500);
+  }, [answerTrivia, hideTrivia]);
+
+  const handleTriviaTimeout = useCallback(() => {
+    answerTrivia(0, false, null);
+    setTimeout(() => hideTrivia(), 500);
+  }, [answerTrivia, hideTrivia]);
+
+  const handlePauseMainMenu = useCallback(() => {
+    if (window.confirm('Are you sure you want to quit to main menu? Your progress will be lost.')) {
+      resetGame();
+      resourcePreloader.clearNonCriticalAssets();
+    }
+  }, [resetGame]);
+
+  // Stable callback for dismissing achievement toasts
+  const handleDismissAchievement = useCallback((toastId: number) => {
+    setAchievementQueue(prev => prev.filter(a => a._toastId !== toastId));
+  }, []);
 
   if (isLoading) {
     return (
@@ -143,11 +180,6 @@ function App() {
       </div>
     );
   }
-
-  const showGame = mode !== GameMode.MENU && 
-                   mode !== GameMode.PROFILE_SELECT && 
-                   mode !== GameMode.ABOUT &&
-                   mode !== GameMode.SETTINGS;
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative', background: '#000000' }}>
@@ -199,39 +231,18 @@ function App() {
         <Suspense fallback={null}>
           <TriviaOverlay
             question={currentTrivia}
-            onAnswer={(selectedAnswer, correct, bonusItem) => {
-              answerTrivia(selectedAnswer, correct, bonusItem);
-              // Hide trivia after a delay
-              setTimeout(() => {
-                hideTrivia();
-              }, 500);
-            }}
-            onTimeout={() => {
-              answerTrivia(0, false, null);
-              setTimeout(() => {
-                hideTrivia();
-              }, 500);
-            }}
+            onAnswer={handleTriviaAnswer}
+            onTimeout={handleTriviaTimeout}
           />
         </Suspense>
       )}
 
       {/* Pause Menu */}
-      {isPaused && !isGameOver && (
+      {isPaused && !isGameOver && mode !== GameMode.TRIVIA && (
         <Suspense fallback={null}>
           <PauseMenu
             onResume={resumeGame}
-            onSettings={() => {
-              // Settings handled via MainMenu for now
-              debug('Settings not available during gameplay', undefined, 'App');
-            }}
-            onMainMenu={() => {
-              if (window.confirm('Are you sure you want to quit to main menu? Your progress will be lost.')) {
-                resetGame();
-                // Clean up non-critical assets when returning to menu
-                resourcePreloader.clearNonCriticalAssets();
-              }
-            }}
+            onMainMenu={handlePauseMainMenu}
           />
         </Suspense>
       )}
@@ -253,13 +264,11 @@ function App() {
         flexDirection: 'column',
         gap: '0.5rem',
       }}>
-        {achievementQueue.map((achievement, index) => (
+        {achievementQueue.map((achievement) => (
           <AchievementToast
-            key={`${achievement.id}-${index}`}
+            key={achievement._toastId}
             achievement={achievement}
-            onDismiss={() => {
-              setAchievementQueue(prev => prev.filter((_, i) => i !== index));
-            }}
+            onDismiss={() => handleDismissAchievement(achievement._toastId)}
           />
         ))}
       </div>

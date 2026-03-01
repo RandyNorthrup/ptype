@@ -41,7 +41,7 @@ const CanvasHUDComponent = () => {
   }
   
   // Get difficulty color
-  const difficultyColor = getDifficultyColor(currentDifficulty as any);
+  const difficultyColor = getDifficultyColor(currentDifficulty);
 
   return (
     <Html

@@ -2,7 +2,7 @@
  * Trivia Database - manages loading and retrieving trivia questions
  * Ported from Python data/trivia_db.py
  */
-import { TriviaQuestion, GameMode, ProgrammingLanguage, TriviaCategory, BonusItem, BonusItemType } from '../types';
+import { TriviaQuestion, GameMode, ProgrammingLanguage, TriviaCategory, BonusItem, BonusItemType, LANGUAGE_FILE_MAP } from '../types';
 import { info, warn, error as logError } from './logger';
 
 interface TriviaData {
@@ -47,10 +47,10 @@ const BONUS_ITEMS: BonusItem[] = [
   },
   {
     itemId: 3,
-    name: 'Time Freeze',
-    description: 'Freeze all enemies for 5 seconds',
-    iconName: '⏱️',
-    duration: 300, // 5 seconds * 60 FPS
+    name: 'EMP Blast',
+    description: 'Destroy all non-boss enemies instantly',
+    iconName: '⚡',
+    duration: 1,
     uses: 1,
     effectValue: 0,
     type: BonusItemType.OFFENSIVE,
@@ -106,6 +106,7 @@ class TriviaDatabase {
       } catch (err) {
         logError('Failed to load trivia database', err, 'triviaDatabase');
         this.triviaData = {}; // Empty data on error
+        this.loadPromise = null; // Allow retry on next call
       }
     })();
 
@@ -128,7 +129,8 @@ class TriviaDatabase {
     // Determine category
     let category: string;
     if (mode === GameMode.PROGRAMMING && language) {
-      category = language.toLowerCase();
+      // Use LANGUAGE_FILE_MAP to convert language names like 'C#' → 'csharp', 'C++' → 'cplusplus'
+      category = LANGUAGE_FILE_MAP[language] || language.toLowerCase();
     } else {
       // Random general knowledge category
       const categories = [
@@ -252,7 +254,7 @@ class TriviaDatabase {
         continue; // Skip empty lines and comments
       }
 
-      const indent = line.length - line.trimLeft().length;
+      const indent = line.length - line.trimStart().length;
 
       // Top-level category (no indent)
       if (indent === 0 && line.endsWith(':')) {
