@@ -4,7 +4,7 @@
  */
 
 import type { Enemy, GameMode, ProgrammingLanguage } from '../types';
-import { GAME_CONSTANTS } from '../types';
+import { isBossLevel, getTargetWPM } from '../types';
 import { wordDictionary } from './wordDictionary';
 import { debug, error as logError } from './logger';
 import { getDifficultyMultiplier, type DifficultyLevel } from './difficultyManager';
@@ -31,18 +31,10 @@ export class EnemySpawner {
   }
 
   /**
-   * Get target WPM for this level (ported from Python)
-   */
-  private getTargetWPM(level: number): number {
-    const { BASE_WPM, MAX_WPM, MAX_LEVEL } = GAME_CONSTANTS;
-    return BASE_WPM + ((MAX_WPM - BASE_WPM) * (level - 1) / Math.max(1, MAX_LEVEL - 1));
-  }
-
-  /**
-   * Get enemy speed based on level and WPM (ported from Python)
+   * Get enemy speed based on level and WPM
    */
   private getEnemySpeed(level: number, wordLength: number, isBoss: boolean, mode: GameMode, currentDifficulty: string): number {
-    const targetWPM = this.getTargetWPM(level);
+    const targetWPM = getTargetWPM(level);
     
     // Characters per second based on target WPM
     // WPM assumes 5 characters per word on average
@@ -121,8 +113,8 @@ export class EnemySpawner {
   /**
    * Check if current level is a boss level
    */
-  private isBossLevel(level: number): boolean {
-    return level % 3 === 0;
+  private checkBossLevel(level: number): boolean {
+    return isBossLevel(level);
   }
 
   /**
@@ -201,9 +193,6 @@ export class EnemySpawner {
     const spawnRate = this.getSpawnRate(level);
     const maxEnemies = 3 + Math.floor(level / 15); // Start with 3, slowly increase to prevent overlap
 
-    debug(`Spawner: timer=${this.spawnTimer.toFixed(2)} rate=${spawnRate.toFixed(2)} current=${currentEnemyCount} max=${maxEnemies}`, 
-          undefined, 'enemySpawner');
-
     // Check if it's time to spawn
     if (this.spawnTimer >= spawnRate && currentEnemyCount < maxEnemies) {
       this.spawnTimer = 0;
@@ -211,8 +200,8 @@ export class EnemySpawner {
       // Get next spawn point (rotates through points)
       const spawnPoint = this.getNextSpawnPoint();
 
-      // Spawn boss first if it's a boss level and no enemies yet
-      const isBoss = this.isBossLevel(level) && currentEnemyCount === 0;
+      // Boss is force-spawned at level start (GameCanvas); this only triggers if field is clear
+      const isBoss = this.checkBossLevel(level) && currentEnemyCount === 0;
       
       try {
         // Get language key for word dictionary

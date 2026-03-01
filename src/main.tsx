@@ -13,21 +13,10 @@ import { error } from './utils/logger';
 // Initialize performance optimizations
 initializePerformanceOptimizations().catch(err => {
   error('Failed to initialize performance optimizations', err, 'Main');
-  console.error('Performance optimization error:', err);
 });
 
-// Register service worker for PWA
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(registration => {
-        console.info('✅ Service Worker registered:', registration.scope);
-      })
-      .catch(err => {
-        console.error('❌ Service Worker registration failed:', err);
-      });
-  });
-}
+// Service worker registration is handled by vite-plugin-pwa
+// No manual registration needed
 
 const root = document.getElementById('root');
 if (root) {

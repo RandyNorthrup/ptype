@@ -5,20 +5,33 @@
 
 export type DifficultyLevel = 'Easy' | 'Normal' | 'Hard' | 'Expert' | 'Master';
 
+/** Cache the starting difficulty so we don't read localStorage every call */
+let cachedStartingDifficulty: DifficultyLevel | null = null;
+
 /**
- * Get the starting difficulty from settings
+ * Get the starting difficulty from settings (cached after first read)
  */
 export function getStartingDifficulty(): DifficultyLevel {
+  if (cachedStartingDifficulty) return cachedStartingDifficulty;
   try {
     const savedSettings = localStorage.getItem('game-settings');
     if (savedSettings) {
       const settings = JSON.parse(savedSettings);
-      return settings.difficulty ?? 'Normal';
+      cachedStartingDifficulty = settings.difficulty ?? 'Normal';
+      return cachedStartingDifficulty!;
     }
-  } catch (err) {
-    console.error('Failed to load difficulty setting:', err);
+  } catch {
+    // Fall through to default
   }
-  return 'Normal';
+  cachedStartingDifficulty = 'Normal';
+  return cachedStartingDifficulty;
+}
+
+/**
+ * Invalidate the cached starting difficulty (call when settings change)
+ */
+export function invalidateDifficultyCache(): void {
+  cachedStartingDifficulty = null;
 }
 
 /**
@@ -34,7 +47,7 @@ export function getCurrentDifficulty(level: number, startingDifficulty?: Difficu
   
   // Define difficulty thresholds based on starting difficulty
   // Each starting difficulty has different progression curves
-  const thresholds = {
+  const thresholds: Record<DifficultyLevel, Record<DifficultyLevel, [number, number]>> = {
     Easy: {
       Easy: [0, 40],      // Stay Easy until level 40
       Normal: [40, 70],   // Normal from 40-70
@@ -56,11 +69,23 @@ export function getCurrentDifficulty(level: number, startingDifficulty?: Difficu
       Expert: [25, 60],   // Expert from 25-60
       Master: [60, 100],  // Master at 60+
     },
+    Expert: {
+      Easy: [0, 0],       // Never Easy
+      Normal: [0, 0],     // Never Normal
+      Hard: [0, 0],       // Never Hard
+      Expert: [0, 20],    // Expert until level 20
+      Master: [20, 100],  // Master at 20+
+    },
+    Master: {
+      Easy: [0, 0],       // Never Easy
+      Normal: [0, 0],     // Never Normal
+      Hard: [0, 0],       // Never Hard
+      Expert: [0, 0],     // Never Expert
+      Master: [0, 100],   // Always Master
+    },
   };
   
-  // Handle Expert/Master starting difficulties as Hard
-  const startKey = (starting === 'Expert' || starting === 'Master') ? 'Hard' : starting;
-  const progression = thresholds[startKey];
+  const progression = thresholds[starting];
   
   if (level >= progression.Master[0]) return 'Master';
   if (level >= progression.Expert[0]) return 'Expert';

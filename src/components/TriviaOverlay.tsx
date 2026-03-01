@@ -31,7 +31,11 @@ const TriviaOverlayComponent = ({ question, onAnswer, onTimeout }: TriviaOverlay
         if (prev <= 1) {
           // Time's up!
           clearInterval(timer);
-          handleTimeout();
+          setIsAnswered(true);
+          setShowResult(true);
+          setTimeout(() => {
+            onTimeout();
+          }, 2000);
           return 0;
         }
         return prev - 1;
@@ -39,15 +43,7 @@ const TriviaOverlayComponent = ({ question, onAnswer, onTimeout }: TriviaOverlay
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isAnswered]);
-
-  const handleTimeout = () => {
-    setIsAnswered(true);
-    setShowResult(true);
-    setTimeout(() => {
-      onTimeout();
-    }, 2000);
-  };
+  }, [isAnswered, onTimeout]);
 
   const handleAnswer = (answerIndex: number) => {
     if (isAnswered) return;
@@ -309,7 +305,7 @@ const TriviaOverlayComponent = ({ question, onAnswer, onTimeout }: TriviaOverlay
                   fontWeight: '700',
                 }}
               >
-                {['A', 'B', 'C'][index]}
+                {String.fromCharCode(65 + index)}
               </span>
               {option}
             </button>

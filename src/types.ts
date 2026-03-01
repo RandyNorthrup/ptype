@@ -1,18 +1,15 @@
+import type { DifficultyLevel } from './utils/difficultyManager';
+
 /**
  * Core type definitions for P-Type Web
  * Ported from Python core/types.py
  */
 
 export enum GameMode {
-  PROFILE_SELECT = 'profile_select',
   MENU = 'menu',
   NORMAL = 'normal',
   PROGRAMMING = 'programming',
-  PAUSE = 'pause',
   GAME_OVER = 'game_over',
-  STATS = 'stats',
-  SETTINGS = 'settings',
-  ABOUT = 'about',
   TRIVIA = 'trivia',
 }
 
@@ -39,12 +36,6 @@ export enum TriviaCategory {
   MATHEMATICS = 'mathematics',
   ART = 'art',
   NATURE = 'nature',
-}
-
-export enum DifficultyBucket {
-  BEGINNER = 'beginner',
-  INTERMEDIATE = 'intermediate',
-  ADVANCED = 'advanced',
 }
 
 export interface TriviaQuestion {
@@ -109,7 +100,11 @@ export interface GameState {
   isGameOver: boolean;
   programmingLanguage?: ProgrammingLanguage;
   bossesDefeated: number; // Track bosses defeated for trivia triggers
-  currentDifficulty: string; // Current difficulty level (scales with progress)
+  currentDifficulty: DifficultyLevel; // Current difficulty level (scales with progress)
+  /** Mode before GAME_OVER was set, so Play Again can restart correctly */
+  previousMode?: GameMode;
+  /** Language before GAME_OVER was set */
+  previousLanguage?: ProgrammingLanguage;
 }
 
 export interface Enemy {
@@ -139,16 +134,9 @@ export interface Achievement {
   maxProgress: number;
 }
 
-export interface WordConfig {
-  bucket: DifficultyBucket;
-  maxLength: number;
-  minLength: number;
-}
-
 // Game constants
 export const GAME_CONSTANTS = {
   FPS: 60,
-  BOSS_LEVELS: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 93, 96, 99],
   MAX_LEVEL: 100,
   BASE_WPM: 20,
   MAX_WPM: 400,
@@ -161,31 +149,8 @@ export const GAME_CONSTANTS = {
   CAMERA_FAR: 1000,
 } as const;
 
-// Level difficulty mapping (ported from Python)
-export const LEVEL_DIFFICULTY_MAPPING: Record<string, WordConfig> = {
-  '1-3': { bucket: DifficultyBucket.BEGINNER, maxLength: 5, minLength: 2 },
-  '4-6': { bucket: DifficultyBucket.BEGINNER, maxLength: 8, minLength: 3 },
-  '7-9': { bucket: DifficultyBucket.BEGINNER, maxLength: 10, minLength: 4 },
-  '10-12': { bucket: DifficultyBucket.INTERMEDIATE, maxLength: 12, minLength: 5 },
-  '13-15': { bucket: DifficultyBucket.INTERMEDIATE, maxLength: 15, minLength: 6 },
-  '16-18': { bucket: DifficultyBucket.INTERMEDIATE, maxLength: 18, minLength: 7 },
-  '19-21': { bucket: DifficultyBucket.ADVANCED, maxLength: 22, minLength: 8 },
-  '22-25': { bucket: DifficultyBucket.ADVANCED, maxLength: 26, minLength: 9 },
-  '26-100': { bucket: DifficultyBucket.ADVANCED, maxLength: 999, minLength: 10 },
-};
-
-export function getDifficultyForLevel(level: number): WordConfig {
-  for (const [range, config] of Object.entries(LEVEL_DIFFICULTY_MAPPING)) {
-    const [min, max] = range.split('-').map(Number);
-    if (level >= min && level <= max) {
-      return config;
-    }
-  }
-  return LEVEL_DIFFICULTY_MAPPING['26-100'];
-}
-
 export function isBossLevel(level: number): boolean {
-  return (GAME_CONSTANTS.BOSS_LEVELS as readonly number[]).includes(level);
+  return level > 0 && level % 3 === 0;
 }
 
 /**
@@ -207,3 +172,16 @@ export function getWPMColor(wpm: number): string {
   if (wpm <= 250) return '#ff1493'; // Pink - Very Hard
   return '#ff4444'; // Red - Extreme
 }
+
+/**
+ * Map ProgrammingLanguage enum values to YAML file keys
+ */
+export const LANGUAGE_FILE_MAP: Record<string, string> = {
+  'Python': 'python',
+  'JavaScript': 'javascript',
+  'Java': 'java',
+  'C#': 'csharp',
+  'C++': 'cplusplus',
+  'CSS': 'css',
+  'HTML': 'html',
+} as const;

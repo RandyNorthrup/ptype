@@ -172,14 +172,6 @@ export default defineConfig({
           if (id.includes('react') && !id.includes('react-dom') && !id.includes('@react-three')) {
             return 'react';
           }
-          // Zustand
-          if (id.includes('zustand')) {
-            return 'zustand';
-          }
-          // Framer Motion
-          if (id.includes('framer-motion')) {
-            return 'framer-motion';
-          }
           // Game components
           if (id.includes('/src/components/')) {
             return 'components';
@@ -212,9 +204,7 @@ export default defineConfig({
       'three',
       '@react-three/fiber',
       '@react-three/drei',
-      'zustand'
     ],
-    exclude: ['@vercel/postgres']
   },
   server: {
     port: 5173,

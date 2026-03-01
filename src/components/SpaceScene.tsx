@@ -6,10 +6,30 @@ import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
+// Shared round-particle texture (created once, used by StarField and NebulaClouds)
+let sharedParticleTexture: THREE.CanvasTexture | null = null;
+function getParticleTexture(): THREE.CanvasTexture {
+  if (!sharedParticleTexture) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 32;
+    canvas.height = 32;
+    const ctx = canvas.getContext('2d')!;
+    const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+    gradient.addColorStop(0, 'rgba(255,255,255,1)');
+    gradient.addColorStop(0.4, 'rgba(255,255,255,0.6)');
+    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 32, 32);
+    sharedParticleTexture = new THREE.CanvasTexture(canvas);
+  }
+  return sharedParticleTexture;
+}
+
 // Star field component
 function StarField() {
   const starsRef = useRef<THREE.Points>(null);
-  
+  const starTexture = useMemo(() => getParticleTexture(), []);
+
   const [positions, colors] = useMemo(() => {
     const positions = new Float32Array(5000 * 3);
     const colors = new Float32Array(5000 * 3);
@@ -82,21 +102,7 @@ function StarField() {
         opacity={0.8}
         sizeAttenuation
         depthWrite={false}
-        map={(() => {
-          // Create round star texture
-          const canvas = document.createElement('canvas');
-          canvas.width = 32;
-          canvas.height = 32;
-          const ctx = canvas.getContext('2d')!;
-          const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-          gradient.addColorStop(0, 'rgba(255,255,255,1)');
-          gradient.addColorStop(0.4, 'rgba(255,255,255,0.6)');
-          gradient.addColorStop(1, 'rgba(255,255,255,0)');
-          ctx.fillStyle = gradient;
-          ctx.fillRect(0, 0, 32, 32);
-          const texture = new THREE.CanvasTexture(canvas);
-          return texture;
-        })()}
+        map={starTexture}
       />
     </points>
   );
@@ -133,8 +139,10 @@ function Asteroid({ position, size, rotationSpeed }: {
 
 // Nebula cloud using particles
 function NebulaClouds() {
-  const cloudRefs = useRef<any[]>([]);
-  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const cloudRefs = useRef<(THREE.Points<any, any> | null)[]>([]);
+  const nebulaTexture = useMemo(() => getParticleTexture(), []);
+
   const clouds = useMemo(() => {
     return Array.from({ length: 3 }, (_, cloudIndex) => {
       const particleCount = 1000;
@@ -211,21 +219,7 @@ function NebulaClouds() {
             sizeAttenuation
             depthWrite={false}
             blending={THREE.AdditiveBlending}
-            map={(() => {
-              // Create round particle texture
-              const canvas = document.createElement('canvas');
-              canvas.width = 32;
-              canvas.height = 32;
-              const ctx = canvas.getContext('2d')!;
-              const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-              gradient.addColorStop(0, 'rgba(255,255,255,1)');
-              gradient.addColorStop(0.5, 'rgba(255,255,255,0.5)');
-              gradient.addColorStop(1, 'rgba(255,255,255,0)');
-              ctx.fillStyle = gradient;
-              ctx.fillRect(0, 0, 32, 32);
-              const texture = new THREE.CanvasTexture(canvas);
-              return texture;
-            })()}
+            map={nebulaTexture}
           />
         </points>
       ))}

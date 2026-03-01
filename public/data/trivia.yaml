@@ -124,8 +124,98 @@ sports:
     - Every 4 years
     - Every 5 years
     correct: 1
-  intermediate: []
-  advanced: []
+  - question: How many periods are in a standard ice hockey game?
+    options:
+    - '2'
+    - '3'
+    - '4'
+    correct: 1
+  - question: What color card means a player is ejected in soccer?
+    options:
+    - Yellow
+    - Red
+    - Blue
+    correct: 1
+  - question: In baseball, how many strikes make an out?
+    options:
+    - '2'
+    - '3'
+    - '4'
+    correct: 1
+  - question: What sport uses a shuttlecock?
+    options:
+    - Tennis
+    - Badminton
+    - Squash
+    correct: 1
+  - question: How many holes are in a standard round of golf?
+    options:
+    - '9'
+    - '18'
+    - '21'
+    correct: 1
+  intermediate:
+  - question: Which country has won the most FIFA World Cups?
+    options:
+    - Germany
+    - Brazil
+    - Argentina
+    correct: 1
+  - question: What is the distance of a marathon in miles?
+    options:
+    - '24.2'
+    - '26.2'
+    - '28.2'
+    correct: 1
+  - question: In which sport can you score a 'birdie'?
+    options:
+    - Bowling
+    - Golf
+    - Badminton
+    correct: 1
+  - question: What is the highest possible score in a single frame of bowling?
+    options:
+    - '20'
+    - '30'
+    - '50'
+    correct: 1
+  - question: Which Grand Slam tennis event is played on clay?
+    options:
+    - Wimbledon
+    - US Open
+    - French Open
+    correct: 2
+  advanced:
+  - question: In which year were the first modern Olympic Games held?
+    options:
+    - '1892'
+    - '1896'
+    - '1900'
+    correct: 1
+  - question: What is the term for three strikes in a row in bowling?
+    options:
+    - Hat trick
+    - Turkey
+    - Triple
+    correct: 1
+  - question: Which athlete has won the most Olympic gold medals?
+    options:
+    - Usain Bolt
+    - Michael Phelps
+    - Carl Lewis
+    correct: 1
+  - question: In cricket, how many balls are in an over?
+    options:
+    - '4'
+    - '6'
+    - '8'
+    correct: 1
+  - question: What is the only country to have played in every FIFA World Cup?
+    options:
+    - Germany
+    - Brazil
+    - Italy
+    correct: 1
 history:
   beginner:
   - question: In which year did World War II end?
@@ -140,8 +230,104 @@ history:
     - George Washington
     - John Adams
     correct: 1
-  intermediate: []
-  advanced: []
+  - question: What ancient civilization built the pyramids?
+    options:
+    - Romans
+    - Egyptians
+    - Greeks
+    correct: 1
+  - question: Which ocean did the Titanic sink in?
+    options:
+    - Pacific
+    - Atlantic
+    - Indian
+    correct: 1
+  - question: Who discovered America in 1492?
+    options:
+    - Marco Polo
+    - Christopher Columbus
+    - Vasco da Gama
+    correct: 1
+  - question: What was the name of the ship the Pilgrims sailed on?
+    options:
+    - Mayflower
+    - Santa Maria
+    - Endeavour
+    correct: 0
+  - question: Which country built the Great Wall?
+    options:
+    - Japan
+    - China
+    - India
+    correct: 1
+  - question: Who was known as the 'King of Rock and Roll'?
+    options:
+    - Elvis Presley
+    - Chuck Berry
+    - Little Richard
+    correct: 0
+  intermediate:
+  - question: What year did the Berlin Wall fall?
+    options:
+    - '1987'
+    - '1989'
+    - '1991'
+    correct: 1
+  - question: Which empire was ruled by Julius Caesar?
+    options:
+    - Greek Empire
+    - Roman Empire
+    - Ottoman Empire
+    correct: 1
+  - question: Who wrote the Declaration of Independence?
+    options:
+    - Benjamin Franklin
+    - Thomas Jefferson
+    - John Adams
+    correct: 1
+  - question: In what year did World War I begin?
+    options:
+    - '1912'
+    - '1914'
+    - '1916'
+    correct: 1
+  - question: What was the longest-reigning British dynasty?
+    options:
+    - Tudor
+    - Stuart
+    - Plantagenet
+    correct: 2
+  advanced:
+  - question: What year was the Magna Carta signed?
+    options:
+    - '1066'
+    - '1215'
+    - '1492'
+    correct: 1
+  - question: Which battle is considered Napoleon's final defeat?
+    options:
+    - Battle of Leipzig
+    - Battle of Waterloo
+    - Battle of Austerlitz
+    correct: 1
+  - question: Who was the first Emperor of China?
+    options:
+    - Qin Shi Huang
+    - Kublai Khan
+    - Sun Tzu
+    correct: 0
+  - question: What treaty ended World War I?
+    options:
+    - Treaty of Paris
+    - Treaty of Versailles
+    - Treaty of Vienna
+    correct: 1
+  - question: In which year did the French Revolution begin?
+    options:
+    - '1776'
+    - '1789'
+    - '1799'
+    correct: 1
 python:
   beginner:
   - question: What keyword is used to define a function in Python?

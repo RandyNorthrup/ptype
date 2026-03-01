@@ -13,13 +13,10 @@ interface PlayerStatsModalProps {
 }
 
 const PlayerStatsModalComponent = ({ onClose }: PlayerStatsModalProps) => {
-  const { achievements, highScores } = useGameStore();
+  const { achievements, highScores, stats } = useGameStore();
   
   // Sort high scores by score (descending)
   const sortedHighScores = [...highScores].sort((a, b) => b.score - a.score);
-  
-  // Get stats from store
-  const { stats } = useGameStore();
   
   // Format play time
   const formatPlayTime = (seconds: number): string => {

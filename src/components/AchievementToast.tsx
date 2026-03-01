@@ -1,7 +1,7 @@
 /**
  * AchievementToast - Notification when achievement is unlocked
  */
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { Achievement } from '../types';
 import { TEST_IDS } from '../utils/testIds';
 
@@ -12,20 +12,28 @@ interface AchievementToastProps {
 
 const AchievementToastComponent = ({ achievement, onDismiss }: AchievementToastProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  // Use a ref so the effect never re-runs when onDismiss identity changes
+  const onDismissRef = useRef(onDismiss);
+  onDismissRef.current = onDismiss;
 
   useEffect(() => {
     // Trigger slide-in animation
     setIsVisible(true);
 
+    let innerTimer: ReturnType<typeof setTimeout>;
+
     // Auto-dismiss after 3 seconds
     const timer = setTimeout(() => {
       setIsVisible(false);
       // Wait for fade out animation before calling onDismiss
-      setTimeout(onDismiss, 300);
+      innerTimer = setTimeout(() => onDismissRef.current(), 300);
     }, 3000);
 
-    return () => clearTimeout(timer);
-  }, [onDismiss]);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(innerTimer);
+    };
+  }, []); // Run once on mount only
 
   return (
     <div
@@ -134,14 +142,6 @@ const AchievementToastComponent = ({ achievement, onDismiss }: AchievementToastP
         </div>
       </div>
 
-      <style>
-        {`
-          @keyframes fillBar {
-            from { width: 0%; }
-            to { width: 100%; }
-          }
-        `}
-      </style>
     </div>
   );
 };

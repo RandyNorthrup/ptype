@@ -3,6 +3,7 @@
  */
 import { useState, useEffect, memo } from 'react';
 import { getAudioManager } from '../utils/audioManager';
+import { invalidateDifficultyCache } from '../utils/difficultyManager';
 import { error as logError } from '../utils/logger';
 
 interface SettingsMenuProps {
@@ -25,9 +26,9 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProps) => {
         setSfxVolume(settings.sfxVolume ?? 50);
         setDifficulty(settings.difficulty ?? 'Normal');
         
-        // Apply volumes to audio manager
-        audioManager.setMusicVolume(settings.musicVolume ?? 50);
-        audioManager.setSfxVolume(settings.sfxVolume ?? 50);
+        // Apply volumes to audio manager (slider values are 0-100, audioManager expects 0-1)
+        audioManager.setMusicVolume((settings.musicVolume ?? 50) / 100);
+        audioManager.setSfxVolume((settings.sfxVolume ?? 50) / 100);
       }
     } catch (err) {
       logError('Failed to load settings from localStorage', err, 'SettingsMenu');
@@ -48,9 +49,12 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProps) => {
       };
       localStorage.setItem('game-settings', JSON.stringify(settings));
       
-      // Apply volumes
-      audioManager.setMusicVolume(musicVolume);
-      audioManager.setSfxVolume(sfxVolume);
+      // Invalidate cached difficulty so new setting takes effect
+      invalidateDifficultyCache();
+      
+      // Apply volumes (slider values are 0-100, audioManager expects 0-1)
+      audioManager.setMusicVolume(musicVolume / 100);
+      audioManager.setSfxVolume(sfxVolume / 100);
       
       onClose();
     } catch (err) {
@@ -62,12 +66,12 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProps) => {
 
   const handleMusicVolumeChange = (value: number) => {
     setMusicVolume(value);
-    audioManager.setMusicVolume(value);
+    audioManager.setMusicVolume(value / 100);
   };
 
   const handleSFXVolumeChange = (value: number) => {
     setSfxVolume(value);
-    audioManager.setSfxVolume(value);
+    audioManager.setSfxVolume(value / 100);
     // Play a test sound
     audioManager.playLaser();
   };

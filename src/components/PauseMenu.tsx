@@ -1,17 +1,22 @@
 /**
  * PauseMenu - Overlay displayed when game is paused (ESC key)
  */
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { useGameStore } from '../store/gameContext';
+import { SettingsMenu } from './SettingsMenu';
 
 interface PauseMenuProps {
   onResume: () => void;
-  onSettings: () => void;
   onMainMenu: () => void;
 }
 
-const PauseMenuComponent = ({ onResume, onSettings, onMainMenu }: PauseMenuProps) => {
+const PauseMenuComponent = ({ onResume, onMainMenu }: PauseMenuProps) => {
   const { level, score, wpm, accuracy } = useGameStore();
+  const [showSettings, setShowSettings] = useState(false);
+
+  if (showSettings) {
+    return <SettingsMenu onClose={() => setShowSettings(false)} />;
+  }
 
   return (
     <div
@@ -144,7 +149,7 @@ const PauseMenuComponent = ({ onResume, onSettings, onMainMenu }: PauseMenuProps
           </button>
 
           <button
-            onClick={onSettings}
+            onClick={() => setShowSettings(true)}
             data-testid="pause-settings-button"
             style={{
               padding: '1rem 2rem',
@@ -156,7 +161,6 @@ const PauseMenuComponent = ({ onResume, onSettings, onMainMenu }: PauseMenuProps
               fontWeight: '600',
               cursor: 'pointer',
               transition: 'all 0.2s',
-              boxShadow: '0 0 10px rgba(9, 255, 0, 0.2)',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = '#09ff00';
@@ -165,7 +169,7 @@ const PauseMenuComponent = ({ onResume, onSettings, onMainMenu }: PauseMenuProps
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = 'rgba(9, 255, 0, 0.3)';
-              e.currentTarget.style.boxShadow = '0 0 10px rgba(9, 255, 0, 0.2)';
+              e.currentTarget.style.boxShadow = 'none';
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >

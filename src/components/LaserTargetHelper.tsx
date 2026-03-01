@@ -1,60 +1,47 @@
 /**
  * LaserTargetHelper - Bridges 3D world positions to 2D screen space for laser targeting
  */
-import { useEffect } from 'react';
-import { useThree } from '@react-three/fiber';
+import { useRef } from 'react';
+import { useFrame, useThree } from '@react-three/fiber';
 import { useGameStore } from '../store/gameContext';
 import * as THREE from 'three';
 
-// Global reference that LaserEffect can access
-export let laserTargetPosition: { x: number; y: number } | null = null;
+// Use a mutable ref-like object so LaserEffect can read it without re-renders
+const _target = { current: null as { x: number; y: number } | null };
+export function getLaserTarget() {
+  return _target.current;
+}
 
 export function LaserTargetHelper() {
   const { camera, size } = useThree();
   const store = useGameStore();
-  const { enemies, activeEnemyId } = store;
+  const vec3 = useRef(new THREE.Vector3());
 
-  // Update target position whenever enemies or activeEnemyId changes
-  useEffect(() => {
-    const updateTargetPosition = () => {
-      // Always get the latest activeEnemyId from the store
-      const currentActiveId = activeEnemyId;
-      const activeEnemy = enemies.find(e => e.id === currentActiveId);
-      
-      if (activeEnemy) {
-        // Calculate the position of the next letter to be typed
-        const letterIndex = activeEnemy.typedCharacters;
-        const letterSpacing = 0.8;
-        const totalWidth = activeEnemy.word.length * letterSpacing;
-        const letterXPos = -totalWidth / 2 + letterIndex * letterSpacing + letterSpacing / 2;
-        
-        // 3D position of the letter (below the enemy ship)
-        const letterYOffset = activeEnemy.isBoss ? -4 : -3;
-        const letter3DPos = new THREE.Vector3(
-          activeEnemy.position.x + letterXPos,
-          activeEnemy.position.y + letterYOffset,
-          activeEnemy.position.z
-        );
-        
-        // Project 3D position to 2D screen coordinates
-        const screenPos = letter3DPos.project(camera);
-        laserTargetPosition = {
-          x: (screenPos.x + 1) * size.width / 2,
-          y: (-screenPos.y + 1) * size.height / 2,
-        };
-      } else {
-        laserTargetPosition = null;
-      }
-    };
+  useFrame(() => {
+    const activeEnemy = store.enemies.find(e => e.id === store.activeEnemyId);
 
-    // Update immediately when dependencies change
-    updateTargetPosition();
+    if (activeEnemy) {
+      const letterIndex = activeEnemy.typedCharacters;
+      const letterSpacing = 0.8;
+      const totalWidth = activeEnemy.word.length * letterSpacing;
+      const letterXPos = -totalWidth / 2 + letterIndex * letterSpacing + letterSpacing / 2;
 
-    // Also update on every animation frame for smooth tracking
-    const interval = setInterval(updateTargetPosition, 16); // ~60fps
+      const letterYOffset = activeEnemy.isBoss ? -4 : -3;
+      vec3.current.set(
+        activeEnemy.position.x + letterXPos,
+        activeEnemy.position.y + letterYOffset,
+        activeEnemy.position.z
+      );
 
-    return () => clearInterval(interval);
-  }, [enemies, activeEnemyId, camera, size]);
+      const screenPos = vec3.current.project(camera);
+      _target.current = {
+        x: (screenPos.x + 1) * size.width / 2,
+        y: (-screenPos.y + 1) * size.height / 2,
+      };
+    } else {
+      _target.current = null;
+    }
+  });
 
-  return null; // This component doesn't render anything
+  return null;
 }

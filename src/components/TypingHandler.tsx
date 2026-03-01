@@ -1,159 +1,270 @@
 /**
  * Typing Input Handler
- * Captures keyboard input and handles word matching logic
+ * Captures keyboard input and connects word matching to enemy destruction
  */
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { useGameStore } from '../store/gameContext';
-import { debug, error as logError } from '../utils/logger';
+import { getAudioManager } from '../utils/audioManager';
+import { triviaDatabase } from '../utils/triviaDatabase';
+import { achievementsManager } from '../utils/achievementsManager';
+import { GameMode, BonusItemType } from '../types';
+import { error as logError } from '../utils/logger';
 
 export function TypingHandler() {
   const {
-    currentWord,
     enemies,
     typeCharacter,
-    deleteCharacter,
     submitWord,
     isPaused,
     isGameOver,
     mode,
+    level,
+    programmingLanguage,
     pauseGame,
     resumeGame,
     useEMP,
     empCooldown,
     activeEnemyId,
+    setActiveEnemy,
+    updateEnemy,
+    incrementScore,
+    incrementBossesDefeated,
+    nextLevel,
+    showTrivia,
+    setCurrentWord,
+    selectNextBonus,
+    useSelectedBonus,
+    heal,
+    addShield,
+    bonusItems,
   } = useGameStore();
+
+  // Refs for values that change frequently — avoids recreating the callback
+  const enemiesRef = useRef(enemies);
+  enemiesRef.current = enemies;
+  const activeEnemyIdRef = useRef(activeEnemyId);
+  activeEnemyIdRef.current = activeEnemyId;
+  const modeRef = useRef(mode);
+  modeRef.current = mode;
+  const isPausedRef = useRef(isPaused);
+  isPausedRef.current = isPaused;
+  const isGameOverRef = useRef(isGameOver);
+  isGameOverRef.current = isGameOver;
+  const empCooldownRef = useRef(empCooldown);
+  empCooldownRef.current = empCooldown;
+  const levelRef = useRef(level);
+  levelRef.current = level;
+  const programmingLanguageRef = useRef(programmingLanguage);
+  programmingLanguageRef.current = programmingLanguage;
+  const bonusItemsRef = useRef(bonusItems);
+  bonusItemsRef.current = bonusItems;
+
+  /**
+   * Complete a word: destroy enemy, score points, advance level if boss
+   */
+  const completeWord = useCallback(
+    (enemyId: string, word: string, isBoss: boolean) => {
+      const audioManager = getAudioManager();
+
+      // Set health to 0 → triggers death animation in EnemyShip
+      updateEnemy(enemyId, { health: 0 });
+
+      // Calculate score: word.length × 10, bosses ×5
+      const basePoints = word.length * 10;
+      const points = isBoss ? basePoints * 5 : basePoints;
+      incrementScore(points);
+
+      // Update word counters + clear currentWord
+      submitWord();
+      setActiveEnemy(null);
+
+      // Sound effects
+      audioManager.playWordComplete();
+
+      if (isBoss) {
+        audioManager.playExplosion();
+        incrementBossesDefeated();
+        nextLevel();
+
+        // Show trivia every 2 boss defeats (i.e. every 6 levels)
+        // Check the current boss level (levelRef hasn't changed yet since nextLevel is async)
+        const currentBossLevel = levelRef.current;
+        if (currentBossLevel % 6 === 0) {
+          const currentMode = modeRef.current as GameMode;
+          const question = triviaDatabase.getQuestion(
+            currentMode,
+            programmingLanguageRef.current ?? null,
+            currentBossLevel,
+          );
+          if (question) {
+            // Small delay so level-up is visible before trivia
+            setTimeout(() => showTrivia(question), 600);
+          }
+        }
+      }
+    },
+    [updateEnemy, incrementScore, submitWord, setActiveEnemy, incrementBossesDefeated, nextLevel, showTrivia],
+  );
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
       try {
         const key = event.key;
+        const currentMode = modeRef.current;
+        const paused = isPausedRef.current;
+        const gameOver = isGameOverRef.current;
 
-        // Handle ESC key for pause/resume (only in game, not during trivia)
-        if (key === 'Escape' && mode !== 'menu' && mode !== 'profile_select' && mode !== 'trivia' && !isGameOver) {
+        // ESC: pause / resume (not during trivia)
+        if (key === 'Escape' && currentMode !== 'menu' && currentMode !== 'trivia' && !gameOver) {
           event.preventDefault();
-          if (isPaused) {
-            resumeGame();
-          } else {
-            pauseGame();
+          if (paused) { resumeGame(); } else { pauseGame(); }
+          return;
+        }
+
+        // Gate: only handle input during active gameplay
+        if (paused || gameOver || currentMode === 'menu' || currentMode === 'trivia') {
+          return;
+        }
+
+        // Prevent default for typing keys and special keys
+        if (key.length === 1 || key === 'Enter' || key === ' ' || key === 'Tab' || key === 'ArrowUp' || key === 'ArrowDown' || key === 'Backspace') {
+          event.preventDefault();
+        }
+
+        const currentEnemies = enemiesRef.current;
+        const currentActiveId = activeEnemyIdRef.current;
+
+        // --- TAB: switch target ---
+        if (key === 'Tab') {
+          if (currentEnemies.length === 0) return;
+          // Reset current enemy progress
+          if (currentActiveId) {
+            const cur = currentEnemies.find(e => e.id === currentActiveId);
+            if (cur && cur.typedCharacters > 0) {
+              updateEnemy(currentActiveId, { typedCharacters: 0 });
+            }
+          }
+          const curIdx = currentEnemies.findIndex(e => e.id === currentActiveId);
+          const nextIdx = curIdx >= 0 ? (curIdx + 1) % currentEnemies.length : 0;
+          setActiveEnemy(currentEnemies[nextIdx].id);
+          setCurrentWord('');
+          return;
+        }
+
+        // --- ENTER: EMP ---
+        if (key === 'Enter') {
+          if (empCooldownRef.current === 0) {
+            useEMP();
           }
           return;
         }
 
-      // Don't handle input if paused, trivia, game over, or in menu
-      if (isPaused || isGameOver || mode === 'menu' || mode === 'profile_select' || mode === 'trivia') {
-        return;
-      }
-
-      // Prevent default for typing keys to avoid scrolling, etc.
-      if (key.length === 1 || key === 'Backspace' || key === 'Enter' || key === ' ') {
-        event.preventDefault();
-      }
-
-      // Handle Tab - switch to next enemy
-      if (key === 'Tab') {
-        event.preventDefault();
-        // Find current active enemy
-        const currentIndex = enemies.findIndex(e => e.id === activeEnemyId);
-        if (currentIndex >= 0 && enemies.length > 1) {
-          // Switch to next enemy (wrap around)
-          const nextIndex = (currentIndex + 1) % enemies.length;
-          const nextEnemy = enemies[nextIndex];
-          // Start typing the next enemy's word from beginning
-          typeCharacter(nextEnemy.word.charAt(0));
+        // --- ArrowUp: cycle bonus items ---
+        if (key === 'ArrowUp') {
+          if (bonusItemsRef.current.length > 0) {
+            selectNextBonus();
+          }
+          return;
         }
-        return;
-      }
 
-      // Handle backspace - delete character
-      if (key === 'Backspace') {
-        deleteCharacter();
-        return;
-      }
-
-      // Handle Enter - EMP weapon activation
-      if (key === 'Enter') {
-        if (empCooldown === 0) {
-          useEMP();
+        // --- ArrowDown: use selected bonus ---
+        if (key === 'ArrowDown') {
+          const bonus = useSelectedBonus();
+          if (bonus) {
+            const audioManager = getAudioManager();
+            if (bonus.type === BonusItemType.DEFENSIVE) {
+              if (bonus.name.toLowerCase().includes('shield')) {
+                addShield(bonus.effectValue);
+              } else {
+                heal(bonus.effectValue);
+              }
+            }
+            // Offensive bonuses (EMP-like) handled via effectValue
+            if (bonus.type === BonusItemType.OFFENSIVE) {
+              // Bonus offensive items act as a free EMP
+              useEMP();
+            }
+            audioManager.playWordComplete();
+          }
+          return;
         }
-        return;
-      }
 
-      // Handle alphanumeric and symbol characters for typing words
-      if (key.length === 1) {
-        // Find the currently active enemy (one being typed)
-        const activeEnemy = enemies.find(e => e.typedCharacters > 0 && e.typedCharacters < e.word.length);
+        // --- Typing characters ---
+        if (key.length === 1) {
+          // Look for the active enemy being typed
+          const activeEnemy = currentActiveId
+            ? currentEnemies.find(e => e.id === currentActiveId && e.typedCharacters > 0 && e.typedCharacters < e.word.length)
+            : null;
 
-        // If no active enemy, try to start typing a new word
-        if (!activeEnemy) {
-          const matchingEnemy = enemies.find(e =>
-            e.word.toLowerCase().charAt(0) === key.toLowerCase() && e.typedCharacters === 0
-          );
-          
-          if (matchingEnemy) {
-            // Start typing this enemy's word
-            typeCharacter(key);
-            debug('Started typing word', { word: matchingEnemy.word, key }, 'TypingHandler');
-            
-            // Auto-complete if word is just one character
-            if (matchingEnemy.word.length === 1) {
-              setTimeout(() => submitWord(), 50);
+          if (!activeEnemy) {
+            // Start typing a new word — find an enemy whose word starts with this key
+            const matchingEnemy = currentEnemies.find(e =>
+              e.typedCharacters === 0 && e.word.charAt(0).toLowerCase() === key.toLowerCase()
+            );
+
+            if (matchingEnemy) {
+              setActiveEnemy(matchingEnemy.id);
+              updateEnemy(matchingEnemy.id, { typedCharacters: 1 });
+              typeCharacter(key);
+
+              // Single-character word → instant completion
+              if (matchingEnemy.word.length === 1) {
+                completeWord(matchingEnemy.id, matchingEnemy.word, matchingEnemy.isBoss);
+              } else {
+                getAudioManager().playTypeCorrect();
+              }
+            } else {
+              // No matching enemy
+              achievementsManager.onTypingMistake();
+              getAudioManager().playTypeIncorrect();
             }
           } else {
-            // Wrong key - no matching enemy found
-            debug('No enemy starts with key', { key }, 'TypingHandler');
-            // TODO: Add wrong char flash visual feedback
-          }
-        } else {
-          // Continue typing the active word
-          const nextChar = activeEnemy.word.charAt(activeEnemy.typedCharacters);
-          
-          if (nextChar.toLowerCase() === key.toLowerCase()) {
-            // Correct character!
-            typeCharacter(key);
-            debug('Correct character typed', { key, word: activeEnemy.word }, 'TypingHandler');
-            
-            // Check if word is complete
-            if (activeEnemy.typedCharacters + 1 === activeEnemy.word.length) {
-              setTimeout(() => submitWord(), 50);
+            // Continue typing the active enemy's word
+            const nextChar = activeEnemy.word.charAt(activeEnemy.typedCharacters);
+
+            if (nextChar.toLowerCase() === key.toLowerCase()) {
+              const newTypedCount = activeEnemy.typedCharacters + 1;
+              updateEnemy(activeEnemy.id, { typedCharacters: newTypedCount });
+              typeCharacter(key);
+
+              // Word complete?
+              if (newTypedCount === activeEnemy.word.length) {
+                completeWord(activeEnemy.id, activeEnemy.word, activeEnemy.isBoss);
+              } else {
+                getAudioManager().playTypeCorrect();
+              }
+            } else {
+              // Wrong character
+              achievementsManager.onTypingMistake();
+              getAudioManager().playTypeIncorrect();
             }
-          } else {
-            // Wrong character for this word
-            debug('Wrong character typed', { key, expected: nextChar, word: activeEnemy.word }, 'TypingHandler');
-            // TODO: Add wrong char flash visual feedback, increment mistakes counter
           }
         }
-      }
       } catch (err) {
         logError('Failed to handle keypress', err, 'TypingHandler');
       }
     },
+    // All store callbacks are stable (useCallback with []) — safe to list
     [
-      currentWord,
-      enemies,
-      typeCharacter,
-      deleteCharacter,
-      submitWord,
-      isPaused,
-      isGameOver,
-      mode,
       pauseGame,
       resumeGame,
       useEMP,
-      empCooldown,
-      activeEnemyId,
-    ]
+      setActiveEnemy,
+      updateEnemy,
+      typeCharacter,
+      setCurrentWord,
+      completeWord,
+      selectNextBonus,
+      useSelectedBonus,
+      heal,
+      addShield,
+    ],
   );
 
   useEffect(() => {
-    // Add event listener
     window.addEventListener('keydown', handleKeyPress);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
+    return () => window.removeEventListener('keydown', handleKeyPress);
   }, [handleKeyPress]);
 
-  // This component doesn't render anything
   return null;
 }

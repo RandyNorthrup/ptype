@@ -6,16 +6,19 @@ import { useGameStore } from '../store/gameContext';
 import { TEST_IDS } from '../utils/testIds';
 
 const GameOverScreenComponent = () => {
-  const { score, level, wpm, accuracy, resetGame, highScores, mode, programmingLanguage } = useGameStore();
+  const { score, level, wpm, accuracy, resetGame, startGame, highScores, mode, programmingLanguage, previousMode, previousLanguage } = useGameStore();
   const [highScorePosition, setHighScorePosition] = useState<number>(0);
   const [isNewHighScore, setIsNewHighScore] = useState(false);
 
   useEffect(() => {
     // Check if this is a new high score
+    // Use previousMode/previousLanguage since mode is now 'game_over'
+    const scoreMode = previousMode ?? mode;
+    const scoreLang = previousLanguage ?? programmingLanguage;
     const relevantScores = highScores
       .filter(s => {
-        if (s.mode !== mode) return false;
-        if (programmingLanguage && s.language !== programmingLanguage) return false;
+        if (s.mode !== scoreMode) return false;
+        if (scoreLang && s.language !== scoreLang) return false;
         return true;
       })
       .sort((a, b) => b.score - a.score);
@@ -26,14 +29,20 @@ const GameOverScreenComponent = () => {
       setHighScorePosition(position);
       setIsNewHighScore(true);
     }
-  }, [highScores, score, level, mode, programmingLanguage]);
+  }, [highScores, score, level, previousMode, previousLanguage, mode, programmingLanguage]);
 
   const handleMainMenu = () => {
     resetGame();
   };
 
   const handlePlayAgain = () => {
+    const restartMode = previousMode;
+    const restartLang = previousLanguage;
     resetGame();
+    // Restart with same settings after state resets
+    if (restartMode) {
+      startGame(restartMode, restartLang);
+    }
   };
 
   return (

@@ -65,14 +65,6 @@ canvas {
   align-items: center;
 }
 
-.text-neon {
-  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
-}
-
-.bg-gradient-space {
-  background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
-}
-
 /* Loading spinner */
 @keyframes spin {
   to {
