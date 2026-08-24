@@ -6,15 +6,15 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-interface CameraControllerProps {
+interface CameraControllerProperties {
   isGame: boolean;
 }
 
-export function CameraController({ isGame }: CameraControllerProps) {
+export function CameraController({ isGame }: CameraControllerProperties) {
   const { camera } = useThree();
   const targetPosition = useRef(new THREE.Vector3());
   const targetLookAt = useRef(new THREE.Vector3());
-  const lerpSpeed = 2.0;
+  const lerpSpeed = 2;
 
   useEffect(() => {
     if (isGame) {

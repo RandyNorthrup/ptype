@@ -11,14 +11,14 @@ import { initializePerformanceOptimizations } from "./utils/performanceInit";
 import { error } from "./utils/logger";
 
 // Initialize performance optimizations
-initializePerformanceOptimizations().catch((err) => {
-  error("Failed to initialize performance optimizations", err, "Main");
+initializePerformanceOptimizations().catch((error_) => {
+  error("Failed to initialize performance optimizations", error_, "Main");
 });
 
 // Service worker registration is handled by vite-plugin-pwa
 // No manual registration needed
 
-const root = document.getElementById("root");
+const root = document.querySelector("#root");
 if (root) {
   ReactDOM.createRoot(root).render(
     <React.StrictMode>

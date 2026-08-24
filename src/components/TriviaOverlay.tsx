@@ -3,12 +3,12 @@
  * Displays when player levels up to milestone
  */
 import { useState, useEffect, memo } from "react";
-import { TriviaQuestion, BonusItem } from "../types";
+import { type TriviaQuestion, type BonusItem } from "../types";
 import { triviaDatabase } from "../utils/triviaDatabase";
 import { TEST_IDS } from "../utils/testIds";
 import { error as logError } from "../utils/logger";
 
-interface TriviaOverlayProps {
+interface TriviaOverlayProperties {
   question: TriviaQuestion;
   onAnswer: (
     selectedAnswer: number,
@@ -22,7 +22,7 @@ const TriviaOverlayComponent = ({
   question,
   onAnswer,
   onTimeout,
-}: TriviaOverlayProps) => {
+}: TriviaOverlayProperties) => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -35,8 +35,8 @@ const TriviaOverlayComponent = ({
     if (isAnswered) return;
 
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
+      setTimeLeft((previous) => {
+        if (previous <= 1) {
           // Time's up!
           clearInterval(timer);
           setIsAnswered(true);
@@ -46,11 +46,13 @@ const TriviaOverlayComponent = ({
           }, 2000);
           return 0;
         }
-        return prev - 1;
+        return previous - 1;
       });
     }, 1000);
 
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+    };
   }, [isAnswered, onTimeout]);
 
   const handleAnswer = (answerIndex: number) => {
@@ -76,8 +78,8 @@ const TriviaOverlayComponent = ({
       setTimeout(() => {
         onAnswer(answerIndex, correct, reward);
       }, 3000);
-    } catch (err) {
-      logError("Failed to handle trivia answer", err, "TriviaOverlay");
+    } catch (error) {
+      logError("Failed to handle trivia answer", error, "TriviaOverlay");
     }
   };
 
@@ -268,7 +270,9 @@ const TriviaOverlayComponent = ({
             <button
               key={index}
               data-testid={`${TEST_IDS.TRIVIA_ANSWER_PREFIX}${index}`}
-              onClick={() => handleAnswer(index)}
+              onClick={() => {
+                handleAnswer(index);
+              }}
               disabled={isAnswered}
               style={{
                 background: bgColor,
@@ -287,19 +291,23 @@ const TriviaOverlayComponent = ({
                 gap: "1rem",
               }}
               onMouseEnter={(e) => {
-                if (!isAnswered) {
-                  e.currentTarget.style.transform = "scale(1.02)";
-                  e.currentTarget.style.borderColor = "#09ff00";
-                  e.currentTarget.style.boxShadow =
-                    "0 0 30px rgba(9, 255, 0, 0.3)";
+                if (isAnswered) {
+                  return;
                 }
+
+                e.currentTarget.style.transform = "scale(1.02)";
+                e.currentTarget.style.borderColor = "#09ff00";
+                e.currentTarget.style.boxShadow =
+                  "0 0 30px rgba(9, 255, 0, 0.3)";
               }}
               onMouseLeave={(e) => {
-                if (!isAnswered) {
-                  e.currentTarget.style.transform = "scale(1)";
-                  e.currentTarget.style.borderColor = borderColor;
-                  e.currentTarget.style.boxShadow = "none";
+                if (isAnswered) {
+                  return;
                 }
+
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.borderColor = borderColor;
+                e.currentTarget.style.boxShadow = "none";
               }}
             >
               <span

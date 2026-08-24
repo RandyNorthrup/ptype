@@ -101,9 +101,13 @@ export interface GameState {
   programmingLanguage?: ProgrammingLanguage;
   bossesDefeated: number; // Track bosses defeated for trivia triggers
   currentDifficulty: DifficultyLevel; // Current difficulty level (scales with progress)
-  /** Mode before GAME_OVER was set, so Play Again can restart correctly */
+  /**
+  Mode before GAME_OVER was set, so Play Again can restart correctly
+  */
   previousMode?: GameMode;
-  /** Language before GAME_OVER was set */
+  /**
+  Language before GAME_OVER was set
+  */
   previousLanguage?: ProgrammingLanguage;
 }
 

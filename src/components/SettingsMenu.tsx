@@ -6,11 +6,11 @@ import { getAudioManager } from "../utils/audioManager";
 import { invalidateDifficultyCache } from "../utils/difficultyManager";
 import { error as logError } from "../utils/logger";
 
-interface SettingsMenuProps {
+interface SettingsMenuProperties {
   onClose: () => void;
 }
 
-const SettingsMenuComponent = ({ onClose }: SettingsMenuProps) => {
+const SettingsMenuComponent = ({ onClose }: SettingsMenuProperties) => {
   const audioManager = getAudioManager();
   const [musicVolume, setMusicVolume] = useState(50);
   const [sfxVolume, setSfxVolume] = useState(50);
@@ -30,10 +30,10 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProps) => {
         audioManager.setMusicVolume((settings.musicVolume ?? 50) / 100);
         audioManager.setSfxVolume((settings.sfxVolume ?? 50) / 100);
       }
-    } catch (err) {
+    } catch (error) {
       logError(
         "Failed to load settings from localStorage",
-        err,
+        error,
         "SettingsMenu",
       );
       // Use defaults on error
@@ -61,8 +61,12 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProps) => {
       audioManager.setSfxVolume(sfxVolume / 100);
 
       onClose();
-    } catch (err) {
-      logError("Failed to save settings to localStorage", err, "SettingsMenu");
+    } catch (error) {
+      logError(
+        "Failed to save settings to localStorage",
+        error,
+        "SettingsMenu",
+      );
       // Still close the menu even if save failed
       onClose();
     }
@@ -110,7 +114,9 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProps) => {
           boxShadow:
             "0 0 50px rgba(9, 255, 0, 0.5), inset 0 0 30px rgba(9, 255, 0, 0.1)",
         }}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
       >
         {/* Header */}
         <h2
@@ -145,7 +151,9 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProps) => {
             min="0"
             max="100"
             value={musicVolume}
-            onChange={(e) => handleMusicVolumeChange(Number(e.target.value))}
+            onChange={(e) => {
+              handleMusicVolumeChange(Number(e.target.value));
+            }}
             data-testid="music-volume-slider"
             style={{
               width: "100%",
@@ -178,7 +186,9 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProps) => {
             min="0"
             max="100"
             value={sfxVolume}
-            onChange={(e) => handleSFXVolumeChange(Number(e.target.value))}
+            onChange={(e) => {
+              handleSFXVolumeChange(Number(e.target.value));
+            }}
             data-testid="sfx-volume-slider"
             style={{
               width: "100%",
@@ -208,7 +218,9 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProps) => {
           </label>
           <select
             value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
+            onChange={(e) => {
+              setDifficulty(e.target.value);
+            }}
             data-testid="difficulty-selector"
             style={{
               width: "100%",

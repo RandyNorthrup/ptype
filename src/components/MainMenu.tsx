@@ -15,14 +15,14 @@ const MainMenuComponent = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownReference = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
+        dropdownReference.current &&
+        !dropdownReference.current.contains(event.target as Node)
       ) {
         setDropdownOpen(false);
       }
@@ -50,10 +50,10 @@ const MainMenuComponent = () => {
         const lang = selectedMode as ProgrammingLanguage;
         startGame(GameMode.PROGRAMMING, lang);
       }
-    } catch (err) {
+    } catch (error) {
       logError(
         `Failed to start game with mode: ${selectedMode}`,
-        err,
+        error,
         "MainMenu",
       );
     }
@@ -147,20 +147,22 @@ const MainMenuComponent = () => {
               width: "300px",
               textAlign: "center",
               boxShadow:
-                selectedMode !== "Choose a Mode"
-                  ? "0 0 30px rgba(9, 255, 0, 0.4), inset 0 0 15px rgba(9, 255, 0, 0.1)"
-                  : "none",
+                selectedMode === "Choose a Mode"
+                  ? "none"
+                  : "0 0 30px rgba(9, 255, 0, 0.4), inset 0 0 15px rgba(9, 255, 0, 0.1)",
               textShadow:
-                selectedMode !== "Choose a Mode"
-                  ? "0 0 10px rgba(9, 255, 0, 0.8)"
-                  : "none",
+                selectedMode === "Choose a Mode"
+                  ? "none"
+                  : "0 0 10px rgba(9, 255, 0, 0.8)",
             }}
             onMouseEnter={(e) => {
-              if (selectedMode !== "Choose a Mode") {
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow =
-                  "0 0 40px rgba(9, 255, 0, 0.6), inset 0 0 20px rgba(9, 255, 0, 0.2)";
+              if (selectedMode === "Choose a Mode") {
+                return;
               }
+
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow =
+                "0 0 40px rgba(9, 255, 0, 0.6), inset 0 0 20px rgba(9, 255, 0, 0.2)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "translateY(0)";
@@ -175,7 +177,7 @@ const MainMenuComponent = () => {
 
           {/* Custom Mode Dropdown */}
           <div
-            ref={dropdownRef}
+            ref={dropdownReference}
             style={{
               position: "relative",
               width: "300px",
@@ -183,7 +185,9 @@ const MainMenuComponent = () => {
             }}
           >
             <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
+              onClick={() => {
+                setDropdownOpen(!dropdownOpen);
+              }}
               data-testid="mode-selector-button"
               style={{
                 width: "100%",
@@ -250,7 +254,7 @@ const MainMenuComponent = () => {
                 {allModes.map((m) => (
                   <button
                     key={m}
-                    data-testid={`mode-option-${m.toLowerCase().replace(/\s+/g, "-")}`}
+                    data-testid={`mode-option-${m.toLowerCase().replaceAll(/\s+/g, "-")}`}
                     onClick={() => {
                       setSelectedMode(m);
                       setDropdownOpen(false);
@@ -316,7 +320,9 @@ const MainMenuComponent = () => {
           }}
         >
           <button
-            onClick={() => setShowStats(!showStats)}
+            onClick={() => {
+              setShowStats(!showStats);
+            }}
             data-testid="player-stats-button"
             style={{
               padding: "0.6rem 0.8rem",
@@ -346,7 +352,9 @@ const MainMenuComponent = () => {
           </button>
 
           <button
-            onClick={() => setShowSettings(!showSettings)}
+            onClick={() => {
+              setShowSettings(!showSettings);
+            }}
             data-testid="settings-button"
             style={{
               padding: "0.6rem 0.8rem",
@@ -376,7 +384,9 @@ const MainMenuComponent = () => {
           </button>
 
           <button
-            onClick={() => setShowAbout(!showAbout)}
+            onClick={() => {
+              setShowAbout(!showAbout);
+            }}
             data-testid="about-button"
             style={{
               padding: "0.6rem 0.8rem",
@@ -454,10 +464,22 @@ const MainMenuComponent = () => {
       </div>
 
       {/* Unified Player Stats Modal (Stats + High Scores + Achievements) */}
-      {showStats && <PlayerStatsModal onClose={() => setShowStats(false)} />}
+      {showStats && (
+        <PlayerStatsModal
+          onClose={() => {
+            setShowStats(false);
+          }}
+        />
+      )}
 
       {/* Settings Modal */}
-      {showSettings && <SettingsMenu onClose={() => setShowSettings(false)} />}
+      {showSettings && (
+        <SettingsMenu
+          onClose={() => {
+            setShowSettings(false);
+          }}
+        />
+      )}
 
       {/* About Modal */}
       {showAbout && (
@@ -474,7 +496,9 @@ const MainMenuComponent = () => {
             justifyContent: "center",
             zIndex: 1000,
           }}
-          onClick={() => setShowAbout(false)}
+          onClick={() => {
+            setShowAbout(false);
+          }}
         >
           <div
             style={{
@@ -485,7 +509,9 @@ const MainMenuComponent = () => {
               maxWidth: "420px",
               textAlign: "center",
             }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
           >
             <h1
               style={{
@@ -521,7 +547,9 @@ const MainMenuComponent = () => {
               © {new Date().getFullYear()}
             </p>
             <button
-              onClick={() => setShowAbout(false)}
+              onClick={() => {
+                setShowAbout(false);
+              }}
               style={{
                 padding: "0.5rem 1rem",
                 background: "#09ff00",

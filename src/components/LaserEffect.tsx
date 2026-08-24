@@ -31,22 +31,22 @@ interface Particle {
 }
 
 export function LaserEffect() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const beamsRef = useRef<BeamBurst[]>([]);
-  const animationFrameRef = useRef<number | null>(null);
+  const canvasReference = useRef<HTMLCanvasElement>(null);
+  const beamsReference = useRef<BeamBurst[]>([]);
+  const animationFrameReference = useRef<number | null>(null);
   const { mode, isPaused, isGameOver } = useGameStore();
 
   // Store active-gameplay flag in a ref so the keydown listener always has current value
-  const canFireRef = useRef(false);
-  canFireRef.current =
+  const canFireReference = useRef(false);
+  canFireReference.current =
     (mode === "normal" || mode === "programming") && !isPaused && !isGameOver;
 
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = canvasReference.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d", { alpha: true });
-    if (!ctx) return;
+    const context = canvas.getContext("2d", { alpha: true });
+    if (!context) return;
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -56,14 +56,14 @@ export function LaserEffect() {
     window.addEventListener("resize", resizeCanvas);
 
     // Animation loop — only runs while there are active beams
-    let running = false;
+    let isRunning = false;
 
     const animate = () => {
-      if (!ctx || !canvas) return;
+      if (!context || !canvas) return;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      context.clearRect(0, 0, canvas.width, canvas.height);
 
-      beamsRef.current = beamsRef.current.filter((beam) => {
+      beamsReference.current = beamsReference.current.filter((beam) => {
         beam.life -= 1;
         beam.opacity -= 0.033;
 
@@ -72,86 +72,88 @@ export function LaserEffect() {
         const currentX = beam.targetX;
         const currentY = beam.targetY;
 
-        ctx.save();
+        context.save();
 
         // Outer glow
-        ctx.globalAlpha = beam.opacity * 0.3;
-        ctx.shadowBlur = 40;
-        ctx.shadowColor = beam.color;
-        ctx.beginPath();
-        ctx.moveTo(beam.x, beam.y);
-        ctx.lineTo(currentX, currentY);
-        ctx.strokeStyle = beam.color;
-        ctx.lineWidth = beam.width * 2;
-        ctx.lineCap = "round";
-        ctx.stroke();
+        context.globalAlpha = beam.opacity * 0.3;
+        context.shadowBlur = 40;
+        context.shadowColor = beam.color;
+        context.beginPath();
+        context.moveTo(beam.x, beam.y);
+        context.lineTo(currentX, currentY);
+        context.strokeStyle = beam.color;
+        context.lineWidth = beam.width * 2;
+        context.lineCap = "round";
+        context.stroke();
 
         // Middle beam
-        ctx.globalAlpha = beam.opacity * 0.6;
-        ctx.shadowBlur = 25;
-        ctx.beginPath();
-        ctx.moveTo(beam.x, beam.y);
-        ctx.lineTo(currentX, currentY);
-        ctx.strokeStyle = beam.color;
-        ctx.lineWidth = beam.width;
-        ctx.stroke();
+        context.globalAlpha = beam.opacity * 0.6;
+        context.shadowBlur = 25;
+        context.beginPath();
+        context.moveTo(beam.x, beam.y);
+        context.lineTo(currentX, currentY);
+        context.strokeStyle = beam.color;
+        context.lineWidth = beam.width;
+        context.stroke();
 
         // Core beam
-        ctx.globalAlpha = beam.opacity;
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = "#ffffff";
-        ctx.beginPath();
-        ctx.moveTo(beam.x, beam.y);
-        ctx.lineTo(currentX, currentY);
-        ctx.strokeStyle = "#ffffff";
-        ctx.lineWidth = beam.width * 0.4;
-        ctx.stroke();
+        context.globalAlpha = beam.opacity;
+        context.shadowBlur = 15;
+        context.shadowColor = "#ffffff";
+        context.beginPath();
+        context.moveTo(beam.x, beam.y);
+        context.lineTo(currentX, currentY);
+        context.strokeStyle = "#ffffff";
+        context.lineWidth = beam.width * 0.4;
+        context.stroke();
 
         // Particles
-        beam.particles.forEach((particle) => {
+        for (const particle of beam.particles) {
           particle.x += particle.vx;
           particle.y += particle.vy;
           particle.opacity -= 0.02;
           particle.life -= 1;
 
           if (particle.life > 0 && particle.opacity > 0) {
-            ctx.globalAlpha = particle.opacity;
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = beam.color;
-            ctx.fillStyle = beam.color;
-            ctx.beginPath();
-            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-            ctx.fill();
+            context.globalAlpha = particle.opacity;
+            context.shadowBlur = 10;
+            context.shadowColor = beam.color;
+            context.fillStyle = beam.color;
+            context.beginPath();
+            context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            context.fill();
           }
-        });
+        }
 
         beam.particles = beam.particles.filter(
           (p) => p.life > 0 && p.opacity > 0,
         );
-        ctx.restore();
+        context.restore();
         return true;
       });
 
-      if (beamsRef.current.length > 0) {
-        animationFrameRef.current = requestAnimationFrame(animate);
+      if (beamsReference.current.length > 0) {
+        animationFrameReference.current = requestAnimationFrame(animate);
       } else {
-        running = false;
-        animationFrameRef.current = null;
+        isRunning = false;
+        animationFrameReference.current = null;
       }
     };
 
     const startLoop = () => {
-      if (!running) {
-        running = true;
-        animationFrameRef.current = requestAnimationFrame(animate);
+      if (isRunning) {
+        return;
       }
+
+      isRunning = true;
+      animationFrameReference.current = requestAnimationFrame(animate);
     };
 
     // Key handler — gated by canFireRef
     const audioManager = getAudioManager();
 
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (!canFireRef.current) return;
+      if (!canFireReference.current) return;
       if (e.key.length !== 1) return;
       if (e.ctrlKey || e.metaKey || e.altKey) return;
 
@@ -167,13 +169,13 @@ export function LaserEffect() {
 
       const wingOffsetX = 40;
       const playerY = canvas.height - 120;
-      const useLeftWing = Math.random() > 0.5;
+      const isUseLeftWing = Math.random() > 0.5;
       const startX =
-        canvas.width / 2 + (useLeftWing ? -wingOffsetX : wingOffsetX);
+        canvas.width / 2 + (isUseLeftWing ? -wingOffsetX : wingOffsetX);
       const startY = playerY;
 
       const particles: Particle[] = [];
-      for (let i = 0; i < 12; i++) {
+      for (let index = 0; index < 12; index++) {
         const angle = (Math.random() - 0.5) * Math.PI * 0.8 - Math.PI / 2;
         const speed = 3 + Math.random() * 5;
         particles.push({
@@ -187,7 +189,7 @@ export function LaserEffect() {
         });
       }
 
-      beamsRef.current.push({
+      beamsReference.current.push({
         x: startX,
         y: startY,
         targetX,
@@ -208,14 +210,14 @@ export function LaserEffect() {
     return () => {
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("keydown", handleKeyPress);
-      if (animationFrameRef.current)
-        cancelAnimationFrame(animationFrameRef.current);
+      if (animationFrameReference.current)
+        cancelAnimationFrame(animationFrameReference.current);
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <canvas
-      ref={canvasRef}
+      ref={canvasReference}
       style={{
         position: "fixed",
         top: 0,

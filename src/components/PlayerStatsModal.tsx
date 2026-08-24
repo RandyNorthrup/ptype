@@ -8,11 +8,11 @@ import { ACHIEVEMENTS_DEFINITIONS } from "../utils/achievementsManager";
 import { TEST_IDS } from "../utils/testIds";
 import { error as logError } from "../utils/logger";
 
-interface PlayerStatsModalProps {
+interface PlayerStatsModalProperties {
   onClose: () => void;
 }
 
-const PlayerStatsModalComponent = ({ onClose }: PlayerStatsModalProps) => {
+const PlayerStatsModalComponent = ({ onClose }: PlayerStatsModalProperties) => {
   const { achievements, highScores, stats } = useGameStore();
 
   // Sort high scores by score (descending)
@@ -31,8 +31,8 @@ const PlayerStatsModalComponent = ({ onClose }: PlayerStatsModalProps) => {
   const handleClose = () => {
     try {
       onClose();
-    } catch (err) {
-      logError("Failed to close player stats modal", err, "PlayerStatsModal");
+    } catch (error) {
+      logError("Failed to close player stats modal", error, "PlayerStatsModal");
     }
   };
 
@@ -67,7 +67,9 @@ const PlayerStatsModalComponent = ({ onClose }: PlayerStatsModalProps) => {
           boxShadow:
             "0 0 50px rgba(9, 255, 0, 0.5), inset 0 0 30px rgba(9, 255, 0, 0.1)",
         }}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
       >
         {/* Header */}
         <h2
@@ -274,22 +276,22 @@ const PlayerStatsModalComponent = ({ onClose }: PlayerStatsModalProps) => {
                   gap: "0.5rem",
                 }}
               >
-                {sortedHighScores.slice(0, 10).map((score, idx) => (
+                {sortedHighScores.slice(0, 10).map((score, index) => (
                   <div
-                    key={idx}
+                    key={index}
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
                       padding: "0.5rem",
                       background:
-                        idx < 3 ? "rgba(9, 255, 0, 0.1)" : "transparent",
+                        index < 3 ? "rgba(9, 255, 0, 0.1)" : "transparent",
                       borderRadius: "6px",
                       fontSize: "0.85rem",
                     }}
                   >
                     <span style={{ color: "#64748b", width: "30px" }}>
-                      #{idx + 1}
+                      #{index + 1}
                     </span>
                     <span
                       style={{ color: "#09ff00", fontWeight: "600", flex: 1 }}

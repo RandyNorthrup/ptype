@@ -14,7 +14,7 @@ interface CacheEntry {
 
 class ResourcePreloader {
   private loadedAssets = new Map<string, CacheEntry>();
-  private loadingQueue: Array<{ path: string; priority: number }> = [];
+  private loadingQueue: { path: string; priority: number }[] = [];
   private maxConcurrent = 3;
   private maxCacheSize = 100 * 1024 * 1024; // 100MB cache limit
   private currentCacheSize = 0;
@@ -32,7 +32,7 @@ class ResourcePreloader {
    * Preload critical assets first with performance tracking
    */
   async preloadCriticalAssets(): Promise<void> {
-    return performanceMonitor.measureAsync("Critical Assets Load", async () => {
+    await performanceMonitor.measureAsync("Critical Assets Load", async () => {
       const critical = [
         "/assets/models/ships/player-ship.glb",
         "/assets/models/ships/enemy-basic.glb",
@@ -73,11 +73,11 @@ class ResourcePreloader {
         // Preload font
         await this.preloadFont(path);
         estimatedSize = 100 * 1024; // Estimate 100KB per font
-      } else if (path.match(/\.(png|jpg|jpeg|webp)$/i)) {
+      } else if (/\.(png|jpg|jpeg|webp)$/i.test(path)) {
         // Preload texture/image
         await this.preloadImage(path);
         estimatedSize = 200 * 1024; // Estimate 200KB per image
-      } else if (path.match(/\.(yaml|json)$/i)) {
+      } else if (/\.(yaml|json)$/i.test(path)) {
         // Preload data file
         await this.preloadData(path);
         estimatedSize = 50 * 1024; // Estimate 50KB per data file
@@ -120,7 +120,7 @@ class ResourcePreloader {
    * Evict least recently used assets to free space
    */
   private evictLRU(sizeNeeded: number): void {
-    const entries = Array.from(this.loadedAssets.entries())
+    const entries = [...this.loadedAssets]
       .filter(([_, entry]) => entry.priority !== "critical") // Never evict critical assets
       .sort((a, b) => {
         // Sort by priority first, then by last access time
@@ -162,9 +162,11 @@ class ResourcePreloader {
       link.type = path.endsWith(".woff2") ? "font/woff2" : "font/ttf";
       link.crossOrigin = "anonymous";
       link.href = path;
-      link.onload = () => resolve();
+      link.addEventListener("load", () => {
+        resolve();
+      });
       link.onerror = reject;
-      document.head.appendChild(link);
+      document.head.append(link);
     });
   }
 
@@ -174,7 +176,9 @@ class ResourcePreloader {
   private preloadImage(path: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.onload = () => resolve();
+      img.addEventListener("load", () => {
+        resolve();
+      });
       img.onerror = reject;
       img.src = path;
     });
@@ -230,7 +234,7 @@ class ResourcePreloader {
     paths: string[],
     priority: "high" | "medium" | "low" = "medium",
   ): void {
-    paths.forEach((path) => this.queueAsset(path, priority));
+    for (const path of paths) this.queueAsset(path, priority);
   }
 
   /**
@@ -263,17 +267,17 @@ class ResourcePreloader {
    * Clear unused assets from memory (called when returning to menu)
    */
   clearNonCriticalAssets(): void {
-    const nonCritical = Array.from(this.loadedAssets.entries()).filter(
+    const nonCritical = [...this.loadedAssets].filter(
       ([_, entry]) => entry.priority !== "critical",
     );
 
-    nonCritical.forEach(([path, entry]) => {
+    for (const [path, entry] of nonCritical) {
       if (path.endsWith(".glb")) {
         useGLTF.clear(path);
       }
       this.loadedAssets.delete(path);
       this.currentCacheSize -= entry.size;
-    });
+    }
 
     info(
       `Cleared ${nonCritical.length} non-critical assets`,

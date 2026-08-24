@@ -2,10 +2,10 @@
  * Production Error Boundary
  * Catches React errors and displays fallback UI
  */
-import { Component, ErrorInfo, ReactNode } from "react";
+import { Component, type ErrorInfo, type ReactNode } from "react";
 import { error as logError } from "../utils/logger";
 
-interface Props {
+interface Properties {
   children: ReactNode;
   fallback?: ReactNode;
 }
@@ -16,9 +16,9 @@ interface State {
   errorInfo: ErrorInfo | null;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
+export class ErrorBoundary extends Component<Properties, State> {
+  constructor(properties: Properties) {
+    super(properties);
     this.state = {
       hasError: false,
       error: null,

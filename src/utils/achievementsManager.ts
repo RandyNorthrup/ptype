@@ -3,7 +3,7 @@
  * Tracks and manages all 19 achievements from the Python version
  * Ported from core/achievements.py
  */
-import { Achievement } from "../types";
+import { type Achievement } from "../types";
 import { info } from "./logger";
 
 // All 19 achievements from Python version
@@ -96,7 +96,7 @@ export const ACHIEVEMENTS_DEFINITIONS: Achievement[] = [
     iconName: "/assets/icons/dollar-coin.svg",
     unlocked: false,
     progress: 0,
-    maxProgress: 10000,
+    maxProgress: 10_000,
   },
   {
     id: "veteran",
@@ -201,7 +201,7 @@ export interface AchievementStats {
 class AchievementsManager {
   private achievements: Achievement[];
   private stats: AchievementStats;
-  private listeners: Array<(achievement: Achievement) => void> = [];
+  private listeners: ((achievement: Achievement) => void)[] = [];
 
   constructor() {
     this.achievements = JSON.parse(JSON.stringify(ACHIEVEMENTS_DEFINITIONS)); // Deep copy
@@ -286,7 +286,7 @@ class AchievementsManager {
       achievement.unlockedAt = new Date().toISOString();
 
       // Notify listeners
-      this.listeners.forEach((listener) => listener(achievement));
+      for (const listener of this.listeners) listener(achievement);
 
       info(
         `Achievement unlocked: ${achievement.name}`,
@@ -338,7 +338,7 @@ class AchievementsManager {
     try {
       const serializable = {
         ...this.stats,
-        languagesPlayed: Array.from(this.stats.languagesPlayed),
+        languagesPlayed: [...this.stats.languagesPlayed],
       };
       localStorage.setItem(
         "ptype-achievement-stats",

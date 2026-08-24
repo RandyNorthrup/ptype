@@ -37,21 +37,21 @@ function GameLogic() {
   } = store;
 
   const spawnerInitialized = useRef(false);
-  const firstSpawnTimeoutRef = useRef<
+  const firstSpawnTimeoutReference = useRef<
     ReturnType<typeof setTimeout> | undefined
   >(undefined);
   // Ref-based position map to avoid O(N²) state updates per frame
-  const livePositionsRef = useRef(
+  const livePositionsReference = useRef(
     new Map<string, { x: number; y: number; z: number }>(),
   );
   // Ref for enemies so handleEnemyReachPlayer doesn't depend on enemies array
-  const enemiesRef = useRef(enemies);
-  enemiesRef.current = enemies;
+  const enemiesReference = useRef(enemies);
+  enemiesReference.current = enemies;
   // Enemies with live positions merged in for collision avoidance
   const [liveEnemies, setLiveEnemies] = useState<typeof enemies>([]);
-  const liveEnemiesUpdateRef = useRef(0);
+  const liveEnemiesUpdateReference = useRef(0);
   // Ref for stats calculation
-  const lastStatsUpdateRef = useRef(0);
+  const lastStatsUpdateReference = useRef(0);
 
   // Initialize spawner when game starts
   useEffect(() => {
@@ -60,7 +60,7 @@ function GameLogic() {
       spawnerInitialized.current = true;
       info("Enemy spawner initialized", { mode }, "GameCanvas");
 
-      firstSpawnTimeoutRef.current = setTimeout(() => {
+      firstSpawnTimeoutReference.current = setTimeout(() => {
         const isBoss = isBossLevel(level);
         debug(
           "Force spawning first enemy",
@@ -88,8 +88,8 @@ function GameLogic() {
     }
 
     return () => {
-      if (firstSpawnTimeoutRef.current)
-        clearTimeout(firstSpawnTimeoutRef.current);
+      if (firstSpawnTimeoutReference.current)
+        clearTimeout(firstSpawnTimeoutReference.current);
     };
   }, [mode, level, programmingLanguage, addEnemy]);
 
@@ -108,9 +108,9 @@ function GameLogic() {
 
     // Calculate WPM and accuracy every second
     const now = Date.now();
-    if (now - lastStatsUpdateRef.current >= 1000) {
-      lastStatsUpdateRef.current = now;
-      const elapsedMinutes = Math.max((now - startTime) / 60000, 1 / 60); // min 1 second
+    if (now - lastStatsUpdateReference.current >= 1000) {
+      lastStatsUpdateReference.current = now;
+      const elapsedMinutes = Math.max((now - startTime) / 60_000, 1 / 60); // min 1 second
       const wpm = Math.round(wordsCorrect / elapsedMinutes);
       const totalAttempts = wordsCorrect + wordsMissed;
       const accuracy =
@@ -121,9 +121,9 @@ function GameLogic() {
     }
 
     // Every 5 frames, merge live positions into the enemy list for collision avoidance
-    liveEnemiesUpdateRef.current++;
-    if (liveEnemiesUpdateRef.current % 5 === 0) {
-      const posMap = livePositionsRef.current;
+    liveEnemiesUpdateReference.current++;
+    if (liveEnemiesUpdateReference.current % 5 === 0) {
+      const posMap = livePositionsReference.current;
       if (posMap.size > 0) {
         setLiveEnemies(
           enemies.map((e) => {
@@ -160,9 +160,9 @@ function GameLogic() {
   // Boss collision is always fatal (instant kill)
   const handleEnemyReachPlayer = useCallback(
     (enemyId: string) => {
-      const enemy = enemiesRef.current.find((e) => e.id === enemyId);
+      const enemy = enemiesReference.current.find((e) => e.id === enemyId);
       if (enemy) {
-        const damage = enemy.isBoss ? 99999 : 10;
+        const damage = enemy.isBoss ? 99_999 : 10;
         debug(
           "Enemy reached player",
           { damage, isBoss: enemy.isBoss },
@@ -173,7 +173,7 @@ function GameLogic() {
         takeDamage(damage);
         incrementWordsMissed();
         removeEnemy(enemyId);
-        livePositionsRef.current.delete(enemyId);
+        livePositionsReference.current.delete(enemyId);
       }
     },
     [takeDamage, removeEnemy, incrementWordsMissed],
@@ -184,7 +184,7 @@ function GameLogic() {
     (enemyId: string) => {
       debug("Enemy destroyed", { id: enemyId }, "GameCanvas");
       removeEnemy(enemyId);
-      livePositionsRef.current.delete(enemyId);
+      livePositionsReference.current.delete(enemyId);
     },
     [removeEnemy],
   );
@@ -192,7 +192,7 @@ function GameLogic() {
   // Handle enemy position updates — store in ref map (no state churn)
   const handlePositionUpdate = useCallback(
     (enemyId: string, position: { x: number; y: number; z: number }) => {
-      livePositionsRef.current.set(enemyId, position);
+      livePositionsReference.current.set(enemyId, position);
     },
     [],
   );

@@ -3,23 +3,24 @@
  * Ported from Python data/trivia_db.py
  */
 import {
-  TriviaQuestion,
+  type TriviaQuestion,
   GameMode,
-  ProgrammingLanguage,
+  type ProgrammingLanguage,
   TriviaCategory,
-  BonusItem,
+  type BonusItem,
   BonusItemType,
   LANGUAGE_FILE_MAP,
 } from "../types";
 import { info, warn, error as logError } from "./logger";
 
-interface TriviaData {
-  [category: string]: {
+type TriviaData = Record<
+  string,
+  {
     beginner?: TriviaQuestion[];
     intermediate?: TriviaQuestion[];
     advanced?: TriviaQuestion[];
-  };
-}
+  }
+>;
 
 // Bonus items that can be earned from trivia
 const BONUS_ITEMS: BonusItem[] = [
@@ -78,7 +79,8 @@ class TriviaDatabase {
     }
 
     if (this.loadPromise) {
-      return this.loadPromise; // Loading in progress
+      await this.loadPromise;
+      return; // Loading in progress
     }
 
     this.loadPromise = (async () => {
@@ -117,14 +119,14 @@ class TriviaDatabase {
           undefined,
           "triviaDatabase",
         );
-      } catch (err) {
-        logError("Failed to load trivia database", err, "triviaDatabase");
+      } catch (error) {
+        logError("Failed to load trivia database", error, "triviaDatabase");
         this.triviaData = {}; // Empty data on error
         this.loadPromise = null; // Allow retry on next call
       }
     })();
 
-    return this.loadPromise;
+    await this.loadPromise;
   }
 
   /**
@@ -133,7 +135,7 @@ class TriviaDatabase {
   getQuestion(
     mode: GameMode,
     language: ProgrammingLanguage | null = null,
-    difficultyLevel: number = 1,
+    difficultyLevel = 1,
   ): TriviaQuestion {
     if (!this.triviaData) {
       warn("Trivia data not loaded", undefined, "triviaDatabase");
@@ -165,10 +167,10 @@ class TriviaDatabase {
       if (settingsJson) {
         settings = JSON.parse(settingsJson);
       }
-    } catch (err) {
+    } catch (error) {
       warn(
         "Failed to load settings for trivia difficulty",
-        err,
+        error,
         "triviaDatabase",
       );
     }
@@ -272,8 +274,7 @@ class TriviaDatabase {
     let currentQuestion: any = null;
     let currentKey: string | null = null;
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
+    for (const line of lines) {
       const trimmed = line.trim();
 
       if (!trimmed || trimmed.startsWith("#")) {
@@ -292,7 +293,7 @@ class TriviaDatabase {
       }
 
       // Difficulty level (2 spaces)
-      if (indent === 2 && line.trim().endsWith(":") && currentCategory) {
+      if (indent === 2 && line.trimEnd().endsWith(":") && currentCategory) {
         currentDifficulty = trimmed.slice(0, -1);
         result[currentCategory][currentDifficulty] = [];
         currentQuestion = null;
@@ -300,10 +301,10 @@ class TriviaDatabase {
       }
 
       // New question (starts with dash at 2 spaces)
-      if (indent === 2 && line.trim().startsWith("- question:")) {
+      if (indent === 2 && line.trimStart().startsWith("- question:")) {
         if (currentCategory && currentDifficulty) {
           currentQuestion = {
-            question: line.split("question:")[1].trim(),
+            question: line.split("question:", 2)[1].trim(),
             options: [],
             correct: 0,
           };
@@ -318,12 +319,23 @@ class TriviaDatabase {
         const [key, ...valueParts] = line.trim().split(":");
         const value = valueParts.join(":").trim();
 
-        if (key === "question") {
-          currentQuestion.question = value;
-        } else if (key === "options") {
-          currentKey = "options";
-        } else if (key === "correct") {
-          currentQuestion.correct = parseInt(value, 10);
+        switch (key) {
+          case "question": {
+            currentQuestion.question = value;
+
+            break;
+          }
+          case "options": {
+            currentKey = "options";
+
+            break;
+          }
+          case "correct": {
+            currentQuestion.correct = parseInt(value, 10);
+
+            break;
+          }
+          // No default
         }
         continue;
       }
@@ -336,7 +348,6 @@ class TriviaDatabase {
       ) {
         const option = line.trim().slice(2);
         currentQuestion.options.push(option);
-        continue;
       }
     }
 

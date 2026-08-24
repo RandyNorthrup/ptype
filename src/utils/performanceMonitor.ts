@@ -23,7 +23,7 @@ interface PerformanceStats {
 }
 
 class PerformanceMonitor {
-  private enabled: boolean = false;
+  private enabled = false;
   private frames: number[] = [];
   private maxFrames = 60;
   private lastTime = performance.now();
@@ -127,7 +127,7 @@ class PerformanceMonitor {
     // Return unsubscribe function
     return () => {
       const index = this.callbacks.indexOf(callback);
-      if (index > -1) {
+      if (index !== -1) {
         this.callbacks.splice(index, 1);
       }
     };
@@ -137,7 +137,7 @@ class PerformanceMonitor {
    * Notify all subscribers
    */
   private notifyCallbacks() {
-    this.callbacks.forEach((callback) => callback(this.stats));
+    for (const callback of this.callbacks) callback(this.stats);
   }
 
   /**
@@ -200,9 +200,12 @@ class PerformanceMonitor {
   /**
    * Measure execution time of a function
    */
-  async measureAsync(label: string, fn: () => Promise<void>): Promise<void> {
+  async measureAsync(
+    label: string,
+    function_: () => Promise<void>,
+  ): Promise<void> {
     const start = performance.now();
-    await fn();
+    await function_();
     const duration = performance.now() - start;
     debug(
       `Measure Async: ${label}`,
@@ -214,9 +217,9 @@ class PerformanceMonitor {
   /**
    * Measure synchronous function execution time
    */
-  measure(label: string, fn: () => void): void {
+  measure(label: string, function_: () => void): void {
     const start = performance.now();
-    fn();
+    function_();
     const duration = performance.now() - start;
     debug(
       `Measure: ${label}`,

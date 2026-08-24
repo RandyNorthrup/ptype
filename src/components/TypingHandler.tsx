@@ -7,7 +7,7 @@ import { useGameStore } from "../store/gameContext";
 import { getAudioManager } from "../utils/audioManager";
 import { triviaDatabase } from "../utils/triviaDatabase";
 import { achievementsManager } from "../utils/achievementsManager";
-import { GameMode, BonusItemType } from "../types";
+import { BonusItemType } from "../types";
 import { error as logError } from "../utils/logger";
 
 export function TypingHandler() {
@@ -40,24 +40,24 @@ export function TypingHandler() {
   } = useGameStore();
 
   // Refs for values that change frequently — avoids recreating the callback
-  const enemiesRef = useRef(enemies);
-  enemiesRef.current = enemies;
-  const activeEnemyIdRef = useRef(activeEnemyId);
-  activeEnemyIdRef.current = activeEnemyId;
-  const modeRef = useRef(mode);
-  modeRef.current = mode;
-  const isPausedRef = useRef(isPaused);
-  isPausedRef.current = isPaused;
-  const isGameOverRef = useRef(isGameOver);
-  isGameOverRef.current = isGameOver;
-  const empCooldownRef = useRef(empCooldown);
-  empCooldownRef.current = empCooldown;
-  const levelRef = useRef(level);
-  levelRef.current = level;
-  const programmingLanguageRef = useRef(programmingLanguage);
-  programmingLanguageRef.current = programmingLanguage;
-  const bonusItemsRef = useRef(bonusItems);
-  bonusItemsRef.current = bonusItems;
+  const enemiesReference = useRef(enemies);
+  enemiesReference.current = enemies;
+  const activeEnemyIdReference = useRef(activeEnemyId);
+  activeEnemyIdReference.current = activeEnemyId;
+  const modeReference = useRef(mode);
+  modeReference.current = mode;
+  const isPausedReference = useRef(isPaused);
+  isPausedReference.current = isPaused;
+  const isGameOverReference = useRef(isGameOver);
+  isGameOverReference.current = isGameOver;
+  const empCooldownReference = useRef(empCooldown);
+  empCooldownReference.current = empCooldown;
+  const levelReference = useRef(level);
+  levelReference.current = level;
+  const programmingLanguageReference = useRef(programmingLanguage);
+  programmingLanguageReference.current = programmingLanguage;
+  const bonusItemsReference = useRef(bonusItems);
+  bonusItemsReference.current = bonusItems;
 
   /**
    * Complete a word: destroy enemy, score points, advance level if boss
@@ -88,17 +88,19 @@ export function TypingHandler() {
 
         // Show trivia every 2 boss defeats (i.e. every 6 levels)
         // Check the current boss level (levelRef hasn't changed yet since nextLevel is async)
-        const currentBossLevel = levelRef.current;
+        const currentBossLevel = levelReference.current;
         if (currentBossLevel % 6 === 0) {
-          const currentMode = modeRef.current as GameMode;
+          const currentMode = modeReference.current;
           const question = triviaDatabase.getQuestion(
             currentMode,
-            programmingLanguageRef.current ?? null,
+            programmingLanguageReference.current ?? null,
             currentBossLevel,
           );
           if (question) {
             // Small delay so level-up is visible before trivia
-            setTimeout(() => showTrivia(question), 600);
+            setTimeout(() => {
+              showTrivia(question);
+            }, 600);
           }
         }
       }
@@ -118,9 +120,9 @@ export function TypingHandler() {
     (event: KeyboardEvent) => {
       try {
         const key = event.key;
-        const currentMode = modeRef.current;
-        const paused = isPausedRef.current;
-        const gameOver = isGameOverRef.current;
+        const currentMode = modeReference.current;
+        const paused = isPausedReference.current;
+        const gameOver = isGameOverReference.current;
 
         // ESC: pause / resume (not during trivia)
         if (
@@ -161,32 +163,36 @@ export function TypingHandler() {
           event.preventDefault();
         }
 
-        const currentEnemies = enemiesRef.current;
-        const currentActiveId = activeEnemyIdRef.current;
+        const currentEnemies = enemiesReference.current;
+        const currentActiveId = activeEnemyIdReference.current;
 
         // --- TAB: switch target ---
         if (key === "Tab") {
           if (currentEnemies.length === 0) return;
           // Reset current enemy progress
           if (currentActiveId) {
-            const cur = currentEnemies.find((e) => e.id === currentActiveId);
-            if (cur && cur.typedCharacters > 0) {
+            const current = currentEnemies.find(
+              (e) => e.id === currentActiveId,
+            );
+            if (current && current.typedCharacters > 0) {
               updateEnemy(currentActiveId, { typedCharacters: 0 });
             }
           }
-          const curIdx = currentEnemies.findIndex(
+          const currentIndex = currentEnemies.findIndex(
             (e) => e.id === currentActiveId,
           );
-          const nextIdx =
-            curIdx >= 0 ? (curIdx + 1) % currentEnemies.length : 0;
-          setActiveEnemy(currentEnemies[nextIdx].id);
+          const nextIndex =
+            currentIndex === -1
+              ? 0
+              : (currentIndex + 1) % currentEnemies.length;
+          setActiveEnemy(currentEnemies[nextIndex].id);
           setCurrentWord("");
           return;
         }
 
         // --- ENTER: EMP ---
         if (key === "Enter") {
-          if (empCooldownRef.current === 0) {
+          if (empCooldownReference.current === 0) {
             useEMP();
           }
           return;
@@ -194,7 +200,7 @@ export function TypingHandler() {
 
         // --- ArrowUp: cycle bonus items ---
         if (key === "ArrowUp") {
-          if (bonusItemsRef.current.length > 0) {
+          if (bonusItemsReference.current.length > 0) {
             selectNextBonus();
           }
           return;
@@ -234,7 +240,33 @@ export function TypingHandler() {
               )
             : null;
 
-          if (!activeEnemy) {
+          if (activeEnemy) {
+            // Continue typing the active enemy's word
+            const nextChar = activeEnemy.word.charAt(
+              activeEnemy.typedCharacters,
+            );
+
+            if (nextChar.toLowerCase() === key.toLowerCase()) {
+              const newTypedCount = activeEnemy.typedCharacters + 1;
+              updateEnemy(activeEnemy.id, { typedCharacters: newTypedCount });
+              typeCharacter(key);
+
+              // Word complete?
+              if (newTypedCount === activeEnemy.word.length) {
+                completeWord(
+                  activeEnemy.id,
+                  activeEnemy.word,
+                  activeEnemy.isBoss,
+                );
+              } else {
+                getAudioManager().playTypeCorrect();
+              }
+            } else {
+              // Wrong character
+              achievementsManager.onTypingMistake();
+              getAudioManager().playTypeIncorrect();
+            }
+          } else {
             // Start typing a new word — find an enemy whose word starts with this key
             const matchingEnemy = currentEnemies.find(
               (e) =>
@@ -262,36 +294,10 @@ export function TypingHandler() {
               achievementsManager.onTypingMistake();
               getAudioManager().playTypeIncorrect();
             }
-          } else {
-            // Continue typing the active enemy's word
-            const nextChar = activeEnemy.word.charAt(
-              activeEnemy.typedCharacters,
-            );
-
-            if (nextChar.toLowerCase() === key.toLowerCase()) {
-              const newTypedCount = activeEnemy.typedCharacters + 1;
-              updateEnemy(activeEnemy.id, { typedCharacters: newTypedCount });
-              typeCharacter(key);
-
-              // Word complete?
-              if (newTypedCount === activeEnemy.word.length) {
-                completeWord(
-                  activeEnemy.id,
-                  activeEnemy.word,
-                  activeEnemy.isBoss,
-                );
-              } else {
-                getAudioManager().playTypeCorrect();
-              }
-            } else {
-              // Wrong character
-              achievementsManager.onTypingMistake();
-              getAudioManager().playTypeIncorrect();
-            }
           }
         }
-      } catch (err) {
-        logError("Failed to handle keypress", err, "TypingHandler");
+      } catch (error) {
+        logError("Failed to handle keypress", error, "TypingHandler");
       }
     },
     // All store callbacks are stable (useCallback with []) — safe to list
@@ -313,7 +319,9 @@ export function TypingHandler() {
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
   }, [handleKeyPress]);
 
   return null;

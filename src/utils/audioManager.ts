@@ -47,7 +47,9 @@ export class AudioManager {
       // Play pending music if requested
       if (this.pendingMusicPlay && this.isMusicEnabled && this.bgMusic) {
         this.bgMusic.play().catch(() => {
-          /* User gesture may still be insufficient */
+          /*
+          User gesture may still be insufficient
+          */
         });
         this.pendingMusicPlay = false;
       }
@@ -68,7 +70,9 @@ export class AudioManager {
     }
 
     this.bgMusic.play().catch(() => {
-      /* Autoplay may be blocked */
+      /*
+      Autoplay may be blocked
+      */
     });
   }
 
@@ -79,10 +83,12 @@ export class AudioManager {
   }
 
   stopMusic(): void {
-    if (this.bgMusic) {
-      this.bgMusic.pause();
-      this.bgMusic.currentTime = 0;
+    if (!this.bgMusic) {
+      return;
     }
+
+    this.bgMusic.pause();
+    this.bgMusic.currentTime = 0;
   }
 
   setMusicVolume(volume: number): void {
@@ -127,18 +133,18 @@ export class AudioManager {
     if (!this.isSfxEnabled) return;
 
     try {
-      const ctx = this.getAudioContext();
-      const oscillator = ctx.createOscillator();
-      const gainNode = ctx.createGain();
+      const context = this.getAudioContext();
+      const oscillator = context.createOscillator();
+      const gainNode = context.createGain();
 
       oscillator.connect(gainNode);
-      gainNode.connect(ctx.destination);
+      gainNode.connect(context.destination);
 
       oscillator.type = type;
       oscillator.frequency.value = frequency;
 
       if (envelope) {
-        const now = ctx.currentTime;
+        const now = context.currentTime;
         const { attack, decay, sustain, release } = envelope;
 
         gainNode.gain.setValueAtTime(0, now);
@@ -156,14 +162,14 @@ export class AudioManager {
         gainNode.gain.value = this.sfxVolume;
       }
 
-      oscillator.start(ctx.currentTime);
-      oscillator.stop(ctx.currentTime + duration);
+      oscillator.start(context.currentTime);
+      oscillator.stop(context.currentTime + duration);
 
       // Auto-disconnect after sound completes
-      oscillator.onended = () => {
+      oscillator.addEventListener("ended", () => {
         oscillator.disconnect();
         gainNode.disconnect();
-      };
+      });
     } catch {
       // AudioContext may be unavailable
     }
@@ -182,39 +188,39 @@ export class AudioManager {
     if (!this.isSfxEnabled) return;
 
     try {
-      const ctx = this.getAudioContext();
-      const bufferSize = ctx.sampleRate * 0.5;
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const context = this.getAudioContext();
+      const bufferSize = context.sampleRate * 0.5;
+      const buffer = context.createBuffer(1, bufferSize, context.sampleRate);
       const data = buffer.getChannelData(0);
 
-      for (let i = 0; i < bufferSize; i++) {
-        data[i] = Math.random() * 2 - 1;
+      for (let index = 0; index < bufferSize; index++) {
+        data[index] = Math.random() * 2 - 1;
       }
 
-      const source = ctx.createBufferSource();
+      const source = context.createBufferSource();
       source.buffer = buffer;
 
-      const gainNode = ctx.createGain();
-      const filter = ctx.createBiquadFilter();
+      const gainNode = context.createGain();
+      const filter = context.createBiquadFilter();
       filter.type = "lowpass";
       filter.frequency.value = 1000;
 
       source.connect(filter);
       filter.connect(gainNode);
-      gainNode.connect(ctx.destination);
+      gainNode.connect(context.destination);
 
-      const now = ctx.currentTime;
+      const now = context.currentTime;
       gainNode.gain.setValueAtTime(this.sfxVolume, now);
       gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
 
       source.start(now);
       source.stop(now + 0.5);
 
-      source.onended = () => {
+      source.addEventListener("ended", () => {
         source.disconnect();
         filter.disconnect();
         gainNode.disconnect();
-      };
+      });
     } catch {
       // AudioContext may be unavailable
     }
@@ -232,16 +238,16 @@ export class AudioManager {
     if (!this.isSfxEnabled) return;
 
     try {
-      const ctx = this.getAudioContext();
-      const oscillator = ctx.createOscillator();
-      const gainNode = ctx.createGain();
+      const context = this.getAudioContext();
+      const oscillator = context.createOscillator();
+      const gainNode = context.createGain();
 
       oscillator.connect(gainNode);
-      gainNode.connect(ctx.destination);
+      gainNode.connect(context.destination);
 
       oscillator.type = "sine";
 
-      const now = ctx.currentTime;
+      const now = context.currentTime;
       oscillator.frequency.setValueAtTime(400, now);
       oscillator.frequency.exponentialRampToValueAtTime(800, now + 0.2);
 
@@ -251,10 +257,10 @@ export class AudioManager {
       oscillator.start(now);
       oscillator.stop(now + 0.2);
 
-      oscillator.onended = () => {
+      oscillator.addEventListener("ended", () => {
         oscillator.disconnect();
         gainNode.disconnect();
-      };
+      });
     } catch {
       // AudioContext may be unavailable
     }
@@ -281,10 +287,10 @@ export class AudioManager {
   playEMP(): void {
     if (!this.isSfxEnabled) return;
 
-    for (let i = 0; i < 5; i++) {
+    for (let index = 0; index < 5; index++) {
       setTimeout(() => {
         this.playProceduralSound(200 + Math.random() * 400, 0.05, "square");
-      }, i * 50);
+      }, index * 50);
     }
   }
 

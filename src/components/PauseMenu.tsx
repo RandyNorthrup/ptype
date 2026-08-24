@@ -5,17 +5,23 @@ import { memo, useState } from "react";
 import { useGameStore } from "../store/gameContext";
 import { SettingsMenu } from "./SettingsMenu";
 
-interface PauseMenuProps {
+interface PauseMenuProperties {
   onResume: () => void;
   onMainMenu: () => void;
 }
 
-const PauseMenuComponent = ({ onResume, onMainMenu }: PauseMenuProps) => {
+const PauseMenuComponent = ({ onResume, onMainMenu }: PauseMenuProperties) => {
   const { level, score, wpm, accuracy } = useGameStore();
   const [showSettings, setShowSettings] = useState(false);
 
   if (showSettings) {
-    return <SettingsMenu onClose={() => setShowSettings(false)} />;
+    return (
+      <SettingsMenu
+        onClose={() => {
+          setShowSettings(false);
+        }}
+      />
+    );
   }
 
   return (
@@ -205,7 +211,9 @@ const PauseMenuComponent = ({ onResume, onMainMenu }: PauseMenuProps) => {
           </button>
 
           <button
-            onClick={() => setShowSettings(true)}
+            onClick={() => {
+              setShowSettings(true);
+            }}
             data-testid="pause-settings-button"
             style={{
               padding: "1rem 2rem",

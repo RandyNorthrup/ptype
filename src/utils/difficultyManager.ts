@@ -5,7 +5,9 @@
 
 export type DifficultyLevel = "Easy" | "Normal" | "Hard" | "Expert" | "Master";
 
-/** Cache the starting difficulty so we don't read localStorage every call */
+/**
+Cache the starting difficulty so we don't read localStorage every call
+*/
 let cachedStartingDifficulty: DifficultyLevel | null = null;
 
 /**
@@ -111,18 +113,24 @@ export function getDifficultyMultiplier(
   currentDifficulty: DifficultyLevel,
 ): number {
   switch (currentDifficulty) {
-    case "Easy":
+    case "Easy": {
       return 0.6;
-    case "Normal":
-      return 1.0;
-    case "Hard":
+    }
+    case "Normal": {
+      return 1;
+    }
+    case "Hard": {
       return 1.35;
-    case "Expert":
+    }
+    case "Expert": {
       return 1.65;
-    case "Master":
-      return 2.0;
-    default:
-      return 1.0;
+    }
+    case "Master": {
+      return 2;
+    }
+    default: {
+      return 1;
+    }
   }
 }
 
@@ -131,17 +139,23 @@ export function getDifficultyMultiplier(
  */
 export function getDifficultyColor(difficulty: DifficultyLevel): string {
   switch (difficulty) {
-    case "Easy":
+    case "Easy": {
       return "#4ade80"; // Green
-    case "Normal":
+    }
+    case "Normal": {
       return "#60a5fa"; // Blue
-    case "Hard":
+    }
+    case "Hard": {
       return "#fbbf24"; // Yellow
-    case "Expert":
+    }
+    case "Expert": {
       return "#f97316"; // Orange
-    case "Master":
+    }
+    case "Master": {
       return "#ef4444"; // Red
-    default:
+    }
+    default: {
       return "#94a3b8"; // Gray
+    }
   }
 }

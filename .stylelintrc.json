@@ -3,6 +3,11 @@
   "extends": ["stylelint-config-standard"],
   "rules": {
     "alpha-value-notation": "percentage",
+    "at-rule-no-vendor-prefix": [true, { "ignoreAtRules": ["-moz-document"] }],
+    "at-rule-prelude-no-invalid": [
+      true,
+      { "ignoreAtRules": ["-moz-document"] }
+    ],
     "color-function-notation": "modern",
     "color-hex-length": "short",
     "color-named": "never",
@@ -19,6 +24,12 @@
     "no-duplicate-selectors": true,
     "number-max-precision": 4,
     "property-no-unknown": true,
+    "property-no-vendor-prefix": [
+      true,
+      {
+        "ignoreProperties": ["-moz-appearance", "-webkit-appearance"]
+      }
+    ],
     "selector-max-compound-selectors": 4,
     "selector-max-id": 0,
     "selector-max-universal": 1,

@@ -5,25 +5,29 @@
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
-import * as THREE from "three";
+import type * as THREE from "three";
 
 const MODEL_PATH = "/assets/models/ships/player-ship.glb";
 
 export function PlayerShip() {
-  const groupRef = useRef<THREE.Group>(null);
+  const groupReference = useRef<THREE.Group>(null);
   const { scene } = useGLTF(MODEL_PATH);
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
   useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 2) * 0.2;
-      groupRef.current.rotation.z = Math.sin(state.clock.elapsedTime) * 0.05;
+    if (!groupReference.current) {
+      return;
     }
+
+    groupReference.current.position.y =
+      Math.sin(state.clock.elapsedTime * 2) * 0.2;
+    groupReference.current.rotation.z =
+      Math.sin(state.clock.elapsedTime) * 0.05;
   });
 
   return (
     <group
-      ref={groupRef}
+      ref={groupReference}
       position={[0, 0, -20]}
       userData={{ testId: "player-ship" }}
     >

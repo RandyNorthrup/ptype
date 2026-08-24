@@ -2,10 +2,10 @@
  * AchievementToast - Notification when achievement is unlocked
  */
 import { useState, useEffect, useRef, memo } from "react";
-import { Achievement } from "../types";
+import { type Achievement } from "../types";
 import { TEST_IDS } from "../utils/testIds";
 
-interface AchievementToastProps {
+interface AchievementToastProperties {
   achievement: Achievement;
   onDismiss: () => void;
 }
@@ -13,11 +13,11 @@ interface AchievementToastProps {
 const AchievementToastComponent = ({
   achievement,
   onDismiss,
-}: AchievementToastProps) => {
+}: AchievementToastProperties) => {
   const [isVisible, setIsVisible] = useState(false);
   // Use a ref so the effect never re-runs when onDismiss identity changes
-  const onDismissRef = useRef(onDismiss);
-  onDismissRef.current = onDismiss;
+  const onDismissReference = useRef(onDismiss);
+  onDismissReference.current = onDismiss;
 
   useEffect(() => {
     // Trigger slide-in animation
@@ -29,7 +29,9 @@ const AchievementToastComponent = ({
     const timer = setTimeout(() => {
       setIsVisible(false);
       // Wait for fade out animation before calling onDismiss
-      innerTimer = setTimeout(() => onDismissRef.current(), 300);
+      innerTimer = setTimeout(() => {
+        onDismissReference.current();
+      }, 300);
     }, 3000);
 
     return () => {

@@ -216,23 +216,23 @@ const CanvasHUDComponent = () => {
             gap: "10px",
           }}
         >
-          {bonusItems.map((item, idx) => (
+          {bonusItems.map((item, index) => (
             <div
               key={item.itemId}
-              data-testid={`${TEST_IDS.HUD_BONUS_ITEMS}-${idx}`}
+              data-testid={`${TEST_IDS.HUD_BONUS_ITEMS}-${index}`}
               style={{
                 padding: "10px 15px",
                 background:
-                  idx === selectedBonusIndex
+                  index === selectedBonusIndex
                     ? "rgba(9, 255, 0, 0.2)"
                     : "rgba(0, 0, 0, 0.5)",
                 border:
-                  idx === selectedBonusIndex
+                  index === selectedBonusIndex
                     ? "2px solid #09ff00"
                     : "2px solid rgba(148, 163, 184, 0.3)",
                 borderRadius: "8px",
                 textAlign: "center",
-                color: idx === selectedBonusIndex ? "#09ff00" : "#94a3b8",
+                color: index === selectedBonusIndex ? "#09ff00" : "#94a3b8",
               }}
             >
               <div style={{ fontSize: "0.875rem" }}>{item.name}</div>

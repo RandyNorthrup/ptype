@@ -17,7 +17,7 @@ class Logger {
   private logs: LogEntry[] = [];
   private maxLogs = 100;
   private isDevelopment: boolean;
-  private errorCallbacks: Array<(error: Error, context?: string) => void> = [];
+  private errorCallbacks: ((error: Error, context?: string) => void)[] = [];
 
   constructor() {
     this.isDevelopment =
@@ -67,7 +67,7 @@ class Logger {
 
     // Trigger error callbacks for external tracking
     if (error instanceof Error) {
-      this.errorCallbacks.forEach((cb) => cb(error, context));
+      for (const callback of this.errorCallbacks) callback(error, context);
     }
   }
 
@@ -100,18 +100,22 @@ class Logger {
       const emoji = this.getEmoji(level);
 
       switch (level) {
-        case "debug":
+        case "debug": {
           console.debug(`${emoji} ${prefix} ${message}`, data || "");
           break;
-        case "info":
+        }
+        case "info": {
           console.info(`${emoji} ${prefix} ${message}`, data || "");
           break;
-        case "warn":
+        }
+        case "warn": {
           console.warn(`${emoji} ${prefix} ${message}`, data || "");
           break;
-        case "error":
+        }
+        case "error": {
           console.error(`${emoji} ${prefix} ${message}`, data || "");
           break;
+        }
       }
     }
   }
@@ -121,14 +125,18 @@ class Logger {
    */
   private getEmoji(level: LogLevel): string {
     switch (level) {
-      case "debug":
+      case "debug": {
         return "🔍";
-      case "info":
+      }
+      case "info": {
         return "ℹ️";
-      case "warn":
+      }
+      case "warn": {
         return "⚠️";
-      case "error":
+      }
+      case "error": {
         return "❌";
+      }
     }
   }
 
@@ -175,14 +183,22 @@ class Logger {
 export const logger = new Logger();
 
 // Export convenience functions
-export const debug = (message: string, data?: any, context?: string) =>
+export const debug = (message: string, data?: any, context?: string) => {
   logger.debug(message, data, context);
+};
 
-export const info = (message: string, data?: any, context?: string) =>
+export const info = (message: string, data?: any, context?: string) => {
   logger.info(message, data, context);
+};
 
-export const warn = (message: string, data?: any, context?: string) =>
+export const warn = (message: string, data?: any, context?: string) => {
   logger.warn(message, data, context);
+};
 
-export const error = (message: string, err?: Error | any, context?: string) =>
-  logger.error(message, err, context);
+export const error = (
+  message: string,
+  error_?: Error | any,
+  context?: string,
+) => {
+  logger.error(message, error_, context);
+};

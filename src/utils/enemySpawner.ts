@@ -17,7 +17,7 @@ let globalEnemyIdCounter = 0;
 
 export class EnemySpawner {
   private spawnTimer = 0;
-  private lastSpawnPoint: number = -1; // Track last used spawn point to ensure variety
+  private lastSpawnPoint = -1; // Track last used spawn point to ensure variety
 
   /**
    * Get spawn rate based on level
@@ -25,7 +25,7 @@ export class EnemySpawner {
   private getSpawnRate(level: number): number {
     // Base spawn rate: 4 seconds at level 1
     // Decreases as level increases but never too fast
-    const baseRate = 4.0; // seconds
+    const baseRate = 4; // seconds
     const minRate = 1.5; // minimum 1.5 seconds to prevent overlap
 
     // Gradually decrease spawn time
@@ -53,15 +53,15 @@ export class EnemySpawner {
     const baseline = (charsPerSecond * Math.max(3, wordLength)) / 18;
 
     // Scale factor increases with level - much faster starting speed
-    const speedScale = 2.0 + Math.min(level, 30) * 0.04; // Increased from 1.2 to 2.0
+    const speedScale = 2 + Math.min(level, 30) * 0.04; // Increased from 1.2 to 2.0
 
     // Calculate final speed with higher minimum and maximum
-    let speed = Math.max(1.8, Math.min(10.0, baseline * speedScale)); // Increased from 1.0-8.0 to 1.8-10.0
+    let speed = Math.max(1.8, Math.min(10, baseline * speedScale)); // Increased from 1.0-8.0 to 1.8-10.0
 
     // Boss enemies move slower but still reasonably fast
     if (isBoss) {
       const isProgramming = mode === "programming";
-      const lengthFactor = wordLength > 40 ? 0.8 : 1.0;
+      const lengthFactor = wordLength > 40 ? 0.8 : 1;
       const baseScale = isProgramming ? 0.6 : 0.7; // Increased from 0.5/0.6
       const levelFactor = 0.85 + Math.min(level, 120) / 240;
       speed = Math.max(
@@ -244,7 +244,7 @@ export class EnemySpawner {
         // For fast enemies, try to get a longer word (retry up to 3 times)
         if (!isBoss && enemyType === "fast") {
           let longestWord = word;
-          for (let i = 0; i < 2; i++) {
+          for (let index = 0; index < 2; index++) {
             const candidateWord = wordDictionary.getWord(
               langKey,
               level,
@@ -271,8 +271,8 @@ export class EnemySpawner {
         );
         debug(`Created enemy: ${enemy.id}`, enemy, "enemySpawner");
         return enemy;
-      } catch (err) {
-        logError("Failed to create enemy", err, "enemySpawner");
+      } catch (error) {
+        logError("Failed to create enemy", error, "enemySpawner");
         return null;
       }
     }
@@ -296,8 +296,8 @@ export class EnemySpawner {
     level: number,
     mode: GameMode,
     language: ProgrammingLanguage | undefined,
-    isBoss: boolean = false,
-    currentDifficulty: string = "Normal",
+    isBoss = false,
+    currentDifficulty = "Normal",
   ): Enemy | null {
     // Get next spawn point
     const spawnPoint = this.getNextSpawnPoint();
@@ -316,8 +316,8 @@ export class EnemySpawner {
         currentDifficulty,
       );
       return enemy;
-    } catch (err) {
-      logError("Failed to force spawn enemy", err, "enemySpawner");
+    } catch (error) {
+      logError("Failed to force spawn enemy", error, "enemySpawner");
       return null;
     }
   }

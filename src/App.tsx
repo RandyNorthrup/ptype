@@ -34,7 +34,7 @@ const LaserEffect = lazy(() =>
 );
 
 import { useGameStore } from "./store/gameContext";
-import { GameMode, Achievement } from "./types";
+import { GameMode, type Achievement } from "./types";
 import { wordDictionary } from "./utils/wordDictionary";
 import { triviaDatabase } from "./utils/triviaDatabase";
 import { getAudioManager } from "./utils/audioManager";
@@ -71,15 +71,15 @@ function App() {
   }, []); // Run once on mount only
 
   useEffect(() => {
-    let cancelled = false;
-    let unsubscribeRef: (() => void) | undefined;
+    let isCancelled = false;
+    let unsubscribeReference: (() => void) | undefined;
 
     // Subscribe to achievement unlocks synchronously (before any await)
     // so cleanup can always unsubscribe
-    unsubscribeRef = achievementsManager.onUnlock((achievement) => {
-      if (cancelled) return;
-      setAchievementQueue((prev) => [
-        ...prev,
+    unsubscribeReference = achievementsManager.onUnlock((achievement) => {
+      if (isCancelled) return;
+      setAchievementQueue((previous) => [
+        ...previous,
         { ...achievement, _toastId: Date.now() + Math.random() },
       ]);
       // Sync unlocked state to React store so it gets persisted to localStorage
@@ -97,20 +97,18 @@ function App() {
         // Preload critical 3D assets first
         setLoadingStatus("Loading 3D assets...");
         await resourcePreloader.preloadCriticalAssets();
-        if (cancelled) return;
+        if (isCancelled) return;
 
         // Load only essential dictionaries initially (normal mode)
         setLoadingStatus("Loading word dictionaries...");
         await wordDictionary.loadDictionary("normal");
-        if (cancelled) return;
+        if (isCancelled) return;
 
         // Load trivia database in background (non-blocking)
         setLoadingStatus("Loading trivia questions...");
-        triviaDatabase
-          .load()
-          .catch((err) =>
-            logError("Failed to load trivia database", err, "App"),
-          );
+        triviaDatabase.load().catch((error) => {
+          logError("Failed to load trivia database", error, "App");
+        });
 
         // Preload other dictionaries in background after initial load
         Promise.all(
@@ -123,7 +121,9 @@ function App() {
             "css",
             "html",
           ].map((lang) => wordDictionary.loadDictionary(lang)),
-        ).catch((err) => logError("Failed to load dictionaries", err, "App"));
+        ).catch((error) => {
+          logError("Failed to load dictionaries", error, "App");
+        });
 
         // Queue additional assets for background loading
         resourcePreloader.queueAsset("/assets/models/ships/enemy-fast.glb");
@@ -158,29 +158,29 @@ function App() {
         const audioManager = getAudioManager();
         // Start background music after a short delay
         setTimeout(() => {
-          if (!cancelled) audioManager.playMusic();
+          if (!isCancelled) audioManager.playMusic();
         }, 1000);
 
         setLoadingStatus("Ready!");
-        if (!cancelled) setIsLoading(false);
-      } catch (err) {
-        logError("Failed to initialize game", err as Error, "App");
+        if (!isCancelled) setIsLoading(false);
+      } catch (error) {
+        logError("Failed to initialize game", error, "App");
         setLoadingStatus("Error loading game assets");
         // Still allow game to start
-        if (!cancelled) setIsLoading(false);
+        if (!isCancelled) setIsLoading(false);
       }
     };
 
     initialize();
     return () => {
-      cancelled = true;
-      if (unsubscribeRef) unsubscribeRef();
+      isCancelled = true;
+      if (unsubscribeReference) unsubscribeReference();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run once on mount
 
   // All hooks MUST be above the early return to satisfy Rules of Hooks
-  const showGame =
+  const isShowGame =
     mode === GameMode.NORMAL ||
     mode === GameMode.PROGRAMMING ||
     mode === GameMode.TRIVIA ||
@@ -194,30 +194,38 @@ function App() {
       bonusItem: import("./types").BonusItem | null,
     ) => {
       answerTrivia(selectedAnswer, correct, bonusItem);
-      setTimeout(() => hideTrivia(), 500);
+      setTimeout(() => {
+        hideTrivia();
+      }, 500);
     },
     [answerTrivia, hideTrivia],
   );
 
   const handleTriviaTimeout = useCallback(() => {
     answerTrivia(0, false, null);
-    setTimeout(() => hideTrivia(), 500);
+    setTimeout(() => {
+      hideTrivia();
+    }, 500);
   }, [answerTrivia, hideTrivia]);
 
   const handlePauseMainMenu = useCallback(() => {
     if (
-      window.confirm(
+      !window.confirm(
         "Are you sure you want to quit to main menu? Your progress will be lost.",
       )
     ) {
-      resetGame();
-      resourcePreloader.clearNonCriticalAssets();
+      return;
     }
+
+    resetGame();
+    resourcePreloader.clearNonCriticalAssets();
   }, [resetGame]);
 
   // Stable callback for dismissing achievement toasts
   const handleDismissAchievement = useCallback((toastId: number) => {
-    setAchievementQueue((prev) => prev.filter((a) => a._toastId !== toastId));
+    setAchievementQueue((previous) =>
+      previous.filter((a) => a._toastId !== toastId),
+    );
   }, []);
 
   if (isLoading) {
@@ -271,7 +279,7 @@ function App() {
         >
           <Suspense fallback={null}>
             {/* Dynamic camera controller */}
-            <CameraController isGame={showGame} />
+            <CameraController isGame={isShowGame} />
 
             {/* Base lighting - always present */}
             <ambientLight intensity={0.3} />
@@ -281,13 +289,13 @@ function App() {
             <SpaceScene />
 
             {/* Game content only when playing */}
-            {showGame && <GameCanvas />}
+            {isShowGame && <GameCanvas />}
           </Suspense>
         </Canvas>
       </div>
 
       {/* Laser Effect */}
-      {showGame && (
+      {isShowGame && (
         <Suspense fallback={null}>
           <LaserEffect />
         </Suspense>
@@ -297,7 +305,7 @@ function App() {
       <TypingHandler />
 
       {/* Main Menu */}
-      {!showGame && <MainMenu />}
+      {!isShowGame && <MainMenu />}
 
       {/* Trivia Overlay */}
       {currentTrivia && (
@@ -340,7 +348,9 @@ function App() {
           <AchievementToast
             key={achievement._toastId}
             achievement={achievement}
-            onDismiss={() => handleDismissAchievement(achievement._toastId)}
+            onDismiss={() => {
+              handleDismissAchievement(achievement._toastId);
+            }}
           />
         ))}
       </div>

@@ -13,13 +13,13 @@ function getParticleTexture(): THREE.CanvasTexture {
     const canvas = document.createElement("canvas");
     canvas.width = 32;
     canvas.height = 32;
-    const ctx = canvas.getContext("2d")!;
-    const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+    const context = canvas.getContext("2d")!;
+    const gradient = context.createRadialGradient(16, 16, 0, 16, 16, 16);
     gradient.addColorStop(0, "rgba(255,255,255,1)");
     gradient.addColorStop(0.4, "rgba(255,255,255,0.6)");
     gradient.addColorStop(1, "rgba(255,255,255,0)");
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 32, 32);
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 32, 32);
     sharedParticleTexture = new THREE.CanvasTexture(canvas);
   }
   return sharedParticleTexture;
@@ -27,42 +27,42 @@ function getParticleTexture(): THREE.CanvasTexture {
 
 // Star field component
 function StarField() {
-  const starsRef = useRef<THREE.Points>(null);
+  const starsReference = useRef<THREE.Points>(null);
   const starTexture = useMemo(() => getParticleTexture(), []);
 
   const [positions, colors] = useMemo(() => {
     const positions = new Float32Array(5000 * 3);
     const colors = new Float32Array(5000 * 3);
 
-    for (let i = 0; i < 5000; i++) {
-      const i3 = i * 3;
+    for (let index = 0; index < 5000; index++) {
+      const index3 = index * 3;
 
       // Random position in a large sphere - works for both menu and game cameras
       const radius = 200 + Math.random() * 800;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
 
-      positions[i3] = radius * Math.sin(phi) * Math.cos(theta);
-      positions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-      positions[i3 + 2] = radius * Math.cos(phi) - 400; // Centered around origin
+      positions[index3] = radius * Math.sin(phi) * Math.cos(theta);
+      positions[index3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+      positions[index3 + 2] = radius * Math.cos(phi) - 400; // Centered around origin
 
       // Star colors - white, blue, yellow tints
       const colorType = Math.random();
       if (colorType < 0.7) {
         // White stars
-        colors[i3] = 1;
-        colors[i3 + 1] = 1;
-        colors[i3 + 2] = 1;
+        colors[index3] = 1;
+        colors[index3 + 1] = 1;
+        colors[index3 + 2] = 1;
       } else if (colorType < 0.85) {
         // Blue stars
-        colors[i3] = 0.7;
-        colors[i3 + 1] = 0.8;
-        colors[i3 + 2] = 1;
+        colors[index3] = 0.7;
+        colors[index3 + 1] = 0.8;
+        colors[index3 + 2] = 1;
       } else {
         // Yellow/orange stars
-        colors[i3] = 1;
-        colors[i3 + 1] = 0.9;
-        colors[i3 + 2] = 0.7;
+        colors[index3] = 1;
+        colors[index3 + 1] = 0.9;
+        colors[index3 + 2] = 0.7;
       }
     }
 
@@ -71,14 +71,16 @@ function StarField() {
 
   // Gentle rotation
   useFrame((_state, delta) => {
-    if (starsRef.current) {
-      starsRef.current.rotation.y += delta * 0.01;
-      starsRef.current.rotation.x += delta * 0.005;
+    if (!starsReference.current) {
+      return;
     }
+
+    starsReference.current.rotation.y += delta * 0.01;
+    starsReference.current.rotation.x += delta * 0.005;
   });
 
   return (
-    <points ref={starsRef}>
+    <points ref={starsReference}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
@@ -118,18 +120,20 @@ function Asteroid({
   size: number;
   rotationSpeed: [number, number, number];
 }) {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshReference = useRef<THREE.Mesh>(null);
 
   useFrame((_state, delta) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x += rotationSpeed[0] * delta;
-      meshRef.current.rotation.y += rotationSpeed[1] * delta;
-      meshRef.current.rotation.z += rotationSpeed[2] * delta;
+    if (!meshReference.current) {
+      return;
     }
+
+    meshReference.current.rotation.x += rotationSpeed[0] * delta;
+    meshReference.current.rotation.y += rotationSpeed[1] * delta;
+    meshReference.current.rotation.z += rotationSpeed[2] * delta;
   });
 
   return (
-    <mesh ref={meshRef} position={position}>
+    <mesh ref={meshReference} position={position}>
       <dodecahedronGeometry args={[size, 0]} />
       <meshStandardMaterial
         color="#555555"
@@ -144,7 +148,7 @@ function Asteroid({
 // Nebula cloud using particles
 function NebulaClouds() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cloudRefs = useRef<(THREE.Points<any, any> | null)[]>([]);
+  const cloudReferences = useRef<(THREE.Points<any, any> | null)[]>([]);
   const nebulaTexture = useMemo(() => getParticleTexture(), []);
 
   const clouds = useMemo(() => {
@@ -155,26 +159,26 @@ function NebulaClouds() {
 
       // Cloud colors - richer and more vibrant
       const cloudColors = [
-        [0.7, 0.2, 1.0], // Vivid Purple
-        [0.2, 0.8, 1.0], // Bright Cyan
-        [1.0, 0.3, 0.8], // Hot Pink
+        [0.7, 0.2, 1], // Vivid Purple
+        [0.2, 0.8, 1], // Bright Cyan
+        [1, 0.3, 0.8], // Hot Pink
       ][cloudIndex];
 
-      for (let i = 0; i < particleCount; i++) {
-        const i3 = i * 3;
+      for (let index = 0; index < particleCount; index++) {
+        const index3 = index * 3;
 
         // Cluster particles in a cloud shape - centered at origin, each cloud at different depth
         const angle = Math.random() * Math.PI * 2;
         const radius = Math.random() * 100;
         const height = (Math.random() - 0.5) * 60;
 
-        positions[i3] = Math.cos(angle) * radius;
-        positions[i3 + 1] = height;
-        positions[i3 + 2] = Math.sin(angle) * radius;
+        positions[index3] = Math.cos(angle) * radius;
+        positions[index3 + 1] = height;
+        positions[index3 + 2] = Math.sin(angle) * radius;
 
-        colors[i3] = cloudColors[0];
-        colors[i3 + 1] = cloudColors[1];
-        colors[i3 + 2] = cloudColors[2];
+        colors[index3] = cloudColors[0];
+        colors[index3 + 1] = cloudColors[1];
+        colors[index3 + 2] = cloudColors[2];
       }
 
       return { positions, colors };
@@ -182,11 +186,11 @@ function NebulaClouds() {
   }, []); // Static positions
 
   useFrame((_state, delta) => {
-    cloudRefs.current.forEach((cloud, index) => {
+    for (const [index, cloud] of cloudReferences.current.entries()) {
       if (cloud) {
         cloud.rotation.z += delta * 0.05 * (index % 2 === 0 ? 1 : -1);
       }
-    });
+    }
   });
 
   return (
@@ -195,8 +199,8 @@ function NebulaClouds() {
         <points
           key={index}
           position={[0, 0, 80 + index * 40]} // Nebula clouds in the distance
-          ref={(el) => {
-            if (el) cloudRefs.current[index] = el;
+          ref={(element) => {
+            if (element) cloudReferences.current[index] = element;
           }}
         >
           <bufferGeometry>

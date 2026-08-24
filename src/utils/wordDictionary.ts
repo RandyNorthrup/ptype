@@ -20,14 +20,12 @@ export interface WordData {
   };
 }
 
-export interface DictionaryCache {
-  [key: string]: WordData;
-}
+export type DictionaryCache = Record<string, WordData>;
 
 class WordDictionary {
   private cache: DictionaryCache = {};
-  private loadingPromises: Map<string, Promise<WordData>> = new Map();
-  private availableWords: Map<string, string[]> = new Map(); // Remaining words to use
+  private loadingPromises = new Map<string, Promise<WordData>>();
+  private availableWords = new Map<string, string[]>(); // Remaining words to use
 
   /**
    * Load a word dictionary from the data folder
@@ -41,7 +39,7 @@ class WordDictionary {
     // Check if already loading
     const existingPromise = this.loadingPromises.get(language);
     if (existingPromise) {
-      return existingPromise;
+      return await existingPromise;
     }
 
     // Start loading
@@ -77,9 +75,9 @@ class WordDictionary {
       const data = this.parseYAML(yamlText);
 
       return data;
-    } catch (err) {
-      logError(`Error loading ${language} dictionary`, err, "wordDictionary");
-      throw err;
+    } catch (error) {
+      logError(`Error loading ${language} dictionary`, error, "wordDictionary");
+      throw error;
     }
   }
 
@@ -139,10 +137,10 @@ class WordDictionary {
 
       // Parse list items
       if (trimmed.startsWith("- ") && currentSection && currentDifficulty) {
-        const value = trimmed.substring(2).trim();
+        const value = trimmed.slice(2).trim();
 
         // Remove quotes if present
-        const cleanValue = value.replace(/^["']|["']$/g, "");
+        const cleanValue = value.replaceAll(/^["']|["']$/g, "");
 
         data[currentSection][currentDifficulty].push(cleanValue);
       }
@@ -154,7 +152,7 @@ class WordDictionary {
   /**
    * Get a random word based on difficulty level with tracking to avoid reuse
    */
-  getWord(language: string, level: number, isBoss: boolean = false): string {
+  getWord(language: string, level: number, isBoss = false): string {
     const data = this.cache[language];
     if (!data) {
       // Auto-reload dictionary if cache was cleared (e.g., by hot-reload)
@@ -173,11 +171,7 @@ class WordDictionary {
 
     // Get the word pool
     let wordPool: string[];
-    if (isBoss) {
-      wordPool = data.boss_words[difficulty];
-    } else {
-      wordPool = data.keywords[difficulty];
-    }
+    wordPool = isBoss ? data.boss_words[difficulty] : data.keywords[difficulty];
 
     // Initialize available words if not exists or empty
     if (
@@ -186,9 +180,12 @@ class WordDictionary {
     ) {
       // Shuffle the entire word pool using Fisher-Yates
       const shuffled = [...wordPool];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      for (let index = shuffled.length - 1; index > 0; index--) {
+        const index_ = Math.floor(Math.random() * (index + 1));
+        [shuffled[index], shuffled[index_]] = [
+          shuffled[index_],
+          shuffled[index],
+        ];
       }
       this.availableWords.set(poolKey, shuffled);
     }
