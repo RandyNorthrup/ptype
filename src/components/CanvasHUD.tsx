@@ -58,7 +58,9 @@ const CanvasHUDComponent = () => {
     >
       {/* Top stats bar */}
       <div
+        aria-label="Game status"
         data-testid={TEST_IDS.HUD_CONTAINER}
+        role="status"
         style={{
           position: "absolute",
           top: "20px",
@@ -67,6 +69,8 @@ const CanvasHUDComponent = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "start",
+          flexWrap: "wrap",
+          gap: "1rem",
         }}
       >
         {/* Left side stats */}
@@ -132,7 +136,7 @@ const CanvasHUDComponent = () => {
             display: "flex",
             flexDirection: "column",
             gap: "10px",
-            minWidth: "200px",
+            minWidth: "min(200px, 100%)",
           }}
         >
           {/* Health bar */}
@@ -147,7 +151,12 @@ const CanvasHUDComponent = () => {
               HEALTH
             </div>
             <div
+              aria-label="Health"
+              aria-valuemax={maxHealth}
+              aria-valuemin={0}
+              aria-valuenow={health}
               data-testid={TEST_IDS.HUD_HEALTH_BAR}
+              role="progressbar"
               style={{
                 width: "100%",
                 height: "20px",
@@ -182,7 +191,12 @@ const CanvasHUDComponent = () => {
               SHIELD
             </div>
             <div
+              aria-label="Shield"
+              aria-valuemax={maxShield}
+              aria-valuemin={0}
+              aria-valuenow={shield}
               data-testid={TEST_IDS.HUD_SHIELD_BAR}
+              role="progressbar"
               style={{
                 width: "100%",
                 height: "20px",
@@ -210,7 +224,9 @@ const CanvasHUDComponent = () => {
       {/* Bonus items */}
       {bonusItems.length > 0 && (
         <div
+          aria-label="Bonus items"
           data-testid={TEST_IDS.HUD_BONUS_ITEMS}
+          role="list"
           style={{
             position: "absolute",
             bottom: "20px",
@@ -222,8 +238,10 @@ const CanvasHUDComponent = () => {
         >
           {bonusItems.map((item, index) => (
             <div
+              aria-current={index === selectedBonusIndex ? "true" : undefined}
               key={item.itemId}
               data-testid={`${TEST_IDS.HUD_BONUS_ITEMS}-${index.toString()}`}
+              role="listitem"
               style={{
                 padding: "10px 15px",
                 background:
@@ -250,7 +268,9 @@ const CanvasHUDComponent = () => {
 
       {/* EMP indicator */}
       <div
+        aria-label={empCooldown > 0 ? "EMP recharging" : "EMP ready"}
         data-testid={TEST_IDS.HUD_EMP_COOLDOWN}
+        role="timer"
         style={{
           position: "absolute",
           bottom: "20px",

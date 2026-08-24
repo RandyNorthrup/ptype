@@ -5,7 +5,19 @@ export default defineConfig({
   plugins: [react()],
   test: {
     coverage: {
-      exclude: ["src/main.tsx", "src/vite-env.d.ts"],
+      // WebGL render loops are verified through production browser smoke tests;
+      // jsdom coverage measures the application and domain behavior it can execute.
+      exclude: [
+        "src/main.tsx",
+        "src/vite-env.d.ts",
+        "src/utils/testIds.ts",
+        "src/components/CameraController.tsx",
+        "src/components/GameCanvas.tsx",
+        "src/components/LaserEffect.tsx",
+        "src/components/LaserTargetHelper.tsx",
+        "src/components/SpaceScene.tsx",
+        "src/entities/**/*.tsx",
+      ],
       include: ["src/**/*.{ts,tsx}"],
       provider: "v8",
       reporter: ["text", "json-summary", "html"],

@@ -1,127 +1,63 @@
-# P-Type Content Expansion - Complete
+# Content inventory
 
-## 📊 Final Statistics
+P-Type ships its gameplay content as YAML in [`public/data`](../public/data).
+The browser validates every document while loading it; malformed entries fail
+closed and are reported through the application logger.
 
-**Dictionary Content:**
+The inventory below was verified against the repository on August 24, 2026.
 
-- 12,051 total entries across 8 dictionaries
-- 10,245 keywords for regular levels (1-100)
-- 1,806 boss phrases for boss levels (every 5th level)
+## Word dictionaries
 
-**Trivia Content:**
+Each dictionary contains `beginner`, `intermediate`, and `advanced` regular
+word lists plus the same three tiers under `boss_words`.
 
-- 337 total questions
-- 315 programming questions (45 per language)
-- 22 general knowledge questions
+| File                    |    Regular |      Boss |      Total |
+| ----------------------- | ---------: | --------: | ---------: |
+| `cplusplus_words.yaml`  |      1,265 |       207 |      1,472 |
+| `csharp_words.yaml`     |      1,254 |       239 |      1,493 |
+| `css_words.yaml`        |      1,009 |       159 |      1,168 |
+| `html_words.yaml`       |      1,103 |       153 |      1,256 |
+| `java_words.yaml`       |      1,388 |       241 |      1,629 |
+| `javascript_words.yaml` |      1,389 |       257 |      1,646 |
+| `normal_words.yaml`     |      1,237 |       274 |      1,511 |
+| `python_words.yaml`     |      1,600 |       276 |      1,876 |
+| **Total**               | **10,245** | **1,806** | **12,051** |
 
-**Total Content:** 12,388 pieces
+Regular words use the beginner tier through level 30, intermediate through
+level 70, and advanced afterward. Boss lists use the same thresholds. Pools are
+shuffled and exhausted before they are refilled, reducing immediate repetition.
 
----
+## Trivia
 
-## 📁 Data Files (Production)
+`trivia.yaml` contains 368 validated questions across 10 categories:
 
-### Word Dictionaries (YAML)
+| Category    | Questions |
+| ----------- | --------: |
+| Pop culture |        17 |
+| Sports      |        18 |
+| History     |        18 |
+| Python      |        45 |
+| JavaScript  |        45 |
+| Java        |        45 |
+| C#          |        45 |
+| C++         |        45 |
+| CSS         |        45 |
+| HTML        |        45 |
+| **Total**   |   **368** |
 
-All files in `data/` directory with consistent structure:
+Programming games select questions from the active language. Normal games use
+the three general categories. Each category may supply beginner, intermediate,
+and advanced lists; a missing difficulty falls back to that category's beginner
+list, and unavailable data falls back to a built-in arithmetic question.
 
-| File                    | Keywords | Boss Phrases | Total |
-| ----------------------- | -------- | ------------ | ----- |
-| `python_words.yaml`     | 1,600    | 276          | 1,876 |
-| `javascript_words.yaml` | 1,389    | 257          | 1,646 |
-| `java_words.yaml`       | 1,388    | 241          | 1,629 |
-| `csharp_words.yaml`     | 1,254    | 239          | 1,493 |
-| `cplusplus_words.yaml`  | 1,265    | 207          | 1,472 |
-| `css_words.yaml`        | 1,009    | 159          | 1,168 |
-| `html_words.yaml`       | 1,103    | 153          | 1,256 |
-| `normal_words.yaml`     | 1,237    | 274          | 1,511 |
+The complete repository inventory is 12,419 words, boss phrases, and trivia
+questions.
 
-### Trivia Database (YAML)
+## Editing content safely
 
-- `trivia.yaml` - 337 questions in 10 categories
-- `trivia_db.py` - Loader (dynamically reads YAML)
-
-### YAML Structure
-
-```yaml
-# Word dictionaries
-keywords:
-  beginner: [...]
-  intermediate: [...]
-  advanced: [...]
-boss_phrases: [...]
-
-# Trivia database
-python:
-  beginner:
-    - question: "..."
-      options: ["A", "B", "C"]
-      correct: 0
-  intermediate: [...]
-  advanced: [...]
-```
-
----
-
-## 🎮 Game Impact
-
-### Content Coverage
-
-- **100 levels total** (80 regular + 20 boss)
-- **Beginner (1-30):** Foundational concepts
-- **Intermediate (31-70):** Advanced features
-- **Advanced (71-100):** Expert-level content
-
-### Language Coverage
-
-- **Python:** Latest stdlib, frameworks, data science, async
-- **JavaScript:** ES6+, React, Node.js, TypeScript, DOM
-- **Java:** Java 8-21, Spring, JPA, streams, lambdas
-- **C#:** .NET 6-8, LINQ, async/await, EF Core
-- **C++:** C++11-23, STL, templates, smart pointers
-- **CSS:** Flexbox, Grid, animations, custom properties
-- **HTML:** HTML5, semantic tags, accessibility, Web Components
-- **Normal:** Common English words, vocabulary building
-
-### Content Variety
-
-- **No stale content** - Sufficient variety for 100+ playthroughs
-- **Real-world relevance** - Modern frameworks and best practices
-- **Progressive difficulty** - Content scales with player skill
-
----
-
-## 🔧 Technical Details
-
-### What Was Done
-
-1. ✅ Removed redundant `python_phrases.yaml`
-2. ✅ Expanded all 8 word dictionaries (10x increase)
-3. ✅ Expanded trivia database (7x increase)
-4. ✅ Converted trivia from Python to YAML
-5. ✅ Validated all content
-6. ✅ Cleaned up temporary scripts
-7. ✅ Removed backup directories
-
-### Data Consistency
-
-- All data files in YAML format
-- Consistent structure across all dictionaries
-- Human-readable and easy to edit
-- Version control friendly
-
----
-
-## 📝 Future Expansion
-
-If more content is needed:
-
-1. Add more programming languages (Rust, Go, TypeScript, etc.)
-2. Expand general trivia categories
-3. Add themed word packs (Web3, AI/ML, Mobile Dev)
-4. Create seasonal/event-based content
-5. Add difficulty-specific boss phrases
-
----
-
-**Status:** ✅ Complete and Production-Ready  
-**Last Updated:** November 2, 2025
+1. Preserve the existing YAML mappings and list shapes.
+2. Keep every word value a string.
+3. Give each trivia item a question, a string-option list, and a zero-based
+   integer `correct` index within that list.
+4. Run `npm test` to execute loader validation and `npm run quality` before
+   submitting the change.

@@ -398,17 +398,17 @@ const PlayerStatsModalComponent = ({ onClose }: PlayerStatsModalProperties) => {
             div::-webkit-scrollbar {
               width: 8px;
             }
-            
+
             div::-webkit-scrollbar-track {
               background: rgba(30, 41, 59, 0.3);
               border-radius: 4px;
             }
-            
+
             div::-webkit-scrollbar-thumb {
               background: rgba(9, 255, 0, 0.5);
               border-radius: 4px;
             }
-            
+
             div::-webkit-scrollbar-thumb:hover {
               background: rgba(9, 255, 0, 0.7);
             }

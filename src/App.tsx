@@ -237,10 +237,13 @@ function App() {
     return (
       <div
         className="flex-center"
+        role="status"
+        aria-live="polite"
+        aria-label={loadingStatus}
         style={{ width: "100%", height: "100%", backgroundColor: "#0a0e27" }}
       >
         <div style={{ textAlign: "center" }}>
-          <div className="spinner" />
+          <div className="spinner" aria-hidden="true" />
           <p
             style={{ marginTop: "20px", color: "#09ff00", fontSize: "1.2rem" }}
           >

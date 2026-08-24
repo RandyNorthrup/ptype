@@ -42,10 +42,12 @@ const AchievementToastComponent = ({
 
   return (
     <div
+      aria-live="polite"
       data-testid={TEST_IDS.ACHIEVEMENT_TOAST}
+      role="status"
       style={{
         position: "relative",
-        width: "280px",
+        width: "min(280px, calc(100vw - 2rem))",
         background: "rgba(10, 14, 27, 0.95)",
         border: "2px solid #09ff00",
         borderRadius: "12px",

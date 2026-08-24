@@ -91,7 +91,10 @@ const TriviaOverlayComponent = ({
 
   return (
     <div
+      aria-labelledby="trivia-question-text"
+      aria-modal="true"
       data-testid={TEST_IDS.TRIVIA_OVERLAY}
+      role="dialog"
       style={{
         position: "fixed",
         top: 0,
@@ -106,7 +109,8 @@ const TriviaOverlayComponent = ({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: "2rem",
+        padding: "clamp(1rem, 4vw, 2rem)",
+        overflowY: "auto",
       }}
     >
       {/* Header */}
@@ -139,7 +143,10 @@ const TriviaOverlayComponent = ({
 
       {/* Timer */}
       <div
+        aria-label={`${timeLeft.toString()} seconds remaining`}
+        aria-live="polite"
         data-testid={TEST_IDS.TRIVIA_TIMER}
+        role="timer"
         style={{
           width: "120px",
           height: "120px",
@@ -227,6 +234,7 @@ const TriviaOverlayComponent = ({
         </div>
 
         <p
+          id="trivia-question-text"
           style={{
             color: "#e2e8f0",
             fontSize: "1.5rem",
@@ -268,6 +276,7 @@ const TriviaOverlayComponent = ({
 
           return (
             <button
+              type="button"
               key={index}
               data-testid={`${TEST_IDS.TRIVIA_ANSWER_PREFIX}${index.toString()}`}
               onClick={() => {
@@ -334,6 +343,8 @@ const TriviaOverlayComponent = ({
       {/* Result Message */}
       {showResult && (
         <div
+          aria-live="assertive"
+          role="alert"
           style={{
             position: "absolute",
             top: "50%",
@@ -344,7 +355,8 @@ const TriviaOverlayComponent = ({
               : "linear-gradient(135deg, rgba(239, 68, 68, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%)",
             border: `4px solid ${isCorrect ? "#22c55e" : "#ef4444"}`,
             borderRadius: "20px",
-            padding: "3rem 4rem",
+            padding: "clamp(1.5rem, 6vw, 3rem) clamp(1.5rem, 8vw, 4rem)",
+            width: "min(90vw, 600px)",
             boxShadow: `0 0 50px ${isCorrect ? "rgba(34, 197, 94, 0.5)" : "rgba(239, 68, 68, 0.5)"}`,
             textAlign: "center",
             animation: "slideIn 0.3s ease-out",

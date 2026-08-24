@@ -15,6 +15,8 @@ import { GameMode, ProgrammingLanguage } from "../types";
 import { PlayerStatsModal } from "./PlayerStatsModal";
 import { SettingsMenu } from "./SettingsMenu";
 import { error as logError } from "../utils/logger";
+import { ModalShell } from "./ModalShell";
+import { NeonButton } from "./NeonButton";
 
 const SECONDARY_BUTTON_STYLE: CSSProperties = {
   padding: "0.6rem 0.8rem",
@@ -152,7 +154,7 @@ const MainMenuComponent = () => {
             alt="P-Type Logo"
             data-testid="main-menu-logo"
             style={{
-              width: "280px",
+              width: "min(280px, 80vw)",
               height: "auto",
               marginBottom: "0.2rem",
               filter: "drop-shadow(0 0 30px rgba(9, 255, 0, 0.8))",
@@ -184,6 +186,7 @@ const MainMenuComponent = () => {
         >
           {/* New Game Button */}
           <button
+            className="main-menu-control"
             onClick={handleStartNewGame}
             disabled={selectedMode === "Choose a Mode"}
             data-testid="new-game-button"
@@ -205,7 +208,6 @@ const MainMenuComponent = () => {
                 selectedMode === "Choose a Mode" ? "not-allowed" : "pointer",
               transition: "all 0.3s",
               opacity: selectedMode === "Choose a Mode" ? 0.85 : 1,
-              width: "300px",
               textAlign: "center",
               boxShadow:
                 selectedMode === "Choose a Mode"
@@ -238,14 +240,17 @@ const MainMenuComponent = () => {
 
           {/* Custom Mode Dropdown */}
           <div
+            className="main-menu-control"
             ref={dropdownReference}
             style={{
               position: "relative",
-              width: "300px",
               zIndex: 100,
             }}
           >
             <button
+              aria-controls="mode-selector-dropdown"
+              aria-expanded={dropdownOpen}
+              aria-haspopup="listbox"
               onClick={() => {
                 setDropdownOpen(!dropdownOpen);
               }}
@@ -293,7 +298,10 @@ const MainMenuComponent = () => {
 
             {dropdownOpen && (
               <div
+                aria-label="Game mode"
                 data-testid="mode-selector-dropdown"
+                id="mode-selector-dropdown"
+                role="listbox"
                 style={{
                   position: "absolute",
                   top: "100%",
@@ -314,12 +322,14 @@ const MainMenuComponent = () => {
               >
                 {allModes.map((m) => (
                   <button
+                    aria-selected={selectedMode === m}
                     key={m}
                     data-testid={`mode-option-${m.toLowerCase().replaceAll(/\s+/g, "-")}`}
                     onClick={() => {
                       setSelectedMode(m);
                       setDropdownOpen(false);
                     }}
+                    role="option"
                     style={{
                       width: "100%",
                       padding: "0.8rem 1.2rem",
@@ -372,11 +382,11 @@ const MainMenuComponent = () => {
 
         {/* Bottom Buttons - Uniform width spanning mode dropdown */}
         <div
+          className="main-menu-control"
           style={{
             display: "flex",
             gap: "0.5rem",
             justifyContent: "space-between",
-            width: "300px",
             marginBottom: "1rem",
           }}
         >
@@ -475,37 +485,21 @@ const MainMenuComponent = () => {
 
       {/* About Modal */}
       {showAbout && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(0, 0, 0, 0.8)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1000,
-          }}
-          onClick={() => {
+        <ModalShell
+          labelledBy="about-title"
+          maxWidth="420px"
+          zIndex={1000}
+          onDismiss={() => {
             setShowAbout(false);
           }}
         >
           <div
             style={{
-              background: "#0f172a",
-              border: "3px solid #00d4ff",
-              borderRadius: "15px",
-              padding: "2rem",
-              maxWidth: "420px",
               textAlign: "center",
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
             }}
           >
             <h1
+              id="about-title"
               style={{
                 color: "#fbbf24",
                 marginBottom: "0.5rem",
@@ -538,24 +532,15 @@ const MainMenuComponent = () => {
             <p style={{ color: "#00d4ff", marginBottom: "2rem" }}>
               © {new Date().getFullYear()}
             </p>
-            <button
+            <NeonButton
               onClick={() => {
                 setShowAbout(false);
               }}
-              style={{
-                padding: "0.5rem 1rem",
-                background: "#09ff00",
-                border: "none",
-                borderRadius: "6px",
-                color: "#0a0a1a",
-                fontWeight: "600",
-                cursor: "pointer",
-              }}
             >
               Close
-            </button>
+            </NeonButton>
           </div>
-        </div>
+        </ModalShell>
       )}
     </>
   );

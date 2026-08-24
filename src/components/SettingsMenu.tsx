@@ -39,6 +39,11 @@ function isDifficulty(value: unknown): value is DifficultyLevel {
   return typeof value === "string" && DIFFICULTIES.has(value);
 }
 
+function normalizeVolume(value: unknown, fallback: number): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
+  return Math.max(0, Math.min(100, value));
+}
+
 function loadSettings(): GameSettings {
   try {
     const savedSettings = localStorage.getItem("game-settings");
@@ -47,14 +52,14 @@ function loadSettings(): GameSettings {
     if (typeof settings !== "object" || settings === null) {
       return DEFAULT_SETTINGS;
     }
-    const musicVolume =
-      "musicVolume" in settings && typeof settings.musicVolume === "number"
-        ? settings.musicVolume
-        : DEFAULT_SETTINGS.musicVolume;
-    const sfxVolume =
-      "sfxVolume" in settings && typeof settings.sfxVolume === "number"
-        ? settings.sfxVolume
-        : DEFAULT_SETTINGS.sfxVolume;
+    const musicVolume = normalizeVolume(
+      "musicVolume" in settings ? settings.musicVolume : undefined,
+      DEFAULT_SETTINGS.musicVolume,
+    );
+    const sfxVolume = normalizeVolume(
+      "sfxVolume" in settings ? settings.sfxVolume : undefined,
+      DEFAULT_SETTINGS.sfxVolume,
+    );
     const difficulty =
       "difficulty" in settings && isDifficulty(settings.difficulty)
         ? settings.difficulty
@@ -308,7 +313,7 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProperties) => {
               box-shadow: 0 0 10px rgba(9, 255, 0, 0.8), 0 0 20px rgba(9, 255, 0, 0.4);
               border: 2px solid rgba(0, 0, 0, 0.3);
             }
-            
+
             input[type="range"]::-moz-range-thumb {
               width: 20px;
               height: 20px;
@@ -318,11 +323,11 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProperties) => {
               box-shadow: 0 0 10px rgba(9, 255, 0, 0.8), 0 0 20px rgba(9, 255, 0, 0.4);
               border: 2px solid rgba(0, 0, 0, 0.3);
             }
-            
+
             input[type="range"]:hover::-webkit-slider-thumb {
               box-shadow: 0 0 15px rgba(9, 255, 0, 1), 0 0 30px rgba(9, 255, 0, 0.6);
             }
-            
+
             input[type="range"]:hover::-moz-range-thumb {
               box-shadow: 0 0 15px rgba(9, 255, 0, 1), 0 0 30px rgba(9, 255, 0, 0.6);
             }

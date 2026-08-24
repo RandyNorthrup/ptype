@@ -69,7 +69,7 @@ export default tseslint.config(
             kebabCase: true,
             pascalCase: true,
           },
-          ignore: ["CanvasHUD.tsx"],
+          ignore: ["CanvasHUD.tsx", "CanvasHUD.test.tsx"],
         },
       ],
       "unicorn/no-null": "off",

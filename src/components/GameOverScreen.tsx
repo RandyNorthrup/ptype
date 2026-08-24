@@ -92,7 +92,10 @@ const GameOverScreenComponent = () => {
 
   return (
     <div
+      aria-labelledby="game-over-title"
+      aria-modal="true"
       data-testid="game-over-screen"
+      role="dialog"
       style={{
         position: "fixed",
         top: 0,
@@ -106,14 +109,16 @@ const GameOverScreenComponent = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: "2rem",
+        padding: "clamp(1rem, 4vw, 2rem)",
+        overflowY: "auto",
       }}
     >
       {/* Game Over Text */}
       <h1
+        id="game-over-title"
         style={{
           color: "#ef4444",
-          fontSize: "5rem",
+          fontSize: "clamp(2.5rem, 12vw, 5rem)",
           fontWeight: "700",
           marginBottom: "1rem",
           textShadow: "0 0 40px rgba(239, 68, 68, 0.8)",
@@ -145,7 +150,7 @@ const GameOverScreenComponent = () => {
           background: "rgba(10, 14, 27, 0.9)",
           border: "3px solid rgba(9, 255, 0, 0.3)",
           borderRadius: "20px",
-          padding: "3rem",
+          padding: "clamp(1.5rem, 6vw, 3rem)",
           maxWidth: "600px",
           width: "100%",
           marginBottom: "3rem",
@@ -168,7 +173,7 @@ const GameOverScreenComponent = () => {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
             gap: "1.5rem",
           }}
         >
@@ -205,6 +210,8 @@ const GameOverScreenComponent = () => {
         style={{
           display: "flex",
           gap: "1.5rem",
+          flexWrap: "wrap",
+          justifyContent: "center",
         }}
       >
         <NeonButton
@@ -237,7 +244,7 @@ const GameOverScreenComponent = () => {
               transform: scale(1.05);
             }
           }
-          
+
           @keyframes bounce {
             0%, 100% {
               transform: translateY(0);

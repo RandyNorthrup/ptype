@@ -1,281 +1,132 @@
-# P-Type: The Typing Game
+# P-Type
 
-A modern, educational typing game where players defend against waves of enemy spaceships by typing words as fast and accurately as possible. Built with React, TypeScript, and Three.js for immersive 3D graphics.
+[![Quality](https://github.com/RandyNorthrup/ptype/actions/workflows/quality.yml/badge.svg)](https://github.com/RandyNorthrup/ptype/actions/workflows/quality.yml)
 
-🎮 **Live Demo**: [Deployed on Vercel](https://ptype.vercel.app)
+P-Type is a browser-based 3D typing game. Type the words attached to incoming
+ships, survive boss waves, answer trivia, and earn power-ups and achievements.
+The application is a React and Three.js progressive web app with all game data
+and assets stored in this repository.
 
-## Versions
+**Play:** [ptype.vercel.app](https://ptype.vercel.app)
 
-This repository contains two versions:
+## Gameplay
 
-- **Web Version** - Modern React/Three.js implementation (primary, actively developed)
-- **[Python Version](./python-version/)** - Original Pygame implementation (legacy reference)
+- Normal mode uses tiered English word lists.
+- Programming mode includes Python, JavaScript, Java, C#, C++, CSS, and HTML.
+- Bosses appear every three levels. Every second boss opens a trivia round.
+- Five starting difficulty settings progress through Easy, Normal, Hard,
+  Expert, and Master tiers.
+- Local persistence retains settings, aggregate statistics, high scores, and 19
+  achievements.
+- The installable PWA caches application resources. Large 3D models are cached
+  on first use rather than included in the initial precache.
 
-## Features
+### Keyboard controls
 
-### Core Gameplay
+| Key          | Action                                        |
+| ------------ | --------------------------------------------- |
+| Letter keys  | Type the targeted enemy word                  |
+| `Tab`        | Cycle through available targets               |
+| `Enter`      | Fire the EMP when its cooldown is ready       |
+| `Arrow Up`   | Select the next collected bonus item          |
+| `Arrow Down` | Use the selected bonus item                   |
+| `Escape`     | Pause or resume; close the active menu dialog |
 
-- **Real-time Typing Combat**: Defend your spaceship by typing words that destroy incoming enemy ships
-- **Dynamic Word Destruction**: Type letters from left to right to destroy words - each letter explodes with dramatic particle effects
-- **Progressive Difficulty**: Advance through 100 levels with increasing speed and complexity
-- **Health & Shield System**: Survive enemy attacks with health points and shield boosts
-- **Boss Battles**: Face larger, tougher enemies every 3 levels with enhanced visual effects
-- **Enemy Type Progression**: Basic ships in early levels, fast ships appear later with longer words
-- **3-Lane Spawn System**: Enemies spawn in three positions (left, center, right) with intelligent rotation
+The interface supports keyboard navigation, visible focus, reduced-motion
+preferences, responsive dialogs and HUD layouts, and labelled dialog, status,
+timer, health, and shield semantics. Gameplay still requires a keyboard and a
+WebGL-capable browser.
 
-### Game Modes
+## Local development
 
-- **Normal Mode**: Practice typing English words organized by difficulty (beginner/intermediate/advanced)
-- **Programming Mode**: Enhance coding skills with syntax and snippets from:
-  - Python
-  - JavaScript
-  - Java
-  - C#
-  - C++
-  - CSS
-  - HTML
+Requirements:
 
-### Advanced Features
+- Node.js 24.4 or newer
+- npm 11.4.2 or newer
+- A current browser with WebGL enabled
 
-- **EMP Weapon**: Press Enter to trigger area-of-effect attack to clear multiple enemies (with cooldown)
-- **Target Switching**: Press Tab to cycle between enemy targets
-- **Visual Effects**:
-  - Dynamic laser beams that shoot from player ship wings
-  - Orange glowing words with individual letter glow effects
-  - 15-particle explosions when letters are destroyed
-  - Ship debris explosions on collision with 20-30 particles
-  - Dynamic text scaling (larger when far, smaller when close)
-- **Smart Enemy AI**:
-  - Ships maintain separation with dynamic collision avoidance
-  - Position-based repulsion forces prevent overlapping
-  - Word-width-aware boundaries
-- **Collision System**: Ships explode into debris particles on contact with player
-
-### Progression & Stats
-
-- **Profile System**: Multiple player profiles with persistent statistics
-- **Achievements**: Unlock 18+ achievements for milestones like typing speed, accuracy, and boss defeats
-- **Achievement Toasts**: 3-second notification popups when achievements are unlocked
-- **High Scores**: Global and personal best scoreboards
-- **Detailed Statistics**: Track WPM, accuracy, words typed, perfection streaks, and more
-- **Trivia Mode**: Answer programming trivia questions every 2 boss defeats for rewards
-- **Smart Word Cycling**: Words are shuffled and cycled to prevent immediate repetition
-- **Level Progression**: Advance every 5 words defeated or immediately after defeating a boss
-
-### Technical Features
-
-- **Cross-platform**: Runs on Windows, macOS, and Linux
-- **Modern UI**: Resizable window with sleek dark theme and neon accents
-- **Audio System**: Procedural sound effects and background music
-- **Save/Load**: Continue games across sessions with automatic saving
-- **Settings**: Adjustable music/sound volumes and preference control
-
-## Installation & Development
-
-### Quick Start
+Install the locked dependency graph and start Vite:
 
 ```bash
-# Install dependencies
-npm install
-
-# Run development server
+npm ci
 npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
 ```
 
-### Requirements
+Vite serves the application at `http://localhost:5173`. Other useful commands:
 
-- Node.js 18+ and npm
-- Modern browser with WebGL support
-- Internet connection for 3D models (first load)
-
-## Usage Guide
-
-### Getting Started
-
-1. **Create/Load Profile**: Select or create a player profile to track your progress
-2. **Choose Game Mode**: Select Normal mode or choose a programming language
-3. **Start Playing**: Type the text displayed on enemy ships to destroy them
-4. **Monitor Stats**: Watch your WPM, accuracy, and level in real-time
-
-### Profiles
-
-- **Profile Management**: Create, select, and manage multiple player profiles
-- **Persistent Progress**: Stats, achievements, and saves are tied to your profile
-- **Statistics Tracking**: Comprehensive metrics across all game modes
-
-### Controls
-
-- **Typing**: Type letters to destroy words letter by letter
-- **Backspace**: Delete last character (keeps target locked)
-- **Tab**: Switch between enemy targets
-- **Enter**: Activate EMP weapon (10-second cooldown)
-- **Escape**: Pause/unpause game
-- **Auto-targeting**: Automatically targets enemies by first letter
-- **Bonus Items**: Arrow keys to cycle through collected power-ups
-
-### Power-ups & Abilities
-
-- **Rapid Fire**: Increased firing rate for a limited time
-- **Multi-shot**: Fire multiple projectiles simultaneously
-- **Invincibility**: Become temporarily immune to damage
-- **Time Slow**: Slow down enemy movement
-- **EMP**: Clear all nearby enemies instantly
-
-## Game Mechanics
-
-### Typing System
-
-- Type words exactly as shown on enemy ships
-- **Letter-by-Letter Destruction**: Each correct letter explodes with 15 particles in a radial pattern
-- **Centered Display**: Remaining letters automatically re-center as word shrinks
-- **Orange Glowing Text**: Words glow with orange color (#ff9800) matching the health bar theme
-- **Target Locking**: Once a word is targeted, it stays locked until destroyed or Tab is pressed
-- **Visual Feedback**: Laser beams shoot from ship wings on each keypress
-- Complete words to destroy enemies and earn points
-
-### Progression
-
-- **Levels 1-7**: Beginner difficulty words with basic enemy ships
-- **Levels 8-15**: Intermediate difficulty
-- **Levels 16+**: Advanced difficulty
-- **Boss Battles**: Every 3 levels (3, 6, 9, 12...) with larger ships (2.5x scale)
-- **Enemy Types**:
-  - **Basic Ships**: Start from level 1, standard speed
-  - **Fast Ships**: Begin appearing at level 5, gradually increase in frequency
-  - **Fast ships get longer words** for additional challenge
-  - **Boss ships always include fast enemies** alongside the boss
-- **Dynamic Speed Scaling**: Ships move 2-3x faster than legacy version
-  - Regular enemies: 1.0-8.0 speed units
-  - Boss enemies: 0.4-2.5 speed units
-- **Spawn Control**: Maximum 3 enemies initially, slowly increases to prevent overwhelming
-- **Spawn Rate**: 4 seconds base, decreases to 1.5 second minimum as level increases
-
-### Scoring
-
-- **Word Completion**: Base points per word typed
-- **Accuracy Bonus**: Higher points for perfect accuracy
-- **Combo Multipliers**: Bonus for typing multiple words correctly in sequence
-- **Boss Multipliers**: Extra points for defeating boss enemies
-- **Survival Bonus**: Points based on game duration and health remaining
-
-### Dynamic Speed Scaling
-
-- **Fast-Paced Action**: Ships move 1.8-10.0 speed units (regular), 0.6-3.5 (bosses)
-- **Progressive Difficulty**: Speed increases with level and word complexity
-- **3-Lane Spawn System**: Enemies spawn at positions -25, 0, +25 with intelligent rotation
-- **Smart Collision Avoidance**: Ships maintain dynamic separation to prevent overlapping
-- **Boss Encounters**: Every 3 levels with 2.5x ship scale and double health
-- **Enemy Variety**: Basic ships early game, fast ships (20-60% spawn rate) from level 5+
-
-## Tech Stack
-
-Built with modern web technologies:
-
-- **React 19** - UI framework with concurrent features
-- **TypeScript 5.9** - Type-safe development
-- **Three.js 0.181** / **React Three Fiber** - 3D graphics rendering
-- **React Three Drei** - Three.js helpers and abstractions
-- **Zustand** - Lightweight state management with persistence
-- **Vite 7** - Lightning-fast build tooling and HMR
-- **PWA** - Progressive Web App with offline support
-- **Vercel** - Serverless deployment platform
-
-### Project Structure
-
+```bash
+npm run build          # type-check and create dist/
+npm run preview        # serve the production build locally
+npm test               # unit/component tests with coverage
+npm run test:watch     # interactive Vitest watch mode
+npm run quality        # every local release gate
+npm run build:analyze  # build and emit Rollup bundle analysis
 ```
+
+`npm run quality` checks formatting, TypeScript/React lint, CSS, HTML, strict
+types, tests and 80% global coverage thresholds, unused code, dependency cycles,
+duplication, dependency vulnerabilities, and the production build.
+
+WebGL render-loop components are not executed inside jsdom coverage. Their
+integration is checked against the production application in a real browser;
+the application orchestration, accessible UI, state, loaders, and domain logic
+remain inside the coverage gate.
+
+## Current stack
+
+- React 19.2 and React DOM 19.2
+- TypeScript 6.0 in strict mode
+- Vite 8.2 and `vite-plugin-pwa` 1.3
+- Three.js 0.185, React Three Fiber 9.7, and Drei 10.7
+- Vitest 4.1, Testing Library, and axe-core
+- ESLint 10, Stylelint 17, Prettier 3, Knip, dpdm, and jscpd
+- Vercel static hosting with cache and browser-security headers
+
+Runtime state uses React Context and hooks. Persistent data is validated before
+it enters the application state; no backend or environment variables are
+required.
+
+## Repository layout
+
+```text
+public/
+  assets/       Local fonts, icons, images, audio, and GLB models
+  data/         Eight word dictionaries and the trivia database
 src/
-├── components/       # React components (UI & game)
-├── entities/         # 3D entities (ships, objects)
-├── engine/          # Game loop and physics
-├── store/           # Zustand state management
-├── utils/           # Helpers and utilities
-└── data/            # Game data (words, achievements)
+  components/   Accessible UI and WebGL scene components
+  entities/     Player and enemy 3D entities
+  store/        React Context game state and persistence
+  utils/        Content loaders and game-domain managers
+tests/unit/     Vitest unit and component coverage
+docs/           Content and deployment documentation
 ```
 
-## Contributing
+## Quality workflow
 
-Contributions are welcome! Please follow these guidelines:
+Install the repository hooks after cloning:
 
-### Code Style
+```bash
+python -m pip install pre-commit
+pre-commit install
+pre-commit run --all-files
+```
 
-- **TypeScript**: Strict mode enabled, full typing
-- **React**: Functional components with hooks, memoization
-- **Components**: Single responsibility, test IDs for E2E testing
-- **Error Handling**: Comprehensive error logging, no console.log in production
-- **State Management**: Zustand with proper selectors and persistence
-
-### Development Workflow
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes with proper TypeScript types
-4. Test thoroughly (build, dev server, game mechanics)
-5. Commit with clear messages
-6. Push and open a Pull Request
-
-## Performance & Optimization
-
-- **Production Build**: 724KB Three.js core, 408KB total gzipped
-- **PWA**: 2.4MB precached for offline play
-- **React 19**: Automatic memo with compiler optimizations
-- **Zero Console Output**: All logging stripped in production
-- **Lazy Loading**: Components and assets load on demand
-- **WebGL**: Hardware-accelerated 3D rendering
-
-## Troubleshooting
-
-### Common Issues
-
-- **Performance**: Ensure hardware acceleration enabled in browser
-- **3D Models**: First load may be slow, models cached after
-- **Audio**: Browser autoplay policies may require user interaction
-- **Mobile**: Game designed for desktop/laptop with physical keyboard
-
-### Debug Mode
-
-Check browser console for detailed logs in development mode.
+The hooks enforce formatting, lint, strict types, dead-code detection, secret
+scanning, and dependency auditing before affected commits. CI repeats the
+portable release gates on every pull request and push to the default branches.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the change workflow and
+[SECURITY.md](SECURITY.md) for private vulnerability reporting.
 
 ## Documentation
 
-Additional documentation in [`docs/`](docs/):
-
-- **[CONTENT.md](docs/CONTENT.md)** - Game content (12,388 words, trivia questions)
-- **[DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Deployment instructions for Vercel
-- **[3D_MODELS_INTEGRATION.md](docs/3D_MODELS_INTEGRATION.md)** - 3D model details
+- [Content inventory](docs/CONTENT.md)
+- [Deployment and operations](docs/DEPLOYMENT.md)
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+P-Type is released under the [MIT License](LICENSE).
 
-## Credits
+Created by Randy Northrup.
 
-Developed by Randy Northrup
-
-### Technologies
-
-- React, TypeScript, Three.js, React Three Fiber, React Three Drei
-- Vite, Zustand, Vercel
-- 3D models generated with Rodin AI and Polyhaven assets
-- Icons from Tabler Icons
-
-### Special Thanks
-
-- Open source community for amazing tools and libraries
-- Three.js and React Three Fiber communities
-- Contributors and players providing feedback
-
----
-
-**Enjoy improving your typing skills while defending the galaxy! 🚀**
-
-## Support this project
-
-If this project saves you time, you can
-[buy me a coffee](https://www.paypal.com/donate/?hosted_button_id=Q9VC7B42R7K82)
-via PayPal. Thank you!
+If this project helps you, you can
+[support it through PayPal](https://www.paypal.com/donate/?hosted_button_id=Q9VC7B42R7K82).

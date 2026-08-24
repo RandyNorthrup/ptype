@@ -137,6 +137,10 @@ canvas {
   font-size: 1.3rem;
 }
 
+.main-menu-control {
+  width: min(300px, calc(100vw - 2rem));
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
