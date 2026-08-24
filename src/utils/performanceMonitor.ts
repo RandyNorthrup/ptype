@@ -15,6 +15,18 @@ interface PerformanceMetrics {
   triangles?: number;
 }
 
+interface BrowserMemoryInfo {
+  usedJSHeapSize: number;
+  totalJSHeapSize: number;
+  jsHeapSizeLimit: number;
+}
+
+declare global {
+  interface Performance {
+    readonly memory?: BrowserMemoryInfo;
+  }
+}
+
 interface PerformanceStats {
   current: PerformanceMetrics;
   average: PerformanceMetrics;
@@ -42,7 +54,6 @@ class PerformanceMonitor {
     return {
       fps: 0,
       frameTime: 0,
-      memory: undefined,
       drawCalls: 0,
       triangles: 0,
     };
@@ -90,8 +101,8 @@ class PerformanceMonitor {
     this.stats.current.frameTime = deltaTime;
 
     // Get memory info if available
-    if ((performance as any).memory) {
-      const memory = (performance as any).memory;
+    if (performance.memory) {
+      const { memory } = performance;
       this.stats.current.memory = {
         usedJSHeapSize: memory.usedJSHeapSize,
         totalJSHeapSize: memory.totalJSHeapSize,

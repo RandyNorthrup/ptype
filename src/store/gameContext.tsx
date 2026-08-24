@@ -239,7 +239,6 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
       ...def,
       progress: 0,
       unlocked: false,
-      unlockedAt: undefined,
     })),
   );
   const [highScores, setHighScores] = useState<HighScoreEntry[]>([]);
@@ -440,7 +439,9 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
         accuracy: state.accuracy,
         timestamp: new Date().toISOString(),
         mode: gameMode,
-        language: state.programmingLanguage,
+        ...(state.programmingLanguage
+          ? { language: state.programmingLanguage }
+          : {}),
       };
       addHighScore(entry);
     }

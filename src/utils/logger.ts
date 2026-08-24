@@ -9,8 +9,14 @@ interface LogEntry {
   timestamp: number;
   level: LogLevel;
   message: string;
-  context?: string;
-  data?: any;
+  context: string | undefined;
+  data: unknown;
+}
+
+declare global {
+  interface Window {
+    __ptypeLogger?: Logger;
+  }
 }
 
 class Logger {
@@ -25,7 +31,7 @@ class Logger {
 
     // Expose logger in development for debugging
     if (this.isDevelopment && typeof window !== "undefined") {
-      (window as any).__logger = this;
+      window.__ptypeLogger = this;
     }
   }
 
@@ -39,7 +45,7 @@ class Logger {
   /**
    * Debug level - only in development
    */
-  debug(message: string, data?: any, context?: string): void {
+  debug(message: string, data?: unknown, context?: string): void {
     if (this.isDevelopment) {
       this.log("debug", message, data, context);
     }
@@ -48,21 +54,21 @@ class Logger {
   /**
    * Info level - general information
    */
-  info(message: string, data?: any, context?: string): void {
+  info(message: string, data?: unknown, context?: string): void {
     this.log("info", message, data, context);
   }
 
   /**
    * Warning level - something unexpected but not critical
    */
-  warn(message: string, data?: any, context?: string): void {
+  warn(message: string, data?: unknown, context?: string): void {
     this.log("warn", message, data, context);
   }
 
   /**
    * Error level - critical issues that need attention
    */
-  error(message: string, error?: Error | any, context?: string): void {
+  error(message: string, error?: unknown, context?: string): void {
     this.log("error", message, error, context);
 
     // Trigger error callbacks for external tracking
@@ -77,7 +83,7 @@ class Logger {
   private log(
     level: LogLevel,
     message: string,
-    data?: any,
+    data?: unknown,
     context?: string,
   ): void {
     const entry: LogEntry = {
@@ -101,19 +107,19 @@ class Logger {
 
       switch (level) {
         case "debug": {
-          console.debug(`${emoji} ${prefix} ${message}`, data || "");
+          console.debug(`${emoji} ${prefix} ${message}`, data ?? "");
           break;
         }
         case "info": {
-          console.info(`${emoji} ${prefix} ${message}`, data || "");
+          console.info(`${emoji} ${prefix} ${message}`, data ?? "");
           break;
         }
         case "warn": {
-          console.warn(`${emoji} ${prefix} ${message}`, data || "");
+          console.warn(`${emoji} ${prefix} ${message}`, data ?? "");
           break;
         }
         case "error": {
-          console.error(`${emoji} ${prefix} ${message}`, data || "");
+          console.error(`${emoji} ${prefix} ${message}`, data ?? "");
           break;
         }
       }
@@ -183,22 +189,34 @@ class Logger {
 export const logger = new Logger();
 
 // Export convenience functions
-export const debug = (message: string, data?: any, context?: string) => {
+export const debug = (
+  message: string,
+  data?: unknown,
+  context?: string,
+): void => {
   logger.debug(message, data, context);
 };
 
-export const info = (message: string, data?: any, context?: string) => {
+export const info = (
+  message: string,
+  data?: unknown,
+  context?: string,
+): void => {
   logger.info(message, data, context);
 };
 
-export const warn = (message: string, data?: any, context?: string) => {
+export const warn = (
+  message: string,
+  data?: unknown,
+  context?: string,
+): void => {
   logger.warn(message, data, context);
 };
 
 export const error = (
   message: string,
-  error_?: Error | any,
+  error_?: unknown,
   context?: string,
-) => {
+): void => {
   logger.error(message, error_, context);
 };

@@ -98,17 +98,17 @@ export interface GameState {
   empMaxCooldown: number;
   isPaused: boolean;
   isGameOver: boolean;
-  programmingLanguage?: ProgrammingLanguage;
+  programmingLanguage: ProgrammingLanguage | undefined;
   bossesDefeated: number; // Track bosses defeated for trivia triggers
   currentDifficulty: DifficultyLevel; // Current difficulty level (scales with progress)
   /**
   Mode before GAME_OVER was set, so Play Again can restart correctly
   */
-  previousMode?: GameMode;
+  previousMode: GameMode | undefined;
   /**
   Language before GAME_OVER was set
   */
-  previousLanguage?: ProgrammingLanguage;
+  previousLanguage: ProgrammingLanguage | undefined;
 }
 
 export interface Enemy {

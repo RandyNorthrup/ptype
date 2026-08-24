@@ -34,7 +34,7 @@ export class ErrorBoundary extends Component<Properties, State> {
     };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Log error to tracking service
     logError("React Error Boundary caught error", error, "ErrorBoundary");
 
@@ -42,15 +42,6 @@ export class ErrorBoundary extends Component<Properties, State> {
       error,
       errorInfo,
     });
-
-    // In production, send to error tracking service (Sentry, etc.)
-    if (
-      typeof window !== "undefined" &&
-      window.location.hostname !== "localhost"
-    ) {
-      // TODO: Send to error tracking service
-      // Example: Sentry.captureException(error, { extra: errorInfo });
-    }
   }
 
   handleReset = () => {
@@ -64,7 +55,7 @@ export class ErrorBoundary extends Component<Properties, State> {
     window.location.reload();
   };
 
-  render() {
+  override render(): ReactNode {
     if (this.state.hasError) {
       // Custom fallback UI
       if (this.props.fallback) {

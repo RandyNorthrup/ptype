@@ -6,6 +6,12 @@ import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+const NEBULA_CLOUD_COLORS = [
+  [0.7, 0.2, 1],
+  [0.2, 0.8, 1],
+  [1, 0.3, 0.8],
+] as const;
+
 // Shared round-particle texture (created once, used by StarField and NebulaClouds)
 let sharedParticleTexture: THREE.CanvasTexture | null = null;
 function getParticleTexture(): THREE.CanvasTexture {
@@ -147,8 +153,12 @@ function Asteroid({
 
 // Nebula cloud using particles
 function NebulaClouds() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cloudReferences = useRef<(THREE.Points<any, any> | null)[]>([]);
+  const cloudReferences = useRef<
+    (THREE.Points<
+      THREE.BufferGeometry<THREE.NormalOrGLBufferAttributes>,
+      THREE.Material | THREE.Material[]
+    > | null)[]
+  >([]);
   const nebulaTexture = useMemo(() => getParticleTexture(), []);
 
   const clouds = useMemo(() => {
@@ -158,11 +168,8 @@ function NebulaClouds() {
       const colors = new Float32Array(particleCount * 3);
 
       // Cloud colors - richer and more vibrant
-      const cloudColors = [
-        [0.7, 0.2, 1], // Vivid Purple
-        [0.2, 0.8, 1], // Bright Cyan
-        [1, 0.3, 0.8], // Hot Pink
-      ][cloudIndex];
+      const cloudColors =
+        NEBULA_CLOUD_COLORS[cloudIndex] ?? NEBULA_CLOUD_COLORS[0];
 
       for (let index = 0; index < particleCount; index++) {
         const index3 = index * 3;

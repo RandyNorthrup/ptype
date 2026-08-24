@@ -11,19 +11,70 @@ import {
   BonusItemType,
   LANGUAGE_FILE_MAP,
 } from "../types";
+import { load as loadYAML } from "js-yaml";
 import { info, warn, error as logError } from "./logger";
 
-type TriviaData = Record<
-  string,
-  {
-    beginner?: TriviaQuestion[];
-    intermediate?: TriviaQuestion[];
-    advanced?: TriviaQuestion[];
+type TriviaDifficulty = "beginner" | "intermediate" | "advanced";
+type TriviaCategoryData = Partial<Record<TriviaDifficulty, TriviaQuestion[]>>;
+type TriviaData = Record<string, TriviaCategoryData>;
+
+const TRIVIA_DIFFICULTIES = ["beginner", "intermediate", "advanced"] as const;
+
+const GENERAL_CATEGORIES = [
+  TriviaCategory.POP_CULTURE,
+  TriviaCategory.SPORTS,
+  TriviaCategory.HISTORY,
+] as const;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isStringArray(value: unknown): value is string[] {
+  return (
+    Array.isArray(value) && value.every((item) => typeof item === "string")
+  );
+}
+
+function parseQuestion(
+  value: unknown,
+  difficulty: TriviaDifficulty,
+  category: string,
+): TriviaQuestion {
+  if (
+    !isRecord(value) ||
+    typeof value["question"] !== "string" ||
+    !isStringArray(value["options"]) ||
+    typeof value["correct"] !== "number" ||
+    !Number.isInteger(value["correct"]) ||
+    value["correct"] < 0 ||
+    value["correct"] >= value["options"].length
+  ) {
+    throw new Error(`Invalid trivia question in ${category}/${difficulty}`);
   }
->;
+
+  return {
+    question: value["question"],
+    options: value["options"],
+    correctAnswer: value["correct"],
+    difficulty,
+    category,
+  };
+}
+
+function getStoredDifficulty(): string {
+  const defaultDifficulty = "Normal";
+  const settingsJson = localStorage.getItem("game-settings");
+  if (!settingsJson) return defaultDifficulty;
+
+  const settings: unknown = JSON.parse(settingsJson);
+  return isRecord(settings) && typeof settings["difficulty"] === "string"
+    ? settings["difficulty"]
+    : defaultDifficulty;
+}
 
 // Bonus items that can be earned from trivia
-const BONUS_ITEMS: BonusItem[] = [
+const BONUS_ITEMS = [
   {
     itemId: 0,
     name: "Seeking Missiles",
@@ -64,7 +115,7 @@ const BONUS_ITEMS: BonusItem[] = [
     effectValue: 0,
     type: BonusItemType.OFFENSIVE,
   },
-];
+] satisfies [BonusItem, ...BonusItem[]];
 
 class TriviaDatabase {
   private triviaData: TriviaData | null = null;
@@ -91,28 +142,7 @@ class TriviaDatabase {
         }
 
         const yamlText = await response.text();
-        const rawData = this.parseYAML(yamlText);
-
-        // Convert YAML structure to TriviaData format
-        this.triviaData = {};
-
-        for (const [category, difficulties] of Object.entries(rawData)) {
-          this.triviaData[category] = {};
-
-          for (const [difficulty, questions] of Object.entries(
-            difficulties as any,
-          )) {
-            this.triviaData[category][
-              difficulty as keyof (typeof this.triviaData)[string]
-            ] = (questions as any[]).map((q) => ({
-              question: q.question,
-              options: q.options,
-              correctAnswer: q.correct,
-              difficulty,
-              category,
-            }));
-          }
-        }
+        this.triviaData = this.parseYAML(yamlText);
 
         info(
           `Trivia database loaded: ${Object.keys(this.triviaData).length} categories`,
@@ -149,24 +179,19 @@ class TriviaDatabase {
       category = LANGUAGE_FILE_MAP[language] || language.toLowerCase();
     } else {
       // Random general knowledge category
-      const categories = [
-        TriviaCategory.POP_CULTURE,
-        TriviaCategory.SPORTS,
-        TriviaCategory.HISTORY,
-      ];
-      category = categories[Math.floor(Math.random() * categories.length)];
+      const categoryIndex = Math.floor(
+        Math.random() * GENERAL_CATEGORIES.length,
+      );
+      category = GENERAL_CATEGORIES[categoryIndex] ?? GENERAL_CATEGORIES[0];
     }
 
     // Determine difficulty based on level and game difficulty setting
-    let difficulty: "beginner" | "intermediate" | "advanced";
+    let difficulty: TriviaDifficulty;
 
     // Get difficulty multiplier from settings
-    let settings: any = { difficulty: "Normal" };
+    let settingsDifficulty = "Normal";
     try {
-      const settingsJson = localStorage.getItem("game-settings");
-      if (settingsJson) {
-        settings = JSON.parse(settingsJson);
-      }
+      settingsDifficulty = getStoredDifficulty();
     } catch (error) {
       warn(
         "Failed to load settings for trivia difficulty",
@@ -179,11 +204,11 @@ class TriviaDatabase {
     let beginnerThreshold = 30;
     let intermediateThreshold = 70;
 
-    if (settings.difficulty === "Easy") {
+    if (settingsDifficulty === "Easy") {
       // Easier trivia questions - stay in beginner/intermediate longer
       beginnerThreshold = 40;
       intermediateThreshold = 85;
-    } else if (settings.difficulty === "Hard") {
+    } else if (settingsDifficulty === "Hard") {
       // Harder trivia questions - progress faster to advanced
       beginnerThreshold = 20;
       intermediateThreshold = 55;
@@ -225,14 +250,20 @@ class TriviaDatabase {
     }
 
     // Return random question
-    return questions[Math.floor(Math.random() * questions.length)];
+    return (
+      questions[Math.floor(Math.random() * questions.length)] ??
+      this.getFallbackQuestion()
+    );
   }
 
   /**
    * Get a random bonus item
    */
   getBonusItem(): BonusItem {
-    return BONUS_ITEMS[Math.floor(Math.random() * BONUS_ITEMS.length)];
+    return (
+      BONUS_ITEMS[Math.floor(Math.random() * BONUS_ITEMS.length)] ??
+      BONUS_ITEMS[0]
+    );
   }
 
   /**
@@ -266,89 +297,30 @@ class TriviaDatabase {
    * Simple YAML parser for trivia questions
    * Handles basic YAML structure with indentation
    */
-  private parseYAML(yamlText: string): any {
-    const result: any = {};
-    const lines = yamlText.split("\n");
-    let currentCategory: string | null = null;
-    let currentDifficulty: string | null = null;
-    let currentQuestion: any = null;
-    let currentKey: string | null = null;
+  private parseYAML(yamlText: string): TriviaData {
+    const parsedData = loadYAML(yamlText);
+    if (!isRecord(parsedData)) {
+      throw new Error("Trivia data must be a YAML mapping");
+    }
 
-    for (const line of lines) {
-      const trimmed = line.trim();
-
-      if (!trimmed || trimmed.startsWith("#")) {
-        continue; // Skip empty lines and comments
+    const result: TriviaData = {};
+    for (const [category, categoryValue] of Object.entries(parsedData)) {
+      if (!isRecord(categoryValue)) {
+        throw new Error(`Trivia category ${category} must be a mapping`);
       }
 
-      const indent = line.length - line.trimStart().length;
-
-      // Top-level category (no indent)
-      if (indent === 0 && line.endsWith(":")) {
-        currentCategory = trimmed.slice(0, -1);
-        result[currentCategory] = {};
-        currentDifficulty = null;
-        currentQuestion = null;
-        continue;
-      }
-
-      // Difficulty level (2 spaces)
-      if (indent === 2 && line.trimEnd().endsWith(":") && currentCategory) {
-        currentDifficulty = trimmed.slice(0, -1);
-        result[currentCategory][currentDifficulty] = [];
-        currentQuestion = null;
-        continue;
-      }
-
-      // New question (starts with dash at 2 spaces)
-      if (indent === 2 && line.trimStart().startsWith("- question:")) {
-        if (currentCategory && currentDifficulty) {
-          currentQuestion = {
-            question: line.split("question:", 2)[1].trim(),
-            options: [],
-            correct: 0,
-          };
-          result[currentCategory][currentDifficulty].push(currentQuestion);
-          currentKey = null;
+      const categoryData: TriviaCategoryData = {};
+      for (const difficulty of TRIVIA_DIFFICULTIES) {
+        const questions = categoryValue[difficulty];
+        if (questions === undefined) continue;
+        if (!Array.isArray(questions)) {
+          throw new Error(`Trivia ${category}/${difficulty} must be a list`);
         }
-        continue;
+        categoryData[difficulty] = questions.map((question) =>
+          parseQuestion(question, difficulty, category),
+        );
       }
-
-      // Question field at 4 spaces
-      if (indent === 4 && line.includes(":") && currentQuestion) {
-        const [key, ...valueParts] = line.trim().split(":");
-        const value = valueParts.join(":").trim();
-
-        switch (key) {
-          case "question": {
-            currentQuestion.question = value;
-
-            break;
-          }
-          case "options": {
-            currentKey = "options";
-
-            break;
-          }
-          case "correct": {
-            currentQuestion.correct = parseInt(value, 10);
-
-            break;
-          }
-          // No default
-        }
-        continue;
-      }
-
-      // Option item (starts with dash at 4 spaces)
-      if (
-        indent === 4 &&
-        line.trim().startsWith("- ") &&
-        currentKey === "options"
-      ) {
-        const option = line.trim().slice(2);
-        currentQuestion.options.push(option);
-      }
+      result[category] = categoryData;
     }
 
     return result;

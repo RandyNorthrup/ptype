@@ -185,7 +185,9 @@ export function TypingHandler() {
             currentIndex === -1
               ? 0
               : (currentIndex + 1) % currentEnemies.length;
-          setActiveEnemy(currentEnemies[nextIndex].id);
+          const nextEnemy = currentEnemies[nextIndex];
+          if (!nextEnemy) return;
+          setActiveEnemy(nextEnemy.id);
           setCurrentWord("");
           return;
         }

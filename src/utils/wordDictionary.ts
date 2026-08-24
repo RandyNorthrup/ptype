@@ -174,25 +174,29 @@ class WordDictionary {
     wordPool = isBoss ? data.boss_words[difficulty] : data.keywords[difficulty];
 
     // Initialize available words if not exists or empty
-    if (
-      !this.availableWords.has(poolKey) ||
-      this.availableWords.get(poolKey)!.length === 0
-    ) {
+    const remainingWords = this.availableWords.get(poolKey);
+    if (!remainingWords || remainingWords.length === 0) {
       // Shuffle the entire word pool using Fisher-Yates
       const shuffled = [...wordPool];
       for (let index = shuffled.length - 1; index > 0; index--) {
         const index_ = Math.floor(Math.random() * (index + 1));
-        [shuffled[index], shuffled[index_]] = [
-          shuffled[index_],
-          shuffled[index],
-        ];
+        const currentWord = shuffled[index];
+        const replacementWord = shuffled[index_];
+        if (currentWord === undefined || replacementWord === undefined) {
+          continue;
+        }
+        shuffled[index] = replacementWord;
+        shuffled[index_] = currentWord;
       }
       this.availableWords.set(poolKey, shuffled);
     }
 
     // Get next word from available pool
-    const available = this.availableWords.get(poolKey)!;
-    const word = available.pop()!;
+    const available = this.availableWords.get(poolKey);
+    const word = available?.pop();
+    if (word === undefined) {
+      throw new Error(`No words available in ${poolKey}`);
+    }
 
     // If pool is now empty, it will be refilled on next call
     return word;

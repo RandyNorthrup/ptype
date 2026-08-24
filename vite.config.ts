@@ -2,6 +2,9 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const projectRoot = fileURLToPath(new URL(".", import.meta.url));
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -120,13 +123,13 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-      "@engine": path.resolve(__dirname, "./src/engine"),
-      "@entities": path.resolve(__dirname, "./src/entities"),
-      "@components": path.resolve(__dirname, "./src/components"),
-      "@store": path.resolve(__dirname, "./src/store"),
-      "@utils": path.resolve(__dirname, "./src/utils"),
-      "@api": path.resolve(__dirname, "./src/api"),
+      "@": path.resolve(projectRoot, "./src"),
+      "@engine": path.resolve(projectRoot, "./src/engine"),
+      "@entities": path.resolve(projectRoot, "./src/entities"),
+      "@components": path.resolve(projectRoot, "./src/components"),
+      "@store": path.resolve(projectRoot, "./src/store"),
+      "@utils": path.resolve(projectRoot, "./src/utils"),
+      "@api": path.resolve(projectRoot, "./src/api"),
     },
   },
   publicDir: "./public",
@@ -191,6 +194,7 @@ export default defineConfig({
           if (id.includes("/src/utils/")) {
             return "utils";
           }
+          return undefined;
         },
         // Better file naming for caching
         chunkFileNames: "assets/[name]-[hash].js",

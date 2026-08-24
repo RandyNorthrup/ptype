@@ -108,10 +108,10 @@ export class EnemySpawner {
     }
 
     // Three spawn points very far apart: left (-25), center (0), right (25)
-    const spawnPositions = [-25, 0, 25];
+    const spawnPositions = [-25, 0, 25] as const;
 
     return {
-      x: spawnPositions[spawnPoint],
+      x: spawnPositions[spawnPoint] ?? 0,
       y: 0, // Same Y level as player
       z: spawnZ, // Spawn farther back
       spawnPoint,
