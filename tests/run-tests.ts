@@ -1,18 +1,18 @@
 /**
  * MCP Test Runner
  * Script to run E2E tests using Browser MCP (Playwright-based)
- * 
+ *
  * Usage:
  *   tsx tests/run-tests.ts [test-file]
  *   tsx tests/run-tests.ts --all
  *   tsx tests/run-tests.ts --screenshot
  */
 
-import { TEST_CONFIG } from './config/test-config';
+import { TEST_CONFIG } from "./config/test-config";
 
 interface TestResult {
   name: string;
-  status: 'passed' | 'failed' | 'skipped';
+  status: "passed" | "failed" | "skipped";
   duration: number;
   error?: string;
   screenshot?: string;
@@ -31,30 +31,30 @@ class MCPTestRunner {
 
   constructor() {
     this.baseUrl = TEST_CONFIG.baseUrl;
-    this.screenshotMode = process.env.SCREENSHOTS === 'true';
+    this.screenshotMode = process.env.SCREENSHOTS === "true";
   }
 
   /**
    * Main test runner
    */
   async run(testFiles: string[]): Promise<void> {
-    console.log('🚀 P-Type E2E Test Suite');
-    console.log('=' .repeat(50));
+    console.log("🚀 P-Type E2E Test Suite");
+    console.log("=".repeat(50));
     console.log(`Base URL: ${this.baseUrl}`);
-    console.log(`Screenshots: ${this.screenshotMode ? 'Enabled' : 'Disabled'}`);
-    console.log('='.repeat(50));
-    console.log('');
+    console.log(`Screenshots: ${this.screenshotMode ? "Enabled" : "Disabled"}`);
+    console.log("=".repeat(50));
+    console.log("");
 
     // Check if dev server is running
     const serverRunning = await this.checkServer();
     if (!serverRunning) {
-      console.error('❌ Dev server is not running!');
+      console.error("❌ Dev server is not running!");
       console.error(`Please start the dev server at ${this.baseUrl}`);
-      console.error('Run: npm run dev');
+      console.error("Run: npm run dev");
       process.exit(1);
     }
 
-    console.log('✅ Dev server is running\n');
+    console.log("✅ Dev server is running\n");
 
     // Run each test file
     for (const testFile of testFiles) {
@@ -82,7 +82,7 @@ class MCPTestRunner {
    */
   private async runTestFile(testFile: string): Promise<void> {
     console.log(`📝 Running: ${testFile}`);
-    console.log('-'.repeat(50));
+    console.log("-".repeat(50));
 
     // In actual implementation, this would use Browser MCP to:
     // 1. Navigate to the app
@@ -98,16 +98,16 @@ class MCPTestRunner {
     };
 
     this.results.push(suite);
-    console.log('');
+    console.log("");
   }
 
   /**
    * Print test summary
    */
   private printSummary(): void {
-    console.log('\n');
-    console.log('📊 Test Summary');
-    console.log('='.repeat(50));
+    console.log("\n");
+    console.log("📊 Test Summary");
+    console.log("=".repeat(50));
 
     let totalTests = 0;
     let totalPassed = 0;
@@ -116,8 +116,8 @@ class MCPTestRunner {
 
     for (const suite of this.results) {
       totalTests += suite.tests.length;
-      totalPassed += suite.tests.filter(t => t.status === 'passed').length;
-      totalFailed += suite.tests.filter(t => t.status === 'failed').length;
+      totalPassed += suite.tests.filter((t) => t.status === "passed").length;
+      totalFailed += suite.tests.filter((t) => t.status === "failed").length;
       totalDuration += suite.totalDuration;
     }
 
@@ -125,13 +125,13 @@ class MCPTestRunner {
     console.log(`✅ Passed: ${totalPassed}`);
     console.log(`❌ Failed: ${totalFailed}`);
     console.log(`⏱️  Duration: ${(totalDuration / 1000).toFixed(2)}s`);
-    console.log('='.repeat(50));
+    console.log("=".repeat(50));
 
     if (totalFailed > 0) {
-      console.log('\n❌ Some tests failed!');
+      console.log("\n❌ Some tests failed!");
       process.exit(1);
     } else {
-      console.log('\n✅ All tests passed!');
+      console.log("\n✅ All tests passed!");
       process.exit(0);
     }
   }
@@ -143,26 +143,26 @@ class MCPTestRunner {
 function getTestFiles(): string[] {
   const args = process.argv.slice(2);
 
-  if (args.includes('--all') || args.length === 0) {
+  if (args.includes("--all") || args.length === 0) {
     // Run all tests
     return [
-      '01-main-menu.test.ts',
-      '02-game-modes.test.ts',
-      '03-gameplay.test.ts',
-      '04-achievements.test.ts',
-      '05-trivia.test.ts',
-      '06-settings.test.ts',
-      '07-pause-menu.test.ts',
-      '08-game-over.test.ts',
-      '09-performance.test.ts',
-      '10-accessibility.test.ts',
-      '11-responsive.test.ts',
-      '12-integration.test.ts',
+      "01-main-menu.test.ts",
+      "02-game-modes.test.ts",
+      "03-gameplay.test.ts",
+      "04-achievements.test.ts",
+      "05-trivia.test.ts",
+      "06-settings.test.ts",
+      "07-pause-menu.test.ts",
+      "08-game-over.test.ts",
+      "09-performance.test.ts",
+      "10-accessibility.test.ts",
+      "11-responsive.test.ts",
+      "12-integration.test.ts",
     ];
   }
 
   // Run specific test file
-  return args.filter(arg => !arg.startsWith('--'));
+  return args.filter((arg) => !arg.startsWith("--"));
 }
 
 /**
@@ -175,7 +175,7 @@ async function main() {
   try {
     await runner.run(testFiles);
   } catch (error) {
-    console.error('❌ Test runner error:', error);
+    console.error("❌ Test runner error:", error);
     process.exit(1);
   }
 }

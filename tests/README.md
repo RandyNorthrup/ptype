@@ -5,6 +5,7 @@ This folder contains comprehensive end-to-end tests for the P-Type typing game u
 ## Test Structure
 
 ### Test Files
+
 - `01-main-menu.test.ts` - Main menu navigation and UI tests
 - `02-game-modes.test.ts` - Game mode selection and initialization
 - `03-gameplay.test.ts` - Core gameplay mechanics and interactions
@@ -19,6 +20,7 @@ This folder contains comprehensive end-to-end tests for the P-Type typing game u
 - `12-integration.test.ts` - Full user journey integration tests
 
 ### Utilities
+
 - `helpers/test-helpers.ts` - Shared test utilities and helpers
 - `helpers/page-objects.ts` - Page object models for common UI elements
 - `helpers/assertions.ts` - Custom assertion helpers
@@ -27,7 +29,9 @@ This folder contains comprehensive end-to-end tests for the P-Type typing game u
 ## Running Tests
 
 ### Prerequisites
+
 1. Start the development server:
+
    ```bash
    npm run dev
    ```
@@ -35,6 +39,7 @@ This folder contains comprehensive end-to-end tests for the P-Type typing game u
 2. The dev server should be running at `http://localhost:5173` (or your configured port)
 
 ### Execute Tests
+
 ```bash
 # Run all tests
 npm run test:e2e
@@ -52,12 +57,14 @@ npm run test:e2e -- --headed
 ## Test Coverage
 
 ### Main Menu
+
 - ✓ Logo and title display
 - ✓ Button states and interactions
 - ✓ Mode selection dropdown
 - ✓ Navigation to different screens
 
 ### Gameplay
+
 - ✓ Word spawning and destruction
 - ✓ Typing mechanics
 - ✓ Target switching (Tab key)
@@ -66,6 +73,7 @@ npm run test:e2e -- --headed
 - ✓ Level progression
 
 ### UI Components
+
 - ✓ HUD elements (health, score, level)
 - ✓ Achievement toasts
 - ✓ Trivia overlays
@@ -74,6 +82,7 @@ npm run test:e2e -- --headed
 - ✓ Settings modal
 
 ### Performance
+
 - ✓ Initial load time
 - ✓ 3D asset loading
 - ✓ Frame rate during gameplay
@@ -81,6 +90,7 @@ npm run test:e2e -- --headed
 - ✓ Network requests
 
 ### Accessibility
+
 - ✓ Keyboard navigation
 - ✓ ARIA labels and roles
 - ✓ Focus management
@@ -89,23 +99,24 @@ npm run test:e2e -- --headed
 ## Writing New Tests
 
 ### Test Template
-```typescript
-import { test, expect } from './helpers/test-helpers';
-import { MainMenuPage } from './helpers/page-objects';
 
-test.describe('Feature Name', () => {
+```typescript
+import { test, expect } from "./helpers/test-helpers";
+import { MainMenuPage } from "./helpers/page-objects";
+
+test.describe("Feature Name", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:5173');
-    await page.waitForLoadState('networkidle');
+    await page.goto("http://localhost:5173");
+    await page.waitForLoadState("networkidle");
   });
 
-  test('should do something', async ({ page }) => {
+  test("should do something", async ({ page }) => {
     // Arrange
     const mainMenu = new MainMenuPage(page);
-    
+
     // Act
     await mainMenu.clickNewGame();
-    
+
     // Assert
     await expect(page.locator('[data-testid="game-canvas"]')).toBeVisible();
   });
@@ -113,6 +124,7 @@ test.describe('Feature Name', () => {
 ```
 
 ### Best Practices
+
 1. Use data-testid attributes for reliable selectors
 2. Wait for network idle before interactions
 3. Take screenshots on failures for debugging
@@ -145,16 +157,19 @@ jobs:
 ### Common Issues
 
 **Tests timing out**
+
 - Increase timeout in test config
 - Check if dev server is running
 - Verify network connectivity
 
 **Flaky tests**
+
 - Add explicit waits for animations
 - Use waitForLoadState appropriately
 - Check for race conditions
 
 **Screenshot mismatches**
+
 - Update baseline screenshots
 - Check for environment differences
 - Verify browser version consistency

@@ -3,8 +3,8 @@
  * Reusable page objects for common UI elements
  */
 
-import { TEST_CONFIG } from '../config/test-config';
-import { wait, waitForAnimations } from './test-helpers';
+import { TEST_CONFIG } from "../config/test-config";
+import { wait, waitForAnimations } from "./test-helpers";
 
 /**
  * Base Page Object
@@ -12,9 +12,9 @@ import { wait, waitForAnimations } from './test-helpers';
 export class BasePage {
   constructor(protected page: any) {}
 
-  async goto(path: string = ''): Promise<void> {
+  async goto(path: string = ""): Promise<void> {
     await this.page.goto(`${TEST_CONFIG.baseUrl}${path}`);
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   async waitForSelector(selector: string, options?: any): Promise<any> {
@@ -35,13 +35,13 @@ export class BasePage {
 
   async getText(selector: string): Promise<string> {
     const element = await this.page.$(selector);
-    return await element?.textContent() || '';
+    return (await element?.textContent()) || "";
   }
 
   async isVisible(selector: string): Promise<boolean> {
     try {
       await this.page.waitForSelector(selector, {
-        state: 'visible',
+        state: "visible",
         timeout: TEST_CONFIG.timeouts.short,
       });
       return true;
@@ -95,19 +95,19 @@ export class MainMenuPage extends BasePage {
 
   async selectMode(mode: string): Promise<void> {
     await this.openModeSelector();
-    const modeSelector = `[data-testid="mode-option-${mode.toLowerCase().replace(/\s+/g, '-')}"]`;
+    const modeSelector = `[data-testid="mode-option-${mode.toLowerCase().replace(/\s+/g, "-")}"]`;
     await this.click(modeSelector);
   }
 
   async isNewGameEnabled(): Promise<boolean> {
     const button = await this.page.$(this.selectors.newGameButton);
-    const disabled = await button?.getAttribute('disabled');
+    const disabled = await button?.getAttribute("disabled");
     return disabled === null;
   }
 
   async isContinueEnabled(): Promise<boolean> {
     const button = await this.page.$(this.selectors.continueButton);
-    const disabled = await button?.getAttribute('disabled');
+    const disabled = await button?.getAttribute("disabled");
     return disabled === null;
   }
 
@@ -134,7 +134,7 @@ export class MainMenuPage extends BasePage {
 export class GameCanvasPage extends BasePage {
   // Selectors - Updated to match actual TEST_IDS from testIds.ts
   private selectors = {
-    canvas: 'canvas',
+    canvas: "canvas",
     hud: '[data-testid="hud-container"]',
     health: '[data-testid="hud-health-bar"]',
     shield: '[data-testid="hud-shield-bar"]',
@@ -163,15 +163,15 @@ export class GameCanvasPage extends BasePage {
   }
 
   async pressTab(): Promise<void> {
-    await this.page.keyboard.press('Tab');
+    await this.page.keyboard.press("Tab");
   }
 
   async pressEnter(): Promise<void> {
-    await this.page.keyboard.press('Enter');
+    await this.page.keyboard.press("Enter");
   }
 
   async pressEscape(): Promise<void> {
-    await this.page.keyboard.press('Escape');
+    await this.page.keyboard.press("Escape");
   }
 
   async getHealth(): Promise<string> {
@@ -200,7 +200,7 @@ export class GameCanvasPage extends BasePage {
 
   async isEMPReady(): Promise<boolean> {
     const cooldown = await this.getText(this.selectors.empCooldown);
-    return cooldown === '' || cooldown === 'READY';
+    return cooldown === "" || cooldown === "READY";
   }
 
   async activateEMP(): Promise<void> {
@@ -236,7 +236,7 @@ export class PauseMenuPage extends BasePage {
   async returnToMainMenu(): Promise<void> {
     await this.click(this.selectors.mainMenuButton);
     // Handle confirmation dialog
-    await this.page.on('dialog', (dialog: any) => dialog.accept());
+    await this.page.on("dialog", (dialog: any) => dialog.accept());
   }
 }
 

@@ -15,10 +15,10 @@ export class AudioManager {
 
   constructor() {
     // Initialize background music
-    this.bgMusic = new Audio('/assets/sounds/game_music.mp3');
+    this.bgMusic = new Audio("/assets/sounds/game_music.mp3");
     this.bgMusic.loop = true;
     this.bgMusic.volume = this.musicVolume;
-    
+
     // Wait for user interaction before playing audio
     this.setupUserInteractionHandler();
   }
@@ -27,11 +27,11 @@ export class AudioManager {
    * Get or create the shared AudioContext (lazy initialization)
    */
   private getAudioContext(): AudioContext {
-    if (!this.audioContext || this.audioContext.state === 'closed') {
+    if (!this.audioContext || this.audioContext.state === "closed") {
       this.audioContext = new AudioContext();
     }
     // Resume if suspended (happens after tab backgrounding)
-    if (this.audioContext.state === 'suspended') {
+    if (this.audioContext.state === "suspended") {
       this.audioContext.resume();
     }
     return this.audioContext;
@@ -43,18 +43,20 @@ export class AudioManager {
   private setupUserInteractionHandler(): void {
     const enableAudio = () => {
       this.hasUserInteracted = true;
-      
+
       // Play pending music if requested
       if (this.pendingMusicPlay && this.isMusicEnabled && this.bgMusic) {
-        this.bgMusic.play().catch(() => { /* User gesture may still be insufficient */ });
+        this.bgMusic.play().catch(() => {
+          /* User gesture may still be insufficient */
+        });
         this.pendingMusicPlay = false;
       }
     };
-    
+
     // All use { once: true } so they auto-remove after first trigger
-    document.addEventListener('click', enableAudio, { once: true });
-    document.addEventListener('keydown', enableAudio, { once: true });
-    document.addEventListener('touchstart', enableAudio, { once: true });
+    document.addEventListener("click", enableAudio, { once: true });
+    document.addEventListener("keydown", enableAudio, { once: true });
+    document.addEventListener("touchstart", enableAudio, { once: true });
   }
 
   playMusic(): void {
@@ -65,7 +67,9 @@ export class AudioManager {
       return;
     }
 
-    this.bgMusic.play().catch(() => { /* Autoplay may be blocked */ });
+    this.bgMusic.play().catch(() => {
+      /* Autoplay may be blocked */
+    });
   }
 
   pauseMusic(): void {
@@ -94,7 +98,7 @@ export class AudioManager {
 
   toggleMusic(): void {
     this.isMusicEnabled = !this.isMusicEnabled;
-    
+
     if (this.isMusicEnabled) {
       this.playMusic();
     } else {
@@ -112,8 +116,13 @@ export class AudioManager {
   private playProceduralSound(
     frequency: number,
     duration: number,
-    type: OscillatorType = 'sine',
-    envelope?: { attack: number; decay: number; sustain: number; release: number }
+    type: OscillatorType = "sine",
+    envelope?: {
+      attack: number;
+      decay: number;
+      sustain: number;
+      release: number;
+    },
   ): void {
     if (!this.isSfxEnabled) return;
 
@@ -131,11 +140,17 @@ export class AudioManager {
       if (envelope) {
         const now = ctx.currentTime;
         const { attack, decay, sustain, release } = envelope;
-        
+
         gainNode.gain.setValueAtTime(0, now);
         gainNode.gain.linearRampToValueAtTime(this.sfxVolume, now + attack);
-        gainNode.gain.linearRampToValueAtTime(sustain * this.sfxVolume, now + attack + decay);
-        gainNode.gain.setValueAtTime(sustain * this.sfxVolume, now + duration - release);
+        gainNode.gain.linearRampToValueAtTime(
+          sustain * this.sfxVolume,
+          now + attack + decay,
+        );
+        gainNode.gain.setValueAtTime(
+          sustain * this.sfxVolume,
+          now + duration - release,
+        );
         gainNode.gain.linearRampToValueAtTime(0, now + duration);
       } else {
         gainNode.gain.value = this.sfxVolume;
@@ -143,7 +158,7 @@ export class AudioManager {
 
       oscillator.start(ctx.currentTime);
       oscillator.stop(ctx.currentTime + duration);
-      
+
       // Auto-disconnect after sound completes
       oscillator.onended = () => {
         oscillator.disconnect();
@@ -155,11 +170,11 @@ export class AudioManager {
   }
 
   playLaser(): void {
-    this.playProceduralSound(800, 0.1, 'square', {
+    this.playProceduralSound(800, 0.1, "square", {
       attack: 0.01,
       decay: 0.05,
       sustain: 0.3,
-      release: 0.04
+      release: 0.04,
     });
   }
 
@@ -181,7 +196,7 @@ export class AudioManager {
 
       const gainNode = ctx.createGain();
       const filter = ctx.createBiquadFilter();
-      filter.type = 'lowpass';
+      filter.type = "lowpass";
       filter.frequency.value = 1000;
 
       source.connect(filter);
@@ -194,7 +209,7 @@ export class AudioManager {
 
       source.start(now);
       source.stop(now + 0.5);
-      
+
       source.onended = () => {
         source.disconnect();
         filter.disconnect();
@@ -206,11 +221,11 @@ export class AudioManager {
   }
 
   playTypeCorrect(): void {
-    this.playProceduralSound(600, 0.05, 'sine');
+    this.playProceduralSound(600, 0.05, "sine");
   }
 
   playTypeIncorrect(): void {
-    this.playProceduralSound(200, 0.1, 'sawtooth');
+    this.playProceduralSound(200, 0.1, "sawtooth");
   }
 
   playWordComplete(): void {
@@ -224,8 +239,8 @@ export class AudioManager {
       oscillator.connect(gainNode);
       gainNode.connect(ctx.destination);
 
-      oscillator.type = 'sine';
-      
+      oscillator.type = "sine";
+
       const now = ctx.currentTime;
       oscillator.frequency.setValueAtTime(400, now);
       oscillator.frequency.exponentialRampToValueAtTime(800, now + 0.2);
@@ -235,7 +250,7 @@ export class AudioManager {
 
       oscillator.start(now);
       oscillator.stop(now + 0.2);
-      
+
       oscillator.onended = () => {
         oscillator.disconnect();
         gainNode.disconnect();
@@ -246,20 +261,20 @@ export class AudioManager {
   }
 
   playPowerUp(): void {
-    this.playProceduralSound(1000, 0.3, 'square', {
+    this.playProceduralSound(1000, 0.3, "square", {
       attack: 0.05,
       decay: 0.1,
       sustain: 0.6,
-      release: 0.15
+      release: 0.15,
     });
   }
 
   playDamage(): void {
-    this.playProceduralSound(150, 0.2, 'sawtooth', {
+    this.playProceduralSound(150, 0.2, "sawtooth", {
       attack: 0.01,
       decay: 0.05,
       sustain: 0.4,
-      release: 0.14
+      release: 0.14,
     });
   }
 
@@ -268,12 +283,17 @@ export class AudioManager {
 
     for (let i = 0; i < 5; i++) {
       setTimeout(() => {
-        this.playProceduralSound(200 + Math.random() * 400, 0.05, 'square');
+        this.playProceduralSound(200 + Math.random() * 400, 0.05, "square");
       }, i * 50);
     }
   }
 
-  getSettings(): { musicVolume: number; sfxVolume: number; musicEnabled: boolean; sfxEnabled: boolean } {
+  getSettings(): {
+    musicVolume: number;
+    sfxVolume: number;
+    musicEnabled: boolean;
+    sfxEnabled: boolean;
+  } {
     return {
       musicVolume: this.musicVolume,
       sfxVolume: this.sfxVolume,
@@ -284,7 +304,7 @@ export class AudioManager {
 
   dispose(): void {
     this.stopMusic();
-    if (this.audioContext && this.audioContext.state !== 'closed') {
+    if (this.audioContext && this.audioContext.state !== "closed") {
       this.audioContext.close();
       this.audioContext = null;
     }

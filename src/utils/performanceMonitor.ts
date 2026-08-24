@@ -1,7 +1,7 @@
 /**
  * Performance Monitor - Track FPS, memory usage, and render times
  */
-import { debug } from './logger';
+import { debug } from "./logger";
 
 interface PerformanceMetrics {
   fps: number;
@@ -29,7 +29,7 @@ class PerformanceMonitor {
   private lastTime = performance.now();
   private frameCount = 0;
   private callbacks: ((stats: PerformanceStats) => void)[] = [];
-  
+
   // Statistics
   private stats: PerformanceStats = {
     current: this.getEmptyMetrics(),
@@ -75,20 +75,20 @@ class PerformanceMonitor {
 
     const currentTime = performance.now();
     const deltaTime = currentTime - this.lastTime;
-    
+
     // Calculate FPS
     const fps = 1000 / deltaTime;
     this.frames.push(fps);
-    
+
     // Keep only last N frames
     if (this.frames.length > this.maxFrames) {
       this.frames.shift();
     }
-    
+
     // Update current metrics
     this.stats.current.fps = fps;
     this.stats.current.frameTime = deltaTime;
-    
+
     // Get memory info if available
     if ((performance as any).memory) {
       const memory = (performance as any).memory;
@@ -98,22 +98,22 @@ class PerformanceMonitor {
         jsHeapSizeLimit: memory.jsHeapSizeLimit,
       };
     }
-    
+
     // Calculate average
     const avgFps = this.frames.reduce((a, b) => a + b, 0) / this.frames.length;
     this.stats.average.fps = avgFps;
-    
+
     // Calculate min/max
     this.stats.min.fps = Math.min(...this.frames);
     this.stats.max.fps = Math.max(...this.frames);
-    
+
     // Notify callbacks every 60 frames (about once per second at 60fps)
     this.frameCount++;
     if (this.frameCount >= 60) {
       this.frameCount = 0;
       this.notifyCallbacks();
     }
-    
+
     this.lastTime = currentTime;
     requestAnimationFrame(this.update);
   };
@@ -123,7 +123,7 @@ class PerformanceMonitor {
    */
   subscribe(callback: (stats: PerformanceStats) => void): () => void {
     this.callbacks.push(callback);
-    
+
     // Return unsubscribe function
     return () => {
       const index = this.callbacks.indexOf(callback);
@@ -137,7 +137,7 @@ class PerformanceMonitor {
    * Notify all subscribers
    */
   private notifyCallbacks() {
-    this.callbacks.forEach(callback => callback(this.stats));
+    this.callbacks.forEach((callback) => callback(this.stats));
   }
 
   /**
@@ -167,12 +167,12 @@ class PerformanceMonitor {
   /**
    * Get performance rating
    */
-  getPerformanceRating(): 'excellent' | 'good' | 'fair' | 'poor' {
+  getPerformanceRating(): "excellent" | "good" | "fair" | "poor" {
     const fps = this.stats.average.fps;
-    if (fps >= 55) return 'excellent';
-    if (fps >= 40) return 'good';
-    if (fps >= 25) return 'fair';
-    return 'poor';
+    if (fps >= 55) return "excellent";
+    if (fps >= 40) return "good";
+    if (fps >= 25) return "fair";
+    return "poor";
   }
 
   /**
@@ -181,16 +181,20 @@ class PerformanceMonitor {
   logStats(): void {
     const rating = this.getPerformanceRating();
     const memory = this.getMemoryUsageMB();
-    
-    debug('Performance Stats', {
-      rating,
-      currentFPS: this.stats.current.fps.toFixed(1),
-      averageFPS: this.stats.average.fps.toFixed(1),
-      minFPS: this.stats.min.fps.toFixed(1),
-      maxFPS: this.stats.max.fps.toFixed(1),
-      frameTime: this.stats.current.frameTime.toFixed(2) + 'ms',
-      memoryMB: memory || 'N/A'
-    }, 'PerformanceMonitor');
+
+    debug(
+      "Performance Stats",
+      {
+        rating,
+        currentFPS: this.stats.current.fps.toFixed(1),
+        averageFPS: this.stats.average.fps.toFixed(1),
+        minFPS: this.stats.min.fps.toFixed(1),
+        maxFPS: this.stats.max.fps.toFixed(1),
+        frameTime: this.stats.current.frameTime.toFixed(2) + "ms",
+        memoryMB: memory || "N/A",
+      },
+      "PerformanceMonitor",
+    );
   }
 
   /**
@@ -200,7 +204,11 @@ class PerformanceMonitor {
     const start = performance.now();
     await fn();
     const duration = performance.now() - start;
-    debug(`Measure Async: ${label}`, { duration: duration.toFixed(2) + 'ms' }, 'PerformanceMonitor');
+    debug(
+      `Measure Async: ${label}`,
+      { duration: duration.toFixed(2) + "ms" },
+      "PerformanceMonitor",
+    );
   }
 
   /**
@@ -210,7 +218,11 @@ class PerformanceMonitor {
     const start = performance.now();
     fn();
     const duration = performance.now() - start;
-    debug(`Measure: ${label}`, { duration: duration.toFixed(2) + 'ms' }, 'PerformanceMonitor');
+    debug(
+      `Measure: ${label}`,
+      { duration: duration.toFixed(2) + "ms" },
+      "PerformanceMonitor",
+    );
   }
 }
 

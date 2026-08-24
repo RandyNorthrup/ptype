@@ -3,9 +3,9 @@
  * Loads YAML dictionaries and provides word selection for enemies
  */
 
-import type { ProgrammingLanguage, GameMode } from '../types';
-import { LANGUAGE_FILE_MAP } from '../types';
-import { warn, error as logError } from './logger';
+import type { ProgrammingLanguage, GameMode } from "../types";
+import { LANGUAGE_FILE_MAP } from "../types";
+import { warn, error as logError } from "./logger";
 
 export interface WordData {
   keywords: {
@@ -66,17 +66,19 @@ class WordDictionary {
     try {
       // Try to load from data folder
       const response = await fetch(`/data/${language}_words.yaml`);
-      
+
       if (!response.ok) {
-        throw new Error(`Failed to load ${language} dictionary: ${response.statusText}`);
+        throw new Error(
+          `Failed to load ${language} dictionary: ${response.statusText}`,
+        );
       }
 
       const yamlText = await response.text();
       const data = this.parseYAML(yamlText);
-      
+
       return data;
     } catch (err) {
-      logError(`Error loading ${language} dictionary`, err, 'wordDictionary');
+      logError(`Error loading ${language} dictionary`, err, "wordDictionary");
       throw err;
     }
   }
@@ -99,47 +101,48 @@ class WordDictionary {
       },
     };
 
-    let currentSection: 'keywords' | 'boss_words' | null = null;
-    let currentDifficulty: 'beginner' | 'intermediate' | 'advanced' | null = null;
+    let currentSection: "keywords" | "boss_words" | null = null;
+    let currentDifficulty: "beginner" | "intermediate" | "advanced" | null =
+      null;
 
-    const lines = yamlText.split('\n');
+    const lines = yamlText.split("\n");
 
     for (const line of lines) {
       const trimmed = line.trim();
 
       // Skip empty lines and comments
-      if (!trimmed || trimmed.startsWith('#')) continue;
+      if (!trimmed || trimmed.startsWith("#")) continue;
 
       // Check for main sections
-      if (trimmed === 'boss_words:') {
-        currentSection = 'boss_words';
+      if (trimmed === "boss_words:") {
+        currentSection = "boss_words";
         currentDifficulty = null;
         continue;
       }
 
       // Check for difficulty levels (can be under keywords or boss_words)
-      if (trimmed === 'beginner:') {
-        currentDifficulty = 'beginner';
-        if (currentSection === null) currentSection = 'keywords';
+      if (trimmed === "beginner:") {
+        currentDifficulty = "beginner";
+        if (currentSection === null) currentSection = "keywords";
         continue;
       }
-      if (trimmed === 'intermediate:') {
-        currentDifficulty = 'intermediate';
-        if (currentSection === null) currentSection = 'keywords';
+      if (trimmed === "intermediate:") {
+        currentDifficulty = "intermediate";
+        if (currentSection === null) currentSection = "keywords";
         continue;
       }
-      if (trimmed === 'advanced:') {
-        currentDifficulty = 'advanced';
-        if (currentSection === null) currentSection = 'keywords';
+      if (trimmed === "advanced:") {
+        currentDifficulty = "advanced";
+        if (currentSection === null) currentSection = "keywords";
         continue;
       }
 
       // Parse list items
-      if (trimmed.startsWith('- ') && currentSection && currentDifficulty) {
+      if (trimmed.startsWith("- ") && currentSection && currentDifficulty) {
         const value = trimmed.substring(2).trim();
-        
+
         // Remove quotes if present
-        const cleanValue = value.replace(/^["']|["']$/g, '');
+        const cleanValue = value.replace(/^["']|["']$/g, "");
 
         data[currentSection][currentDifficulty].push(cleanValue);
       }
@@ -155,14 +158,18 @@ class WordDictionary {
     const data = this.cache[language];
     if (!data) {
       // Auto-reload dictionary if cache was cleared (e.g., by hot-reload)
-      warn(`Dictionary for ${language} not in cache, will reload on next request`, undefined, 'wordDictionary');
+      warn(
+        `Dictionary for ${language} not in cache, will reload on next request`,
+        undefined,
+        "wordDictionary",
+      );
       // Trigger async load (fire and forget)
       this.loadDictionary(language);
       throw new Error(`Dictionary for ${language} not loaded`);
     }
 
     const difficulty = this.getDifficultyFromLevel(level);
-    const poolKey = `${language}-${isBoss ? 'boss' : 'regular'}-${difficulty}`;
+    const poolKey = `${language}-${isBoss ? "boss" : "regular"}-${difficulty}`;
 
     // Get the word pool
     let wordPool: string[];
@@ -173,7 +180,10 @@ class WordDictionary {
     }
 
     // Initialize available words if not exists or empty
-    if (!this.availableWords.has(poolKey) || this.availableWords.get(poolKey)!.length === 0) {
+    if (
+      !this.availableWords.has(poolKey) ||
+      this.availableWords.get(poolKey)!.length === 0
+    ) {
       // Shuffle the entire word pool using Fisher-Yates
       const shuffled = [...wordPool];
       for (let i = shuffled.length - 1; i > 0; i--) {
@@ -194,25 +204,27 @@ class WordDictionary {
   /**
    * Determine difficulty tier based on level
    */
-  private getDifficultyFromLevel(level: number): 'beginner' | 'intermediate' | 'advanced' {
-    if (level <= 30) return 'beginner';
-    if (level <= 70) return 'intermediate';
-    return 'advanced';
+  private getDifficultyFromLevel(
+    level: number,
+  ): "beginner" | "intermediate" | "advanced" {
+    if (level <= 30) return "beginner";
+    if (level <= 70) return "intermediate";
+    return "advanced";
   }
 
   /**
    * Get the appropriate language key for the game mode
    */
   getLanguageKey(mode: GameMode, language?: ProgrammingLanguage): string {
-    if (mode === 'normal') {
-      return 'normal';
+    if (mode === "normal") {
+      return "normal";
     }
-    
-    if (mode === 'programming' && language) {
-      return LANGUAGE_FILE_MAP[language] || 'python';
+
+    if (mode === "programming" && language) {
+      return LANGUAGE_FILE_MAP[language] || "python";
     }
-    
-    return 'normal';
+
+    return "normal";
   }
 }
 

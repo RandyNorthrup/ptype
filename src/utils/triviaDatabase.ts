@@ -2,8 +2,16 @@
  * Trivia Database - manages loading and retrieving trivia questions
  * Ported from Python data/trivia_db.py
  */
-import { TriviaQuestion, GameMode, ProgrammingLanguage, TriviaCategory, BonusItem, BonusItemType, LANGUAGE_FILE_MAP } from '../types';
-import { info, warn, error as logError } from './logger';
+import {
+  TriviaQuestion,
+  GameMode,
+  ProgrammingLanguage,
+  TriviaCategory,
+  BonusItem,
+  BonusItemType,
+  LANGUAGE_FILE_MAP,
+} from "../types";
+import { info, warn, error as logError } from "./logger";
 
 interface TriviaData {
   [category: string]: {
@@ -17,9 +25,9 @@ interface TriviaData {
 const BONUS_ITEMS: BonusItem[] = [
   {
     itemId: 0,
-    name: 'Seeking Missiles',
-    description: 'Launch homing missiles to destroy 5 nearest enemies',
-    iconName: '🚀',
+    name: "Seeking Missiles",
+    description: "Launch homing missiles to destroy 5 nearest enemies",
+    iconName: "🚀",
     duration: 1,
     uses: 1,
     effectValue: 0,
@@ -27,9 +35,9 @@ const BONUS_ITEMS: BonusItem[] = [
   },
   {
     itemId: 1,
-    name: 'Shield Boost',
-    description: 'Instant 50 shield points',
-    iconName: '🛡️',
+    name: "Shield Boost",
+    description: "Instant 50 shield points",
+    iconName: "🛡️",
     duration: 1,
     uses: 1,
     effectValue: 50,
@@ -37,9 +45,9 @@ const BONUS_ITEMS: BonusItem[] = [
   },
   {
     itemId: 2,
-    name: 'Health Pack',
-    description: 'Restore 30 HP instantly',
-    iconName: '💚',
+    name: "Health Pack",
+    description: "Restore 30 HP instantly",
+    iconName: "💚",
     duration: 1,
     uses: 1,
     effectValue: 30,
@@ -47,9 +55,9 @@ const BONUS_ITEMS: BonusItem[] = [
   },
   {
     itemId: 3,
-    name: 'EMP Blast',
-    description: 'Destroy all non-boss enemies instantly',
-    iconName: '⚡',
+    name: "EMP Blast",
+    description: "Destroy all non-boss enemies instantly",
+    iconName: "⚡",
     duration: 1,
     uses: 1,
     effectValue: 0,
@@ -75,7 +83,7 @@ class TriviaDatabase {
 
     this.loadPromise = (async () => {
       try {
-        const response = await fetch('/data/trivia.yaml');
+        const response = await fetch("/data/trivia.yaml");
         if (!response.ok) {
           throw new Error(`Failed to load trivia: ${response.status}`);
         }
@@ -89,10 +97,12 @@ class TriviaDatabase {
         for (const [category, difficulties] of Object.entries(rawData)) {
           this.triviaData[category] = {};
 
-          for (const [difficulty, questions] of Object.entries(difficulties as any)) {
-            this.triviaData[category][difficulty as keyof typeof this.triviaData[string]] = (
-              questions as any[]
-            ).map((q) => ({
+          for (const [difficulty, questions] of Object.entries(
+            difficulties as any,
+          )) {
+            this.triviaData[category][
+              difficulty as keyof (typeof this.triviaData)[string]
+            ] = (questions as any[]).map((q) => ({
               question: q.question,
               options: q.options,
               correctAnswer: q.correct,
@@ -102,9 +112,13 @@ class TriviaDatabase {
           }
         }
 
-        info(`Trivia database loaded: ${Object.keys(this.triviaData).length} categories`, undefined, 'triviaDatabase');
+        info(
+          `Trivia database loaded: ${Object.keys(this.triviaData).length} categories`,
+          undefined,
+          "triviaDatabase",
+        );
       } catch (err) {
-        logError('Failed to load trivia database', err, 'triviaDatabase');
+        logError("Failed to load trivia database", err, "triviaDatabase");
         this.triviaData = {}; // Empty data on error
         this.loadPromise = null; // Allow retry on next call
       }
@@ -119,10 +133,10 @@ class TriviaDatabase {
   getQuestion(
     mode: GameMode,
     language: ProgrammingLanguage | null = null,
-    difficultyLevel: number = 1
+    difficultyLevel: number = 1,
   ): TriviaQuestion {
     if (!this.triviaData) {
-      warn('Trivia data not loaded', undefined, 'triviaDatabase');
+      warn("Trivia data not loaded", undefined, "triviaDatabase");
       return this.getFallbackQuestion();
     }
 
@@ -142,57 +156,69 @@ class TriviaDatabase {
     }
 
     // Determine difficulty based on level and game difficulty setting
-    let difficulty: 'beginner' | 'intermediate' | 'advanced';
-    
+    let difficulty: "beginner" | "intermediate" | "advanced";
+
     // Get difficulty multiplier from settings
-    let settings: any = { difficulty: 'Normal' };
+    let settings: any = { difficulty: "Normal" };
     try {
-      const settingsJson = localStorage.getItem('game-settings');
+      const settingsJson = localStorage.getItem("game-settings");
       if (settingsJson) {
         settings = JSON.parse(settingsJson);
       }
     } catch (err) {
-      warn('Failed to load settings for trivia difficulty', err, 'triviaDatabase');
+      warn(
+        "Failed to load settings for trivia difficulty",
+        err,
+        "triviaDatabase",
+      );
     }
-    
+
     // Adjust level thresholds based on difficulty setting
     let beginnerThreshold = 30;
     let intermediateThreshold = 70;
-    
-    if (settings.difficulty === 'Easy') {
+
+    if (settings.difficulty === "Easy") {
       // Easier trivia questions - stay in beginner/intermediate longer
       beginnerThreshold = 40;
       intermediateThreshold = 85;
-    } else if (settings.difficulty === 'Hard') {
+    } else if (settings.difficulty === "Hard") {
       // Harder trivia questions - progress faster to advanced
       beginnerThreshold = 20;
       intermediateThreshold = 55;
     }
-    
+
     if (difficultyLevel <= beginnerThreshold) {
-      difficulty = 'beginner';
+      difficulty = "beginner";
     } else if (difficultyLevel <= intermediateThreshold) {
-      difficulty = 'intermediate';
+      difficulty = "intermediate";
     } else {
-      difficulty = 'advanced';
+      difficulty = "advanced";
     }
 
     // Get questions for category and difficulty
     const categoryData = this.triviaData[category];
     if (!categoryData) {
-      warn(`No trivia data for category: ${category}`, undefined, 'triviaDatabase');
+      warn(
+        `No trivia data for category: ${category}`,
+        undefined,
+        "triviaDatabase",
+      );
       return this.getFallbackQuestion();
     }
 
     let questions = categoryData[difficulty] || [];
-    
+
     // Fallback to beginner if no questions at current difficulty
     if (questions.length === 0) {
       questions = categoryData.beginner || [];
     }
 
     if (questions.length === 0) {
-      warn(`No questions found for ${category}/${difficulty}`, undefined, 'triviaDatabase');
+      warn(
+        `No questions found for ${category}/${difficulty}`,
+        undefined,
+        "triviaDatabase",
+      );
       return this.getFallbackQuestion();
     }
 
@@ -212,11 +238,11 @@ class TriviaDatabase {
    */
   private getFallbackQuestion(): TriviaQuestion {
     return {
-      question: 'What is 2 + 2?',
-      options: ['3', '4', '5'],
+      question: "What is 2 + 2?",
+      options: ["3", "4", "5"],
       correctAnswer: 1,
-      difficulty: 'beginner',
-      category: 'mathematics',
+      difficulty: "beginner",
+      category: "mathematics",
     };
   }
 
@@ -240,7 +266,7 @@ class TriviaDatabase {
    */
   private parseYAML(yamlText: string): any {
     const result: any = {};
-    const lines = yamlText.split('\n');
+    const lines = yamlText.split("\n");
     let currentCategory: string | null = null;
     let currentDifficulty: string | null = null;
     let currentQuestion: any = null;
@@ -250,14 +276,14 @@ class TriviaDatabase {
       const line = lines[i];
       const trimmed = line.trim();
 
-      if (!trimmed || trimmed.startsWith('#')) {
+      if (!trimmed || trimmed.startsWith("#")) {
         continue; // Skip empty lines and comments
       }
 
       const indent = line.length - line.trimStart().length;
 
       // Top-level category (no indent)
-      if (indent === 0 && line.endsWith(':')) {
+      if (indent === 0 && line.endsWith(":")) {
         currentCategory = trimmed.slice(0, -1);
         result[currentCategory] = {};
         currentDifficulty = null;
@@ -266,7 +292,7 @@ class TriviaDatabase {
       }
 
       // Difficulty level (2 spaces)
-      if (indent === 2 && line.trim().endsWith(':') && currentCategory) {
+      if (indent === 2 && line.trim().endsWith(":") && currentCategory) {
         currentDifficulty = trimmed.slice(0, -1);
         result[currentCategory][currentDifficulty] = [];
         currentQuestion = null;
@@ -274,10 +300,10 @@ class TriviaDatabase {
       }
 
       // New question (starts with dash at 2 spaces)
-      if (indent === 2 && line.trim().startsWith('- question:')) {
+      if (indent === 2 && line.trim().startsWith("- question:")) {
         if (currentCategory && currentDifficulty) {
           currentQuestion = {
-            question: line.split('question:')[1].trim(),
+            question: line.split("question:")[1].trim(),
             options: [],
             correct: 0,
           };
@@ -288,22 +314,26 @@ class TriviaDatabase {
       }
 
       // Question field at 4 spaces
-      if (indent === 4 && line.includes(':') && currentQuestion) {
-        const [key, ...valueParts] = line.trim().split(':');
-        const value = valueParts.join(':').trim();
+      if (indent === 4 && line.includes(":") && currentQuestion) {
+        const [key, ...valueParts] = line.trim().split(":");
+        const value = valueParts.join(":").trim();
 
-        if (key === 'question') {
+        if (key === "question") {
           currentQuestion.question = value;
-        } else if (key === 'options') {
-          currentKey = 'options';
-        } else if (key === 'correct') {
+        } else if (key === "options") {
+          currentKey = "options";
+        } else if (key === "correct") {
           currentQuestion.correct = parseInt(value, 10);
         }
         continue;
       }
 
       // Option item (starts with dash at 4 spaces)
-      if (indent === 4 && line.trim().startsWith('- ') && currentKey === 'options') {
+      if (
+        indent === 4 &&
+        line.trim().startsWith("- ") &&
+        currentKey === "options"
+      ) {
         const option = line.trim().slice(2);
         currentQuestion.options.push(option);
         continue;

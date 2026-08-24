@@ -2,12 +2,12 @@
  * Player Ship Entity
  * 3D player ship using Rodin-generated model
  */
-import { useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { useGLTF } from '@react-three/drei';
-import * as THREE from 'three';
+import { useRef, useMemo } from "react";
+import { useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
+import * as THREE from "three";
 
-const MODEL_PATH = '/assets/models/ships/player-ship.glb';
+const MODEL_PATH = "/assets/models/ships/player-ship.glb";
 
 export function PlayerShip() {
   const groupRef = useRef<THREE.Group>(null);
@@ -22,7 +22,11 @@ export function PlayerShip() {
   });
 
   return (
-    <group ref={groupRef} position={[0, 0, -20]} userData={{ testId: 'player-ship' }}>
+    <group
+      ref={groupRef}
+      position={[0, 0, -20]}
+      userData={{ testId: "player-ship" }}
+    >
       <primitive object={clonedScene} scale={2} rotation={[0, 0, 0]} />
       <pointLight color="#0088ff" intensity={2} distance={15} decay={2} />
     </group>

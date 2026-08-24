@@ -16,6 +16,7 @@ Comprehensive E2E test suite for P-Type typing game using Browser MCP tools. Cov
 ## 📁 Test Suite Structure
 
 ### Infrastructure Files
+
 ```
 tests/
 ├── config/
@@ -30,7 +31,9 @@ tests/
 ### Test Files
 
 #### **01-main-menu.test.ts** (15 tests)
+
 ✅ Main menu UI and navigation
+
 - Logo display
 - Button states (enabled/disabled)
 - Mode selector interactions
@@ -39,7 +42,9 @@ tests/
 - Navigation flows
 
 #### **02-game-modes.test.ts** (15 tests)
+
 ✅ Game mode selection and initialization
+
 - Start Normal mode
 - Start programming modes (Python, JavaScript, Java, C#, C++, CSS, HTML)
 - WebGL context creation
@@ -48,7 +53,9 @@ tests/
 - Canvas rendering
 
 #### **03-gameplay.test.ts** (17 tests)
+
 ✅ Core gameplay mechanics
+
 - Enemy spawning
 - Word typing and destruction
 - Tab key word switching
@@ -59,7 +66,9 @@ tests/
 - FPS maintenance during gameplay
 
 #### **04-achievements.test.ts** (12 tests)
+
 ✅ Achievement system
+
 - Achievement toast display
 - First Blood unlocking
 - Speed Demon unlocking
@@ -70,7 +79,9 @@ tests/
 - Stats tracking
 
 #### **05-trivia.test.ts** (12 tests)
+
 ✅ Trivia overlay system
+
 - Trivia appearance after boss
 - Question with 4 options
 - Countdown timer
@@ -81,7 +92,9 @@ tests/
 - Multiple trivia rounds
 
 #### **06-settings.test.ts** (14 tests)
+
 ✅ Settings menu
+
 - Open/Close modal
 - Music volume control
 - Sound volume control
@@ -91,7 +104,9 @@ tests/
 - Visual updates
 
 #### **07-pause-menu.test.ts** (14 tests)
+
 ✅ Pause functionality
+
 - Pause with Escape key
 - Resume game
 - Game state freezing
@@ -101,7 +116,9 @@ tests/
 - Multiple pause/resume cycles
 
 #### **08-game-over.test.ts** (17 tests)
+
 ✅ Game over screen
+
 - Final stats display (score, WPM, accuracy)
 - Play Again functionality
 - Return to main menu
@@ -111,7 +128,9 @@ tests/
 - Leaderboard (if implemented)
 
 #### **09-performance.test.ts** (17 tests)
+
 ✅ Performance monitoring
+
 - Page load time (<5s)
 - FPS consistency (30+)
 - Memory usage (<200MB)
@@ -122,7 +141,9 @@ tests/
 - Extended session stability
 
 #### **10-accessibility.test.ts** (16 tests)
+
 ✅ Accessibility compliance
+
 - ARIA labels on buttons
 - Keyboard navigation
 - Enter/Space key activation
@@ -138,7 +159,9 @@ tests/
 - 200% zoom support
 
 #### **11-responsive.test.ts** (17 tests)
+
 ✅ Responsive design
+
 - Desktop (1920x1080)
 - Laptop (1366x768)
 - Tablet (768x1024)
@@ -154,7 +177,9 @@ tests/
 - Ultra-wide displays (2560x1440)
 
 #### **12-integration.test.ts** (11 tests)
+
 ✅ Full user journeys
+
 - Complete gameplay journey (Menu → Game → Pause → Resume)
 - Settings workflow (Open → Adjust → Save → Verify)
 - Achievement unlock flow (Play → Achieve → Toast → Stats)
@@ -170,6 +195,7 @@ tests/
 ## 🛠️ Key Features
 
 ### Page Object Model
+
 - **BasePage**: Common functionality
 - **MainMenuPage**: Main menu interactions
 - **GameCanvasPage**: Gameplay interactions
@@ -180,6 +206,7 @@ tests/
 - **AchievementToastPage**: Achievement notifications
 
 ### Helper Functions
+
 - `wait()`, `waitForAnimations()`, `waitForCanvas()`
 - `takeScreenshot()`, `screenshotWithRetry()`
 - `getFPS()`, `getMemoryUsage()`, `getLoadTime()`
@@ -189,6 +216,7 @@ tests/
 - `clickWithRetry()`, `fillWithRetry()`
 
 ### Custom Assertions
+
 - `assertVisible()`, `assertNotVisible()`, `assertExists()`
 - `assertText()`, `assertContainsText()`
 - `assertEnabled()`, `assertDisabled()`
@@ -202,9 +230,9 @@ tests/
 
 ```typescript
 // Example test execution flow
-const page = await browser.navigate({ url: 'http://localhost:5173' });
+const page = await browser.navigate({ url: "http://localhost:5173" });
 await browser.snapshot();
-await browser.click({ element: 'New Game button', ref: 'button-new-game' });
+await browser.click({ element: "New Game button", ref: "button-new-game" });
 await browser.snapshot();
 ```
 
@@ -230,24 +258,25 @@ npm run test:all
 
 ## 📈 Coverage Matrix
 
-| Feature | Unit | Integration | E2E |
-|---------|------|-------------|-----|
-| Main Menu | - | - | ✅ |
-| Game Modes | - | - | ✅ |
-| Gameplay | - | - | ✅ |
-| Achievements | - | - | ✅ |
-| Trivia | - | - | ✅ |
-| Settings | - | - | ✅ |
-| Pause Menu | - | - | ✅ |
-| Game Over | - | - | ✅ |
-| Performance | - | - | ✅ |
-| Accessibility | - | - | ✅ |
-| Responsive | - | - | ✅ |
-| Integration | - | - | ✅ |
+| Feature       | Unit | Integration | E2E |
+| ------------- | ---- | ----------- | --- |
+| Main Menu     | -    | -           | ✅  |
+| Game Modes    | -    | -           | ✅  |
+| Gameplay      | -    | -           | ✅  |
+| Achievements  | -    | -           | ✅  |
+| Trivia        | -    | -           | ✅  |
+| Settings      | -    | -           | ✅  |
+| Pause Menu    | -    | -           | ✅  |
+| Game Over     | -    | -           | ✅  |
+| Performance   | -    | -           | ✅  |
+| Accessibility | -    | -           | ✅  |
+| Responsive    | -    | -           | ✅  |
+| Integration   | -    | -           | ✅  |
 
 ## 🎨 Screenshot Artifacts
 
 All tests generate screenshots saved to `tests/screenshots/`:
+
 - Format: `{test-name}-{step}-{timestamp}.png`
 - Used for visual verification
 - Helps debug failures
@@ -255,13 +284,13 @@ All tests generate screenshots saved to `tests/screenshots/`:
 
 ## ⚡ Performance Thresholds
 
-| Metric | Threshold | Test File |
-|--------|-----------|-----------|
-| Page Load Time | <5s | 09-performance |
-| FPS | ≥30 | 09-performance |
-| Memory Usage | <200MB | 09-performance |
-| FCP | <2s | 09-performance |
-| TTI | <5s | 09-performance |
+| Metric         | Threshold | Test File      |
+| -------------- | --------- | -------------- |
+| Page Load Time | <5s       | 09-performance |
+| FPS            | ≥30       | 09-performance |
+| Memory Usage   | <200MB    | 09-performance |
+| FCP            | <2s       | 09-performance |
+| TTI            | <5s       | 09-performance |
 
 ## ♿ Accessibility Standards
 
@@ -275,17 +304,18 @@ All tests generate screenshots saved to `tests/screenshots/`:
 
 ## 📱 Responsive Breakpoints
 
-| Device | Width x Height | Test Coverage |
-|--------|----------------|---------------|
-| Desktop | 1920x1080 | ✅ |
-| Laptop | 1366x768 | ✅ |
-| Tablet | 768x1024 | ✅ |
-| Mobile | 375x667 | ✅ |
-| Ultra-wide | 2560x1440 | ✅ |
+| Device     | Width x Height | Test Coverage |
+| ---------- | -------------- | ------------- |
+| Desktop    | 1920x1080      | ✅            |
+| Laptop     | 1366x768       | ✅            |
+| Tablet     | 768x1024       | ✅            |
+| Mobile     | 375x667        | ✅            |
+| Ultra-wide | 2560x1440      | ✅            |
 
 ## 🔧 Configuration
 
 ### Test Config (`test-config.ts`)
+
 ```typescript
 {
   baseUrl: 'http://localhost:5173',
@@ -305,9 +335,10 @@ All tests generate screenshots saved to `tests/screenshots/`:
 ## 📝 Test Patterns
 
 ### 1. **Arrange-Act-Assert**
+
 ```typescript
 // Arrange
-await mainMenu.selectMode('Normal');
+await mainMenu.selectMode("Normal");
 
 // Act
 await mainMenu.clickNewGame();
@@ -317,19 +348,22 @@ await assertVisible(page, '[data-testid="game-canvas"]');
 ```
 
 ### 2. **Wait for Conditions**
+
 ```typescript
 await waitForCanvas(page);
-await waitForGameState(page, 'playing');
+await waitForGameState(page, "playing");
 await waitForAnimations(page);
 ```
 
 ### 3. **Screenshot Documentation**
+
 ```typescript
-await mainMenu.takeScreenshot('step-01-menu');
-await gameCanvas.takeScreenshot('step-02-gameplay');
+await mainMenu.takeScreenshot("step-01-menu");
+await gameCanvas.takeScreenshot("step-02-gameplay");
 ```
 
 ### 4. **Performance Measurement**
+
 ```typescript
 const fps = await getFPS(page, 2000);
 const memory = await getMemoryUsage(page);
@@ -350,20 +384,26 @@ await assertPerformance(page, { fps: 30, memory: 200 });
 ## 🐛 Common Issues & Solutions
 
 ### Issue: Canvas not rendering
+
 **Solution**: Wait for WebGL context initialization
+
 ```typescript
 await waitForCanvas(page, 10000);
 ```
 
 ### Issue: Elements not clickable
+
 **Solution**: Wait for animations to complete
+
 ```typescript
 await waitForAnimations(page);
 await clickWithRetry(page, selector);
 ```
 
 ### Issue: Performance degradation
+
 **Solution**: Monitor FPS and memory over time
+
 ```typescript
 const metrics = await measurePerformanceOverTime(page, 30000);
 ```
@@ -387,6 +427,7 @@ const metrics = await measurePerformanceOverTime(page, 30000);
 ## 🎉 Conclusion
 
 This comprehensive E2E test suite provides:
+
 - ✅ 180+ test cases covering all major features
 - ✅ Performance monitoring and validation
 - ✅ Accessibility compliance testing

@@ -2,13 +2,13 @@
  * Typing Input Handler
  * Captures keyboard input and connects word matching to enemy destruction
  */
-import { useEffect, useCallback, useRef } from 'react';
-import { useGameStore } from '../store/gameContext';
-import { getAudioManager } from '../utils/audioManager';
-import { triviaDatabase } from '../utils/triviaDatabase';
-import { achievementsManager } from '../utils/achievementsManager';
-import { GameMode, BonusItemType } from '../types';
-import { error as logError } from '../utils/logger';
+import { useEffect, useCallback, useRef } from "react";
+import { useGameStore } from "../store/gameContext";
+import { getAudioManager } from "../utils/audioManager";
+import { triviaDatabase } from "../utils/triviaDatabase";
+import { achievementsManager } from "../utils/achievementsManager";
+import { GameMode, BonusItemType } from "../types";
+import { error as logError } from "../utils/logger";
 
 export function TypingHandler() {
   const {
@@ -103,7 +103,15 @@ export function TypingHandler() {
         }
       }
     },
-    [updateEnemy, incrementScore, submitWord, setActiveEnemy, incrementBossesDefeated, nextLevel, showTrivia],
+    [
+      updateEnemy,
+      incrementScore,
+      submitWord,
+      setActiveEnemy,
+      incrementBossesDefeated,
+      nextLevel,
+      showTrivia,
+    ],
   );
 
   const handleKeyPress = useCallback(
@@ -115,19 +123,41 @@ export function TypingHandler() {
         const gameOver = isGameOverRef.current;
 
         // ESC: pause / resume (not during trivia)
-        if (key === 'Escape' && currentMode !== 'menu' && currentMode !== 'trivia' && !gameOver) {
+        if (
+          key === "Escape" &&
+          currentMode !== "menu" &&
+          currentMode !== "trivia" &&
+          !gameOver
+        ) {
           event.preventDefault();
-          if (paused) { resumeGame(); } else { pauseGame(); }
+          if (paused) {
+            resumeGame();
+          } else {
+            pauseGame();
+          }
           return;
         }
 
         // Gate: only handle input during active gameplay
-        if (paused || gameOver || currentMode === 'menu' || currentMode === 'trivia') {
+        if (
+          paused ||
+          gameOver ||
+          currentMode === "menu" ||
+          currentMode === "trivia"
+        ) {
           return;
         }
 
         // Prevent default for typing keys and special keys
-        if (key.length === 1 || key === 'Enter' || key === ' ' || key === 'Tab' || key === 'ArrowUp' || key === 'ArrowDown' || key === 'Backspace') {
+        if (
+          key.length === 1 ||
+          key === "Enter" ||
+          key === " " ||
+          key === "Tab" ||
+          key === "ArrowUp" ||
+          key === "ArrowDown" ||
+          key === "Backspace"
+        ) {
           event.preventDefault();
         }
 
@@ -135,24 +165,27 @@ export function TypingHandler() {
         const currentActiveId = activeEnemyIdRef.current;
 
         // --- TAB: switch target ---
-        if (key === 'Tab') {
+        if (key === "Tab") {
           if (currentEnemies.length === 0) return;
           // Reset current enemy progress
           if (currentActiveId) {
-            const cur = currentEnemies.find(e => e.id === currentActiveId);
+            const cur = currentEnemies.find((e) => e.id === currentActiveId);
             if (cur && cur.typedCharacters > 0) {
               updateEnemy(currentActiveId, { typedCharacters: 0 });
             }
           }
-          const curIdx = currentEnemies.findIndex(e => e.id === currentActiveId);
-          const nextIdx = curIdx >= 0 ? (curIdx + 1) % currentEnemies.length : 0;
+          const curIdx = currentEnemies.findIndex(
+            (e) => e.id === currentActiveId,
+          );
+          const nextIdx =
+            curIdx >= 0 ? (curIdx + 1) % currentEnemies.length : 0;
           setActiveEnemy(currentEnemies[nextIdx].id);
-          setCurrentWord('');
+          setCurrentWord("");
           return;
         }
 
         // --- ENTER: EMP ---
-        if (key === 'Enter') {
+        if (key === "Enter") {
           if (empCooldownRef.current === 0) {
             useEMP();
           }
@@ -160,7 +193,7 @@ export function TypingHandler() {
         }
 
         // --- ArrowUp: cycle bonus items ---
-        if (key === 'ArrowUp') {
+        if (key === "ArrowUp") {
           if (bonusItemsRef.current.length > 0) {
             selectNextBonus();
           }
@@ -168,12 +201,12 @@ export function TypingHandler() {
         }
 
         // --- ArrowDown: use selected bonus ---
-        if (key === 'ArrowDown') {
+        if (key === "ArrowDown") {
           const bonus = useSelectedBonus();
           if (bonus) {
             const audioManager = getAudioManager();
             if (bonus.type === BonusItemType.DEFENSIVE) {
-              if (bonus.name.toLowerCase().includes('shield')) {
+              if (bonus.name.toLowerCase().includes("shield")) {
                 addShield(bonus.effectValue);
               } else {
                 heal(bonus.effectValue);
@@ -193,13 +226,20 @@ export function TypingHandler() {
         if (key.length === 1) {
           // Look for the active enemy being typed
           const activeEnemy = currentActiveId
-            ? currentEnemies.find(e => e.id === currentActiveId && e.typedCharacters > 0 && e.typedCharacters < e.word.length)
+            ? currentEnemies.find(
+                (e) =>
+                  e.id === currentActiveId &&
+                  e.typedCharacters > 0 &&
+                  e.typedCharacters < e.word.length,
+              )
             : null;
 
           if (!activeEnemy) {
             // Start typing a new word — find an enemy whose word starts with this key
-            const matchingEnemy = currentEnemies.find(e =>
-              e.typedCharacters === 0 && e.word.charAt(0).toLowerCase() === key.toLowerCase()
+            const matchingEnemy = currentEnemies.find(
+              (e) =>
+                e.typedCharacters === 0 &&
+                e.word.charAt(0).toLowerCase() === key.toLowerCase(),
             );
 
             if (matchingEnemy) {
@@ -209,7 +249,11 @@ export function TypingHandler() {
 
               // Single-character word → instant completion
               if (matchingEnemy.word.length === 1) {
-                completeWord(matchingEnemy.id, matchingEnemy.word, matchingEnemy.isBoss);
+                completeWord(
+                  matchingEnemy.id,
+                  matchingEnemy.word,
+                  matchingEnemy.isBoss,
+                );
               } else {
                 getAudioManager().playTypeCorrect();
               }
@@ -220,7 +264,9 @@ export function TypingHandler() {
             }
           } else {
             // Continue typing the active enemy's word
-            const nextChar = activeEnemy.word.charAt(activeEnemy.typedCharacters);
+            const nextChar = activeEnemy.word.charAt(
+              activeEnemy.typedCharacters,
+            );
 
             if (nextChar.toLowerCase() === key.toLowerCase()) {
               const newTypedCount = activeEnemy.typedCharacters + 1;
@@ -229,7 +275,11 @@ export function TypingHandler() {
 
               // Word complete?
               if (newTypedCount === activeEnemy.word.length) {
-                completeWord(activeEnemy.id, activeEnemy.word, activeEnemy.isBoss);
+                completeWord(
+                  activeEnemy.id,
+                  activeEnemy.word,
+                  activeEnemy.isBoss,
+                );
               } else {
                 getAudioManager().playTypeCorrect();
               }
@@ -241,7 +291,7 @@ export function TypingHandler() {
           }
         }
       } catch (err) {
-        logError('Failed to handle keypress', err, 'TypingHandler');
+        logError("Failed to handle keypress", err, "TypingHandler");
       }
     },
     // All store callbacks are stable (useCallback with []) — safe to list
@@ -262,8 +312,8 @@ export function TypingHandler() {
   );
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
   }, [handleKeyPress]);
 
   return null;

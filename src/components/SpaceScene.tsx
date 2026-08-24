@@ -2,22 +2,22 @@
  * SpaceScene - 3D space environment with stars, asteroids, and nebula
  * Rendered inside React Three Fiber Canvas
  */
-import { useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+import { useRef, useMemo } from "react";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 
 // Shared round-particle texture (created once, used by StarField and NebulaClouds)
 let sharedParticleTexture: THREE.CanvasTexture | null = null;
 function getParticleTexture(): THREE.CanvasTexture {
   if (!sharedParticleTexture) {
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvas.width = 32;
     canvas.height = 32;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext("2d")!;
     const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-    gradient.addColorStop(0, 'rgba(255,255,255,1)');
-    gradient.addColorStop(0.4, 'rgba(255,255,255,0.6)');
-    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    gradient.addColorStop(0, "rgba(255,255,255,1)");
+    gradient.addColorStop(0.4, "rgba(255,255,255,0.6)");
+    gradient.addColorStop(1, "rgba(255,255,255,0)");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 32, 32);
     sharedParticleTexture = new THREE.CanvasTexture(canvas);
@@ -33,19 +33,19 @@ function StarField() {
   const [positions, colors] = useMemo(() => {
     const positions = new Float32Array(5000 * 3);
     const colors = new Float32Array(5000 * 3);
-    
+
     for (let i = 0; i < 5000; i++) {
       const i3 = i * 3;
-      
+
       // Random position in a large sphere - works for both menu and game cameras
       const radius = 200 + Math.random() * 800;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
-      
+
       positions[i3] = radius * Math.sin(phi) * Math.cos(theta);
       positions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
       positions[i3 + 2] = radius * Math.cos(phi) - 400; // Centered around origin
-      
+
       // Star colors - white, blue, yellow tints
       const colorType = Math.random();
       if (colorType < 0.7) {
@@ -65,10 +65,10 @@ function StarField() {
         colors[i3 + 2] = 0.7;
       }
     }
-    
+
     return [positions, colors];
   }, []);
-  
+
   // Gentle rotation
   useFrame((_state, delta) => {
     if (starsRef.current) {
@@ -76,7 +76,7 @@ function StarField() {
       starsRef.current.rotation.x += delta * 0.005;
     }
   });
-  
+
   return (
     <points ref={starsRef}>
       <bufferGeometry>
@@ -109,13 +109,17 @@ function StarField() {
 }
 
 // Asteroid component
-function Asteroid({ position, size, rotationSpeed }: { 
-  position: [number, number, number]; 
+function Asteroid({
+  position,
+  size,
+  rotationSpeed,
+}: {
+  position: [number, number, number];
   size: number;
   rotationSpeed: [number, number, number];
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
-  
+
   useFrame((_state, delta) => {
     if (meshRef.current) {
       meshRef.current.rotation.x += rotationSpeed[0] * delta;
@@ -123,7 +127,7 @@ function Asteroid({ position, size, rotationSpeed }: {
       meshRef.current.rotation.z += rotationSpeed[2] * delta;
     }
   });
-  
+
   return (
     <mesh ref={meshRef} position={position}>
       <dodecahedronGeometry args={[size, 0]} />
@@ -148,35 +152,35 @@ function NebulaClouds() {
       const particleCount = 1000;
       const positions = new Float32Array(particleCount * 3);
       const colors = new Float32Array(particleCount * 3);
-      
+
       // Cloud colors - richer and more vibrant
       const cloudColors = [
         [0.7, 0.2, 1.0], // Vivid Purple
         [0.2, 0.8, 1.0], // Bright Cyan
         [1.0, 0.3, 0.8], // Hot Pink
       ][cloudIndex];
-      
+
       for (let i = 0; i < particleCount; i++) {
         const i3 = i * 3;
-        
+
         // Cluster particles in a cloud shape - centered at origin, each cloud at different depth
         const angle = Math.random() * Math.PI * 2;
         const radius = Math.random() * 100;
         const height = (Math.random() - 0.5) * 60;
-        
+
         positions[i3] = Math.cos(angle) * radius;
         positions[i3 + 1] = height;
         positions[i3 + 2] = Math.sin(angle) * radius;
-        
+
         colors[i3] = cloudColors[0];
         colors[i3 + 1] = cloudColors[1];
         colors[i3 + 2] = cloudColors[2];
       }
-      
+
       return { positions, colors };
     });
   }, []); // Static positions
-  
+
   useFrame((_state, delta) => {
     cloudRefs.current.forEach((cloud, index) => {
       if (cloud) {
@@ -184,11 +188,11 @@ function NebulaClouds() {
       }
     });
   });
-  
+
   return (
     <>
       {clouds.map((cloud, index) => (
-        <points 
+        <points
           key={index}
           position={[0, 0, 80 + index * 40]} // Nebula clouds in the distance
           ref={(el) => {
@@ -245,18 +249,18 @@ export function SpaceScene() {
       ] as [number, number, number],
     }));
   }, []);
-  
+
   return (
     <>
       {/* Ambient lighting for the scene */}
       <ambientLight intensity={0.1} />
-      
+
       {/* Star field */}
       <StarField />
-      
+
       {/* Nebula clouds */}
       <NebulaClouds />
-      
+
       {/* Asteroids */}
       {asteroids.map((asteroid, index) => (
         <Asteroid key={index} {...asteroid} />

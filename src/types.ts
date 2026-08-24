@@ -1,4 +1,4 @@
-import type { DifficultyLevel } from './utils/difficultyManager';
+import type { DifficultyLevel } from "./utils/difficultyManager";
 
 /**
  * Core type definitions for P-Type Web
@@ -6,36 +6,36 @@ import type { DifficultyLevel } from './utils/difficultyManager';
  */
 
 export enum GameMode {
-  MENU = 'menu',
-  NORMAL = 'normal',
-  PROGRAMMING = 'programming',
-  GAME_OVER = 'game_over',
-  TRIVIA = 'trivia',
+  MENU = "menu",
+  NORMAL = "normal",
+  PROGRAMMING = "programming",
+  GAME_OVER = "game_over",
+  TRIVIA = "trivia",
 }
 
 export enum ProgrammingLanguage {
-  PYTHON = 'Python',
-  JAVA = 'Java',
-  JAVASCRIPT = 'JavaScript',
-  CSHARP = 'C#',
-  CPLUSPLUS = 'C++',
-  CSS = 'CSS',
-  HTML = 'HTML',
+  PYTHON = "Python",
+  JAVA = "Java",
+  JAVASCRIPT = "JavaScript",
+  CSHARP = "C#",
+  CPLUSPLUS = "C++",
+  CSS = "CSS",
+  HTML = "HTML",
 }
 
 export enum BonusItemType {
-  OFFENSIVE = 'offensive',
-  DEFENSIVE = 'defensive',
+  OFFENSIVE = "offensive",
+  DEFENSIVE = "defensive",
 }
 
 export enum TriviaCategory {
-  POP_CULTURE = 'pop_culture',
-  SPORTS = 'sports',
-  HISTORY = 'history',
-  GEOGRAPHY = 'geography',
-  MATHEMATICS = 'mathematics',
-  ART = 'art',
-  NATURE = 'nature',
+  POP_CULTURE = "pop_culture",
+  SPORTS = "sports",
+  HISTORY = "history",
+  GEOGRAPHY = "geography",
+  MATHEMATICS = "mathematics",
+  ART = "art",
+  NATURE = "nature",
 }
 
 export interface TriviaQuestion {
@@ -116,7 +116,7 @@ export interface Enemy {
   health: number;
   maxHealth: number;
   isBoss: boolean;
-  enemyType?: 'basic' | 'fast'; // Enemy ship type
+  enemyType?: "basic" | "fast"; // Enemy ship type
   modelUrl?: string;
   scale: number;
   typedCharacters: number;
@@ -158,30 +158,32 @@ export function isBossLevel(level: number): boolean {
  */
 export function getTargetWPM(level: number): number {
   const { BASE_WPM, MAX_WPM, MAX_LEVEL } = GAME_CONSTANTS;
-  return BASE_WPM + ((MAX_WPM - BASE_WPM) * (level - 1) / Math.max(1, MAX_LEVEL - 1));
+  return (
+    BASE_WPM + ((MAX_WPM - BASE_WPM) * (level - 1)) / Math.max(1, MAX_LEVEL - 1)
+  );
 }
 
 /**
  * Get color for WPM display based on difficulty
  */
 export function getWPMColor(wpm: number): string {
-  if (wpm <= 50) return '#39ff14'; // Neon green - Easy
-  if (wpm <= 100) return '#00ffff'; // Cyan - Moderate
-  if (wpm <= 150) return '#ffeb3b'; // Yellow - Challenging
-  if (wpm <= 200) return '#ff9800'; // Orange - Hard
-  if (wpm <= 250) return '#ff1493'; // Pink - Very Hard
-  return '#ff4444'; // Red - Extreme
+  if (wpm <= 50) return "#39ff14"; // Neon green - Easy
+  if (wpm <= 100) return "#00ffff"; // Cyan - Moderate
+  if (wpm <= 150) return "#ffeb3b"; // Yellow - Challenging
+  if (wpm <= 200) return "#ff9800"; // Orange - Hard
+  if (wpm <= 250) return "#ff1493"; // Pink - Very Hard
+  return "#ff4444"; // Red - Extreme
 }
 
 /**
  * Map ProgrammingLanguage enum values to YAML file keys
  */
 export const LANGUAGE_FILE_MAP: Record<string, string> = {
-  'Python': 'python',
-  'JavaScript': 'javascript',
-  'Java': 'java',
-  'C#': 'csharp',
-  'C++': 'cplusplus',
-  'CSS': 'css',
-  'HTML': 'html',
+  Python: "python",
+  JavaScript: "javascript",
+  Java: "java",
+  "C#": "csharp",
+  "C++": "cplusplus",
+  CSS: "css",
+  HTML: "html",
 } as const;

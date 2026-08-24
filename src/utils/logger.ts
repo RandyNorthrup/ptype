@@ -3,7 +3,7 @@
  * Replaces all console.* calls with proper error tracking
  */
 
-type LogLevel = 'debug' | 'info' | 'warn' | 'error';
+type LogLevel = "debug" | "info" | "warn" | "error";
 
 interface LogEntry {
   timestamp: number;
@@ -20,11 +20,11 @@ class Logger {
   private errorCallbacks: Array<(error: Error, context?: string) => void> = [];
 
   constructor() {
-    this.isDevelopment = typeof window !== 'undefined' && 
-                         window.location.hostname === 'localhost';
-    
+    this.isDevelopment =
+      typeof window !== "undefined" && window.location.hostname === "localhost";
+
     // Expose logger in development for debugging
-    if (this.isDevelopment && typeof window !== 'undefined') {
+    if (this.isDevelopment && typeof window !== "undefined") {
       (window as any).__logger = this;
     }
   }
@@ -41,7 +41,7 @@ class Logger {
    */
   debug(message: string, data?: any, context?: string): void {
     if (this.isDevelopment) {
-      this.log('debug', message, data, context);
+      this.log("debug", message, data, context);
     }
   }
 
@@ -49,32 +49,37 @@ class Logger {
    * Info level - general information
    */
   info(message: string, data?: any, context?: string): void {
-    this.log('info', message, data, context);
+    this.log("info", message, data, context);
   }
 
   /**
    * Warning level - something unexpected but not critical
    */
   warn(message: string, data?: any, context?: string): void {
-    this.log('warn', message, data, context);
+    this.log("warn", message, data, context);
   }
 
   /**
    * Error level - critical issues that need attention
    */
   error(message: string, error?: Error | any, context?: string): void {
-    this.log('error', message, error, context);
-    
+    this.log("error", message, error, context);
+
     // Trigger error callbacks for external tracking
     if (error instanceof Error) {
-      this.errorCallbacks.forEach(cb => cb(error, context));
+      this.errorCallbacks.forEach((cb) => cb(error, context));
     }
   }
 
   /**
    * Internal logging method
    */
-  private log(level: LogLevel, message: string, data?: any, context?: string): void {
+  private log(
+    level: LogLevel,
+    message: string,
+    data?: any,
+    context?: string,
+  ): void {
     const entry: LogEntry = {
       timestamp: Date.now(),
       level,
@@ -91,21 +96,21 @@ class Logger {
 
     // Only output to console in development
     if (this.isDevelopment) {
-      const prefix = context ? `[${context}]` : '';
+      const prefix = context ? `[${context}]` : "";
       const emoji = this.getEmoji(level);
-      
+
       switch (level) {
-        case 'debug':
-          console.debug(`${emoji} ${prefix} ${message}`, data || '');
+        case "debug":
+          console.debug(`${emoji} ${prefix} ${message}`, data || "");
           break;
-        case 'info':
-          console.info(`${emoji} ${prefix} ${message}`, data || '');
+        case "info":
+          console.info(`${emoji} ${prefix} ${message}`, data || "");
           break;
-        case 'warn':
-          console.warn(`${emoji} ${prefix} ${message}`, data || '');
+        case "warn":
+          console.warn(`${emoji} ${prefix} ${message}`, data || "");
           break;
-        case 'error':
-          console.error(`${emoji} ${prefix} ${message}`, data || '');
+        case "error":
+          console.error(`${emoji} ${prefix} ${message}`, data || "");
           break;
       }
     }
@@ -116,10 +121,14 @@ class Logger {
    */
   private getEmoji(level: LogLevel): string {
     switch (level) {
-      case 'debug': return '🔍';
-      case 'info': return 'ℹ️';
-      case 'warn': return '⚠️';
-      case 'error': return '❌';
+      case "debug":
+        return "🔍";
+      case "info":
+        return "ℹ️";
+      case "warn":
+        return "⚠️";
+      case "error":
+        return "❌";
     }
   }
 
@@ -128,7 +137,7 @@ class Logger {
    */
   getLogs(level?: LogLevel): LogEntry[] {
     if (level) {
-      return this.logs.filter(log => log.level === level);
+      return this.logs.filter((log) => log.level === level);
     }
     return [...this.logs];
   }
@@ -151,14 +160,14 @@ class Logger {
    * Get error count
    */
   getErrorCount(): number {
-    return this.logs.filter(log => log.level === 'error').length;
+    return this.logs.filter((log) => log.level === "error").length;
   }
 
   /**
    * Get warning count
    */
   getWarningCount(): number {
-    return this.logs.filter(log => log.level === 'warn').length;
+    return this.logs.filter((log) => log.level === "warn").length;
   }
 }
 
@@ -166,14 +175,14 @@ class Logger {
 export const logger = new Logger();
 
 // Export convenience functions
-export const debug = (message: string, data?: any, context?: string) => 
+export const debug = (message: string, data?: any, context?: string) =>
   logger.debug(message, data, context);
 
-export const info = (message: string, data?: any, context?: string) => 
+export const info = (message: string, data?: any, context?: string) =>
   logger.info(message, data, context);
 
-export const warn = (message: string, data?: any, context?: string) => 
+export const warn = (message: string, data?: any, context?: string) =>
   logger.warn(message, data, context);
 
-export const error = (message: string, err?: Error | any, context?: string) => 
+export const error = (message: string, err?: Error | any, context?: string) =>
   logger.error(message, err, context);

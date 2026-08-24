@@ -9,7 +9,7 @@ declare global {
   function afterEach(fn: () => void | Promise<void>): void;
   function beforeAll(fn: () => void | Promise<void>): void;
   function afterAll(fn: () => void | Promise<void>): void;
-  
+
   // Node.js process global
   var process: {
     env: {
@@ -18,12 +18,12 @@ declare global {
     exit(code?: number): never;
     argv: string[];
   };
-  
+
   // Node.js require/module
   var require: {
     main: any;
   };
-  
+
   var module: {
     [key: string]: any;
   };

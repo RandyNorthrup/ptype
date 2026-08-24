@@ -2,10 +2,10 @@
  * LaserEffect - Beam burst laser animations for keypresses
  * Only fires during active gameplay (not menu, pause, game over, or trivia)
  */
-import { useEffect, useRef } from 'react';
-import { getAudioManager } from '../utils/audioManager';
-import { getLaserTarget } from './LaserTargetHelper';
-import { useGameStore } from '../store/gameContext';
+import { useEffect, useRef } from "react";
+import { getAudioManager } from "../utils/audioManager";
+import { getLaserTarget } from "./LaserTargetHelper";
+import { useGameStore } from "../store/gameContext";
 
 interface BeamBurst {
   x: number;
@@ -39,13 +39,13 @@ export function LaserEffect() {
   // Store active-gameplay flag in a ref so the keydown listener always has current value
   const canFireRef = useRef(false);
   canFireRef.current =
-    (mode === 'normal' || mode === 'programming') && !isPaused && !isGameOver;
+    (mode === "normal" || mode === "programming") && !isPaused && !isGameOver;
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d', { alpha: true });
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
     const resizeCanvas = () => {
@@ -53,7 +53,7 @@ export function LaserEffect() {
       canvas.height = window.innerHeight;
     };
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);
 
     // Animation loop — only runs while there are active beams
     let running = false;
@@ -83,7 +83,7 @@ export function LaserEffect() {
         ctx.lineTo(currentX, currentY);
         ctx.strokeStyle = beam.color;
         ctx.lineWidth = beam.width * 2;
-        ctx.lineCap = 'round';
+        ctx.lineCap = "round";
         ctx.stroke();
 
         // Middle beam
@@ -99,16 +99,16 @@ export function LaserEffect() {
         // Core beam
         ctx.globalAlpha = beam.opacity;
         ctx.shadowBlur = 15;
-        ctx.shadowColor = '#ffffff';
+        ctx.shadowColor = "#ffffff";
         ctx.beginPath();
         ctx.moveTo(beam.x, beam.y);
         ctx.lineTo(currentX, currentY);
-        ctx.strokeStyle = '#ffffff';
+        ctx.strokeStyle = "#ffffff";
         ctx.lineWidth = beam.width * 0.4;
         ctx.stroke();
 
         // Particles
-        beam.particles.forEach(particle => {
+        beam.particles.forEach((particle) => {
           particle.x += particle.vx;
           particle.y += particle.vy;
           particle.opacity -= 0.02;
@@ -125,7 +125,9 @@ export function LaserEffect() {
           }
         });
 
-        beam.particles = beam.particles.filter(p => p.life > 0 && p.opacity > 0);
+        beam.particles = beam.particles.filter(
+          (p) => p.life > 0 && p.opacity > 0,
+        );
         ctx.restore();
         return true;
       });
@@ -166,7 +168,8 @@ export function LaserEffect() {
       const wingOffsetX = 40;
       const playerY = canvas.height - 120;
       const useLeftWing = Math.random() > 0.5;
-      const startX = canvas.width / 2 + (useLeftWing ? -wingOffsetX : wingOffsetX);
+      const startX =
+        canvas.width / 2 + (useLeftWing ? -wingOffsetX : wingOffsetX);
       const startY = playerY;
 
       const particles: Particle[] = [];
@@ -174,30 +177,39 @@ export function LaserEffect() {
         const angle = (Math.random() - 0.5) * Math.PI * 0.8 - Math.PI / 2;
         const speed = 3 + Math.random() * 5;
         particles.push({
-          x: targetX, y: targetY,
-          vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
-          size: 2 + Math.random() * 3, opacity: 1, life: 30 + Math.random() * 20,
+          x: targetX,
+          y: targetY,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: 2 + Math.random() * 3,
+          opacity: 1,
+          life: 30 + Math.random() * 20,
         });
       }
 
       beamsRef.current.push({
-        x: startX, y: startY,
-        targetX, targetY,
+        x: startX,
+        y: startY,
+        targetX,
+        targetY,
         progress: 0,
         width: 8 + Math.random() * 4,
-        opacity: 1, life: 30,
-        color: '#09ff00', particles,
+        opacity: 1,
+        life: 30,
+        color: "#09ff00",
+        particles,
       });
 
       startLoop();
     };
 
-    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      window.removeEventListener('keydown', handleKeyPress);
-      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("keydown", handleKeyPress);
+      if (animationFrameRef.current)
+        cancelAnimationFrame(animationFrameRef.current);
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -205,14 +217,14 @@ export function LaserEffect() {
     <canvas
       ref={canvasRef}
       style={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
         zIndex: 10,
-        pointerEvents: 'none',
-        background: 'transparent',
+        pointerEvents: "none",
+        background: "transparent",
       }}
     />
   );

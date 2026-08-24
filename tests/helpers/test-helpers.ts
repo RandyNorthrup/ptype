@@ -3,13 +3,13 @@
  * Shared utilities and helper functions for E2E tests
  */
 
-import { TEST_CONFIG } from '../config/test-config';
+import { TEST_CONFIG } from "../config/test-config";
 
 /**
  * Wait for a specific time
  */
 export async function wait(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
@@ -32,7 +32,7 @@ export function generateTestId(): string {
 export async function isElementInViewport(element: any): Promise<boolean> {
   const box = await element.boundingBox();
   if (!box) return false;
-  
+
   return box.y >= 0 && box.x >= 0;
 }
 
@@ -41,10 +41,10 @@ export async function isElementInViewport(element: any): Promise<boolean> {
  */
 export async function takeScreenshot(page: any, name: string): Promise<void> {
   if (!TEST_CONFIG.screenshots.enabled) return;
-  
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
   const filename = `${name}-${timestamp}.png`;
-  
+
   await page.screenshot({
     path: `${TEST_CONFIG.screenshots.path}/${filename}`,
     fullPage: TEST_CONFIG.screenshots.fullPage,
@@ -55,7 +55,7 @@ export async function takeScreenshot(page: any, name: string): Promise<void> {
  * Wait for network idle
  */
 export async function waitForNetworkIdle(page: any): Promise<void> {
-  await page.waitForLoadState('networkidle', {
+  await page.waitForLoadState("networkidle", {
     timeout: TEST_CONFIG.timeouts.default,
   });
 }
@@ -65,13 +65,13 @@ export async function waitForNetworkIdle(page: any): Promise<void> {
  */
 export async function getConsoleErrors(page: any): Promise<string[]> {
   const errors: string[] = [];
-  
-  page.on('console', (msg: any) => {
-    if (msg.type() === 'error') {
+
+  page.on("console", (msg: any) => {
+    if (msg.type() === "error") {
       errors.push(msg.text());
     }
   });
-  
+
   return errors;
 }
 
@@ -81,7 +81,7 @@ export async function getConsoleErrors(page: any): Promise<string[]> {
 export async function isGameLoaded(page: any): Promise<boolean> {
   try {
     await page.waitForSelector('[data-testid="main-menu-logo"]', {
-      state: 'visible',
+      state: "visible",
       timeout: TEST_CONFIG.timeouts.default,
     });
     return true;
@@ -111,9 +111,13 @@ export async function pressKeys(page: any, keys: string[]): Promise<void> {
 /**
  * Type text with realistic timing
  */
-export async function typeRealistic(page: any, text: string, wpm: number = 60): Promise<void> {
-  const delayMs = (60000 / wpm) / 5; // Average word is ~5 characters
-  
+export async function typeRealistic(
+  page: any,
+  text: string,
+  wpm: number = 60,
+): Promise<void> {
+  const delayMs = 60000 / wpm / 5; // Average word is ~5 characters
+
   for (const char of text) {
     await page.keyboard.type(char);
     await wait(delayMs);
@@ -123,19 +127,24 @@ export async function typeRealistic(page: any, text: string, wpm: number = 60): 
 /**
  * Wait for element to be stable (not moving)
  */
-export async function waitForStable(element: any, timeout: number = 1000): Promise<void> {
+export async function waitForStable(
+  element: any,
+  timeout: number = 1000,
+): Promise<void> {
   let lastPosition: any = null;
   const startTime = Date.now();
-  
+
   while (Date.now() - startTime < timeout) {
     const box = await element.boundingBox();
-    
-    if (lastPosition && 
-        Math.abs(box.x - lastPosition.x) < 1 && 
-        Math.abs(box.y - lastPosition.y) < 1) {
+
+    if (
+      lastPosition &&
+      Math.abs(box.x - lastPosition.x) < 1 &&
+      Math.abs(box.y - lastPosition.y) < 1
+    ) {
       return;
     }
-    
+
     lastPosition = box;
     await wait(100);
   }
@@ -144,16 +153,19 @@ export async function waitForStable(element: any, timeout: number = 1000): Promi
 /**
  * Get current FPS
  */
-export async function getFPS(page: any, duration: number = 1000): Promise<number> {
+export async function getFPS(
+  page: any,
+  duration: number = 1000,
+): Promise<number> {
   return await page.evaluate((duration) => {
     return new Promise<number>((resolve) => {
       let frameCount = 0;
       let startTime = performance.now();
-      
+
       function countFrame() {
         frameCount++;
         const elapsed = performance.now() - startTime;
-        
+
         if (elapsed < duration) {
           requestAnimationFrame(countFrame);
         } else {
@@ -161,7 +173,7 @@ export async function getFPS(page: any, duration: number = 1000): Promise<number
           resolve(Math.round(fps));
         }
       }
-      
+
       requestAnimationFrame(countFrame);
     });
   }, duration);
@@ -179,26 +191,26 @@ export async function getMemoryUsage(page: any): Promise<number> {
  * Wait for canvas to be ready
  */
 export async function waitForCanvas(page: any): Promise<void> {
-  await page.waitForSelector('canvas', {
-    state: 'visible',
+  await page.waitForSelector("canvas", {
+    state: "visible",
     timeout: TEST_CONFIG.timeouts.long,
   });
-  
+
   // Wait for WebGL context to initialize
   await page.evaluate(() => {
     return new Promise<void>((resolve) => {
-      const canvas = document.querySelector('canvas');
+      const canvas = document.querySelector("canvas");
       if (!canvas) return resolve();
-      
+
       const checkGL = () => {
-        const gl = canvas.getContext('webgl') || canvas.getContext('webgl2');
+        const gl = canvas.getContext("webgl") || canvas.getContext("webgl2");
         if (gl) {
           resolve();
         } else {
           setTimeout(checkGL, 100);
         }
       };
-      
+
       checkGL();
     });
   });
@@ -231,14 +243,14 @@ export async function setGameState(page: any, state: any): Promise<void> {
  * Mock API responses
  */
 export async function mockAPIResponse(
-  page: any, 
-  url: string, 
-  response: any
+  page: any,
+  url: string,
+  response: any,
 ): Promise<void> {
   await page.route(url, (route: any) => {
     route.fulfill({
       status: 200,
-      contentType: 'application/json',
+      contentType: "application/json",
       body: JSON.stringify(response),
     });
   });
@@ -249,7 +261,7 @@ export async function mockAPIResponse(
  */
 export function assertNoConsoleErrors(errors: string[]): void {
   if (errors.length > 0) {
-    throw new Error(`Console errors found: ${errors.join(', ')}`);
+    throw new Error(`Console errors found: ${errors.join(", ")}`);
   }
 }
 
@@ -259,10 +271,10 @@ export function assertNoConsoleErrors(errors: string[]): void {
 export async function retry<T>(
   action: () => Promise<T>,
   maxAttempts: number = 3,
-  baseDelay: number = 1000
+  baseDelay: number = 1000,
 ): Promise<T> {
   let lastError: Error | undefined;
-  
+
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
       return await action();
@@ -274,6 +286,6 @@ export async function retry<T>(
       }
     }
   }
-  
+
   throw lastError;
 }
