@@ -117,7 +117,7 @@ const BONUS_ITEMS = [
   },
 ] satisfies [BonusItem, ...BonusItem[]];
 
-class TriviaDatabase {
+export class TriviaDatabase {
   private triviaData: TriviaData | null = null;
   private loadPromise: Promise<void> | null = null;
 

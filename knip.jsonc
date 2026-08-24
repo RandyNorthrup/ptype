@@ -4,18 +4,21 @@
     "src/main.tsx",
     "vite.config.ts",
     "vitest.config.ts",
-    "tests/**/*.{test,spec}.ts",
-    "tests/{demo,manual-runner,run-tests}.ts",
+    "tests/**/*.{test,spec}.{ts,tsx}",
   ],
   "project": [
     "src/**/*.{ts,tsx}",
-    "tests/**/*.ts",
+    "tests/**/*.{ts,tsx}",
     "vite.config.ts",
     "vitest.config.ts",
-    "web/vite.config.ts",
   ],
   "ignore": ["**/*.d.ts", "build/**", "coverage/**", "dist/**"],
-  "ignoreDependencies": ["prettier", "stylelint-config-standard"],
+  "ignoreDependencies": [
+    "prettier",
+    "stylelint-config-standard",
+    // Knip 6.32 reports this import as unused even though --trace-dependency resolves it.
+    "js-yaml",
+  ],
   "ignoreExportsUsedInFile": true,
   "rules": {
     "binaries": "error",

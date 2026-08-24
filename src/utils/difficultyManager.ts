@@ -5,6 +5,21 @@
 
 export type DifficultyLevel = "Easy" | "Normal" | "Hard" | "Expert" | "Master";
 
+const DIFFICULTY_LEVELS: readonly DifficultyLevel[] = [
+  "Easy",
+  "Normal",
+  "Hard",
+  "Expert",
+  "Master",
+];
+
+function isDifficultyLevel(value: unknown): value is DifficultyLevel {
+  return (
+    typeof value === "string" &&
+    DIFFICULTY_LEVELS.some((difficulty) => difficulty === value)
+  );
+}
+
 /**
 Cache the starting difficulty so we don't read localStorage every call
 */
@@ -18,9 +33,16 @@ export function getStartingDifficulty(): DifficultyLevel {
   try {
     const savedSettings = localStorage.getItem("game-settings");
     if (savedSettings) {
-      const settings = JSON.parse(savedSettings);
-      cachedStartingDifficulty = settings.difficulty ?? "Normal";
-      return cachedStartingDifficulty!;
+      const settings: unknown = JSON.parse(savedSettings);
+      if (
+        typeof settings === "object" &&
+        settings !== null &&
+        "difficulty" in settings &&
+        isDifficultyLevel(settings.difficulty)
+      ) {
+        cachedStartingDifficulty = settings.difficulty;
+        return cachedStartingDifficulty;
+      }
     }
   } catch {
     // Fall through to default

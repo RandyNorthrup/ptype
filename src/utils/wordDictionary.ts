@@ -22,7 +22,7 @@ export interface WordData {
 
 export type DictionaryCache = Record<string, WordData>;
 
-class WordDictionary {
+export class WordDictionary {
   private cache: DictionaryCache = {};
   private loadingPromises = new Map<string, Promise<WordData>>();
   private availableWords = new Map<string, string[]>(); // Remaining words to use
