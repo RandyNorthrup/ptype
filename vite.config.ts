@@ -55,20 +55,6 @@ export default defineConfig({
         clientsClaim: true,
         skipWaiting: true,
         runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/api\.hyperhuman\.deemos\.com\/.*/i,
-            handler: "CacheFirst",
-            options: {
-              cacheName: "rodin-assets-cache",
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
-              },
-              cacheableResponse: {
-                statuses: [0, 200],
-              },
-            },
-          },
           // Cache GLB models
           {
             urlPattern: /\.glb$/i,
@@ -168,9 +154,6 @@ export default defineConfig({
           if (id.includes("@react-three/fiber")) {
             return "react-three-fiber";
           }
-          if (id.includes("@react-three/drei")) {
-            return "react-three-drei";
-          }
           // React core
           if (id.includes("react-dom")) {
             return "react-dom";
@@ -182,18 +165,7 @@ export default defineConfig({
           ) {
             return "react";
           }
-          // Game components
-          if (id.includes("/src/components/")) {
-            return "components";
-          }
-          // Game entities
-          if (id.includes("/src/entities/")) {
-            return "entities";
-          }
-          // Utilities
-          if (id.includes("/src/utils/")) {
-            return "utils";
-          }
+          // Application modules use their natural dynamic-import boundaries.
           return;
         },
         // Better file naming for caching

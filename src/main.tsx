@@ -10,17 +10,19 @@ import "./index.css";
 import { initializePerformanceOptimizations } from "./utils/performanceInit";
 import { error } from "./utils/logger";
 
-try {
-  await initializePerformanceOptimizations();
-} catch (error_: unknown) {
-  error("Failed to initialize performance optimizations", error_, "Main");
-}
+async function bootstrap(): Promise<void> {
+  try {
+    await initializePerformanceOptimizations();
+  } catch (error_: unknown) {
+    error("Failed to initialize performance optimizations", error_, "Main");
+  }
 
-// Service worker registration is handled by vite-plugin-pwa
-// No manual registration needed
+  const root = document.querySelector("#root");
+  if (!root) {
+    error("Root element was not found", undefined, "Main");
+    return;
+  }
 
-const root = document.querySelector("#root");
-if (root) {
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
       <ErrorBoundary>
@@ -31,3 +33,6 @@ if (root) {
     </React.StrictMode>,
   );
 }
+
+// Service worker registration is handled by vite-plugin-pwa.
+void bootstrap();

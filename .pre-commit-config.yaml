@@ -15,6 +15,7 @@ repos:
       - id: check-added-large-files
         args: [--maxkb=1024]
       - id: check-json
+        exclude: (^|/)tsconfig(\.[^/]*)?\.json$
       - id: check-yaml
       - id: detect-private-key
 
@@ -57,3 +58,10 @@ repos:
         language: system
         pass_filenames: false
         files: ^(package\.json|src/|tests/|.*\.config\.)
+
+      - id: npm-audit
+        name: npm audit (all severities)
+        entry: npm run security:deps
+        language: system
+        pass_filenames: false
+        files: ^package(-lock)?\.json$
