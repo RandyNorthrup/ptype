@@ -266,11 +266,7 @@ describe("application orchestration", () => {
     fireEvent.click(await screen.findByRole("button", { name: "Resume mock" }));
     expect(mocks.resumeGame).toHaveBeenCalledOnce();
 
-    const confirm = vi.spyOn(window, "confirm");
-    confirm.mockReturnValueOnce(false).mockReturnValueOnce(true);
     const mainMenu = screen.getByRole("button", { name: "Main menu mock" });
-    fireEvent.click(mainMenu);
-    expect(mocks.resetGame).not.toHaveBeenCalled();
     fireEvent.click(mainMenu);
     expect(mocks.resetGame).toHaveBeenCalledOnce();
     expect(mocks.clearAssets).toHaveBeenCalledOnce();

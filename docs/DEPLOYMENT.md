@@ -48,7 +48,8 @@ Verify at minimum:
 
 1. The loading status advances to the main menu without console errors.
 2. Normal and programming modes enter the WebGL game.
-3. Settings, statistics, About, pause, and game-over dialogs work by keyboard.
+3. Settings, statistics, About, pause, quit confirmation, and game-over dialogs
+   work by keyboard; cancelling quit returns to the paused game.
 4. Layout remains usable at desktop and narrow viewport sizes.
 5. The manifest and service worker load from the same origin.
 

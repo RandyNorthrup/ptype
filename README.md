@@ -23,19 +23,20 @@ and assets stored in this repository.
 
 ### Keyboard controls
 
-| Key          | Action                                        |
-| ------------ | --------------------------------------------- |
-| Letter keys  | Type the targeted enemy word                  |
-| `Tab`        | Cycle through available targets               |
-| `Enter`      | Fire the EMP when its cooldown is ready       |
-| `Arrow Up`   | Select the next collected bonus item          |
-| `Arrow Down` | Use the selected bonus item                   |
-| `Escape`     | Pause or resume; close the active menu dialog |
+| Key          | Action                                                  |
+| ------------ | ------------------------------------------------------- |
+| Letter keys  | Type the targeted enemy word                            |
+| `Tab`        | Cycle through available targets                         |
+| `Enter`      | Fire the EMP when its cooldown is ready                 |
+| `Arrow Up`   | Select the next collected bonus item                    |
+| `Arrow Down` | Use the selected bonus item                             |
+| `Escape`     | Pause or resume; close or back out of the active dialog |
 
 The interface supports keyboard navigation, visible focus, reduced-motion
 preferences, responsive dialogs and HUD layouts, and labelled dialog, status,
 timer, health, and shield semantics. Gameplay still requires a keyboard and a
-WebGL-capable browser.
+WebGL-capable browser. Leaving an active game uses an in-app confirmation dialog
+that supports keyboard focus and cancellation.
 
 ## Local development
 

@@ -36,7 +36,10 @@ export function ModalShell({
     dialogReference.current?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onDismiss();
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      event.stopPropagation();
+      onDismiss();
     };
 
     document.addEventListener("keydown", handleKeyDown);

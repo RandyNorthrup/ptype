@@ -214,14 +214,6 @@ function App() {
   }, [answerTrivia, hideTrivia]);
 
   const handlePauseMainMenu = useCallback(() => {
-    if (
-      !window.confirm(
-        "Are you sure you want to quit to main menu? Your progress will be lost.",
-      )
-    ) {
-      return;
-    }
-
     resetGame();
     resourcePreloader.clearNonCriticalAssets();
   }, [resetGame]);

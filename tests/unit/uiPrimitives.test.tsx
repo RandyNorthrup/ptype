@@ -7,6 +7,8 @@ import { NeonButton } from "../../src/components/NeonButton";
 describe("shared UI primitives", () => {
   it("renders an accessible, dismissible, focus-managed modal", async () => {
     const dismiss = vi.fn();
+    const escapedModal = vi.fn();
+    window.addEventListener("keydown", escapedModal);
     const trigger = document.createElement("button");
     document.body.append(trigger);
     trigger.focus();
@@ -21,14 +23,16 @@ describe("shared UI primitives", () => {
     expect(dialog).toHaveFocus();
     fireEvent.click(screen.getByRole("button", { name: "Inside" }));
     expect(dismiss).not.toHaveBeenCalled();
-    fireEvent.keyDown(document, { key: "Escape" });
+    fireEvent.keyDown(dialog, { key: "Escape" });
     expect(dismiss).toHaveBeenCalledOnce();
+    expect(escapedModal).not.toHaveBeenCalled();
     fireEvent.click(dialog.parentElement!);
     expect(dismiss).toHaveBeenCalledTimes(2);
     const results = await axe.run(container);
     expect(results.violations).toEqual([]);
 
     unmount();
+    window.removeEventListener("keydown", escapedModal);
     expect(trigger).toHaveFocus();
     trigger.remove();
   });

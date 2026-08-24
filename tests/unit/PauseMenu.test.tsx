@@ -34,8 +34,23 @@ describe("pause menu", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /resume game/i }));
     fireEvent.click(screen.getByRole("button", { name: /main menu/i }));
+    expect(
+      screen.getByRole("dialog", { name: "Quit to Main Menu?" }),
+    ).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: "Quit to Main Menu" }));
     expect(resume).toHaveBeenCalledOnce();
     expect(mainMenu).toHaveBeenCalledOnce();
+  });
+
+  it("keeps the paused game when quitting is cancelled", () => {
+    const mainMenu = vi.fn();
+    render(<PauseMenu onResume={vi.fn()} onMainMenu={mainMenu} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /main menu/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Keep Playing" }));
+
+    expect(mainMenu).not.toHaveBeenCalled();
+    expect(screen.getByRole("dialog", { name: /paused/i })).toBeVisible();
   });
 
   it("opens settings and returns to the pause dialog", () => {

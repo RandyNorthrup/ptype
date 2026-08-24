@@ -15,6 +15,8 @@ interface PauseMenuProperties {
 const PauseMenuComponent = ({ onResume, onMainMenu }: PauseMenuProperties) => {
   const { level, score, wpm, accuracy } = useGameStore();
   const [showSettings, setShowSettings] = useState(false);
+  const [showMainMenuConfirmation, setShowMainMenuConfirmation] =
+    useState(false);
 
   if (showSettings) {
     return (
@@ -23,6 +25,53 @@ const PauseMenuComponent = ({ onResume, onMainMenu }: PauseMenuProperties) => {
           setShowSettings(false);
         }}
       />
+    );
+  }
+
+  if (showMainMenuConfirmation) {
+    return (
+      <ModalShell
+        labelledBy="main-menu-confirmation-title"
+        maxWidth="440px"
+        onDismiss={() => {
+          setShowMainMenuConfirmation(false);
+        }}
+      >
+        <h1
+          id="main-menu-confirmation-title"
+          style={{
+            color: "#f87171",
+            fontSize: "clamp(1.5rem, 6vw, 2rem)",
+            margin: "0 0 1rem",
+            textAlign: "center",
+          }}
+        >
+          Quit to Main Menu?
+        </h1>
+        <p
+          style={{
+            color: "#cbd5e1",
+            lineHeight: 1.6,
+            margin: "0 0 1.5rem",
+            textAlign: "center",
+          }}
+        >
+          Your current game progress will be lost.
+        </p>
+        <div style={{ display: "grid", gap: "0.75rem" }}>
+          <NeonButton
+            autoFocus
+            onClick={() => {
+              setShowMainMenuConfirmation(false);
+            }}
+          >
+            Keep Playing
+          </NeonButton>
+          <NeonButton onClick={onMainMenu} variant="danger">
+            Quit to Main Menu
+          </NeonButton>
+        </div>
+      </ModalShell>
     );
   }
 
@@ -177,7 +226,9 @@ const PauseMenuComponent = ({ onResume, onMainMenu }: PauseMenuProperties) => {
         </NeonButton>
 
         <NeonButton
-          onClick={onMainMenu}
+          onClick={() => {
+            setShowMainMenuConfirmation(true);
+          }}
           data-testid="pause-main-menu-button"
           variant="danger"
         >
