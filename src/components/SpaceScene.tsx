@@ -12,29 +12,30 @@ const NEBULA_CLOUD_COLORS = [
   [1, 0.3, 0.8],
 ] as const;
 
-// Shared round-particle texture (created once, used by StarField and NebulaClouds)
-let sharedParticleTexture: THREE.CanvasTexture | null = null;
-function getParticleTexture(): THREE.CanvasTexture {
-  if (!sharedParticleTexture) {
-    const canvas = document.createElement("canvas");
-    canvas.width = 32;
-    canvas.height = 32;
-    const context = canvas.getContext("2d")!;
-    const gradient = context.createRadialGradient(16, 16, 0, 16, 16, 16);
-    gradient.addColorStop(0, "rgba(255,255,255,1)");
-    gradient.addColorStop(0.4, "rgba(255,255,255,0.6)");
-    gradient.addColorStop(1, "rgba(255,255,255,0)");
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, 32, 32);
-    sharedParticleTexture = new THREE.CanvasTexture(canvas);
-  }
-  return sharedParticleTexture;
+function createParticleTexture(): THREE.CanvasTexture {
+  const canvas = document.createElement("canvas");
+  canvas.width = 32;
+  canvas.height = 32;
+  const context = canvas.getContext("2d");
+  if (!context) throw new Error("Canvas 2D context is unavailable");
+  const gradient = context.createRadialGradient(16, 16, 0, 16, 16, 16);
+  gradient.addColorStop(0, "rgba(255,255,255,1)");
+  gradient.addColorStop(0.4, "rgba(255,255,255,0.6)");
+  gradient.addColorStop(1, "rgba(255,255,255,0)");
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, 32, 32);
+  return new THREE.CanvasTexture(canvas);
+}
+
+function deterministicRandom(index: number, salt: number): number {
+  const value = Math.sin(index * 12.9898 + salt * 78.233) * 43_758.5453;
+  return value - Math.floor(value);
 }
 
 // Star field component
 function StarField() {
   const starsReference = useRef<THREE.Points>(null);
-  const starTexture = useMemo(() => getParticleTexture(), []);
+  const starTexture = useMemo(() => createParticleTexture(), []);
 
   const [positions, colors] = useMemo(() => {
     const positions = new Float32Array(5000 * 3);
@@ -44,16 +45,16 @@ function StarField() {
       const index3 = index * 3;
 
       // Random position in a large sphere - works for both menu and game cameras
-      const radius = 200 + Math.random() * 800;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
+      const radius = 200 + deterministicRandom(index, 1) * 800;
+      const theta = deterministicRandom(index, 2) * Math.PI * 2;
+      const phi = Math.acos(2 * deterministicRandom(index, 3) - 1);
 
       positions[index3] = radius * Math.sin(phi) * Math.cos(theta);
       positions[index3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
       positions[index3 + 2] = radius * Math.cos(phi) - 400; // Centered around origin
 
       // Star colors - white, blue, yellow tints
-      const colorType = Math.random();
+      const colorType = deterministicRandom(index, 4);
       if (colorType < 0.7) {
         // White stars
         colors[index3] = 1;
@@ -155,11 +156,10 @@ function Asteroid({
 function NebulaClouds() {
   const cloudReferences = useRef<
     (THREE.Points<
-      THREE.BufferGeometry<THREE.NormalOrGLBufferAttributes>,
-      THREE.Material | THREE.Material[]
+      THREE.BufferGeometry<THREE.NormalOrGLBufferAttributes>
     > | null)[]
   >([]);
-  const nebulaTexture = useMemo(() => getParticleTexture(), []);
+  const nebulaTexture = useMemo(() => createParticleTexture(), []);
 
   const clouds = useMemo(() => {
     return Array.from({ length: 3 }, (_, cloudIndex) => {
@@ -175,9 +175,10 @@ function NebulaClouds() {
         const index3 = index * 3;
 
         // Cluster particles in a cloud shape - centered at origin, each cloud at different depth
-        const angle = Math.random() * Math.PI * 2;
-        const radius = Math.random() * 100;
-        const height = (Math.random() - 0.5) * 60;
+        const randomIndex = cloudIndex * particleCount + index;
+        const angle = deterministicRandom(randomIndex, 5) * Math.PI * 2;
+        const radius = deterministicRandom(randomIndex, 6) * 100;
+        const height = (deterministicRandom(randomIndex, 7) - 0.5) * 60;
 
         positions[index3] = Math.cos(angle) * radius;
         positions[index3 + 1] = height;
@@ -246,19 +247,23 @@ function NebulaClouds() {
 export function SpaceScene() {
   // Generate asteroid positions
   const asteroids = useMemo(() => {
-    return Array.from({ length: 50 }, () => ({
-      position: [
-        (Math.random() - 0.5) * 1000,
-        (Math.random() - 0.5) * 600,
-        -300 - Math.random() * 800,
-      ] as [number, number, number],
-      size: 3 + Math.random() * 8,
-      rotationSpeed: [
-        (Math.random() - 0.5) * 0.5,
-        (Math.random() - 0.5) * 0.5,
-        (Math.random() - 0.5) * 0.5,
-      ] as [number, number, number],
-    }));
+    return Array.from({ length: 50 }, (_, index) => {
+      const position: [number, number, number] = [
+        (deterministicRandom(index, 8) - 0.5) * 1000,
+        (deterministicRandom(index, 9) - 0.5) * 600,
+        -300 - deterministicRandom(index, 10) * 800,
+      ];
+      const rotationSpeed: [number, number, number] = [
+        (deterministicRandom(index, 12) - 0.5) * 0.5,
+        (deterministicRandom(index, 13) - 0.5) * 0.5,
+        (deterministicRandom(index, 14) - 0.5) * 0.5,
+      ];
+      return {
+        position,
+        size: 3 + deterministicRandom(index, 11) * 8,
+        rotationSpeed,
+      };
+    });
   }, []);
 
   return (

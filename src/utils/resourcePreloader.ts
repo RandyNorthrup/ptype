@@ -12,11 +12,37 @@ interface CacheEntry {
   priority: "critical" | "high" | "medium" | "low";
 }
 
+interface CacheStats {
+  totalAssets: number;
+  cacheSize: number;
+  cacheSizeMB: string;
+  maxCacheSizeMB: string;
+  utilizationPercent: string;
+  queueLength: number;
+}
+
+const CACHE_CONFIG = {
+  maxConcurrent: 3,
+  bytesPerKibibyte: 1024,
+  maximumMebibytes: 100,
+  modelEstimateKibibytes: 500,
+  fontEstimateKibibytes: 100,
+  imageEstimateKibibytes: 200,
+  dataEstimateKibibytes: 50,
+  queueDelayMilliseconds: 10,
+  percentageScale: 100,
+  sizePrecision: 2,
+  utilizationPrecision: 1,
+} as const;
+
 class ResourcePreloader {
   private loadedAssets = new Map<string, CacheEntry>();
   private loadingQueue: { path: string; priority: number }[] = [];
-  private maxConcurrent = 3;
-  private maxCacheSize = 100 * 1024 * 1024; // 100MB cache limit
+  private maxConcurrent = CACHE_CONFIG.maxConcurrent;
+  private maxCacheSize =
+    CACHE_CONFIG.maximumMebibytes *
+    CACHE_CONFIG.bytesPerKibibyte *
+    CACHE_CONFIG.bytesPerKibibyte;
   private currentCacheSize = 0;
   private isProcessing = false;
 
@@ -68,19 +94,23 @@ class ResourcePreloader {
       if (path.endsWith(".glb")) {
         // Preload 3D model
         useGLTF.preload(path);
-        estimatedSize = 500 * 1024; // Estimate 500KB per model
+        estimatedSize =
+          CACHE_CONFIG.modelEstimateKibibytes * CACHE_CONFIG.bytesPerKibibyte;
       } else if (path.endsWith(".ttf") || path.endsWith(".woff2")) {
         // Preload font
         await this.preloadFont(path);
-        estimatedSize = 100 * 1024; // Estimate 100KB per font
+        estimatedSize =
+          CACHE_CONFIG.fontEstimateKibibytes * CACHE_CONFIG.bytesPerKibibyte;
       } else if (/\.(png|jpg|jpeg|webp)$/i.test(path)) {
         // Preload texture/image
         await this.preloadImage(path);
-        estimatedSize = 200 * 1024; // Estimate 200KB per image
+        estimatedSize =
+          CACHE_CONFIG.imageEstimateKibibytes * CACHE_CONFIG.bytesPerKibibyte;
       } else if (/\.(yaml|json)$/i.test(path)) {
         // Preload data file
         await this.preloadData(path);
-        estimatedSize = 50 * 1024; // Estimate 50KB per data file
+        estimatedSize =
+          CACHE_CONFIG.dataEstimateKibibytes * CACHE_CONFIG.bytesPerKibibyte;
       }
 
       // Add to cache
@@ -122,7 +152,7 @@ class ResourcePreloader {
   private evictLRU(sizeNeeded: number): void {
     const entries = [...this.loadedAssets]
       .filter(([_, entry]) => entry.priority !== "critical") // Never evict critical assets
-      .sort((a, b) => {
+      .toSorted((a, b) => {
         // Sort by priority first, then by last access time
         const priorityDiff =
           this.PRIORITY[a[1].priority] - this.PRIORITY[b[1].priority];
@@ -144,7 +174,7 @@ class ResourcePreloader {
       freedSpace += entry.size;
 
       debug(
-        `Evicted: ${path} (${(entry.size / 1024).toFixed(0)}KB)`,
+        `Evicted: ${path} (${(entry.size / CACHE_CONFIG.bytesPerKibibyte).toFixed(0)}KB)`,
         undefined,
         "resourcePreloader",
       );
@@ -165,7 +195,9 @@ class ResourcePreloader {
       link.addEventListener("load", () => {
         resolve();
       });
-      link.onerror = reject;
+      link.addEventListener("error", () => {
+        reject(new Error(`Failed to preload font: ${path}`));
+      });
       document.head.append(link);
     });
   }
@@ -175,12 +207,14 @@ class ResourcePreloader {
    */
   private preloadImage(path: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.addEventListener("load", () => {
+      const image = new Image();
+      image.addEventListener("load", () => {
         resolve();
       });
-      img.onerror = reject;
-      img.src = path;
+      image.addEventListener("error", () => {
+        reject(new Error(`Failed to preload image: ${path}`));
+      });
+      image.src = path;
     });
   }
 
@@ -204,8 +238,8 @@ class ResourcePreloader {
   ): void {
     if (this.loadedAssets.has(path)) {
       // Update last access time
-      const entry = this.loadedAssets.get(path)!;
-      entry.lastAccess = Date.now();
+      const entry = this.loadedAssets.get(path);
+      if (entry) entry.lastAccess = Date.now();
       return;
     }
 
@@ -219,11 +253,13 @@ class ResourcePreloader {
     });
 
     // Sort queue by priority (highest first)
-    this.loadingQueue.sort((a, b) => b.priority - a.priority);
+    this.loadingQueue = this.loadingQueue.toSorted(
+      (a, b) => b.priority - a.priority,
+    );
 
     // Start processing if not already
     if (!this.isProcessing) {
-      this.processQueue();
+      void this.processQueue();
     }
   }
 
@@ -257,7 +293,9 @@ class ResourcePreloader {
       );
 
       // Small delay to prevent blocking
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await new Promise((resolve) =>
+        setTimeout(resolve, CACHE_CONFIG.queueDelayMilliseconds),
+      );
     }
 
     this.isProcessing = false;
@@ -280,7 +318,7 @@ class ResourcePreloader {
     }
 
     info(
-      `Cleared ${nonCritical.length} non-critical assets`,
+      `Cleared ${nonCritical.length.toString()} non-critical assets`,
       undefined,
       "resourcePreloader",
     );
@@ -289,16 +327,24 @@ class ResourcePreloader {
   /**
    * Get cache statistics
    */
-  getCacheStats() {
+  getCacheStats(): CacheStats {
     return {
       totalAssets: this.loadedAssets.size,
       cacheSize: this.currentCacheSize,
-      cacheSizeMB: (this.currentCacheSize / 1024 / 1024).toFixed(2),
-      maxCacheSizeMB: (this.maxCacheSize / 1024 / 1024).toFixed(2),
+      cacheSizeMB: (
+        this.currentCacheSize /
+        CACHE_CONFIG.bytesPerKibibyte /
+        CACHE_CONFIG.bytesPerKibibyte
+      ).toFixed(CACHE_CONFIG.sizePrecision),
+      maxCacheSizeMB: (
+        this.maxCacheSize /
+        CACHE_CONFIG.bytesPerKibibyte /
+        CACHE_CONFIG.bytesPerKibibyte
+      ).toFixed(CACHE_CONFIG.sizePrecision),
       utilizationPercent: (
         (this.currentCacheSize / this.maxCacheSize) *
-        100
-      ).toFixed(1),
+        CACHE_CONFIG.percentageScale
+      ).toFixed(CACHE_CONFIG.utilizationPrecision),
       queueLength: this.loadingQueue.length,
     };
   }
@@ -308,13 +354,21 @@ class ResourcePreloader {
    */
   logStats(): void {
     const stats = this.getCacheStats();
-    debug(`Total Assets: ${stats.totalAssets}`, undefined, "resourcePreloader");
+    debug(
+      `Total Assets: ${stats.totalAssets.toString()}`,
+      undefined,
+      "resourcePreloader",
+    );
     debug(
       `Cache Size: ${stats.cacheSizeMB}MB / ${stats.maxCacheSizeMB}MB (${stats.utilizationPercent}%)`,
       undefined,
       "resourcePreloader",
     );
-    debug(`Queue Length: ${stats.queueLength}`, undefined, "resourcePreloader");
+    debug(
+      `Queue Length: ${stats.queueLength.toString()}`,
+      undefined,
+      "resourcePreloader",
+    );
   }
 }
 

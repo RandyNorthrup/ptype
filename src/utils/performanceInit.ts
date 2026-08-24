@@ -6,6 +6,8 @@ import { resourcePreloader } from "./resourcePreloader";
 import { performanceMonitor } from "./performanceMonitor";
 import { info, debug } from "./logger";
 
+const INITIAL_STATS_DELAY_MILLISECONDS = 1000;
+
 /**
  * Initialize all performance optimizations
  */
@@ -48,7 +50,7 @@ export async function initializePerformanceOptimizations() {
         },
         "PerformanceInit",
       );
-    }, 1000);
+    }, INITIAL_STATS_DELAY_MILLISECONDS);
   }
 
   info("Performance optimizations initialized", undefined, "PerformanceInit");

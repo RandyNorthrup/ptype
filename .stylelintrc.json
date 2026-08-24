@@ -39,6 +39,7 @@
   },
   "ignoreFiles": [
     "**/build/**",
+    "**/coverage/**",
     "**/dist/**",
     "**/node_modules/**",
     "**/*.min.css"

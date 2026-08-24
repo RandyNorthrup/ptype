@@ -1,12 +1,73 @@
 /**
  * MainMenu Component - Matches Python desktop app layout
  */
-import { useState, useRef, useEffect, memo } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  memo,
+  type CSSProperties,
+  type MouseEvent as ReactMouseEvent,
+  type ReactNode,
+} from "react";
 import { useGameStore } from "../store/gameContext";
 import { GameMode, ProgrammingLanguage } from "../types";
 import { PlayerStatsModal } from "./PlayerStatsModal";
 import { SettingsMenu } from "./SettingsMenu";
 import { error as logError } from "../utils/logger";
+
+const SECONDARY_BUTTON_STYLE: CSSProperties = {
+  padding: "0.6rem 0.8rem",
+  fontSize: "0.8rem",
+  background: "rgba(10, 14, 27, 0.7)",
+  border: "2px solid rgba(9, 255, 0, 0.3)",
+  borderRadius: "8px",
+  color: "#09ff00",
+  fontWeight: "600",
+  cursor: "pointer",
+  transition: "all 0.3s",
+  boxShadow: "0 0 10px rgba(9, 255, 0, 0.2)",
+  flex: 1,
+};
+
+function handleSecondaryButtonEnter(
+  event: ReactMouseEvent<HTMLButtonElement>,
+): void {
+  event.currentTarget.style.borderColor = "#09ff00";
+  event.currentTarget.style.boxShadow = "0 0 20px rgba(9, 255, 0, 0.4)";
+  event.currentTarget.style.transform = "translateY(-2px)";
+}
+
+function handleSecondaryButtonLeave(
+  event: ReactMouseEvent<HTMLButtonElement>,
+): void {
+  event.currentTarget.style.borderColor = "rgba(9, 255, 0, 0.3)";
+  event.currentTarget.style.boxShadow = "0 0 10px rgba(9, 255, 0, 0.2)";
+  event.currentTarget.style.transform = "translateY(0)";
+}
+
+function SecondaryMenuButton({
+  children,
+  onClick,
+  testId,
+}: {
+  children: ReactNode;
+  onClick: () => void;
+  testId: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      data-testid={testId}
+      style={SECONDARY_BUTTON_STYLE}
+      onMouseEnter={handleSecondaryButtonEnter}
+      onMouseLeave={handleSecondaryButtonLeave}
+    >
+      {children}
+    </button>
+  );
+}
 
 const MainMenuComponent = () => {
   const { startGame } = useGameStore();
@@ -319,101 +380,32 @@ const MainMenuComponent = () => {
             marginBottom: "1rem",
           }}
         >
-          <button
+          <SecondaryMenuButton
             onClick={() => {
               setShowStats(!showStats);
             }}
-            data-testid="player-stats-button"
-            style={{
-              padding: "0.6rem 0.8rem",
-              fontSize: "0.8rem",
-              background: "rgba(10, 14, 27, 0.7)",
-              border: "2px solid rgba(9, 255, 0, 0.3)",
-              borderRadius: "8px",
-              color: "#09ff00",
-              fontWeight: "600",
-              cursor: "pointer",
-              transition: "all 0.3s",
-              boxShadow: "0 0 10px rgba(9, 255, 0, 0.2)",
-              flex: 1,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#09ff00";
-              e.currentTarget.style.boxShadow = "0 0 20px rgba(9, 255, 0, 0.4)";
-              e.currentTarget.style.transform = "translateY(-2px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(9, 255, 0, 0.3)";
-              e.currentTarget.style.boxShadow = "0 0 10px rgba(9, 255, 0, 0.2)";
-              e.currentTarget.style.transform = "translateY(0)";
-            }}
+            testId="player-stats-button"
           >
             Player Stats
-          </button>
+          </SecondaryMenuButton>
 
-          <button
+          <SecondaryMenuButton
             onClick={() => {
               setShowSettings(!showSettings);
             }}
-            data-testid="settings-button"
-            style={{
-              padding: "0.6rem 0.8rem",
-              fontSize: "0.8rem",
-              background: "rgba(10, 14, 27, 0.7)",
-              border: "2px solid rgba(9, 255, 0, 0.3)",
-              borderRadius: "8px",
-              color: "#09ff00",
-              fontWeight: "600",
-              cursor: "pointer",
-              transition: "all 0.3s",
-              boxShadow: "0 0 10px rgba(9, 255, 0, 0.2)",
-              flex: 1,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#09ff00";
-              e.currentTarget.style.boxShadow = "0 0 20px rgba(9, 255, 0, 0.4)";
-              e.currentTarget.style.transform = "translateY(-2px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(9, 255, 0, 0.3)";
-              e.currentTarget.style.boxShadow = "0 0 10px rgba(9, 255, 0, 0.2)";
-              e.currentTarget.style.transform = "translateY(0)";
-            }}
+            testId="settings-button"
           >
             Settings
-          </button>
+          </SecondaryMenuButton>
 
-          <button
+          <SecondaryMenuButton
             onClick={() => {
               setShowAbout(!showAbout);
             }}
-            data-testid="about-button"
-            style={{
-              padding: "0.6rem 0.8rem",
-              fontSize: "0.8rem",
-              background: "rgba(10, 14, 27, 0.7)",
-              border: "2px solid rgba(9, 255, 0, 0.3)",
-              borderRadius: "8px",
-              color: "#09ff00",
-              fontWeight: "600",
-              cursor: "pointer",
-              transition: "all 0.3s",
-              boxShadow: "0 0 10px rgba(9, 255, 0, 0.2)",
-              flex: 1,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#09ff00";
-              e.currentTarget.style.boxShadow = "0 0 20px rgba(9, 255, 0, 0.4)";
-              e.currentTarget.style.transform = "translateY(-2px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(9, 255, 0, 0.3)";
-              e.currentTarget.style.boxShadow = "0 0 10px rgba(9, 255, 0, 0.2)";
-              e.currentTarget.style.transform = "translateY(0)";
-            }}
+            testId="about-button"
           >
             About
-          </button>
+          </SecondaryMenuButton>
         </div>
 
         {/* Help Panel */}

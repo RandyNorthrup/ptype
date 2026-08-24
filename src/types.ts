@@ -153,8 +153,17 @@ export const GAME_CONSTANTS = {
   CAMERA_FAR: 1000,
 } as const;
 
+const BOSS_LEVEL_INTERVAL = 3;
+const WPM_COLOR_THRESHOLDS = {
+  easy: 50,
+  moderate: 100,
+  challenging: 150,
+  hard: 200,
+  veryHard: 250,
+} as const;
+
 export function isBossLevel(level: number): boolean {
-  return level > 0 && level % 3 === 0;
+  return level > 0 && level % BOSS_LEVEL_INTERVAL === 0;
 }
 
 /**
@@ -171,11 +180,11 @@ export function getTargetWPM(level: number): number {
  * Get color for WPM display based on difficulty
  */
 export function getWPMColor(wpm: number): string {
-  if (wpm <= 50) return "#39ff14"; // Neon green - Easy
-  if (wpm <= 100) return "#00ffff"; // Cyan - Moderate
-  if (wpm <= 150) return "#ffeb3b"; // Yellow - Challenging
-  if (wpm <= 200) return "#ff9800"; // Orange - Hard
-  if (wpm <= 250) return "#ff1493"; // Pink - Very Hard
+  if (wpm <= WPM_COLOR_THRESHOLDS.easy) return "#39ff14"; // Neon green - Easy
+  if (wpm <= WPM_COLOR_THRESHOLDS.moderate) return "#00ffff"; // Cyan - Moderate
+  if (wpm <= WPM_COLOR_THRESHOLDS.challenging) return "#ffeb3b"; // Yellow - Challenging
+  if (wpm <= WPM_COLOR_THRESHOLDS.hard) return "#ff9800"; // Orange - Hard
+  if (wpm <= WPM_COLOR_THRESHOLDS.veryHard) return "#ff1493"; // Pink - Very Hard
   return "#ff4444"; // Red - Extreme
 }
 

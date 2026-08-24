@@ -10,10 +10,11 @@ import "./index.css";
 import { initializePerformanceOptimizations } from "./utils/performanceInit";
 import { error } from "./utils/logger";
 
-// Initialize performance optimizations
-initializePerformanceOptimizations().catch((error_) => {
+try {
+  await initializePerformanceOptimizations();
+} catch (error_: unknown) {
   error("Failed to initialize performance optimizations", error_, "Main");
-});
+}
 
 // Service worker registration is handled by vite-plugin-pwa
 // No manual registration needed

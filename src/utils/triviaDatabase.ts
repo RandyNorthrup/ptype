@@ -26,6 +26,12 @@ const GENERAL_CATEGORIES = [
   TriviaCategory.HISTORY,
 ] as const;
 
+const TRIVIA_LEVEL_THRESHOLDS = {
+  Easy: { beginner: 40, intermediate: 85 },
+  Normal: { beginner: 30, intermediate: 70 },
+  Hard: { beginner: 20, intermediate: 55 },
+} as const;
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -46,7 +52,7 @@ function parseQuestion(
     typeof value["question"] !== "string" ||
     !isStringArray(value["options"]) ||
     typeof value["correct"] !== "number" ||
-    !Number.isInteger(value["correct"]) ||
+    !Number.isSafeInteger(value["correct"]) ||
     value["correct"] < 0 ||
     value["correct"] >= value["options"].length
   ) {
@@ -138,14 +144,16 @@ export class TriviaDatabase {
       try {
         const response = await fetch("/data/trivia.yaml");
         if (!response.ok) {
-          throw new Error(`Failed to load trivia: ${response.status}`);
+          throw new Error(
+            `Failed to load trivia: ${response.status.toString()}`,
+          );
         }
 
         const yamlText = await response.text();
         this.triviaData = this.parseYAML(yamlText);
 
         info(
-          `Trivia database loaded: ${Object.keys(this.triviaData).length} categories`,
+          `Trivia database loaded: ${Object.keys(this.triviaData).length.toString()} categories`,
           undefined,
           "triviaDatabase",
         );
@@ -174,9 +182,9 @@ export class TriviaDatabase {
 
     // Determine category
     let category: string;
-    if (mode === GameMode.PROGRAMMING && language) {
+    if (language && mode === GameMode.PROGRAMMING) {
       // Use LANGUAGE_FILE_MAP to convert language names like 'C#' → 'csharp', 'C++' → 'cplusplus'
-      category = LANGUAGE_FILE_MAP[language] || language.toLowerCase();
+      category = LANGUAGE_FILE_MAP[language] ?? language.toLowerCase();
     } else {
       // Random general knowledge category
       const categoryIndex = Math.floor(
@@ -200,23 +208,19 @@ export class TriviaDatabase {
       );
     }
 
-    // Adjust level thresholds based on difficulty setting
-    let beginnerThreshold = 30;
-    let intermediateThreshold = 70;
-
+    let thresholds: {
+      readonly beginner: number;
+      readonly intermediate: number;
+    } = TRIVIA_LEVEL_THRESHOLDS.Normal;
     if (settingsDifficulty === "Easy") {
-      // Easier trivia questions - stay in beginner/intermediate longer
-      beginnerThreshold = 40;
-      intermediateThreshold = 85;
+      thresholds = TRIVIA_LEVEL_THRESHOLDS.Easy;
     } else if (settingsDifficulty === "Hard") {
-      // Harder trivia questions - progress faster to advanced
-      beginnerThreshold = 20;
-      intermediateThreshold = 55;
+      thresholds = TRIVIA_LEVEL_THRESHOLDS.Hard;
     }
 
-    if (difficultyLevel <= beginnerThreshold) {
+    if (difficultyLevel <= thresholds.beginner) {
       difficulty = "beginner";
-    } else if (difficultyLevel <= intermediateThreshold) {
+    } else if (difficultyLevel <= thresholds.intermediate) {
       difficulty = "intermediate";
     } else {
       difficulty = "advanced";
@@ -233,11 +237,11 @@ export class TriviaDatabase {
       return this.getFallbackQuestion();
     }
 
-    let questions = categoryData[difficulty] || [];
+    let questions = categoryData[difficulty] ?? [];
 
     // Fallback to beginner if no questions at current difficulty
     if (questions.length === 0) {
-      questions = categoryData.beginner || [];
+      questions = categoryData.beginner ?? [];
     }
 
     if (questions.length === 0) {
@@ -300,25 +304,28 @@ export class TriviaDatabase {
   private parseYAML(yamlText: string): TriviaData {
     const parsedData = loadYAML(yamlText);
     if (!isRecord(parsedData)) {
-      throw new Error("Trivia data must be a YAML mapping");
+      throw new TypeError("Trivia data must be a YAML mapping");
     }
 
     const result: TriviaData = {};
     for (const [category, categoryValue] of Object.entries(parsedData)) {
       if (!isRecord(categoryValue)) {
-        throw new Error(`Trivia category ${category} must be a mapping`);
+        throw new TypeError(`Trivia category ${category} must be a mapping`);
       }
 
       const categoryData: TriviaCategoryData = {};
       for (const difficulty of TRIVIA_DIFFICULTIES) {
         const questions = categoryValue[difficulty];
-        if (questions === undefined) continue;
-        if (!Array.isArray(questions)) {
-          throw new Error(`Trivia ${category}/${difficulty} must be a list`);
+        if (questions !== undefined) {
+          if (!Array.isArray(questions)) {
+            throw new TypeError(
+              `Trivia ${category}/${difficulty} must be a list`,
+            );
+          }
+          categoryData[difficulty] = questions.map((question) =>
+            parseQuestion(question, difficulty, category),
+          );
         }
-        categoryData[difficulty] = questions.map((question) =>
-          parseQuestion(question, difficulty, category),
-        );
       }
       result[category] = categoryData;
     }

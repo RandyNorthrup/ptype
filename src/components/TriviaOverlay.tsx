@@ -12,7 +12,7 @@ interface TriviaOverlayProperties {
   question: TriviaQuestion;
   onAnswer: (
     selectedAnswer: number,
-    correct: boolean,
+    isCorrect: boolean,
     bonusItem: BonusItem | null,
   ) => void;
   onTimeout: () => void;
@@ -62,12 +62,12 @@ const TriviaOverlayComponent = ({
       setSelectedAnswer(answerIndex);
       setIsAnswered(true);
 
-      const correct = answerIndex === question.correctAnswer;
-      setIsCorrect(correct);
+      const isAnswerCorrect = answerIndex === question.correctAnswer;
+      setIsCorrect(isAnswerCorrect);
 
       // Award bonus item if correct
       let reward: BonusItem | null = null;
-      if (correct) {
+      if (isAnswerCorrect) {
         reward = triviaDatabase.getBonusItem();
         setBonusItem(reward);
       }
@@ -76,7 +76,7 @@ const TriviaOverlayComponent = ({
 
       // Show result for 3 seconds, then call parent callback
       setTimeout(() => {
-        onAnswer(answerIndex, correct, reward);
+        onAnswer(answerIndex, isAnswerCorrect, reward);
       }, 3000);
     } catch (error) {
       logError("Failed to handle trivia answer", error, "TriviaOverlay");
@@ -269,7 +269,7 @@ const TriviaOverlayComponent = ({
           return (
             <button
               key={index}
-              data-testid={`${TEST_IDS.TRIVIA_ANSWER_PREFIX}${index}`}
+              data-testid={`${TEST_IDS.TRIVIA_ANSWER_PREFIX}${index.toString()}`}
               onClick={() => {
                 handleAnswer(index);
               }}
@@ -323,7 +323,7 @@ const TriviaOverlayComponent = ({
                   fontWeight: "700",
                 }}
               >
-                {String.fromCharCode(65 + index)}
+                {String.fromCodePoint(65 + index)}
               </span>
               {option}
             </button>

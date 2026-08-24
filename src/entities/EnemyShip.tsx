@@ -42,6 +42,27 @@ interface DebrisParticle {
   color: string;
 }
 
+function createParticleRotation(): Pick<
+  DebrisParticle,
+  "rotation" | "rotationSpeed"
+> {
+  const fullRotation = Math.PI * 2;
+  const rotationVariance = 0.3;
+
+  return {
+    rotation: new THREE.Euler(
+      Math.random() * fullRotation,
+      Math.random() * fullRotation,
+      Math.random() * fullRotation,
+    ),
+    rotationSpeed: new THREE.Euler(
+      (Math.random() - 0.5) * rotationVariance,
+      (Math.random() - 0.5) * rotationVariance,
+      (Math.random() - 0.5) * rotationVariance,
+    ),
+  };
+}
+
 // Map enemy types to model files
 function getEnemyModelPath(enemy: EnemyType): string {
   if (enemy.isBoss) {
@@ -49,7 +70,7 @@ function getEnemyModelPath(enemy: EnemyType): string {
   }
 
   // Use the enemy type from the enemy object
-  const type = enemy.enemyType || "basic";
+  const type = enemy.enemyType ?? "basic";
   return `/assets/models/ships/enemy-${type}.glb`;
 }
 
@@ -61,9 +82,9 @@ const EnemyShipComponent = ({
   allEnemies = [],
 }: EnemyShipProperties) => {
   const groupReference = useRef<THREE.Group>(null);
-  const destroyingReference = useRef(false);
-  const destroyTimeReference = useRef(0);
-  const destroyTimeoutReference = useRef<
+  const isDestroyingReference = useRef(false);
+  const [isDestroying, setIsDestroying] = useState(false);
+  const destructionTimeoutReference = useRef<
     ReturnType<typeof setTimeout> | undefined
   >(undefined);
   const frameCounter = useRef(0);
@@ -75,9 +96,12 @@ const EnemyShipComponent = ({
 
   // Use refs for callbacks so memo can't stale them
   const onReachPlayerReference = useRef(onReachPlayer);
-  onReachPlayerReference.current = onReachPlayer;
   const onDestroyReference = useRef(onDestroy);
-  onDestroyReference.current = onDestroy;
+
+  useEffect(() => {
+    onReachPlayerReference.current = onReachPlayer;
+    onDestroyReference.current = onDestroy;
+  }, [onDestroy, onReachPlayer]);
 
   const modelPath = getEnemyModelPath(enemy);
   const { scene } = useGLTF(modelPath);
@@ -111,7 +135,7 @@ const EnemyShipComponent = ({
       // It should explode from the leftmost position
       const remainingLetters = enemy.word.length - letterIndex;
       const totalWidth = (remainingLetters - 1) * letterSpacing;
-      const xPos = 0 * letterSpacing - totalWidth / 2; // First letter position
+      const xPos = -totalWidth / 2;
 
       // Create explosion particles
       const particles: ExplodingLetter[] = [];
@@ -127,16 +151,7 @@ const EnemyShipComponent = ({
             (Math.random() - 0.5) * 0.4,
             Math.sin(angle) * speed,
           ),
-          rotation: new THREE.Euler(
-            Math.random() * Math.PI * 2,
-            Math.random() * Math.PI * 2,
-            Math.random() * Math.PI * 2,
-          ),
-          rotationSpeed: new THREE.Euler(
-            (Math.random() - 0.5) * 0.3,
-            (Math.random() - 0.5) * 0.3,
-            (Math.random() - 0.5) * 0.3,
-          ),
+          ...createParticleRotation(),
           scale: fontSize * (0.8 + Math.random() * 0.4),
           opacity: 1,
           life: 12 + Math.random() * 8, // Short life — clears quickly
@@ -151,13 +166,13 @@ const EnemyShipComponent = ({
 
   useEffect(() => {
     return () => {
-      if (destroyTimeoutReference.current)
-        clearTimeout(destroyTimeoutReference.current);
+      if (destructionTimeoutReference.current)
+        clearTimeout(destructionTimeoutReference.current);
     };
   }, [enemy.id]);
 
   useFrame((state, delta) => {
-    if (!groupReference.current || destroyingReference.current) return;
+    if (!groupReference.current || isDestroyingReference.current) return;
 
     // Move enemy toward player - calculate direction each frame for tracking
     // Player is at z = -20, x = 0, y = 0
@@ -282,12 +297,14 @@ const EnemyShipComponent = ({
       const playerRadius = 3;
       const enemyRadius = enemy.isBoss ? 4 : 2.5;
       if (newDistance < playerRadius + enemyRadius) {
-        destroyingReference.current = true;
+        isDestroyingReference.current = true;
+        setIsDestroying(true);
         onReachPlayerReference.current(enemy.id);
       }
     } else {
       // Reached player position
-      destroyingReference.current = true;
+      isDestroyingReference.current = true;
+      setIsDestroying(true);
       onReachPlayerReference.current(enemy.id);
     }
 
@@ -348,12 +365,12 @@ const EnemyShipComponent = ({
 
   // Destruction animation with debris
   useEffect(() => {
-    if (!(enemy.health <= 0) || destroyingReference.current) {
+    if (!(enemy.health <= 0) || isDestroyingReference.current) {
       return;
     }
 
-    destroyingReference.current = true;
-    destroyTimeReference.current = Date.now();
+    isDestroyingReference.current = true;
+    setIsDestroying(true);
 
     // Create debris explosion particles
     const debris: DebrisParticle[] = [];
@@ -372,16 +389,7 @@ const EnemyShipComponent = ({
           upwardBias + (Math.random() - 0.5) * 0.3,
           Math.sin(angle) * speed,
         ),
-        rotation: new THREE.Euler(
-          Math.random() * Math.PI * 2,
-          Math.random() * Math.PI * 2,
-          Math.random() * Math.PI * 2,
-        ),
-        rotationSpeed: new THREE.Euler(
-          (Math.random() - 0.5) * 0.3,
-          (Math.random() - 0.5) * 0.3,
-          (Math.random() - 0.5) * 0.3,
-        ),
+        ...createParticleRotation(),
         scale: 0.3 + Math.random() * 0.5,
         opacity: 1,
         life: 25 + Math.random() * 15,
@@ -392,7 +400,7 @@ const EnemyShipComponent = ({
     setDebrisParticles(debris);
 
     // Trigger explosion animation and remove ship
-    destroyTimeoutReference.current = setTimeout(() => {
+    destructionTimeoutReference.current = setTimeout(() => {
       if (onDestroyReference.current) {
         onDestroyReference.current(enemy.id);
       }
@@ -436,12 +444,10 @@ const EnemyShipComponent = ({
       ref={groupReference}
       position={[enemy.position.x, enemy.position.y, enemy.position.z]}
     >
-      {!destroyingReference.current && (
-        <primitive object={clonedScene} scale={shipScale} />
-      )}
+      {!isDestroying && <primitive object={clonedScene} scale={shipScale} />}
 
       {/* Word Display - Individual letters centered on front of ship */}
-      {!destroyingReference.current && (
+      {!isDestroying && (
         <group
           position={[0, 0, enemy.isBoss ? -4 : -3]}
           rotation={[0, Math.PI, 0]}
@@ -455,7 +461,10 @@ const EnemyShipComponent = ({
             const xPos = index * dynamicLetterSpacing - totalWidth / 2;
 
             return (
-              <group key={`${enemy.id}-${actualIndex}`} position={[xPos, 0, 0]}>
+              <group
+                key={`${enemy.id}-${actualIndex.toString()}`}
+                position={[xPos, 0, 0]}
+              >
                 <Text
                   fontSize={dynamicFontSize}
                   color="#ff9800"
@@ -465,7 +474,7 @@ const EnemyShipComponent = ({
                   outlineColor="#ff4400"
                   font="/assets/fonts/Orbitron-Regular.ttf"
                   userData={{
-                    testId: `${enemy.isBoss ? "boss-word" : "enemy-word"}-${enemy.id}-${actualIndex}`,
+                    testId: `${enemy.isBoss ? "boss-word" : "enemy-word"}-${enemy.id}-${actualIndex.toString()}`,
                   }}
                 >
                   {letter}
@@ -477,7 +486,7 @@ const EnemyShipComponent = ({
           {/* Render exploding letter particles with orange glow */}
           {explodingLetters.map((particle, index) => (
             <group
-              key={`explosion-${enemy.id}-${index}`}
+              key={`explosion-${enemy.id}-${index.toString()}`}
               position={particle.position}
               rotation={particle.rotation}
             >
@@ -498,7 +507,7 @@ const EnemyShipComponent = ({
       )}
 
       {/* Typing progress indicator ring */}
-      {!destroyingReference.current && enemy.typedCharacters > 0 && (
+      {!isDestroying && enemy.typedCharacters > 0 && (
         <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <ringGeometry args={[1.5, 2, 32]} />
           <meshBasicMaterial
@@ -511,7 +520,7 @@ const EnemyShipComponent = ({
       )}
 
       {/* Health bar for boss */}
-      {!destroyingReference.current && enemy.isBoss && (
+      {!isDestroying && enemy.isBoss && (
         <group position={[0, 4, 0]}>
           {/* Background */}
           <mesh>
@@ -533,7 +542,7 @@ const EnemyShipComponent = ({
       )}
 
       {/* Glow effect */}
-      {!destroyingReference.current && (
+      {!isDestroying && (
         <pointLight
           color={getColor()}
           intensity={enemy.isBoss ? 3 : 1.5}
@@ -545,7 +554,7 @@ const EnemyShipComponent = ({
       {/* Render debris particles on ship destruction */}
       {debrisParticles.map((particle, index) => (
         <mesh
-          key={`debris-${enemy.id}-${index}`}
+          key={`debris-${enemy.id}-${index.toString()}`}
           position={particle.position}
           rotation={particle.rotation}
           scale={particle.scale}
@@ -574,6 +583,9 @@ export const EnemyShip = memo(
       previousProperties.enemy.typedCharacters ===
         nextProperties.enemy.typedCharacters &&
       previousProperties.enemy.health === nextProperties.enemy.health &&
+      previousProperties.onReachPlayer === nextProperties.onReachPlayer &&
+      previousProperties.onDestroy === nextProperties.onDestroy &&
+      previousProperties.onPositionUpdate === nextProperties.onPositionUpdate &&
       (previousProperties.allEnemies?.length ?? 0) ===
         (nextProperties.allEnemies?.length ?? 0)
     );
@@ -581,6 +593,3 @@ export const EnemyShip = memo(
 );
 
 EnemyShip.displayName = "EnemyShip";
-
-// Preload only basic enemy model - others load on demand
-useGLTF.preload("/assets/models/ships/enemy-basic.glb");

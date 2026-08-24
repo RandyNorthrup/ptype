@@ -3,8 +3,8 @@
  * Manages enemy spawning based on level, difficulty, and game mode
  */
 
-import type { Enemy, GameMode, ProgrammingLanguage } from "../types";
-import { isBossLevel, getTargetWPM } from "../types";
+import type { Enemy, ProgrammingLanguage } from "../types";
+import { GameMode, isBossLevel, getTargetWPM } from "../types";
 import { wordDictionary } from "./wordDictionary";
 import { debug, error as logError } from "./logger";
 import {
@@ -12,8 +12,43 @@ import {
   type DifficultyLevel,
 } from "./difficultyManager";
 
-// Counter persists across spawner instances to prevent duplicate keys
-let globalEnemyIdCounter = 0;
+const SPAWN_CONFIG = {
+  rate: { baseSeconds: 4, minimumSeconds: 1.5, levelStep: 0.03 },
+  typing: { averageWordLength: 5, secondsPerMinute: 60, travelScale: 18 },
+  speed: {
+    minimumWordLength: 3,
+    levelCap: 30,
+    levelStep: 0.04,
+    baseScale: 2,
+    minimum: 1.8,
+    maximum: 10,
+  },
+  bossSpeed: {
+    longWordThreshold: 40,
+    longWordFactor: 0.8,
+    programmingScale: 0.6,
+    normalScale: 0.7,
+    baseLevelFactor: 0.85,
+    levelCap: 120,
+    levelDivisor: 240,
+    minimum: 0.6,
+    maximum: 3.5,
+  },
+  bossHealth: { base: 100, perLevel: 10 },
+  enemyHealth: { base: 10, perLevel: 0.5 },
+  position: { depth: 35, lanes: { left: -25, center: 0, right: 25 } },
+  fastEnemy: {
+    minimumLevel: 5,
+    maximumProbability: 0.6,
+    probabilityStep: 0.04,
+    baseProbability: 0.2,
+    candidateRetries: 2,
+  },
+  enemies: { initialMaximum: 3, levelsPerAdditional: 15 },
+} as const;
+
+// Counter persists across spawner instances to prevent duplicate keys.
+const enemyIdSequence = { next: 0 };
 
 export class EnemySpawner {
   private spawnTimer = 0;
@@ -25,12 +60,8 @@ export class EnemySpawner {
   private getSpawnRate(level: number): number {
     // Base spawn rate: 4 seconds at level 1
     // Decreases as level increases but never too fast
-    const baseRate = 4; // seconds
-    const minRate = 1.5; // minimum 1.5 seconds to prevent overlap
-
-    // Gradually decrease spawn time
-    const rate = baseRate - level * 0.03;
-    return Math.max(minRate, rate);
+    const { baseSeconds, minimumSeconds, levelStep } = SPAWN_CONFIG.rate;
+    return Math.max(minimumSeconds, baseSeconds - level * levelStep);
   }
 
   /**
@@ -41,39 +72,57 @@ export class EnemySpawner {
     wordLength: number,
     isBoss: boolean,
     mode: GameMode,
-    currentDifficulty: string,
+    currentDifficulty: DifficultyLevel,
   ): number {
     const targetWPM = getTargetWPM(level);
 
     // Characters per second based on target WPM
     // WPM assumes 5 characters per word on average
-    const charsPerSecond = (targetWPM * 5) / 60;
+    const { averageWordLength, secondsPerMinute, travelScale } =
+      SPAWN_CONFIG.typing;
+    const charsPerSecond = (targetWPM * averageWordLength) / secondsPerMinute;
 
     // Baseline speed: time needed to type this word
-    const baseline = (charsPerSecond * Math.max(3, wordLength)) / 18;
+    const {
+      minimumWordLength,
+      levelCap,
+      levelStep,
+      baseScale,
+      minimum,
+      maximum,
+    } = SPAWN_CONFIG.speed;
+    const baseline =
+      (charsPerSecond * Math.max(minimumWordLength, wordLength)) / travelScale;
 
     // Scale factor increases with level - much faster starting speed
-    const speedScale = 2 + Math.min(level, 30) * 0.04; // Increased from 1.2 to 2.0
+    const speedScale = baseScale + Math.min(level, levelCap) * levelStep;
 
     // Calculate final speed with higher minimum and maximum
-    let speed = Math.max(1.8, Math.min(10, baseline * speedScale)); // Increased from 1.0-8.0 to 1.8-10.0
+    let speed = Math.max(minimum, Math.min(maximum, baseline * speedScale));
 
     // Boss enemies move slower but still reasonably fast
     if (isBoss) {
-      const isProgramming = mode === "programming";
-      const lengthFactor = wordLength > 40 ? 0.8 : 1;
-      const baseScale = isProgramming ? 0.6 : 0.7; // Increased from 0.5/0.6
-      const levelFactor = 0.85 + Math.min(level, 120) / 240;
+      const bossSpeed = SPAWN_CONFIG.bossSpeed;
+      const isProgramming = mode === GameMode.PROGRAMMING;
+      const lengthFactor =
+        wordLength > bossSpeed.longWordThreshold ? bossSpeed.longWordFactor : 1;
+      const bossBaseScale = isProgramming
+        ? bossSpeed.programmingScale
+        : bossSpeed.normalScale;
+      const levelFactor =
+        bossSpeed.baseLevelFactor +
+        Math.min(level, bossSpeed.levelCap) / bossSpeed.levelDivisor;
       speed = Math.max(
-        0.6,
-        Math.min(3.5, speed * baseScale * lengthFactor * levelFactor),
-      ); // Increased from 0.4-2.5 to 0.6-3.5
+        bossSpeed.minimum,
+        Math.min(
+          bossSpeed.maximum,
+          speed * bossBaseScale * lengthFactor * levelFactor,
+        ),
+      );
     }
 
     // Apply progressive difficulty multiplier
-    const difficultyMultiplier = getDifficultyMultiplier(
-      currentDifficulty as DifficultyLevel,
-    );
+    const difficultyMultiplier = getDifficultyMultiplier(currentDifficulty);
     speed *= difficultyMultiplier;
 
     return speed;
@@ -85,12 +134,13 @@ export class EnemySpawner {
   private getEnemyHealth(level: number, isBoss: boolean): number {
     if (isBoss) {
       // Boss health scales significantly with level
-      return 100 + level * 10;
+      const { base, perLevel } = SPAWN_CONFIG.bossHealth;
+      return base + level * perLevel;
     }
 
     // Regular enemies
-    const baseHealth = 10;
-    return baseHealth + level * 0.5;
+    const { base, perLevel } = SPAWN_CONFIG.enemyHealth;
+    return base + level * perLevel;
   }
 
   /**
@@ -100,7 +150,7 @@ export class EnemySpawner {
     spawnPoint: number,
     isBoss: boolean,
   ): { x: number; y: number; z: number; spawnPoint: number } {
-    const spawnZ = 35; // Spawn farther back to give more time before overlap
+    const spawnZ = SPAWN_CONFIG.position.depth;
 
     if (isBoss) {
       // Boss spawns center
@@ -108,7 +158,7 @@ export class EnemySpawner {
     }
 
     // Three spawn points very far apart: left (-25), center (0), right (25)
-    const spawnPositions = [-25, 0, 25] as const;
+    const spawnPositions = Object.values(SPAWN_CONFIG.position.lanes);
 
     return {
       x: spawnPositions[spawnPoint] ?? 0,
@@ -123,7 +173,9 @@ export class EnemySpawner {
    */
   private getNextSpawnPoint(): number {
     // Rotate to next spawn point (0 -> 1 -> 2 -> 0)
-    this.lastSpawnPoint = (this.lastSpawnPoint + 1) % 3;
+    this.lastSpawnPoint =
+      (this.lastSpawnPoint + 1) %
+      Object.keys(SPAWN_CONFIG.position.lanes).length;
     return this.lastSpawnPoint;
   }
 
@@ -145,13 +197,18 @@ export class EnemySpawner {
     }
 
     // Fast enemies start appearing at level 5
-    if (level < 5) {
+    const fastEnemy = SPAWN_CONFIG.fastEnemy;
+    if (level < fastEnemy.minimumLevel) {
       return "basic";
     }
 
     // Gradually increase fast enemy probability
     // Level 5-10: 20% fast, Level 10-20: 40% fast, Level 20+: 60% fast
-    const fastProbability = Math.min(0.6, (level - 5) * 0.04 + 0.2);
+    const fastProbability = Math.min(
+      fastEnemy.maximumProbability,
+      (level - fastEnemy.minimumLevel) * fastEnemy.probabilityStep +
+        fastEnemy.baseProbability,
+    );
     return Math.random() < fastProbability ? "fast" : "basic";
   }
 
@@ -165,7 +222,7 @@ export class EnemySpawner {
     mode: GameMode,
     spawnPoint: number,
     enemyType: "basic" | "fast",
-    currentDifficulty: string,
+    currentDifficulty: DifficultyLevel,
   ): Enemy {
     const positionData = this.getSpawnPosition(spawnPoint, isBoss);
     const speed = this.getEnemySpeed(
@@ -177,8 +234,8 @@ export class EnemySpawner {
     );
     const health = this.getEnemyHealth(level, isBoss);
 
-    return {
-      id: `enemy_${globalEnemyIdCounter++}`,
+    const enemy: Enemy = {
+      id: `enemy_${enemyIdSequence.next.toString()}`,
       word,
       position: { x: positionData.x, y: positionData.y, z: positionData.z },
       velocity: { x: 0, y: 0, z: speed },
@@ -191,6 +248,8 @@ export class EnemySpawner {
       typedCharacters: 0,
       spawnPoint: positionData.spawnPoint,
     };
+    enemyIdSequence.next += 1;
+    return enemy;
   }
 
   /**
@@ -209,12 +268,14 @@ export class EnemySpawner {
     mode: GameMode,
     language: ProgrammingLanguage | undefined,
     currentEnemyCount: number,
-    currentDifficulty: string,
+    currentDifficulty: DifficultyLevel,
   ): Enemy | null {
     this.spawnTimer += deltaTime;
 
     const spawnRate = this.getSpawnRate(level);
-    const maxEnemies = 3 + Math.floor(level / 15); // Start with 3, slowly increase to prevent overlap
+    const maxEnemies =
+      SPAWN_CONFIG.enemies.initialMaximum +
+      Math.floor(level / SPAWN_CONFIG.enemies.levelsPerAdditional);
 
     // Check if it's time to spawn
     if (this.spawnTimer >= spawnRate && currentEnemyCount < maxEnemies) {
@@ -233,7 +294,7 @@ export class EnemySpawner {
         // Determine enemy type first
         const enemyType = this.determineEnemyType(level, isBoss);
         debug(
-          `Getting word: langKey=${langKey} level=${level} isBoss=${isBoss} enemyType=${enemyType} spawnPoint=${spawnPoint}`,
+          `Getting word: langKey=${langKey} level=${level.toString()} isBoss=${isBoss.toString()} enemyType=${enemyType} spawnPoint=${spawnPoint.toString()}`,
           undefined,
           "enemySpawner",
         );
@@ -244,7 +305,11 @@ export class EnemySpawner {
         // For fast enemies, try to get a longer word (retry up to 3 times)
         if (!isBoss && enemyType === "fast") {
           let longestWord = word;
-          for (let index = 0; index < 2; index++) {
+          for (
+            let index = 0;
+            index < SPAWN_CONFIG.fastEnemy.candidateRetries;
+            index++
+          ) {
             const candidateWord = wordDictionary.getWord(
               langKey,
               level,
@@ -297,7 +362,7 @@ export class EnemySpawner {
     mode: GameMode,
     language: ProgrammingLanguage | undefined,
     isBoss = false,
-    currentDifficulty = "Normal",
+    currentDifficulty: DifficultyLevel = "Normal",
   ): Enemy | null {
     // Get next spawn point
     const spawnPoint = this.getNextSpawnPoint();

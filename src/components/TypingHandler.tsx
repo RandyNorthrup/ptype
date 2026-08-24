@@ -7,7 +7,7 @@ import { useGameStore } from "../store/gameContext";
 import { getAudioManager } from "../utils/audioManager";
 import { triviaDatabase } from "../utils/triviaDatabase";
 import { achievementsManager } from "../utils/achievementsManager";
-import { BonusItemType } from "../types";
+import { BonusItemType, GameMode } from "../types";
 import { error as logError } from "../utils/logger";
 
 export function TypingHandler() {
@@ -22,7 +22,7 @@ export function TypingHandler() {
     programmingLanguage,
     pauseGame,
     resumeGame,
-    useEMP,
+    triggerEMP,
     empCooldown,
     activeEnemyId,
     setActiveEnemy,
@@ -33,31 +33,48 @@ export function TypingHandler() {
     showTrivia,
     setCurrentWord,
     selectNextBonus,
-    useSelectedBonus,
+    consumeSelectedBonus,
     heal,
     addShield,
     bonusItems,
   } = useGameStore();
 
-  // Refs for values that change frequently — avoids recreating the callback
-  const enemiesReference = useRef(enemies);
-  enemiesReference.current = enemies;
-  const activeEnemyIdReference = useRef(activeEnemyId);
-  activeEnemyIdReference.current = activeEnemyId;
-  const modeReference = useRef(mode);
-  modeReference.current = mode;
-  const isPausedReference = useRef(isPaused);
-  isPausedReference.current = isPaused;
-  const isGameOverReference = useRef(isGameOver);
-  isGameOverReference.current = isGameOver;
-  const empCooldownReference = useRef(empCooldown);
-  empCooldownReference.current = empCooldown;
-  const levelReference = useRef(level);
-  levelReference.current = level;
-  const programmingLanguageReference = useRef(programmingLanguage);
-  programmingLanguageReference.current = programmingLanguage;
-  const bonusItemsReference = useRef(bonusItems);
-  bonusItemsReference.current = bonusItems;
+  // One live-state ref keeps the global key listener stable during frame updates.
+  const liveStateReference = useRef({
+    enemies,
+    activeEnemyId,
+    mode,
+    isPaused,
+    isGameOver,
+    empCooldown,
+    level,
+    programmingLanguage,
+    bonusItems,
+  });
+
+  useEffect(() => {
+    liveStateReference.current = {
+      enemies,
+      activeEnemyId,
+      mode,
+      isPaused,
+      isGameOver,
+      empCooldown,
+      level,
+      programmingLanguage,
+      bonusItems,
+    };
+  }, [
+    activeEnemyId,
+    bonusItems,
+    empCooldown,
+    enemies,
+    isGameOver,
+    isPaused,
+    level,
+    mode,
+    programmingLanguage,
+  ]);
 
   /**
    * Complete a word: destroy enemy, score points, advance level if boss
@@ -88,20 +105,21 @@ export function TypingHandler() {
 
         // Show trivia every 2 boss defeats (i.e. every 6 levels)
         // Check the current boss level (levelRef hasn't changed yet since nextLevel is async)
-        const currentBossLevel = levelReference.current;
+        const {
+          level: currentBossLevel,
+          mode,
+          programmingLanguage,
+        } = liveStateReference.current;
         if (currentBossLevel % 6 === 0) {
-          const currentMode = modeReference.current;
           const question = triviaDatabase.getQuestion(
-            currentMode,
-            programmingLanguageReference.current ?? null,
+            mode,
+            programmingLanguage ?? null,
             currentBossLevel,
           );
-          if (question) {
-            // Small delay so level-up is visible before trivia
-            setTimeout(() => {
-              showTrivia(question);
-            }, 600);
-          }
+          // Small delay so level-up is visible before trivia
+          setTimeout(() => {
+            showTrivia(question);
+          }, 600);
         }
       }
     },
@@ -120,19 +138,25 @@ export function TypingHandler() {
     (event: KeyboardEvent) => {
       try {
         const key = event.key;
-        const currentMode = modeReference.current;
-        const paused = isPausedReference.current;
-        const gameOver = isGameOverReference.current;
+        const {
+          mode: currentMode,
+          isPaused: isCurrentlyPaused,
+          isGameOver: isCurrentlyGameOver,
+          enemies: currentEnemies,
+          activeEnemyId: currentActiveId,
+          empCooldown: currentEmpCooldown,
+          bonusItems: currentBonusItems,
+        } = liveStateReference.current;
 
         // ESC: pause / resume (not during trivia)
         if (
+          !isCurrentlyGameOver &&
           key === "Escape" &&
-          currentMode !== "menu" &&
-          currentMode !== "trivia" &&
-          !gameOver
+          currentMode !== GameMode.MENU &&
+          currentMode !== GameMode.TRIVIA
         ) {
           event.preventDefault();
-          if (paused) {
+          if (isCurrentlyPaused) {
             resumeGame();
           } else {
             pauseGame();
@@ -142,29 +166,26 @@ export function TypingHandler() {
 
         // Gate: only handle input during active gameplay
         if (
-          paused ||
-          gameOver ||
-          currentMode === "menu" ||
-          currentMode === "trivia"
+          isCurrentlyPaused ||
+          isCurrentlyGameOver ||
+          currentMode === GameMode.MENU ||
+          currentMode === GameMode.TRIVIA
         ) {
           return;
         }
 
         // Prevent default for typing keys and special keys
         if (
-          key.length === 1 ||
           key === "Enter" ||
           key === " " ||
           key === "Tab" ||
           key === "ArrowUp" ||
           key === "ArrowDown" ||
-          key === "Backspace"
+          key === "Backspace" ||
+          key.length === 1
         ) {
           event.preventDefault();
         }
-
-        const currentEnemies = enemiesReference.current;
-        const currentActiveId = activeEnemyIdReference.current;
 
         // --- TAB: switch target ---
         if (key === "Tab") {
@@ -194,15 +215,15 @@ export function TypingHandler() {
 
         // --- ENTER: EMP ---
         if (key === "Enter") {
-          if (empCooldownReference.current === 0) {
-            useEMP();
+          if (currentEmpCooldown === 0) {
+            triggerEMP();
           }
           return;
         }
 
         // --- ArrowUp: cycle bonus items ---
         if (key === "ArrowUp") {
-          if (bonusItemsReference.current.length > 0) {
+          if (currentBonusItems.length > 0) {
             selectNextBonus();
           }
           return;
@@ -210,7 +231,7 @@ export function TypingHandler() {
 
         // --- ArrowDown: use selected bonus ---
         if (key === "ArrowDown") {
-          const bonus = useSelectedBonus();
+          const bonus = consumeSelectedBonus();
           if (bonus) {
             const audioManager = getAudioManager();
             if (bonus.type === BonusItemType.DEFENSIVE) {
@@ -223,7 +244,7 @@ export function TypingHandler() {
             // Offensive bonuses (EMP-like) handled via effectValue
             if (bonus.type === BonusItemType.OFFENSIVE) {
               // Bonus offensive items act as a free EMP
-              useEMP();
+              triggerEMP();
             }
             audioManager.playWordComplete();
           }
@@ -306,14 +327,14 @@ export function TypingHandler() {
     [
       pauseGame,
       resumeGame,
-      useEMP,
+      triggerEMP,
       setActiveEnemy,
       updateEnemy,
       typeCharacter,
       setCurrentWord,
       completeWord,
       selectNextBonus,
-      useSelectedBonus,
+      consumeSelectedBonus,
       heal,
       addShield,
     ],

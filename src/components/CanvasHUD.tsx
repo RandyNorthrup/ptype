@@ -5,7 +5,7 @@
 import { memo } from "react";
 import { Html } from "@react-three/drei";
 import { useGameStore } from "../store/gameContext";
-import { getTargetWPM, getWPMColor } from "../types";
+import { GameMode, getTargetWPM, getWPMColor } from "../types";
 import { TEST_IDS } from "../utils/testIds";
 import { getDifficultyColor } from "../utils/difficultyManager";
 
@@ -35,9 +35,13 @@ const CanvasHUDComponent = () => {
   const wpmColor = getWPMColor(targetWPM);
 
   // Format mode display
-  let modeText =
-    mode === "normal" ? "Normal" : mode === "programming" ? "Programming" : "";
-  if (mode === "programming" && programmingLanguage) {
+  let modeText = "";
+  if (mode === GameMode.NORMAL) {
+    modeText = "Normal";
+  } else if (mode === GameMode.PROGRAMMING) {
+    modeText = "Programming";
+  }
+  if (programmingLanguage && mode === GameMode.PROGRAMMING) {
     modeText += ` - ${programmingLanguage}`;
   }
 
@@ -154,7 +158,7 @@ const CanvasHUDComponent = () => {
             >
               <div
                 style={{
-                  width: `${healthPercent}%`,
+                  width: `${healthPercent.toString()}%`,
                   height: "100%",
                   background:
                     health > 60
@@ -189,7 +193,7 @@ const CanvasHUDComponent = () => {
             >
               <div
                 style={{
-                  width: `${shieldPercent}%`,
+                  width: `${shieldPercent.toString()}%`,
                   height: "100%",
                   background:
                     "linear-gradient(90deg, #8a2be2 0%, #7b1fa2 100%)",
@@ -219,7 +223,7 @@ const CanvasHUDComponent = () => {
           {bonusItems.map((item, index) => (
             <div
               key={item.itemId}
-              data-testid={`${TEST_IDS.HUD_BONUS_ITEMS}-${index}`}
+              data-testid={`${TEST_IDS.HUD_BONUS_ITEMS}-${index.toString()}`}
               style={{
                 padding: "10px 15px",
                 background:
@@ -283,7 +287,7 @@ const CanvasHUDComponent = () => {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  height: `${100 - empPercent}%`,
+                  height: `${(100 - empPercent).toString()}%`,
                   background:
                     "linear-gradient(180deg, #f59e0b 0%, #d97706 100%)",
                   transition: "height 0.1s linear",

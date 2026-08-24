@@ -194,7 +194,7 @@ export default defineConfig({
           if (id.includes("/src/utils/")) {
             return "utils";
           }
-          return undefined;
+          return;
         },
         // Better file naming for caching
         chunkFileNames: "assets/[name]-[hash].js",

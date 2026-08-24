@@ -1,9 +1,10 @@
 /**
  * GameOverScreen - Shows when player dies
  */
-import { memo, useState, useEffect } from "react";
+import { memo, useMemo } from "react";
 import { useGameStore } from "../store/gameContext";
 import { TEST_IDS } from "../utils/testIds";
+import { NeonButton } from "./NeonButton";
 
 const GameOverScreenComponent = () => {
   const {
@@ -19,10 +20,7 @@ const GameOverScreenComponent = () => {
     previousMode,
     previousLanguage,
   } = useGameStore();
-  const [highScorePosition, setHighScorePosition] = useState<number>(0);
-  const [isNewHighScore, setIsNewHighScore] = useState(false);
-
-  useEffect(() => {
+  const highScorePosition = useMemo(() => {
     // Check if this is a new high score
     // Use previousMode/previousLanguage since mode is now 'game_over'
     const scoreMode = previousMode ?? mode;
@@ -33,16 +31,13 @@ const GameOverScreenComponent = () => {
         if (scoreLang && s.language !== scoreLang) return false;
         return true;
       })
-      .sort((a, b) => b.score - a.score);
+      .toSorted((a, b) => b.score - a.score);
 
     const position =
       relevantScores.findIndex((s) => s.score === score && s.level === level) +
       1;
 
-    if (position > 0 && position <= 10) {
-      setHighScorePosition(position);
-      setIsNewHighScore(true);
-    }
+    return position > 0 && position <= 10 ? position : 0;
   }, [
     highScores,
     score,
@@ -52,6 +47,7 @@ const GameOverScreenComponent = () => {
     mode,
     programmingLanguage,
   ]);
+  const isNewHighScore = highScorePosition > 0;
 
   const handleMainMenu = () => {
     resetGame();
@@ -66,6 +62,33 @@ const GameOverScreenComponent = () => {
       startGame(restartMode, restartLang);
     }
   };
+
+  const summaryStats = [
+    {
+      label: "Score",
+      value: score.toLocaleString(),
+      testId: TEST_IDS.FINAL_SCORE,
+      color: "#fbbf24",
+    },
+    {
+      label: "Level",
+      value: level.toString(),
+      testId: TEST_IDS.FINAL_LEVEL,
+      color: "#00d4ff",
+    },
+    {
+      label: "WPM",
+      value: wpm.toFixed(0),
+      testId: TEST_IDS.FINAL_WPM,
+      color: "#a78bfa",
+    },
+    {
+      label: "Accuracy",
+      value: `${accuracy.toFixed(1)}%`,
+      testId: TEST_IDS.FINAL_ACCURACY,
+      color: "#09ff00",
+    },
+  ];
 
   return (
     <div
@@ -149,101 +172,31 @@ const GameOverScreenComponent = () => {
             gap: "1.5rem",
           }}
         >
-          <div style={{ textAlign: "center" }}>
-            <div
-              style={{
-                color: "#94a3b8",
-                fontSize: "0.9rem",
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-                marginBottom: "0.5rem",
-              }}
-            >
-              Score
+          {summaryStats.map((stat) => (
+            <div key={stat.label} style={{ textAlign: "center" }}>
+              <div
+                style={{
+                  color: "#94a3b8",
+                  fontSize: "0.9rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "1px",
+                  marginBottom: "0.5rem",
+                }}
+              >
+                {stat.label}
+              </div>
+              <div
+                data-testid={stat.testId}
+                style={{
+                  color: stat.color,
+                  fontSize: "2.5rem",
+                  fontWeight: "700",
+                }}
+              >
+                {stat.value}
+              </div>
             </div>
-            <div
-              data-testid={TEST_IDS.FINAL_SCORE}
-              style={{
-                color: "#fbbf24",
-                fontSize: "2.5rem",
-                fontWeight: "700",
-              }}
-            >
-              {score.toLocaleString()}
-            </div>
-          </div>
-
-          <div style={{ textAlign: "center" }}>
-            <div
-              style={{
-                color: "#94a3b8",
-                fontSize: "0.9rem",
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-                marginBottom: "0.5rem",
-              }}
-            >
-              Level
-            </div>
-            <div
-              data-testid={TEST_IDS.FINAL_LEVEL}
-              style={{
-                color: "#00d4ff",
-                fontSize: "2.5rem",
-                fontWeight: "700",
-              }}
-            >
-              {level}
-            </div>
-          </div>
-
-          <div style={{ textAlign: "center" }}>
-            <div
-              style={{
-                color: "#94a3b8",
-                fontSize: "0.9rem",
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-                marginBottom: "0.5rem",
-              }}
-            >
-              WPM
-            </div>
-            <div
-              data-testid={TEST_IDS.FINAL_WPM}
-              style={{
-                color: "#a78bfa",
-                fontSize: "2.5rem",
-                fontWeight: "700",
-              }}
-            >
-              {wpm.toFixed(0)}
-            </div>
-          </div>
-
-          <div style={{ textAlign: "center" }}>
-            <div
-              style={{
-                color: "#94a3b8",
-                fontSize: "0.9rem",
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-                marginBottom: "0.5rem",
-              }}
-            >
-              Accuracy
-            </div>
-            <div
-              data-testid={TEST_IDS.FINAL_ACCURACY}
-              style={{
-                color: "#09ff00",
-                fontSize: "2.5rem",
-                fontWeight: "700",
-              }}
-            >
-              {accuracy.toFixed(1)}%
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
@@ -254,65 +207,22 @@ const GameOverScreenComponent = () => {
           gap: "1.5rem",
         }}
       >
-        <button
+        <NeonButton
+          className="game-over-action"
           onClick={handlePlayAgain}
           data-testid="play-again-button"
-          style={{
-            padding: "1rem 3rem",
-            fontSize: "1.3rem",
-            background: "rgba(9, 255, 0, 0.15)",
-            border: "2px solid #09ff00",
-            borderRadius: "12px",
-            color: "#09ff00",
-            fontWeight: "700",
-            cursor: "pointer",
-            boxShadow:
-              "0 0 30px rgba(9, 255, 0, 0.4), inset 0 0 15px rgba(9, 255, 0, 0.1)",
-            textShadow: "0 0 10px rgba(9, 255, 0, 0.8)",
-            transition: "all 0.2s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.boxShadow =
-              "0 0 40px rgba(9, 255, 0, 0.6), inset 0 0 20px rgba(9, 255, 0, 0.2)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow =
-              "0 0 30px rgba(9, 255, 0, 0.4), inset 0 0 15px rgba(9, 255, 0, 0.1)";
-          }}
         >
           🔄 Play Again
-        </button>
+        </NeonButton>
 
-        <button
+        <NeonButton
+          className="game-over-action"
           onClick={handleMainMenu}
           data-testid="game-over-main-menu-button"
-          style={{
-            padding: "1rem 3rem",
-            fontSize: "1.3rem",
-            background: "rgba(10, 14, 27, 0.7)",
-            border: "2px solid rgba(9, 255, 0, 0.3)",
-            borderRadius: "12px",
-            color: "#09ff00",
-            fontWeight: "700",
-            cursor: "pointer",
-            transition: "all 0.2s",
-            boxShadow: "0 0 10px rgba(9, 255, 0, 0.2)",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.borderColor = "#09ff00";
-            e.currentTarget.style.boxShadow = "0 0 20px rgba(9, 255, 0, 0.4)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.borderColor = "rgba(9, 255, 0, 0.3)";
-            e.currentTarget.style.boxShadow = "0 0 10px rgba(9, 255, 0, 0.2)";
-          }}
+          variant="secondary"
         >
           🏠 Main Menu
-        </button>
+        </NeonButton>
       </div>
 
       <style>

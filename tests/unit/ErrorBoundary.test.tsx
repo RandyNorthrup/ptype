@@ -11,7 +11,9 @@ function BrokenChild(): never {
 
 describe("error boundary", () => {
   it("renders an accessible recovery screen after a child failure", async () => {
-    vi.spyOn(console, "error").mockImplementation(() => undefined);
+    vi.spyOn(console, "error").mockImplementation(() => {
+      return;
+    });
     const { container } = render(
       <ErrorBoundary>
         <BrokenChild />
@@ -22,11 +24,14 @@ describe("error boundary", () => {
       screen.getByRole("heading", { name: /something went wrong/i }),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /reload game/i })).toBeEnabled();
-    expect((await axe.run(container)).violations).toEqual([]);
+    const results = await axe.run(container);
+    expect(results.violations).toEqual([]);
   });
 
   it("uses a caller-provided fallback", () => {
-    vi.spyOn(console, "error").mockImplementation(() => undefined);
+    vi.spyOn(console, "error").mockImplementation(() => {
+      return;
+    });
     render(
       <ErrorBoundary fallback={<p>Custom recovery</p>}>
         <BrokenChild />

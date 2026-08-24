@@ -34,10 +34,18 @@ interface PerformanceStats {
   max: PerformanceMetrics;
 }
 
+const PERFORMANCE_CONFIG = {
+  sampleFrames: 60,
+  millisecondsPerSecond: 1000,
+  bytesPerKibibyte: 1024,
+  goodFps: 30,
+  ratings: { excellent: 55, good: 40, fair: 25 },
+} as const;
+
 class PerformanceMonitor {
   private enabled = false;
   private frames: number[] = [];
-  private maxFrames = 60;
+  private maxFrames = PERFORMANCE_CONFIG.sampleFrames;
   private lastTime = performance.now();
   private frameCount = 0;
   private callbacks: ((stats: PerformanceStats) => void)[] = [];
@@ -62,7 +70,7 @@ class PerformanceMonitor {
   /**
    * Start monitoring performance
    */
-  start() {
+  start(): void {
     if (this.enabled) return;
     this.enabled = true;
     this.lastTime = performance.now();
@@ -88,7 +96,7 @@ class PerformanceMonitor {
     const deltaTime = currentTime - this.lastTime;
 
     // Calculate FPS
-    const fps = 1000 / deltaTime;
+    const fps = PERFORMANCE_CONFIG.millisecondsPerSecond / deltaTime;
     this.frames.push(fps);
 
     // Keep only last N frames
@@ -120,7 +128,7 @@ class PerformanceMonitor {
 
     // Notify callbacks every 60 frames (about once per second at 60fps)
     this.frameCount++;
-    if (this.frameCount >= 60) {
+    if (this.frameCount >= PERFORMANCE_CONFIG.sampleFrames) {
       this.frameCount = 0;
       this.notifyCallbacks();
     }
@@ -163,7 +171,11 @@ class PerformanceMonitor {
    */
   getMemoryUsageMB(): number {
     if (this.stats.current.memory) {
-      return Math.round(this.stats.current.memory.usedJSHeapSize / 1024 / 1024);
+      return Math.round(
+        this.stats.current.memory.usedJSHeapSize /
+          PERFORMANCE_CONFIG.bytesPerKibibyte /
+          PERFORMANCE_CONFIG.bytesPerKibibyte,
+      );
     }
     return 0;
   }
@@ -172,7 +184,7 @@ class PerformanceMonitor {
    * Check if performance is acceptable (>= 30 FPS)
    */
   isPerformanceGood(): boolean {
-    return this.stats.average.fps >= 30;
+    return this.stats.average.fps >= PERFORMANCE_CONFIG.goodFps;
   }
 
   /**
@@ -180,9 +192,9 @@ class PerformanceMonitor {
    */
   getPerformanceRating(): "excellent" | "good" | "fair" | "poor" {
     const fps = this.stats.average.fps;
-    if (fps >= 55) return "excellent";
-    if (fps >= 40) return "good";
-    if (fps >= 25) return "fair";
+    if (fps >= PERFORMANCE_CONFIG.ratings.excellent) return "excellent";
+    if (fps >= PERFORMANCE_CONFIG.ratings.good) return "good";
+    if (fps >= PERFORMANCE_CONFIG.ratings.fair) return "fair";
     return "poor";
   }
 

@@ -14,15 +14,15 @@ const AchievementToastComponent = ({
   achievement,
   onDismiss,
 }: AchievementToastProperties) => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   // Use a ref so the effect never re-runs when onDismiss identity changes
   const onDismissReference = useRef(onDismiss);
-  onDismissReference.current = onDismiss;
 
   useEffect(() => {
-    // Trigger slide-in animation
-    setIsVisible(true);
+    onDismissReference.current = onDismiss;
+  }, [onDismiss]);
 
+  useEffect(() => {
     let innerTimer: ReturnType<typeof setTimeout>;
 
     // Auto-dismiss after 3 seconds
@@ -106,7 +106,7 @@ const AchievementToastComponent = ({
             flexShrink: 0,
           }}
         >
-          {achievement.iconName?.endsWith(".svg") ? (
+          {achievement.iconName.endsWith(".svg") ? (
             <img
               src={achievement.iconName}
               alt={achievement.name}

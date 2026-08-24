@@ -21,7 +21,7 @@ describe("trivia database", () => {
     vi.spyOn(Math, "random").mockReturnValue(0);
     vi.stubGlobal(
       "fetch",
-      vi.fn(async () => new Response(TRIVIA, { status: 200 })),
+      vi.fn(() => Promise.resolve(new Response(TRIVIA, { status: 200 }))),
     );
   });
 
@@ -74,11 +74,12 @@ describe("trivia database", () => {
   it("rejects invalid question records without leaking bad data", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(
-        async () =>
+      vi.fn(() =>
+        Promise.resolve(
           new Response("pop_culture:\n  beginner:\n    - question: Broken", {
             status: 200,
           }),
+        ),
       ),
     );
     const database = new TriviaDatabase();

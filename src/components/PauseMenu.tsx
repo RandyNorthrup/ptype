@@ -4,6 +4,7 @@
 import { memo, useState } from "react";
 import { useGameStore } from "../store/gameContext";
 import { SettingsMenu } from "./SettingsMenu";
+import { NeonButton } from "./NeonButton";
 
 interface PauseMenuProperties {
   onResume: () => void;
@@ -179,95 +180,27 @@ const PauseMenuComponent = ({ onResume, onMainMenu }: PauseMenuProperties) => {
             gap: "1rem",
           }}
         >
-          <button
-            onClick={onResume}
-            data-testid="pause-resume-button"
-            style={{
-              padding: "1rem 2rem",
-              background: "rgba(9, 255, 0, 0.15)",
-              border: "2px solid #09ff00",
-              borderRadius: "12px",
-              color: "#09ff00",
-              fontSize: "1.2rem",
-              fontWeight: "700",
-              cursor: "pointer",
-              boxShadow:
-                "0 0 30px rgba(9, 255, 0, 0.4), inset 0 0 15px rgba(9, 255, 0, 0.1)",
-              textShadow: "0 0 10px rgba(9, 255, 0, 0.8)",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow =
-                "0 0 40px rgba(9, 255, 0, 0.6), inset 0 0 20px rgba(9, 255, 0, 0.2)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow =
-                "0 0 30px rgba(9, 255, 0, 0.4), inset 0 0 15px rgba(9, 255, 0, 0.1)";
-            }}
-          >
+          <NeonButton onClick={onResume} data-testid="pause-resume-button">
             ▶️ Resume Game
-          </button>
+          </NeonButton>
 
-          <button
+          <NeonButton
             onClick={() => {
               setShowSettings(true);
             }}
             data-testid="pause-settings-button"
-            style={{
-              padding: "1rem 2rem",
-              background: "rgba(10, 14, 27, 0.7)",
-              border: "2px solid rgba(9, 255, 0, 0.3)",
-              borderRadius: "12px",
-              color: "#09ff00",
-              fontSize: "1.1rem",
-              fontWeight: "600",
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#09ff00";
-              e.currentTarget.style.boxShadow = "0 0 20px rgba(9, 255, 0, 0.4)";
-              e.currentTarget.style.transform = "translateY(-2px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(9, 255, 0, 0.3)";
-              e.currentTarget.style.boxShadow = "none";
-              e.currentTarget.style.transform = "translateY(0)";
-            }}
+            variant="secondary"
           >
             ⚙️ Settings
-          </button>
+          </NeonButton>
 
-          <button
+          <NeonButton
             onClick={onMainMenu}
             data-testid="pause-main-menu-button"
-            style={{
-              padding: "1rem 2rem",
-              background: "rgba(10, 14, 27, 0.7)",
-              border: "2px solid rgba(239, 68, 68, 0.4)",
-              borderRadius: "12px",
-              color: "#ef4444",
-              fontSize: "1.1rem",
-              fontWeight: "600",
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#ef4444";
-              e.currentTarget.style.boxShadow =
-                "0 0 20px rgba(239, 68, 68, 0.4)";
-              e.currentTarget.style.transform = "translateY(-2px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(239, 68, 68, 0.4)";
-              e.currentTarget.style.boxShadow = "none";
-              e.currentTarget.style.transform = "translateY(0)";
-            }}
+            variant="danger"
           >
             🏠 Main Menu
-          </button>
+          </NeonButton>
         </div>
 
         {/* Hint */}

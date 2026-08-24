@@ -12,7 +12,7 @@ import { PlayerShip } from "../entities/PlayerShip";
 import { CanvasHUD } from "./CanvasHUD";
 import { LaserTargetHelper } from "./LaserTargetHelper";
 import { getAudioManager } from "../utils/audioManager";
-import { isBossLevel } from "../types";
+import { GameMode, isBossLevel } from "../types";
 import { debug, error as logError, info } from "../utils/logger";
 
 function GameLogic() {
@@ -46,7 +46,9 @@ function GameLogic() {
   );
   // Ref for enemies so handleEnemyReachPlayer doesn't depend on enemies array
   const enemiesReference = useRef(enemies);
-  enemiesReference.current = enemies;
+  useEffect(() => {
+    enemiesReference.current = enemies;
+  }, [enemies]);
   // Enemies with live positions merged in for collision avoidance
   const [liveEnemies, setLiveEnemies] = useState<typeof enemies>([]);
   const liveEnemiesUpdateReference = useRef(0);
@@ -55,7 +57,7 @@ function GameLogic() {
 
   // Initialize spawner when game starts
   useEffect(() => {
-    if (mode === "normal" || mode === "programming") {
+    if (mode === GameMode.NORMAL || mode === GameMode.PROGRAMMING) {
       enemySpawner.reset();
       spawnerInitialized.current = true;
       info("Enemy spawner initialized", { mode }, "GameCanvas");
@@ -64,7 +66,7 @@ function GameLogic() {
         const isBoss = isBossLevel(level);
         debug(
           "Force spawning first enemy",
-          { level, isBoss, difficulty: store.currentDifficulty },
+          { level, isBoss, difficulty: currentDifficulty },
           "GameCanvas",
         );
         const firstEnemy = enemySpawner.forceSpawn(
@@ -72,7 +74,7 @@ function GameLogic() {
           mode,
           programmingLanguage,
           isBoss,
-          store.currentDifficulty,
+          currentDifficulty,
         );
         if (firstEnemy) {
           debug(
@@ -91,12 +93,12 @@ function GameLogic() {
       if (firstSpawnTimeoutReference.current)
         clearTimeout(firstSpawnTimeoutReference.current);
     };
-  }, [mode, level, programmingLanguage, addEnemy]);
+  }, [mode, level, programmingLanguage, currentDifficulty, addEnemy]);
 
   // Game loop - spawning, updates, and stats calculation
   useFrame((_state, delta) => {
     // Only run if in active game mode
-    if (mode !== "normal" && mode !== "programming") {
+    if (mode !== GameMode.NORMAL && mode !== GameMode.PROGRAMMING) {
       return;
     }
     if (isPaused || isGameOver) {

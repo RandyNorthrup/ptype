@@ -30,8 +30,11 @@ class Logger {
       typeof window !== "undefined" && window.location.hostname === "localhost";
 
     // Expose logger in development for debugging
-    if (this.isDevelopment && typeof window !== "undefined") {
-      window.__ptypeLogger = this;
+    if (typeof window !== "undefined" && this.isDevelopment) {
+      Object.defineProperty(window, "__ptypeLogger", {
+        configurable: true,
+        value: this,
+      });
     }
   }
 

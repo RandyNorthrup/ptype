@@ -36,5 +36,3 @@ export function PlayerShip() {
     </group>
   );
 }
-
-useGLTF.preload(MODEL_PATH);

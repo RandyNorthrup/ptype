@@ -3,11 +3,55 @@
  * Handles background music and sound effects using a single shared AudioContext
  */
 
+const AUDIO_CONFIG = {
+  defaultMusicVolume: 0.5,
+  defaultSfxVolume: 0.7,
+  laser: {
+    frequency: 800,
+    duration: 0.1,
+    envelope: { attack: 0.01, decay: 0.05, sustain: 0.3, release: 0.04 },
+  },
+  explosion: { duration: 0.5, filterFrequency: 1000, minimumGain: 0.01 },
+  correct: { frequency: 600, duration: 0.05 },
+  incorrect: { frequency: 200, duration: 0.1 },
+  wordComplete: {
+    startFrequency: 400,
+    endFrequency: 800,
+    duration: 0.2,
+    minimumGain: 0.01,
+  },
+  powerUp: {
+    frequency: 1000,
+    duration: 0.3,
+    envelope: { attack: 0.05, decay: 0.1, sustain: 0.6, release: 0.15 },
+  },
+  damage: {
+    frequency: 150,
+    duration: 0.2,
+    envelope: { attack: 0.01, decay: 0.05, sustain: 0.4, release: 0.14 },
+  },
+  emp: {
+    pulseCount: 5,
+    baseFrequency: 200,
+    frequencyRange: 400,
+    duration: 0.05,
+    intervalMilliseconds: 50,
+  },
+} as const;
+
+async function ignoreRejection(promise: Promise<unknown>): Promise<void> {
+  try {
+    await promise;
+  } catch {
+    // Browser audio promises are expected to reject when permission is absent.
+  }
+}
+
 export class AudioManager {
   private bgMusic: HTMLAudioElement | null = null;
   private audioContext: AudioContext | null = null;
-  private musicVolume = 0.5;
-  private sfxVolume = 0.7;
+  private musicVolume: number = AUDIO_CONFIG.defaultMusicVolume;
+  private sfxVolume: number = AUDIO_CONFIG.defaultSfxVolume;
   private isMusicEnabled = true;
   private isSfxEnabled = true;
   private hasUserInteracted = false;
@@ -32,7 +76,7 @@ export class AudioManager {
     }
     // Resume if suspended (happens after tab backgrounding)
     if (this.audioContext.state === "suspended") {
-      this.audioContext.resume();
+      void ignoreRejection(this.audioContext.resume());
     }
     return this.audioContext;
   }
@@ -46,11 +90,7 @@ export class AudioManager {
 
       // Play pending music if requested
       if (this.pendingMusicPlay && this.isMusicEnabled && this.bgMusic) {
-        this.bgMusic.play().catch(() => {
-          /*
-          User gesture may still be insufficient
-          */
-        });
+        void ignoreRejection(this.bgMusic.play());
         this.pendingMusicPlay = false;
       }
     };
@@ -61,6 +101,69 @@ export class AudioManager {
     document.addEventListener("touchstart", enableAudio, { once: true });
   }
 
+  private createOscillator(context: AudioContext, type: OscillatorType) {
+    const oscillator = context.createOscillator();
+    const gainNode = context.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(context.destination);
+    oscillator.type = type;
+
+    return { gainNode, oscillator };
+  }
+
+  /**
+   * Play a procedural sound using the shared AudioContext
+   */
+  private playProceduralSound(
+    frequency: number,
+    duration: number,
+    type: OscillatorType = "sine",
+    envelope?: {
+      attack: number;
+      decay: number;
+      sustain: number;
+      release: number;
+    },
+  ): void {
+    if (!this.isSfxEnabled) return;
+
+    try {
+      const context = this.getAudioContext();
+      const { gainNode, oscillator } = this.createOscillator(context, type);
+      oscillator.frequency.value = frequency;
+
+      if (envelope) {
+        const now = context.currentTime;
+        const { attack, decay, sustain, release } = envelope;
+
+        gainNode.gain.setValueAtTime(0, now);
+        gainNode.gain.linearRampToValueAtTime(this.sfxVolume, now + attack);
+        gainNode.gain.linearRampToValueAtTime(
+          sustain * this.sfxVolume,
+          now + attack + decay,
+        );
+        gainNode.gain.setValueAtTime(
+          sustain * this.sfxVolume,
+          now + duration - release,
+        );
+        gainNode.gain.linearRampToValueAtTime(0, now + duration);
+      } else {
+        gainNode.gain.value = this.sfxVolume;
+      }
+
+      oscillator.start(context.currentTime);
+      oscillator.stop(context.currentTime + duration);
+
+      oscillator.addEventListener("ended", () => {
+        oscillator.disconnect();
+        gainNode.disconnect();
+      });
+    } catch {
+      // AudioContext may be unavailable
+    }
+  }
+
   playMusic(): void {
     if (!this.isMusicEnabled || !this.bgMusic) return;
 
@@ -69,11 +172,7 @@ export class AudioManager {
       return;
     }
 
-    this.bgMusic.play().catch(() => {
-      /*
-      Autoplay may be blocked
-      */
-    });
+    void ignoreRejection(this.bgMusic.play());
   }
 
   pauseMusic(): void {
@@ -116,72 +215,9 @@ export class AudioManager {
     this.isSfxEnabled = !this.isSfxEnabled;
   }
 
-  /**
-   * Play a procedural sound using the shared AudioContext
-   */
-  private playProceduralSound(
-    frequency: number,
-    duration: number,
-    type: OscillatorType = "sine",
-    envelope?: {
-      attack: number;
-      decay: number;
-      sustain: number;
-      release: number;
-    },
-  ): void {
-    if (!this.isSfxEnabled) return;
-
-    try {
-      const context = this.getAudioContext();
-      const oscillator = context.createOscillator();
-      const gainNode = context.createGain();
-
-      oscillator.connect(gainNode);
-      gainNode.connect(context.destination);
-
-      oscillator.type = type;
-      oscillator.frequency.value = frequency;
-
-      if (envelope) {
-        const now = context.currentTime;
-        const { attack, decay, sustain, release } = envelope;
-
-        gainNode.gain.setValueAtTime(0, now);
-        gainNode.gain.linearRampToValueAtTime(this.sfxVolume, now + attack);
-        gainNode.gain.linearRampToValueAtTime(
-          sustain * this.sfxVolume,
-          now + attack + decay,
-        );
-        gainNode.gain.setValueAtTime(
-          sustain * this.sfxVolume,
-          now + duration - release,
-        );
-        gainNode.gain.linearRampToValueAtTime(0, now + duration);
-      } else {
-        gainNode.gain.value = this.sfxVolume;
-      }
-
-      oscillator.start(context.currentTime);
-      oscillator.stop(context.currentTime + duration);
-
-      // Auto-disconnect after sound completes
-      oscillator.addEventListener("ended", () => {
-        oscillator.disconnect();
-        gainNode.disconnect();
-      });
-    } catch {
-      // AudioContext may be unavailable
-    }
-  }
-
   playLaser(): void {
-    this.playProceduralSound(800, 0.1, "square", {
-      attack: 0.01,
-      decay: 0.05,
-      sustain: 0.3,
-      release: 0.04,
-    });
+    const { frequency, duration, envelope } = AUDIO_CONFIG.laser;
+    this.playProceduralSound(frequency, duration, "square", envelope);
   }
 
   playExplosion(): void {
@@ -189,7 +225,8 @@ export class AudioManager {
 
     try {
       const context = this.getAudioContext();
-      const bufferSize = context.sampleRate * 0.5;
+      const { duration, filterFrequency, minimumGain } = AUDIO_CONFIG.explosion;
+      const bufferSize = context.sampleRate * duration;
       const buffer = context.createBuffer(1, bufferSize, context.sampleRate);
       const data = buffer.getChannelData(0);
 
@@ -203,7 +240,7 @@ export class AudioManager {
       const gainNode = context.createGain();
       const filter = context.createBiquadFilter();
       filter.type = "lowpass";
-      filter.frequency.value = 1000;
+      filter.frequency.value = filterFrequency;
 
       source.connect(filter);
       filter.connect(gainNode);
@@ -211,10 +248,10 @@ export class AudioManager {
 
       const now = context.currentTime;
       gainNode.gain.setValueAtTime(this.sfxVolume, now);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+      gainNode.gain.exponentialRampToValueAtTime(minimumGain, now + duration);
 
       source.start(now);
-      source.stop(now + 0.5);
+      source.stop(now + duration);
 
       source.addEventListener("ended", () => {
         source.disconnect();
@@ -227,11 +264,13 @@ export class AudioManager {
   }
 
   playTypeCorrect(): void {
-    this.playProceduralSound(600, 0.05, "sine");
+    const { frequency, duration } = AUDIO_CONFIG.correct;
+    this.playProceduralSound(frequency, duration, "sine");
   }
 
   playTypeIncorrect(): void {
-    this.playProceduralSound(200, 0.1, "sawtooth");
+    const { frequency, duration } = AUDIO_CONFIG.incorrect;
+    this.playProceduralSound(frequency, duration, "sawtooth");
   }
 
   playWordComplete(): void {
@@ -239,23 +278,22 @@ export class AudioManager {
 
     try {
       const context = this.getAudioContext();
-      const oscillator = context.createOscillator();
-      const gainNode = context.createGain();
-
-      oscillator.connect(gainNode);
-      gainNode.connect(context.destination);
-
-      oscillator.type = "sine";
+      const { gainNode, oscillator } = this.createOscillator(context, "sine");
 
       const now = context.currentTime;
-      oscillator.frequency.setValueAtTime(400, now);
-      oscillator.frequency.exponentialRampToValueAtTime(800, now + 0.2);
+      const { startFrequency, endFrequency, duration, minimumGain } =
+        AUDIO_CONFIG.wordComplete;
+      oscillator.frequency.setValueAtTime(startFrequency, now);
+      oscillator.frequency.exponentialRampToValueAtTime(
+        endFrequency,
+        now + duration,
+      );
 
       gainNode.gain.setValueAtTime(this.sfxVolume, now);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+      gainNode.gain.exponentialRampToValueAtTime(minimumGain, now + duration);
 
       oscillator.start(now);
-      oscillator.stop(now + 0.2);
+      oscillator.stop(now + duration);
 
       oscillator.addEventListener("ended", () => {
         oscillator.disconnect();
@@ -267,30 +305,33 @@ export class AudioManager {
   }
 
   playPowerUp(): void {
-    this.playProceduralSound(1000, 0.3, "square", {
-      attack: 0.05,
-      decay: 0.1,
-      sustain: 0.6,
-      release: 0.15,
-    });
+    const { frequency, duration, envelope } = AUDIO_CONFIG.powerUp;
+    this.playProceduralSound(frequency, duration, "square", envelope);
   }
 
   playDamage(): void {
-    this.playProceduralSound(150, 0.2, "sawtooth", {
-      attack: 0.01,
-      decay: 0.05,
-      sustain: 0.4,
-      release: 0.14,
-    });
+    const { frequency, duration, envelope } = AUDIO_CONFIG.damage;
+    this.playProceduralSound(frequency, duration, "sawtooth", envelope);
   }
 
   playEMP(): void {
     if (!this.isSfxEnabled) return;
 
-    for (let index = 0; index < 5; index++) {
+    const {
+      pulseCount,
+      baseFrequency,
+      frequencyRange,
+      duration,
+      intervalMilliseconds,
+    } = AUDIO_CONFIG.emp;
+    for (let index = 0; index < pulseCount; index++) {
       setTimeout(() => {
-        this.playProceduralSound(200 + Math.random() * 400, 0.05, "square");
-      }, index * 50);
+        this.playProceduralSound(
+          baseFrequency + Math.random() * frequencyRange,
+          duration,
+          "square",
+        );
+      }, index * intervalMilliseconds);
     }
   }
 
@@ -311,18 +352,18 @@ export class AudioManager {
   dispose(): void {
     this.stopMusic();
     if (this.audioContext && this.audioContext.state !== "closed") {
-      this.audioContext.close();
+      void ignoreRejection(this.audioContext.close());
       this.audioContext = null;
     }
   }
 }
 
 // Singleton instance
-let audioManager: AudioManager | null = null;
+const audioManagerSingleton: { instance: AudioManager | null } = {
+  instance: null,
+};
 
 export function getAudioManager(): AudioManager {
-  if (!audioManager) {
-    audioManager = new AudioManager();
-  }
-  return audioManager;
+  audioManagerSingleton.instance ??= new AudioManager();
+  return audioManagerSingleton.instance;
 }

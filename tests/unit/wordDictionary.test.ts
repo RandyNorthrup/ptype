@@ -23,7 +23,9 @@ describe("word dictionary", () => {
   beforeEach(() => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(async () => new Response(COMPLETE_DICTIONARY, { status: 200 })),
+      vi.fn(() =>
+        Promise.resolve(new Response(COMPLETE_DICTIONARY, { status: 200 })),
+      ),
     );
   });
 
@@ -60,11 +62,15 @@ describe("word dictionary", () => {
 
     vi.stubGlobal(
       "fetch",
-      vi.fn(
-        async () =>
-          new Response("beginner: []\nintermediate: []\nadvanced: []", {
-            status: 200,
-          }),
+      vi.fn(() =>
+        Promise.resolve(
+          new Response(
+            "beginner: []\nintermediate: []\nadvanced: []\nboss_words:\n  beginner: []\n  intermediate: []\n  advanced: []",
+            {
+              status: 200,
+            },
+          ),
+        ),
       ),
     );
     await dictionary.loadDictionary("empty");
@@ -76,8 +82,10 @@ describe("word dictionary", () => {
   it("surfaces network failures", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(
-        async () => new Response("", { status: 404, statusText: "Missing" }),
+      vi.fn(() =>
+        Promise.resolve(
+          new Response("", { status: 404, statusText: "Missing" }),
+        ),
       ),
     );
     const dictionary = new WordDictionary();

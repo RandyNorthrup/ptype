@@ -12,24 +12,51 @@ const DIFFICULTY_LEVELS: readonly DifficultyLevel[] = [
   "Expert",
   "Master",
 ];
+const DIFFICULTY_LEVEL_SET = new Set<string>(DIFFICULTY_LEVELS);
+
+const DIFFICULTY_START_LEVELS: Record<
+  DifficultyLevel,
+  Record<DifficultyLevel, number>
+> = {
+  Easy: { Easy: 0, Normal: 40, Hard: 70, Expert: 85, Master: 95 },
+  Normal: { Easy: 0, Normal: 0, Hard: 30, Expert: 60, Master: 85 },
+  Hard: { Easy: 0, Normal: 0, Hard: 0, Expert: 25, Master: 60 },
+  Expert: { Easy: 0, Normal: 0, Hard: 0, Expert: 0, Master: 20 },
+  Master: { Easy: 0, Normal: 0, Hard: 0, Expert: 0, Master: 0 },
+};
+
+const DIFFICULTY_MULTIPLIERS: Record<DifficultyLevel, number> = {
+  Easy: 0.6,
+  Normal: 1,
+  Hard: 1.35,
+  Expert: 1.65,
+  Master: 2,
+};
+
+const DIFFICULTY_COLORS: Record<DifficultyLevel, string> = {
+  Easy: "#4ade80",
+  Normal: "#60a5fa",
+  Hard: "#fbbf24",
+  Expert: "#f97316",
+  Master: "#ef4444",
+};
 
 function isDifficultyLevel(value: unknown): value is DifficultyLevel {
-  return (
-    typeof value === "string" &&
-    DIFFICULTY_LEVELS.some((difficulty) => difficulty === value)
-  );
+  return typeof value === "string" && DIFFICULTY_LEVEL_SET.has(value);
 }
 
 /**
 Cache the starting difficulty so we don't read localStorage every call
 */
-let cachedStartingDifficulty: DifficultyLevel | null = null;
+const difficultyCache: { starting: DifficultyLevel | null } = {
+  starting: null,
+};
 
 /**
  * Get the starting difficulty from settings (cached after first read)
  */
 export function getStartingDifficulty(): DifficultyLevel {
-  if (cachedStartingDifficulty) return cachedStartingDifficulty;
+  if (difficultyCache.starting) return difficultyCache.starting;
   try {
     const savedSettings = localStorage.getItem("game-settings");
     if (savedSettings) {
@@ -40,22 +67,22 @@ export function getStartingDifficulty(): DifficultyLevel {
         "difficulty" in settings &&
         isDifficultyLevel(settings.difficulty)
       ) {
-        cachedStartingDifficulty = settings.difficulty;
-        return cachedStartingDifficulty;
+        difficultyCache.starting = settings.difficulty;
+        return difficultyCache.starting;
       }
     }
   } catch {
     // Fall through to default
   }
-  cachedStartingDifficulty = "Normal";
-  return cachedStartingDifficulty;
+  difficultyCache.starting = "Normal";
+  return difficultyCache.starting;
 }
 
 /**
  * Invalidate the cached starting difficulty (call when settings change)
  */
 export function invalidateDifficultyCache(): void {
-  cachedStartingDifficulty = null;
+  difficultyCache.starting = null;
 }
 
 /**
@@ -72,55 +99,12 @@ export function getCurrentDifficulty(
 ): DifficultyLevel {
   const starting = startingDifficulty ?? getStartingDifficulty();
 
-  // Define difficulty thresholds based on starting difficulty
-  // Each starting difficulty has different progression curves
-  const thresholds: Record<
-    DifficultyLevel,
-    Record<DifficultyLevel, [number, number]>
-  > = {
-    Easy: {
-      Easy: [0, 40], // Stay Easy until level 40
-      Normal: [40, 70], // Normal from 40-70
-      Hard: [70, 85], // Hard from 70-85
-      Expert: [85, 95], // Expert from 85-95
-      Master: [95, 100], // Master at 95+
-    },
-    Normal: {
-      Easy: [0, 0], // Never Easy
-      Normal: [0, 30], // Normal until level 30
-      Hard: [30, 60], // Hard from 30-60
-      Expert: [60, 85], // Expert from 60-85
-      Master: [85, 100], // Master at 85+
-    },
-    Hard: {
-      Easy: [0, 0], // Never Easy
-      Normal: [0, 0], // Never Normal
-      Hard: [0, 25], // Hard until level 25
-      Expert: [25, 60], // Expert from 25-60
-      Master: [60, 100], // Master at 60+
-    },
-    Expert: {
-      Easy: [0, 0], // Never Easy
-      Normal: [0, 0], // Never Normal
-      Hard: [0, 0], // Never Hard
-      Expert: [0, 20], // Expert until level 20
-      Master: [20, 100], // Master at 20+
-    },
-    Master: {
-      Easy: [0, 0], // Never Easy
-      Normal: [0, 0], // Never Normal
-      Hard: [0, 0], // Never Hard
-      Expert: [0, 0], // Never Expert
-      Master: [0, 100], // Always Master
-    },
-  };
+  const progression = DIFFICULTY_START_LEVELS[starting];
 
-  const progression = thresholds[starting];
-
-  if (level >= progression.Master[0]) return "Master";
-  if (level >= progression.Expert[0]) return "Expert";
-  if (level >= progression.Hard[0]) return "Hard";
-  if (level >= progression.Normal[0]) return "Normal";
+  if (level >= progression.Master) return "Master";
+  if (level >= progression.Expert) return "Expert";
+  if (level >= progression.Hard) return "Hard";
+  if (level >= progression.Normal) return "Normal";
   return "Easy";
 }
 
@@ -134,50 +118,12 @@ export function getCurrentDifficulty(
 export function getDifficultyMultiplier(
   currentDifficulty: DifficultyLevel,
 ): number {
-  switch (currentDifficulty) {
-    case "Easy": {
-      return 0.6;
-    }
-    case "Normal": {
-      return 1;
-    }
-    case "Hard": {
-      return 1.35;
-    }
-    case "Expert": {
-      return 1.65;
-    }
-    case "Master": {
-      return 2;
-    }
-    default: {
-      return 1;
-    }
-  }
+  return DIFFICULTY_MULTIPLIERS[currentDifficulty];
 }
 
 /**
  * Get display color for difficulty level
  */
 export function getDifficultyColor(difficulty: DifficultyLevel): string {
-  switch (difficulty) {
-    case "Easy": {
-      return "#4ade80"; // Green
-    }
-    case "Normal": {
-      return "#60a5fa"; // Blue
-    }
-    case "Hard": {
-      return "#fbbf24"; // Yellow
-    }
-    case "Expert": {
-      return "#f97316"; // Orange
-    }
-    case "Master": {
-      return "#ef4444"; // Red
-    }
-    default: {
-      return "#94a3b8"; // Gray
-    }
-  }
+  return DIFFICULTY_COLORS[difficulty];
 }

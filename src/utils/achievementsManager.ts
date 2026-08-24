@@ -198,13 +198,64 @@ export interface AchievementStats {
   highestLevel: number;
 }
 
+const NUMERIC_ACHIEVEMENT_STAT_KEYS = [
+  "wordsTyped",
+  "gamesPlayed",
+  "bossesDefeated",
+  "perfectWordStreak",
+  "triviaCorrect",
+  "triviaStreak",
+  "bonusItemsCollected",
+  "bonusItemsUsed",
+  "playTimeSeconds",
+  "highestWPM",
+  "highestAccuracy",
+  "highestScore",
+  "highestLevel",
+] as const satisfies readonly Exclude<
+  keyof AchievementStats,
+  "languagesPlayed"
+>[];
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+export function loadPersistedAchievementStats(): Partial<AchievementStats> {
+  try {
+    const storedStats = localStorage.getItem("ptype-achievement-stats");
+    if (!storedStats) return {};
+    const parsedStats: unknown = JSON.parse(storedStats);
+    if (!isRecord(parsedStats)) return {};
+
+    const stats: Partial<AchievementStats> = {};
+    for (const key of NUMERIC_ACHIEVEMENT_STAT_KEYS) {
+      const value = parsedStats[key];
+      if (typeof value === "number" && Number.isFinite(value)) {
+        stats[key] = value;
+      }
+    }
+
+    const languages = parsedStats["languagesPlayed"];
+    if (
+      Array.isArray(languages) &&
+      languages.every((language) => typeof language === "string")
+    ) {
+      stats.languagesPlayed = new Set(languages);
+    }
+    return stats;
+  } catch {
+    return {};
+  }
+}
+
 class AchievementsManager {
   private achievements: Achievement[];
   private stats: AchievementStats;
   private listeners: ((achievement: Achievement) => void)[] = [];
 
   constructor() {
-    this.achievements = JSON.parse(JSON.stringify(ACHIEVEMENTS_DEFINITIONS)); // Deep copy
+    this.achievements = structuredClone(ACHIEVEMENTS_DEFINITIONS);
     this.stats = {
       wordsTyped: 0,
       gamesPlayed: 0,
@@ -242,7 +293,7 @@ class AchievementsManager {
       this.stats = {
         ...this.stats,
         ...savedStats,
-        languagesPlayed: new Set(savedStats.languagesPlayed || []),
+        languagesPlayed: new Set(savedStats.languagesPlayed),
       };
     }
   }
@@ -401,8 +452,8 @@ class AchievementsManager {
   /**
    * Record trivia answer
    */
-  onTriviaAnswered(correct: boolean) {
-    if (correct) {
+  onTriviaAnswered(isCorrect: boolean) {
+    if (isCorrect) {
       this.stats.triviaCorrect++;
       this.stats.triviaStreak++;
     } else {

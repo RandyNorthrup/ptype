@@ -75,7 +75,7 @@ describe("game store", () => {
 
     let consumed = null;
     act(() => {
-      consumed = result.current.useSelectedBonus();
+      consumed = result.current.consumeSelectedBonus();
     });
     expect(consumed).toEqual(bonus);
     expect(result.current.bonusItems).toHaveLength(0);

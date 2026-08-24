@@ -3,45 +3,144 @@
  */
 import { useState, useEffect, memo } from "react";
 import { getAudioManager } from "../utils/audioManager";
-import { invalidateDifficultyCache } from "../utils/difficultyManager";
+import {
+  invalidateDifficultyCache,
+  type DifficultyLevel,
+} from "../utils/difficultyManager";
 import { error as logError } from "../utils/logger";
+import { ModalShell } from "./ModalShell";
+import { NeonButton } from "./NeonButton";
 
 interface SettingsMenuProperties {
   onClose: () => void;
 }
 
+interface GameSettings {
+  musicVolume: number;
+  sfxVolume: number;
+  difficulty: DifficultyLevel;
+}
+
+const DEFAULT_SETTINGS: GameSettings = {
+  musicVolume: 50,
+  sfxVolume: 50,
+  difficulty: "Normal",
+};
+
+const DIFFICULTIES = new Set<string>([
+  "Easy",
+  "Normal",
+  "Hard",
+  "Expert",
+  "Master",
+]);
+
+function isDifficulty(value: unknown): value is DifficultyLevel {
+  return typeof value === "string" && DIFFICULTIES.has(value);
+}
+
+function loadSettings(): GameSettings {
+  try {
+    const savedSettings = localStorage.getItem("game-settings");
+    if (!savedSettings) return DEFAULT_SETTINGS;
+    const settings: unknown = JSON.parse(savedSettings);
+    if (typeof settings !== "object" || settings === null) {
+      return DEFAULT_SETTINGS;
+    }
+    const musicVolume =
+      "musicVolume" in settings && typeof settings.musicVolume === "number"
+        ? settings.musicVolume
+        : DEFAULT_SETTINGS.musicVolume;
+    const sfxVolume =
+      "sfxVolume" in settings && typeof settings.sfxVolume === "number"
+        ? settings.sfxVolume
+        : DEFAULT_SETTINGS.sfxVolume;
+    const difficulty =
+      "difficulty" in settings && isDifficulty(settings.difficulty)
+        ? settings.difficulty
+        : DEFAULT_SETTINGS.difficulty;
+    return { musicVolume, sfxVolume, difficulty };
+  } catch (error) {
+    logError(
+      "Failed to load settings from localStorage",
+      error,
+      "SettingsMenu",
+    );
+    return DEFAULT_SETTINGS;
+  }
+}
+
+interface VolumeControlProperties {
+  emoji: string;
+  id: string;
+  label: string;
+  onChange: (value: number) => void;
+  testId: string;
+  value: number;
+}
+
+function VolumeControl({
+  emoji,
+  id,
+  label,
+  onChange,
+  testId,
+  value,
+}: VolumeControlProperties) {
+  const progress = value.toString();
+
+  return (
+    <div style={{ marginBottom: "1.5rem" }}>
+      <label
+        htmlFor={id}
+        style={{
+          display: "block",
+          color: "#09ff00",
+          fontSize: "1rem",
+          fontWeight: "600",
+          marginBottom: "0.5rem",
+          textShadow: "0 0 10px rgba(9, 255, 0, 0.5)",
+        }}
+      >
+        {emoji} {label}: {progress}%
+      </label>
+      <input
+        data-testid={testId}
+        id={id}
+        max="100"
+        min="0"
+        style={{
+          width: "100%",
+          height: "8px",
+          borderRadius: "4px",
+          background: `linear-gradient(to right, #09ff00 0%, #09ff00 ${progress}%, rgba(100, 116, 139, 0.3) ${progress}%, rgba(100, 116, 139, 0.3) 100%)`,
+          outline: "none",
+          cursor: "pointer",
+          WebkitAppearance: "none",
+        }}
+        type="range"
+        value={value}
+        onChange={(event) => {
+          onChange(Number(event.target.value));
+        }}
+      />
+    </div>
+  );
+}
+
 const SettingsMenuComponent = ({ onClose }: SettingsMenuProperties) => {
   const audioManager = getAudioManager();
-  const [musicVolume, setMusicVolume] = useState(50);
-  const [sfxVolume, setSfxVolume] = useState(50);
-  const [difficulty, setDifficulty] = useState("Normal");
+  const [initialSettings] = useState(loadSettings);
+  const [musicVolume, setMusicVolume] = useState(initialSettings.musicVolume);
+  const [sfxVolume, setSfxVolume] = useState(initialSettings.sfxVolume);
+  const [difficulty, setDifficulty] = useState<DifficultyLevel>(
+    initialSettings.difficulty,
+  );
 
-  // Load saved settings on mount
   useEffect(() => {
-    try {
-      const savedSettings = localStorage.getItem("game-settings");
-      if (savedSettings) {
-        const settings = JSON.parse(savedSettings);
-        setMusicVolume(settings.musicVolume ?? 50);
-        setSfxVolume(settings.sfxVolume ?? 50);
-        setDifficulty(settings.difficulty ?? "Normal");
-
-        // Apply volumes to audio manager (slider values are 0-100, audioManager expects 0-1)
-        audioManager.setMusicVolume((settings.musicVolume ?? 50) / 100);
-        audioManager.setSfxVolume((settings.sfxVolume ?? 50) / 100);
-      }
-    } catch (error) {
-      logError(
-        "Failed to load settings from localStorage",
-        error,
-        "SettingsMenu",
-      );
-      // Use defaults on error
-      setMusicVolume(50);
-      setSfxVolume(50);
-      setDifficulty("Normal");
-    }
-  }, [audioManager]);
+    audioManager.setMusicVolume(musicVolume / 100);
+    audioManager.setSfxVolume(sfxVolume / 100);
+  }, [audioManager, musicVolume, sfxVolume]);
 
   const handleSave = () => {
     try {
@@ -85,247 +184,119 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProperties) => {
   };
 
   return (
-    <div
-      data-testid="settings-menu-overlay"
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: "rgba(0, 0, 0, 0.85)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 3000,
-        backdropFilter: "blur(8px)",
-      }}
-      onClick={onClose}
+    <ModalShell
+      dialogTestId="settings-menu-dialog"
+      labelledBy="settings-title"
+      maxWidth="500px"
+      overlayTestId="settings-menu-overlay"
+      onDismiss={onClose}
     >
-      <div
-        data-testid="settings-menu-dialog"
+      {/* Header */}
+      <h2
+        id="settings-title"
         style={{
-          background: "rgba(10, 14, 27, 0.95)",
-          border: "3px solid #09ff00",
-          borderRadius: "15px",
-          padding: "2rem",
-          minWidth: "400px",
-          maxWidth: "500px",
-          boxShadow:
-            "0 0 50px rgba(9, 255, 0, 0.5), inset 0 0 30px rgba(9, 255, 0, 0.1)",
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
+          color: "#09ff00",
+          marginBottom: "1.5rem",
+          fontSize: "1.8rem",
+          fontWeight: "700",
+          textAlign: "center",
+          textShadow: "0 0 20px rgba(9, 255, 0, 0.8)",
         }}
       >
-        {/* Header */}
-        <h2
+        ⚙️ SETTINGS
+      </h2>
+
+      <VolumeControl
+        emoji="🎵"
+        id="music-volume"
+        label="Music Volume"
+        testId="music-volume-slider"
+        value={musicVolume}
+        onChange={handleMusicVolumeChange}
+      />
+      <VolumeControl
+        emoji="🔊"
+        id="sfx-volume"
+        label="SFX Volume"
+        testId="sfx-volume-slider"
+        value={sfxVolume}
+        onChange={handleSFXVolumeChange}
+      />
+
+      {/* Difficulty */}
+      <div style={{ marginBottom: "2rem" }}>
+        <label
+          htmlFor="difficulty"
           style={{
+            display: "block",
             color: "#09ff00",
-            marginBottom: "1.5rem",
-            fontSize: "1.8rem",
-            fontWeight: "700",
-            textAlign: "center",
-            textShadow: "0 0 20px rgba(9, 255, 0, 0.8)",
+            fontSize: "1rem",
+            fontWeight: "600",
+            marginBottom: "0.5rem",
+            textShadow: "0 0 10px rgba(9, 255, 0, 0.5)",
           }}
         >
-          ⚙️ SETTINGS
-        </h2>
-
-        {/* Music Volume */}
-        <div style={{ marginBottom: "1.5rem" }}>
-          <label
-            style={{
-              display: "block",
-              color: "#09ff00",
-              fontSize: "1rem",
-              fontWeight: "600",
-              marginBottom: "0.5rem",
-              textShadow: "0 0 10px rgba(9, 255, 0, 0.5)",
-            }}
-          >
-            🎵 Music Volume: {musicVolume}%
-          </label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={musicVolume}
-            onChange={(e) => {
-              handleMusicVolumeChange(Number(e.target.value));
-            }}
-            data-testid="music-volume-slider"
-            style={{
-              width: "100%",
-              height: "8px",
-              borderRadius: "4px",
-              background: `linear-gradient(to right, #09ff00 0%, #09ff00 ${musicVolume}%, rgba(100, 116, 139, 0.3) ${musicVolume}%, rgba(100, 116, 139, 0.3) 100%)`,
-              outline: "none",
-              cursor: "pointer",
-              WebkitAppearance: "none",
-            }}
-          />
-        </div>
-
-        {/* SFX Volume */}
-        <div style={{ marginBottom: "1.5rem" }}>
-          <label
-            style={{
-              display: "block",
-              color: "#09ff00",
-              fontSize: "1rem",
-              fontWeight: "600",
-              marginBottom: "0.5rem",
-              textShadow: "0 0 10px rgba(9, 255, 0, 0.5)",
-            }}
-          >
-            🔊 SFX Volume: {sfxVolume}%
-          </label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={sfxVolume}
-            onChange={(e) => {
-              handleSFXVolumeChange(Number(e.target.value));
-            }}
-            data-testid="sfx-volume-slider"
-            style={{
-              width: "100%",
-              height: "8px",
-              borderRadius: "4px",
-              background: `linear-gradient(to right, #09ff00 0%, #09ff00 ${sfxVolume}%, rgba(100, 116, 139, 0.3) ${sfxVolume}%, rgba(100, 116, 139, 0.3) 100%)`,
-              outline: "none",
-              cursor: "pointer",
-              WebkitAppearance: "none",
-            }}
-          />
-        </div>
-
-        {/* Difficulty */}
-        <div style={{ marginBottom: "2rem" }}>
-          <label
-            style={{
-              display: "block",
-              color: "#09ff00",
-              fontSize: "1rem",
-              fontWeight: "600",
-              marginBottom: "0.5rem",
-              textShadow: "0 0 10px rgba(9, 255, 0, 0.5)",
-            }}
-          >
-            💪 Difficulty
-          </label>
-          <select
-            value={difficulty}
-            onChange={(e) => {
+          💪 Difficulty
+        </label>
+        <select
+          id="difficulty"
+          value={difficulty}
+          onChange={(e) => {
+            if (isDifficulty(e.target.value)) {
               setDifficulty(e.target.value);
-            }}
-            data-testid="difficulty-selector"
-            style={{
-              width: "100%",
-              padding: "0.8rem",
-              fontSize: "1rem",
-              background: "rgba(10, 14, 27, 0.8)",
-              border: "2px solid rgba(9, 255, 0, 0.3)",
-              borderRadius: "8px",
-              color: "#09ff00",
-              cursor: "pointer",
-              outline: "none",
-              fontWeight: "600",
-              boxShadow:
-                "0 0 15px rgba(9, 255, 0, 0.2), inset 0 0 10px rgba(9, 255, 0, 0.05)",
-            }}
-          >
-            <option
-              value="Easy"
-              style={{ background: "#0a0e27", color: "#09ff00" }}
-            >
-              Easy
-            </option>
-            <option
-              value="Normal"
-              style={{ background: "#0a0e27", color: "#09ff00" }}
-            >
-              Normal
-            </option>
-            <option
-              value="Hard"
-              style={{ background: "#0a0e27", color: "#09ff00" }}
-            >
-              Hard
-            </option>
-          </select>
-        </div>
-
-        {/* Buttons */}
-        <div
+            }
+          }}
+          data-testid="difficulty-selector"
           style={{
-            display: "flex",
-            gap: "1rem",
-            justifyContent: "center",
+            width: "100%",
+            padding: "0.8rem",
+            fontSize: "1rem",
+            background: "rgba(10, 14, 27, 0.8)",
+            border: "2px solid rgba(9, 255, 0, 0.3)",
+            borderRadius: "8px",
+            color: "#09ff00",
+            cursor: "pointer",
+            outline: "none",
+            fontWeight: "600",
+            boxShadow:
+              "0 0 15px rgba(9, 255, 0, 0.2), inset 0 0 10px rgba(9, 255, 0, 0.05)",
           }}
         >
-          <button
-            onClick={handleSave}
-            data-testid="settings-save-button"
-            style={{
-              padding: "0.8rem 2rem",
-              fontSize: "1rem",
-              background: "rgba(9, 255, 0, 0.2)",
-              border: "2px solid #09ff00",
-              borderRadius: "10px",
-              color: "#09ff00",
-              fontWeight: "700",
-              cursor: "pointer",
-              transition: "all 0.3s",
-              boxShadow:
-                "0 0 20px rgba(9, 255, 0, 0.3), inset 0 0 12px rgba(9, 255, 0, 0.1)",
-              textShadow: "0 0 10px rgba(9, 255, 0, 0.6)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow =
-                "0 0 30px rgba(9, 255, 0, 0.5), inset 0 0 20px rgba(9, 255, 0, 0.15)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow =
-                "0 0 20px rgba(9, 255, 0, 0.3), inset 0 0 12px rgba(9, 255, 0, 0.1)";
-            }}
-          >
-            💾 Save
-          </button>
-          <button
-            onClick={onClose}
-            data-testid="settings-cancel-button"
-            style={{
-              padding: "0.8rem 2rem",
-              fontSize: "1rem",
-              background: "rgba(30, 41, 59, 0.5)",
-              border: "2px solid rgba(100, 116, 139, 0.3)",
-              borderRadius: "10px",
-              color: "#64748b",
-              fontWeight: "700",
-              cursor: "pointer",
-              transition: "all 0.3s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "rgba(100, 116, 139, 0.5)";
-              e.currentTarget.style.transform = "translateY(-2px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(100, 116, 139, 0.3)";
-              e.currentTarget.style.transform = "translateY(0)";
-            }}
-          >
-            ✖️ Cancel
-          </button>
-        </div>
+          {[...DIFFICULTIES].map((level) => (
+            <option
+              key={level}
+              value={level}
+              style={{ background: "#0a0e27", color: "#09ff00" }}
+            >
+              {level}
+            </option>
+          ))}
+        </select>
+      </div>
 
-        {/* Custom range slider styling */}
-        <style>
-          {`
+      {/* Buttons */}
+      <div
+        style={{
+          display: "flex",
+          gap: "1rem",
+          justifyContent: "center",
+        }}
+      >
+        <NeonButton onClick={handleSave} data-testid="settings-save-button">
+          💾 Save
+        </NeonButton>
+        <NeonButton
+          onClick={onClose}
+          data-testid="settings-cancel-button"
+          variant="muted"
+        >
+          ✖️ Cancel
+        </NeonButton>
+      </div>
+
+      {/* Custom range slider styling */}
+      <style>
+        {`
             input[type="range"]::-webkit-slider-thumb {
               -webkit-appearance: none;
               appearance: none;
@@ -356,9 +327,8 @@ const SettingsMenuComponent = ({ onClose }: SettingsMenuProperties) => {
               box-shadow: 0 0 15px rgba(9, 255, 0, 1), 0 0 30px rgba(9, 255, 0, 0.6);
             }
           `}
-        </style>
-      </div>
-    </div>
+      </style>
+    </ModalShell>
   );
 };
 

@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import { getAudioManager } from "../utils/audioManager";
 import { getLaserTarget } from "./LaserTargetHelper";
 import { useGameStore } from "../store/gameContext";
+import { GameMode } from "../types";
 
 interface BeamBurst {
   x: number;
@@ -36,10 +37,10 @@ export function LaserEffect() {
   const animationFrameReference = useRef<number | null>(null);
   const { mode, isPaused, isGameOver } = useGameStore();
 
-  // Store active-gameplay flag in a ref so the keydown listener always has current value
-  const canFireReference = useRef(false);
-  canFireReference.current =
-    (mode === "normal" || mode === "programming") && !isPaused && !isGameOver;
+  const canFire =
+    (mode === GameMode.NORMAL || mode === GameMode.PROGRAMMING) &&
+    !isPaused &&
+    !isGameOver;
 
   useEffect(() => {
     const canvas = canvasReference.current;
@@ -53,14 +54,13 @@ export function LaserEffect() {
       canvas.height = window.innerHeight;
     };
     resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    const resizeObserver = new ResizeObserver(resizeCanvas);
+    resizeObserver.observe(document.documentElement);
 
     // Animation loop — only runs while there are active beams
     let isRunning = false;
 
     const animate = () => {
-      if (!context || !canvas) return;
-
       context.clearRect(0, 0, canvas.width, canvas.height);
 
       beamsReference.current = beamsReference.current.filter((beam) => {
@@ -149,11 +149,11 @@ export function LaserEffect() {
       animationFrameReference.current = requestAnimationFrame(animate);
     };
 
-    // Key handler — gated by canFireRef
+    // Key handler — gated by active gameplay state
     const audioManager = getAudioManager();
 
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (!canFireReference.current) return;
+      if (!canFire) return;
       if (e.key.length !== 1) return;
       if (e.ctrlKey || e.metaKey || e.altKey) return;
 
@@ -208,12 +208,12 @@ export function LaserEffect() {
     window.addEventListener("keydown", handleKeyPress);
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      resizeObserver.disconnect();
       window.removeEventListener("keydown", handleKeyPress);
       if (animationFrameReference.current)
         cancelAnimationFrame(animationFrameReference.current);
     };
-  }, []);
+  }, [canFire]);
 
   return (
     <canvas

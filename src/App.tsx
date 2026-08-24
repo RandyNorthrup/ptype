@@ -2,7 +2,14 @@
  * Main App Component
  * Optimized with intelligent lazy loading and prefetching
  */
-import { useEffect, useState, useCallback, lazy, Suspense } from "react";
+import {
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  lazy,
+  Suspense,
+} from "react";
 import { Canvas } from "@react-three/fiber";
 import { MainMenu } from "./components/MainMenu";
 import { TypingHandler } from "./components/TypingHandler";
@@ -10,37 +17,77 @@ import { AchievementToast } from "./components/AchievementToast";
 import { CameraController } from "./components/CameraController";
 
 // Lazy load heavy components with prefetching
-const GameCanvas = lazy(() =>
-  import("./components/GameCanvas").then((m) => ({ default: m.GameCanvas })),
-);
-const TriviaOverlay = lazy(() =>
-  import("./components/TriviaOverlay").then((m) => ({
-    default: m.TriviaOverlay,
-  })),
-);
-const GameOverScreen = lazy(() =>
-  import("./components/GameOverScreen").then((m) => ({
-    default: m.GameOverScreen,
-  })),
-);
-const PauseMenu = lazy(() =>
-  import("./components/PauseMenu").then((m) => ({ default: m.PauseMenu })),
-);
-const SpaceScene = lazy(() =>
-  import("./components/SpaceScene").then((m) => ({ default: m.SpaceScene })),
-);
-const LaserEffect = lazy(() =>
-  import("./components/LaserEffect").then((m) => ({ default: m.LaserEffect })),
-);
+const GameCanvas = lazy(async () => {
+  const module = await import("./components/GameCanvas");
+  return { default: module.GameCanvas };
+});
+const TriviaOverlay = lazy(async () => {
+  const module = await import("./components/TriviaOverlay");
+  return { default: module.TriviaOverlay };
+});
+const GameOverScreen = lazy(async () => {
+  const module = await import("./components/GameOverScreen");
+  return { default: module.GameOverScreen };
+});
+const PauseMenu = lazy(async () => {
+  const module = await import("./components/PauseMenu");
+  return { default: module.PauseMenu };
+});
+const SpaceScene = lazy(async () => {
+  const module = await import("./components/SpaceScene");
+  return { default: module.SpaceScene };
+});
+const LaserEffect = lazy(async () => {
+  const module = await import("./components/LaserEffect");
+  return { default: module.LaserEffect };
+});
 
 import { useGameStore } from "./store/gameContext";
-import { GameMode, type Achievement } from "./types";
+import { GameMode, type Achievement, type BonusItem } from "./types";
 import { wordDictionary } from "./utils/wordDictionary";
 import { triviaDatabase } from "./utils/triviaDatabase";
 import { getAudioManager } from "./utils/audioManager";
-import { achievementsManager } from "./utils/achievementsManager";
+import {
+  achievementsManager,
+  loadPersistedAchievementStats,
+} from "./utils/achievementsManager";
 import { resourcePreloader } from "./utils/resourcePreloader";
 import { error as logError, debug } from "./utils/logger";
+
+const ACTIVE_GAME_MODES = new Set<GameMode>([
+  GameMode.NORMAL,
+  GameMode.PROGRAMMING,
+  GameMode.TRIVIA,
+  GameMode.GAME_OVER,
+]);
+
+function isSignalAborted(signal: AbortSignal): boolean {
+  return signal.aborted;
+}
+
+async function loadBackgroundGameData(): Promise<void> {
+  try {
+    await triviaDatabase.load();
+  } catch (error: unknown) {
+    logError("Failed to load trivia database", error, "App");
+  }
+
+  try {
+    await Promise.all(
+      [
+        "python",
+        "javascript",
+        "java",
+        "csharp",
+        "cplusplus",
+        "css",
+        "html",
+      ].map((language) => wordDictionary.loadDictionary(language)),
+    );
+  } catch (error: unknown) {
+    logError("Failed to load dictionaries", error, "App");
+  }
+}
 
 function App() {
   const store = useGameStore();
@@ -61,23 +108,16 @@ function App() {
   const [achievementQueue, setAchievementQueue] = useState<
     (Achievement & { _toastId: number })[]
   >([]);
-
-  // CRITICAL: Force reset to menu on app mount to prevent stale state
-  useEffect(() => {
-    debug("App mounted - forcing reset to menu", { currentMode: mode }, "App");
-    if (mode !== GameMode.MENU) {
-      resetGame();
-    }
-  }, []); // Run once on mount only
+  const initialAchievementsReference = useRef(achievements);
 
   useEffect(() => {
-    let isCancelled = false;
-    let unsubscribeReference: (() => void) | undefined;
+    const abortController = new AbortController();
+    let musicTimer: ReturnType<typeof setTimeout> | undefined;
 
     // Subscribe to achievement unlocks synchronously (before any await)
     // so cleanup can always unsubscribe
-    unsubscribeReference = achievementsManager.onUnlock((achievement) => {
-      if (isCancelled) return;
+    const unsubscribe = achievementsManager.onUnlock((achievement) => {
+      if (abortController.signal.aborted) return;
       setAchievementQueue((previous) => [
         ...previous,
         { ...achievement, _toastId: Date.now() + Math.random() },
@@ -97,33 +137,16 @@ function App() {
         // Preload critical 3D assets first
         setLoadingStatus("Loading 3D assets...");
         await resourcePreloader.preloadCriticalAssets();
-        if (isCancelled) return;
+        if (isSignalAborted(abortController.signal)) return;
 
         // Load only essential dictionaries initially (normal mode)
         setLoadingStatus("Loading word dictionaries...");
         await wordDictionary.loadDictionary("normal");
-        if (isCancelled) return;
+        if (isSignalAborted(abortController.signal)) return;
 
         // Load trivia database in background (non-blocking)
         setLoadingStatus("Loading trivia questions...");
-        triviaDatabase.load().catch((error) => {
-          logError("Failed to load trivia database", error, "App");
-        });
-
-        // Preload other dictionaries in background after initial load
-        Promise.all(
-          [
-            "python",
-            "javascript",
-            "java",
-            "csharp",
-            "cplusplus",
-            "css",
-            "html",
-          ].map((lang) => wordDictionary.loadDictionary(lang)),
-        ).catch((error) => {
-          logError("Failed to load dictionaries", error, "App");
-        });
+        void loadBackgroundGameData();
 
         // Queue additional assets for background loading
         resourcePreloader.queueAsset("/assets/models/ships/enemy-fast.glb");
@@ -131,24 +154,10 @@ function App() {
 
         // Initialize achievements manager with saved data
         setLoadingStatus("Loading achievements...");
-        const savedAchievements = achievements;
-        // Load achievement stats from localStorage
-        let savedStats:
-          | Partial<import("./utils/achievementsManager").AchievementStats>
-          | undefined;
-        try {
-          const raw = localStorage.getItem("ptype-achievement-stats");
-          if (raw) {
-            const parsed = JSON.parse(raw);
-            savedStats = {
-              ...parsed,
-              languagesPlayed: new Set(parsed.languagesPlayed || []),
-            };
-          }
-        } catch {
-          // Ignore parse errors
-        }
-        achievementsManager.load(savedAchievements, savedStats);
+        achievementsManager.load(
+          initialAchievementsReference.current,
+          loadPersistedAchievementStats(),
+        );
 
         // Sync achievements back to store
         syncAchievements();
@@ -157,43 +166,39 @@ function App() {
         setLoadingStatus("Preparing assets...");
         const audioManager = getAudioManager();
         // Start background music after a short delay
-        setTimeout(() => {
-          if (!isCancelled) audioManager.playMusic();
+        musicTimer = setTimeout(() => {
+          if (!abortController.signal.aborted) audioManager.playMusic();
         }, 1000);
 
         setLoadingStatus("Ready!");
-        if (!isCancelled) setIsLoading(false);
+        if (!isSignalAborted(abortController.signal)) setIsLoading(false);
       } catch (error) {
         logError("Failed to initialize game", error, "App");
         setLoadingStatus("Error loading game assets");
         // Still allow game to start
-        if (!isCancelled) setIsLoading(false);
+        if (!abortController.signal.aborted) setIsLoading(false);
       }
     };
 
-    initialize();
+    void initialize();
     return () => {
-      isCancelled = true;
-      if (unsubscribeReference) unsubscribeReference();
+      abortController.abort();
+      if (musicTimer) clearTimeout(musicTimer);
+      unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only run once on mount
+  }, [syncAchievements]);
 
   // All hooks MUST be above the early return to satisfy Rules of Hooks
-  const isShowGame =
-    mode === GameMode.NORMAL ||
-    mode === GameMode.PROGRAMMING ||
-    mode === GameMode.TRIVIA ||
-    mode === GameMode.GAME_OVER;
+  const isShowGame = ACTIVE_GAME_MODES.has(mode);
 
   // Stable callbacks for memoized children
   const handleTriviaAnswer = useCallback(
     (
       selectedAnswer: number,
-      correct: boolean,
-      bonusItem: import("./types").BonusItem | null,
+      isCorrect: boolean,
+      bonusItem: BonusItem | null,
     ) => {
-      answerTrivia(selectedAnswer, correct, bonusItem);
+      answerTrivia(selectedAnswer, isCorrect, bonusItem);
       setTimeout(() => {
         hideTrivia();
       }, 500);
