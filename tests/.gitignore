@@ -11,6 +11,7 @@ coverage/
 *.html
 *.xml
 *.json
+!tsconfig.json
 
 # Video recordings
 videos/

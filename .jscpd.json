@@ -1,0 +1,15 @@
+{
+  "absolute": true,
+  "format": ["typescript", "tsx", "css"],
+  "ignore": [
+    "**/build/**",
+    "**/coverage/**",
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/public/data/**"
+  ],
+  "minLines": 5,
+  "minTokens": 50,
+  "reporters": ["console"],
+  "threshold": 0
+}

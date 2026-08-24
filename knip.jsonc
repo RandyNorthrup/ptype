@@ -1,0 +1,32 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "src/main.tsx",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "tests/**/*.{test,spec}.ts",
+    "tests/{demo,manual-runner,run-tests}.ts",
+  ],
+  "project": [
+    "src/**/*.{ts,tsx}",
+    "tests/**/*.ts",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "web/vite.config.ts",
+  ],
+  "ignore": ["**/*.d.ts", "build/**", "coverage/**", "dist/**"],
+  "ignoreDependencies": ["prettier", "stylelint-config-standard"],
+  "ignoreExportsUsedInFile": true,
+  "rules": {
+    "binaries": "error",
+    "dependencies": "error",
+    "devDependencies": "error",
+    "duplicates": "error",
+    "enumMembers": "error",
+    "exports": "error",
+    "files": "error",
+    "types": "error",
+    "unlisted": "error",
+    "unresolved": "error",
+  },
+}
