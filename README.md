@@ -2,8 +2,6 @@
 
 A modern, educational typing game where players defend against waves of enemy spaceships by typing words as fast and accurately as possible. Built with React, TypeScript, and Three.js for immersive 3D graphics.
 
-🎮 **Live Demo**: [Deployed on Vercel](https://ptype.vercel.app)
-
 ## Versions
 
 This repository contains two versions:
