@@ -505,6 +505,32 @@ try {
     /CI parity: quality workflow/,
   );
   drill(
+    "conditional CI gate",
+    [".github/workflows/quality.yml"],
+    ["run", "ci:parity"],
+    () => {
+      replace(
+        ".github/workflows/quality.yml",
+        "run: npm run quality",
+        "if: false\n        run: npm run quality",
+      );
+    },
+    /CI parity: quality workflow/,
+  );
+  drill(
+    "conditional commit gate",
+    [".pre-commit-config.yaml"],
+    ["run", "ci:parity"],
+    () => {
+      replace(
+        ".pre-commit-config.yaml",
+        "always_run: true",
+        "always_run: false",
+      );
+    },
+    /CI parity: commit hooks must always run/,
+  );
+  drill(
     "inactive actor frames",
     ["src/entities/EnemyShip.tsx"],
     frames,

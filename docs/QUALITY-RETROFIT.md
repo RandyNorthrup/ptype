@@ -1,6 +1,6 @@
 # Quality retrofit audit
 
-Date: 2026-09-30 (America/Los_Angeles). Independent source, dependency, tooling,
+Started 2026-09-30; current local evidence 2026-10-01 (America/Los_Angeles). Independent source, dependency, tooling,
 and documentation remediation continues under the owner's reiterated
 installation/refactor authorization. This is not a release certification.
 `PLAN.md` owns task state; this report owns rationale and compliance evidence.
@@ -75,7 +75,8 @@ used, or suppressed. Its validity/revocation has not been established. Removing
 the old script from HEAD does not remove history. `security:secrets` still exits
 
 1. Provider revocation requires account access; history rewriting needs an
-   explicit instruction. No history rewrite, push, or deployment was made.
+   explicit instruction. No history rewrite or deployment was made. Topic
+   commits are pushed to [draft PR #4](https://github.com/RandyNorthrup/ptype/pull/4).
 
 Npm and OSV scans of the project locks are clean. An attempted Semgrep Python
 lock exposed 13 PyJWT advisories and an upstream incompatible dependency pin.
@@ -99,8 +100,9 @@ The production browser suite uses isolated muted Chromium at desktop and
 pause/quit cancellation, no overflow, manifest/service worker, and page/console
 errors. Headless playback was reported by the owner during an early check;
 owned browsers were closed immediately. Browser flags and zero fixture volumes
-now prevent audio playback during automation. GPU rendering remains separately
-verified by browser evidence; jsdom coverage excludes WebGL render-loop files.
+now prevent audio playback during automation. Browser checks use SwiftShader
+software WebGL; they do not certify physical GPU hardware. jsdom coverage
+excludes WebGL render-loop files.
 Audible playback, other browser engines, full offline recovery, and hosted CI
 have not been certified by these checks.
 
@@ -118,36 +120,40 @@ node_modules; it never mutates the user's checkout.
 Final receipts and task status are recorded in `PLAN.md`. A deferred check is
 unverified, not green.
 
-| Obligation                                  | Observation                                                                                                               |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Whole-tree formatter                        | Required and exercised; final aggregate is authoritative.                                                                 |
-| Maximum-strictness lint, warnings as errors | Strict typed source/tests, hooks, numeric rules, and correctness canaries.                                                |
-| Strict types                                | Application, tooling, and tests checked; dependency skipLibCheck retained.                                                |
-| Dead code verified                          | Full graph plus strict mode and live canaries; confirmed unused definitions removed.                                      |
-| Unused dependencies                         | Full graph detects a deliberate unused dependency; external tools/public defaults have concrete owners.                   |
-| Explained literals                          | Owned constants; basic indexes, percentages, and midpoint arithmetic retained.                                            |
-| Commented legacy code                       | No retained alternate implementation was introduced; current changes reviewed.                                            |
-| Silent fallback/placeholder behavior        | Retry/empty-load/animation gaps fixed; documented degraded trivia remains observable.                                     |
-| Any/ignore/suppressions                     | No new any or correctness ignores; bounded public/tool/false-positive exceptions documented.                              |
-| Reachable-history secrets                   | Fail: one historical Icons8 credential remains unresolved.                                                                |
-| Dependency audits                           | Npm and both OSV lockfile inventories clean; no vulnerable JWT lock retained.                                             |
-| Lockfiles/locked CI install                 | npm ci --ignore-scripts and hash-checked Python requirements.                                                             |
-| Pinned/least-privilege CI                   | Full SHAs, read-only permissions, no checkout persistence, pedantic workflow gate.                                        |
-| Native sanitizers                           | Not applicable: no owned native-language product source.                                                                  |
-| Tests and coverage floor                    | Nonempty discovery; measured raised floors enforced.                                                                      |
-| Affected sensitivity                        | Repeatable source/gate mutations, intended diagnostics, restoration.                                                      |
-| Maintained drill/green closure              | Required in quality:code and CI; current artifact/receipt governs completion.                                             |
-| Canonical reuse/overlap                     | Configs, managers, UI primitive, ID owner, and suite extended; no second application path.                                |
-| Build                                       | Production Vite/PWA build required; browser tests consume its artifact.                                                   |
-| Pre-commit                                  | Existing installation retained; filename-selector escaping corrected and hooks must run at closeout.                      |
-| CI/local parity                             | CI calls the same declared gates; hosted execution remains unverified.                                                    |
-| README commands                             | Setup/build/watch/preview/gate commands reconciled with executable scripts; long-running tools need bounded smoke checks. |
-| Changelog                                   | Unreleased entry describes actual changes and the remaining incident.                                                     |
+| Obligation                                                     | Status   | Evidence / reason                                                                                                                          |
+| -------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Whole-tree formatter                                           | Pass     | Complete current code aggregate and all-file formatter hooks pass.                                                                         |
+| Maximum-strictness lint, warnings as errors                    | Pass     | Typed source/tests, hooks, numeric rules, correctness canaries; optional-chain finding corrected.                                          |
+| Strict types                                                   | Pass     | Application, tooling, and tests checked; dependency skipLibCheck retained.                                                                 |
+| Dead code verified                                             | Pass     | Full graph plus strict mode and live canaries; consumer searches precede removals.                                                         |
+| Unused dependencies                                            | Pass     | Unused dependency fails; external tools/public defaults have owners; vacuous analyzer and cross-env removed.                               |
+| Explained literals                                             | Pass     | Owned constants and 13 literal-equivalence comparisons; indexes, percentages, midpoint arithmetic retained.                                |
+| Commented legacy code                                          | Pass     | Changed canonical modules reviewed; no alternate implementation introduced.                                                                |
+| Silent fallback/placeholder behavior                           | Pass     | Retry/empty-load/animation gaps fixed; explicit degraded trivia emits production warnings.                                                 |
+| Any/ignore/suppressions                                        | Pass     | No new any/correctness ignores; public/tool/false-positive exceptions bounded and documented.                                              |
+| Reachable-history secrets                                      | Fail     | One historical Icons8 key unresolved; scan exits 1 over 112 commits at recorded checkpoint.                                                |
+| Dependency audits                                              | Pass     | Npm and both OSV locks clean; vulnerable JWT Python lock removed.                                                                          |
+| Lockfiles/locked CI install                                    | Pass     | Locked npm and actual hash-locked Python installation succeed.                                                                             |
+| Pinned/least-privilege CI                                      | Pass     | Full SHAs, read-only permissions, no persisted checkout credentials; actionlint/pedantic zizmor clean.                                     |
+| Native sanitizers                                              | Pass     | Not applicable: no owned native product code. Third-party scanner archives checksum verified.                                              |
+| Tests and coverage floor                                       | Pass     | 25 files / 118 tests; 95.27/83.54/97.30/95.94 exceeds enforced 94/82/97/95.                                                                |
+| Affected sensitivity                                           | Pass     | All 33 intended defects fail; diagnostics and before/restored SHA-256 reviewed.                                                            |
+| Maintained drill/green closure                                 | Pass     | All 33 green/red/restored triples pass; required in quality:code and CI.                                                                   |
+| Canonical reuse/overlap                                        | Pass     | Existing configs, managers, modal, ID owner, and suites enhanced; new gate adapters/harnesses justified.                                   |
+| Build                                                          | Pass     | Production Vite/PWA build passes; browser journeys consume its artifact.                                                                   |
+| Pre-commit                                                     | Pass     | Installed; complete code aggregate and other all-file hooks pass. Automatic ledger line-ending correction passes focused all-file recheck. |
+| CI/local parity                                                | Pass     | Unconditional local aggregate, locked install, build, and always-running commit code gates enforced and drilled.                           |
+| Hosted full aggregate                                          | Deferred | Final pushed runner results require observation; history failure cannot establish full CI/release clearance.                               |
+| README commands                                                | Pass     | Locked setup/build/test/preview/gates exercised; bounded dev/watch inspected and closed. Full required gate correctly fails on history.    |
+| Changelog                                                      | Pass     | Unreleased entry matches fixes, main integration, and open incident.                                                                       |
+| Audible playback / hardware / other engines / offline recovery | Deferred | Muted software Chromium and unit evidence do not certify these surfaces.                                                                   |
 
 ## Next steps
 
-Finish the current aggregate, maintained drills, hook run, and ledger
-reconciliation; their receipts establish independent code completion. Resolve
-the Icons8 credential through the provider and choose a reviewed history
-remediation. Run hosted CI before a release claim. Keep browser automation
-muted and close its owned processes afterward.
+Review [draft PR #4](https://github.com/RandyNorthrup/ptype/pull/4), observe the
+final pushed CI head, and resolve the Icons8 credential through its provider.
+Then choose a reviewed history remediation and rerun the complete required gate
+before merge/release clearance. Keep browser automation muted and close owned
+processes. Current proof is [code validation](verification/code-validation.md)
+and [maintained drills](verification/red-drills.md); PLAN.md owns verified tasks
+and the real history blocker.

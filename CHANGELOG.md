@@ -15,5 +15,9 @@
 - Add native SAST, OSV, pedantic workflow gates, verified scanner downloads,
   measured coverage floors, isolated red drills, and muted browser journeys.
 - Harden checkout credentials, build caches, concurrency, and update cooldowns.
+- Guard local/CI/commit parity against omitted and conditional gates; retain
+  the newer main branch's GitHub Sponsors configuration and dead-link removal.
+- Force the documented interactive test command into watch mode in every
+  environment.
 - Preserve production warnings/errors and reconcile canonical rules and evidence.
 - Keep the historical Icons8 incident open; no history rewrite or release was made.

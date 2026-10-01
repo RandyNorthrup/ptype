@@ -19,36 +19,42 @@ function steps(job: Record<string, unknown>) {
   return value.map((step: unknown) => record(step));
 }
 
-const qualitySteps = steps(
-  workflowJob(".github/workflows/quality.yml", "quality"),
-);
-const gate = qualitySteps.find((step) => step["run"] === "npm run quality");
-if (
-  !gate ||
-  gate["if"] !== undefined ||
-  gate["continue-on-error"] !== undefined
+function requireCommand(
+  job: Record<string, unknown>,
+  command: string,
+  diagnostic: string,
 ) {
-  throw new Error(
-    "CI parity: quality workflow must run the unconditional local quality aggregate",
-  );
+  const step = steps(job).find((candidate) => candidate["run"] === command);
+  if (
+    !step ||
+    step["if"] !== undefined ||
+    step["continue-on-error"] !== undefined ||
+    job["if"] !== undefined ||
+    job["continue-on-error"] !== undefined
+  ) {
+    throw new Error(diagnostic);
+  }
 }
+requireCommand(
+  workflowJob(".github/workflows/quality.yml", "quality"),
+  "npm run quality",
+  "CI parity: quality workflow must run the unconditional local quality aggregate",
+);
 for (const file of [
   ".github/workflows/quality.yml",
   ".github/workflows/build-multiplatform.yml",
 ]) {
-  const jobSteps = steps(
+  requireCommand(
     workflowJob(file, file.includes("multiplatform") ? "build" : "quality"),
+    "npm ci --ignore-scripts",
+    `CI parity: required locked install in ${file}`,
   );
-  if (jobSteps.every((step) => step["run"] !== "npm ci --ignore-scripts"))
-    throw new Error(`CI parity: unlocked install in ${file}`);
 }
-if (
-  steps(
-    workflowJob(".github/workflows/build-multiplatform.yml", "build"),
-  ).every((step) => step["run"] !== "npm run build")
-) {
-  throw new Error("CI parity: platform matrix must use the local build gate");
-}
+requireCommand(
+  workflowJob(".github/workflows/build-multiplatform.yml", "build"),
+  "npm run build",
+  "CI parity: platform matrix must use the unconditional local build gate",
+);
 
 const packageData: unknown = JSON.parse(readFileSync("package.json", "utf8"));
 const scripts = record(record(packageData)["scripts"]);
@@ -97,14 +103,21 @@ const local = repositories
   .map((repo: unknown) => record(repo))
   .find((repo) => repo["repo"] === "local");
 const hooks = local?.["hooks"];
+const gateHook = Array.isArray(hooks)
+  ? hooks
+      .map((hook: unknown) => record(hook))
+      .find((hook) => hook["entry"] === "npm run quality:code")
+  : undefined;
 if (
-  !Array.isArray(hooks) ||
-  hooks.every(
-    (hook: unknown) => record(hook)["entry"] !== "npm run quality:code",
-  )
+  gateHook?.["always_run"] !== true ||
+  gateHook["pass_filenames"] !== false ||
+  gateHook["language"] !== "system" ||
+  gateHook["stages"] !== undefined ||
+  gateHook["files"] !== undefined ||
+  gateHook["exclude"] !== undefined
 ) {
   throw new Error(
-    "CI parity: commit hooks must run the complete code gate aggregate",
+    "CI parity: commit hooks must always run the complete code gate aggregate",
   );
 }
 process.stdout.write(

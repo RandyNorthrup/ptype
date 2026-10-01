@@ -1,6 +1,6 @@
 # Project instructions
 
-Rules revision: 2 (2026-09-30).
+Rules revision: 3 (2026-09-30).
 
 - Always use the `/caveman` skill for conversation. Write code, comments,
   documentation, and commit messages in normal English.
@@ -16,6 +16,9 @@ Rules revision: 2 (2026-09-30).
   another implementation. Extend existing responsibilities; remove stale callers.
 - Keep changes in reviewable phases. Preserve existing strict rules, fix root
   causes, and narrowly justify any unavoidable exceptions.
+- Commit reviewable increments regularly and open/update pull requests during
+  delivery. Run the same local gates as CI before merge; keep unresolved gates
+  visible in a draft PR. Do not bypass commit hooks or omit required CI checks.
 - Maintain repeatable red drills that require the intended failure, exact
   restoration, and restored green. A skipped check is not passing evidence.
 - Keep `PLAN.md` canonical for delivery state and `docs/QUALITY-RETROFIT.md`
@@ -36,3 +39,7 @@ amendment affects the current retrofit's workflow, not its security acceptance.
 
 Revision 2 follows the owner's report that a headless smoke check played through
 their speakers. It adds the muted-browser rule and affects browser verification.
+
+Revision 3 follows the owner's explicit request for frequent commits, pull
+requests, and local/CI gate parity. It adds that delivery rule and affects the
+retrofit's verification and PR workflow.

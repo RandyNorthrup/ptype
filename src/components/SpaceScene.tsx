@@ -41,6 +41,8 @@ const TUNING = {
   asteroidPitchSalt: 12,
   asteroidYawSalt: 13,
   asteroidRollSalt: 14,
+  asteroidRotationRange: 0.5,
+  cloudOpacity: 0.5,
   minimumAsteroidSize: 3,
   asteroidSizeSalt: 11,
   asteroidSizeRange: 8,
@@ -54,8 +56,8 @@ const NEBULA_CLOUD_COLORS = [
 
 function createParticleTexture(): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
-  canvas.width = 32;
-  canvas.height = 32;
+  canvas.width = TUNING.particleTextureSizePx;
+  canvas.height = TUNING.particleTextureSizePx;
   const context = canvas.getContext("2d");
   if (!context) throw new Error("Canvas 2D context is unavailable");
   const gradient = context.createRadialGradient(
@@ -306,7 +308,7 @@ function NebulaClouds() {
             size={5}
             vertexColors
             transparent
-            opacity={0.5}
+            opacity={TUNING.cloudOpacity}
             sizeAttenuation
             depthWrite={false}
             blending={THREE.AdditiveBlending}
@@ -333,9 +335,12 @@ export function SpaceScene() {
             TUNING.asteroidDepthRange,
       ];
       const rotationSpeed: [number, number, number] = [
-        (deterministicRandom(index, TUNING.asteroidPitchSalt) - 0.5) * 0.5,
-        (deterministicRandom(index, TUNING.asteroidYawSalt) - 0.5) * 0.5,
-        (deterministicRandom(index, TUNING.asteroidRollSalt) - 0.5) * 0.5,
+        (deterministicRandom(index, TUNING.asteroidPitchSalt) - 0.5) *
+          TUNING.asteroidRotationRange,
+        (deterministicRandom(index, TUNING.asteroidYawSalt) - 0.5) *
+          TUNING.asteroidRotationRange,
+        (deterministicRandom(index, TUNING.asteroidRollSalt) - 0.5) *
+          TUNING.asteroidRotationRange,
       ];
       return {
         position,

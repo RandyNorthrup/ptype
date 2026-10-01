@@ -61,6 +61,7 @@ const TUNING = {
   initialCameraDepth: -35,
   keyLightOffset: 10,
   keyLightDepth: 5,
+  keyLightIntensity: 0.5,
 } as const;
 
 const ACTIVE_GAME_MODES = new Set<GameMode>([
@@ -305,7 +306,7 @@ function App() {
                 TUNING.keyLightOffset,
                 TUNING.keyLightDepth,
               ]}
-              intensity={0.5}
+              intensity={TUNING.keyLightIntensity}
             />
 
             {/* Always show space background */}

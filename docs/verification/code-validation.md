@@ -1,0 +1,15 @@
+# Local code validation
+
+Observed 2026-10-01, Windows, Node v24.20.0, npm 11.19.0, Python 3.14.0. Both locks and actual tool versions are bound in PLAN.md.
+
+- `npm ci --ignore-scripts`: exit 0, 758 packages, no audit findings. The later script-only watch change preserves the dependency graph.
+- `python -m pip install --require-hashes -r requirements-quality.txt` in task-owned `.quality-tools/python`: exit 0, all 12 pinned packages installed. Existing global environments retained.
+- `pre-commit install`: exit 0. In the all-file hook run, `npm run quality:code` exited 0 and all other hooks passed. The parent `pre-commit run --all-files` returned 1 solely because PLAN line endings were normalized. `pre-commit run mixed-line-ending --all-files` then exited 0. Earlier optional-chain lint and artifact-formatting failures were corrected and independently rechecked; no rule weakening or bypass.
+- The code aggregate executed formatter, typed lint, CSS/HTML, types, tests, dead code, cycles, duplicates, npm/OSV, workflow checks, source secrets, native SAST, build, all 33 maintained red drills, and both desktop/narrow production-browser journeys. Required leaves were not omitted. Browsers launch with --mute-audio and zero fixture volumes.
+- Unit inventory remains 25 files / 118 passing tests. Current coverage: statements 95.27% (1613/1693), branches 83.54% (711/851), functions 97.30% (397/408), lines 95.94% (1515/1579). Enforced floors: 94/82/97/95. Scene tests use real callbacks with mocked model/font/audio boundaries; software WebGL integration uses separate browser journeys.
+- Bounded `npm run test:watch -- tests/unit/triviaDatabase.test.ts`: 14 tests pass, DEV mode, Waiting for file changes, then clean q exit. Explicit --watch fixes the earlier one-shot behavior.
+- Bounded `npm run dev -- --host 127.0.0.1 --port 4184 --strictPort`: Vite ready; agent-browser inspected the main menu via task-owned muted Chromium. WebGL2 exists, page errors empty, no horizontal overflow, volumes zero. Screenshot visually inspected. Native agent-browser initially failed WebGL startup; explicit Playwright Chromium succeeded. Third-party THREE.Clock deprecation warning remains visible. Owned browser/helper/dev/watch processes closed; user browser preserved.
+- Preview/build are exercised by browser tests. Pure-literal AST equivalence passes for all 13 applicable modules against 4f4d77f. Functional actor/game-loop/modal/trivia/live-target changes instead have behavior tests and drills.
+- `npm run security:secrets`: exit 1, 112 commits scanned, one historical Icons8 finding. No value displayed, used, or suppressed. Release/merge clearance remains blocked. Draft PR: https://github.com/RandyNorthrup/ptype/pull/4. Main integration preserves Sponsors configuration and dead-demo-link removal. Hosted results require separate observation.
+
+Semantic review reconciled canonical paths, consumers, new gate responsibilities, exact restoration, and documentation. These local observations do not certify physical GPU hardware, audible playback, other engines, complete offline recovery, or release readiness.

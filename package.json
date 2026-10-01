@@ -24,7 +24,7 @@
     "typecheck": "tsc --noEmit && tsc -p tsconfig.node.json --noEmit && tsc -p tests/tsconfig.json --noEmit",
     "test": "vitest run --coverage",
     "test:unit": "vitest run",
-    "test:watch": "vitest",
+    "test:watch": "vitest --watch",
     "deadcode": "knip && knip --strict",
     "cycles": "dpdm --no-warning --no-tree --exit-code circular:1 src/main.tsx",
     "duplicates": "jscpd --config .jscpd.json",

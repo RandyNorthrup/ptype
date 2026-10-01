@@ -40,10 +40,16 @@ const TUNING = {
   bossDebrisCount: 20,
   regularDebrisCount: 12,
   minimumDebrisSpeed: 0.4,
+  debrisSpeedRange: 0.5,
   minimumDebrisUpwardSpeed: 0.1,
   debrisUpwardSpeedRange: 0.2,
   debrisVerticalSpeedRange: 0.3,
   minimumDebrisScale: 0.3,
+  debrisScaleRange: 0.5,
+  minimumMovementDistance: 0.5,
+  debrisBoxSize: 0.5,
+  debrisEmissiveIntensity: 0.5,
+  bossHealthBarBackgroundHeight: 0.5,
   minimumDebrisLifeFrames: 25,
   debrisLifeRangeFrames: 15,
   destructionDurationMs: 500,
@@ -355,7 +361,7 @@ const EnemyShipComponent = ({
         }
       }
 
-      if (distance > 0.5) {
+      if (distance > TUNING.minimumMovementDistance) {
         // Move at constant speed toward player
         const normalizedDx = (dx / distance) * enemy.speed * delta;
         const normalizedDy = (dy / distance) * enemy.speed * delta;
@@ -488,7 +494,8 @@ const EnemyShipComponent = ({
 
     for (let index = 0; index < debrisCount; index++) {
       const angle = (Math.PI * 2 * index) / debrisCount;
-      const speed = TUNING.minimumDebrisSpeed + Math.random() * 0.5;
+      const speed =
+        TUNING.minimumDebrisSpeed + Math.random() * TUNING.debrisSpeedRange;
       const upwardBias =
         TUNING.minimumDebrisUpwardSpeed +
         Math.random() * TUNING.debrisUpwardSpeedRange;
@@ -501,7 +508,8 @@ const EnemyShipComponent = ({
           Math.sin(angle) * speed,
         ),
         ...createParticleRotation(),
-        scale: TUNING.minimumDebrisScale + Math.random() * 0.5,
+        scale:
+          TUNING.minimumDebrisScale + Math.random() * TUNING.debrisScaleRange,
         opacity: 1,
         life:
           TUNING.minimumDebrisLifeFrames +
@@ -653,7 +661,12 @@ const EnemyShipComponent = ({
         <group position={[0, TUNING.bossHealthBarHeight, 0]}>
           {/* Background */}
           <mesh>
-            <planeGeometry args={[TUNING.bossHealthBarWidth, 0.5]} />
+            <planeGeometry
+              args={[
+                TUNING.bossHealthBarWidth,
+                TUNING.bossHealthBarBackgroundHeight,
+              ]}
+            />
             <meshBasicMaterial color="#333333" />
           </mesh>
           {/* Health fill */}
@@ -700,13 +713,19 @@ const EnemyShipComponent = ({
           rotation={particle.rotation}
           scale={particle.scale}
         >
-          <boxGeometry args={[0.5, 0.5, 0.5]} />
+          <boxGeometry
+            args={[
+              TUNING.debrisBoxSize,
+              TUNING.debrisBoxSize,
+              TUNING.debrisBoxSize,
+            ]}
+          />
           <meshStandardMaterial
             color={particle.color}
             opacity={particle.opacity}
             transparent
             emissive={particle.color}
-            emissiveIntensity={0.5}
+            emissiveIntensity={TUNING.debrisEmissiveIntensity}
           />
         </mesh>
       ))}

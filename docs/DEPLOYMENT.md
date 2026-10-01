@@ -8,7 +8,7 @@ secrets, or required environment variables. The production artifact is `dist/`.
 Use the locked toolchain declared in `package.json`:
 
 ```bash
-npm ci
+npm ci --ignore-scripts
 npm run quality
 ```
 
@@ -28,13 +28,13 @@ permissions, referrer, framing, and MIME-sniffing protections.
 
 Expected project settings:
 
-| Setting          | Value           |
-| ---------------- | --------------- |
-| Framework preset | Vite            |
-| Install command  | `npm ci`        |
-| Build command    | `npm run build` |
-| Output directory | `dist`          |
-| Node.js runtime  | 24.x            |
+| Setting          | Value                     |
+| ---------------- | ------------------------- |
+| Framework preset | Vite                      |
+| Install command  | `npm ci --ignore-scripts` |
+| Build command    | `npm run build`           |
+| Output directory | `dist`                    |
+| Node.js runtime  | 24.x                      |
 
 No redirects or API rewrites are required. The PWA configuration deliberately
 does not install a navigation fallback; static hosting must serve `/` as the
@@ -127,3 +127,8 @@ npm run security:secrets
 release clearance. Browser tests mute the browser and seed zero test volumes;
 they verify rendering and interaction, not audible playback. Close owned
 manual browser sessions and preview servers after verification.
+
+`npm run ci:parity` checks that workflows use the unconditional local aggregate,
+locked installs, and build command, and that every commit runs the complete code
+aggregate. The parity drills deliberately skip CI and commit gates and require
+rejection. Keep unresolved release gates visible in a draft PR.

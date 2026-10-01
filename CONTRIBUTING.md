@@ -8,8 +8,8 @@ and supported by executable evidence.
 Use Node.js 24.4+ and npm 11.4.2+:
 
 ```bash
-npm ci
-python -m pip install pre-commit
+npm ci --ignore-scripts
+python -m pip install --require-hashes -r requirements-quality.txt
 pre-commit install
 pre-commit run --all-files
 ```
@@ -38,7 +38,7 @@ possible so review history stays useful. Do not commit generated `dist/`,
 Vitest enforces measured global floors: 94% statements, 82% branches, 97%
 functions, and 95% lines. jsdom covers application orchestration, UI, state, content loaders, and
 domain logic. Scene tests exercise real frame callbacks with the React Three test renderer;
-GPU rendering still requires the production-browser gate. Browser automation
+Production WebGL integration still requires the browser gate. Browser automation
 must use isolated profiles, `--mute-audio`, and zero test audio volumes.
 
 An accessibility regression is a functional regression. Component tests use
@@ -52,6 +52,11 @@ replace keyboard and responsive browser verification.
 - Keep the lockfile synchronized with `package.json`.
 - Never commit credentials, private keys, tokens, or production user data.
 - Report any release or browser verification limitation explicitly.
+- Commit reviewable increments regularly and open/update a PR during delivery.
+- Every commit runs the complete `quality:code` aggregate. CI runs `quality`,
+  adding the required reachable-history scan. `ci:parity` rejects missing or
+  conditional gates. Run the full local aggregate before merge and report any
+  remaining history blocker in a draft PR; never bypass hooks.
 
 Run `npm run test:red` after gate, behavior, fixture, or tool changes. The harness
 uses a disposable repository, verifies intended diagnostics and nonzero exits,

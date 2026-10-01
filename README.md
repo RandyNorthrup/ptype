@@ -7,8 +7,6 @@ ships, survive boss waves, answer trivia, and earn power-ups and achievements.
 The application is a React and Three.js progressive web app with all game data
 and assets stored in this repository.
 
-**Play:** [ptype.vercel.app](https://ptype.vercel.app)
-
 ## Gameplay
 
 - Normal mode uses tiered English word lists.
@@ -50,7 +48,7 @@ Requirements:
 Install the locked dependency graph and start Vite:
 
 ```bash
-npm ci
+npm ci --ignore-scripts
 npm run dev
 ```
 
@@ -118,14 +116,17 @@ docs/           Content and deployment documentation
 Install the repository hooks after cloning:
 
 ```bash
-python -m pip install pre-commit
+python -m pip install --require-hashes -r requirements-quality.txt
 pre-commit install
 pre-commit run --all-files
 ```
 
-The hooks enforce formatting, lint, strict types, dead-code detection, secret
-scanning, and dependency auditing before affected commits. CI repeats the
-portable release gates on every pull request and push to the default branches.
+Every commit runs the complete `quality:code` aggregate and staged-secret hooks.
+CI runs the same `quality` aggregate as local, including the required history
+scan. `ci:parity` rejects missing or conditional CI gates and skipped commit
+aggregates. Keep commits reviewable, open pull requests during delivery, and
+leave unresolved gates visible in a draft PR. CI runs on every pull request and
+push to the default branches.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the change workflow and
 [SECURITY.md](SECURITY.md) for private vulnerability reporting.
 
