@@ -120,6 +120,12 @@ node_modules; it never mutates the user's checkout.
 Final receipts and task status are recorded in `PLAN.md`. A deferred check is
 unverified, not green.
 
+Hosted checks at `89b17a1dc38603228ebeb42502494c6143d0d4ed` match the local code
+gate results: all 118 tests, 33 drills, and both browser journeys passed.
+Windows/macOS/Linux builds also passed. The complete Quality job failed only
+at the required history scan with the same one finding. See
+[hosted evidence](verification/ci-validation.md) for exact run links and scope.
+
 | Obligation                                                     | Status   | Evidence / reason                                                                                                                          |
 | -------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Whole-tree formatter                                           | Pass     | Complete current code aggregate and all-file formatter hooks pass.                                                                         |
@@ -143,7 +149,7 @@ unverified, not green.
 | Build                                                          | Pass     | Production Vite/PWA build passes; browser journeys consume its artifact.                                                                   |
 | Pre-commit                                                     | Pass     | Installed; complete code aggregate and other all-file hooks pass. Automatic ledger line-ending correction passes focused all-file recheck. |
 | CI/local parity                                                | Pass     | Unconditional local aggregate, locked install, build, and always-running commit code gates enforced and drilled.                           |
-| Hosted full aggregate                                          | Deferred | Final pushed runner results require observation; history failure cannot establish full CI/release clearance.                               |
+| Hosted full aggregate                                          | Fail     | Observed at 89b17a1: all code gates and three platform builds pass; Quality fails only on the same historical credential.                  |
 | README commands                                                | Pass     | Locked setup/build/test/preview/gates exercised; bounded dev/watch inspected and closed. Full required gate correctly fails on history.    |
 | Changelog                                                      | Pass     | Unreleased entry matches fixes, main integration, and open incident.                                                                       |
 | Audible playback / hardware / other engines / offline recovery | Deferred | Muted software Chromium and unit evidence do not certify these surfaces.                                                                   |

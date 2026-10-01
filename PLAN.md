@@ -404,7 +404,8 @@ The owner explicitly requested frequent commits, open pull requests, and local g
         "EV-READY2-AC-DOCS",
         "EV-READY3-AC-DOCS",
         "EV-READY4-AC-DOCS",
-        "EV-DOCS-AC-DOCS"
+        "EV-DOCS-AC-DOCS",
+        "EV-HOSTED-DOCS"
       ],
       "blocker": null,
       "superseded_by": null
@@ -1903,7 +1904,7 @@ The owner explicitly requested frequent commits, open pull requests, and local g
         "AC-DOCS"
       ],
       "kind": "manual",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Reviewed all README commands against actual bounded development/watch/preview startup, locked installs, all-file hooks and executed gates. Reconciled counts, software WebGL scope, open history incident, draft PR/main integration, and explicit pass/fail/deferred audit rows.",
       "environment": {
@@ -1982,7 +1983,7 @@ The owner explicitly requested frequent commits, open pull requests, and local g
       ],
       "scope_sha256": "68324f1b18c451d10aa71c2aab9a19cd715541dd567f7ae4980ec9e1b33737af",
       "red": null,
-      "reason": null
+      "reason": "Hosted CI completed; audit/changelog now record actual results. Re-review the updated documentation."
     },
     {
       "id": "EV-HISTORY-AC-HISTORY",
@@ -2042,6 +2043,93 @@ The owner explicitly requested frequent commits, open pull requests, and local g
       "scope_sha256": "e261b235545a8aba3c44da047d2b633662e828c360ade9d47e1adecd917d748d",
       "red": null,
       "reason": "Provider revocation remains unverified; revoke/rotate through the Icons8 account, then obtain explicit history-remediation authorization and rerun the full history gate."
+    },
+    {
+      "id": "EV-HOSTED-DOCS",
+      "acceptance": [
+        "AC-DOCS"
+      ],
+      "kind": "manual",
+      "status": "pass",
+      "command": [],
+      "method": "Read actual completed hosted logs and exact head/run identities. Reconciled successful platform builds, every passing code gate, 118 tests, 33 red drills, two browser journeys, and the shared failing history gate with updated audit/changelog; preserved prior local command and scope evidence.",
+      "environment": {
+        "platform": "windows",
+        "tools": {
+          "python": "3.14.0",
+          "node": "v24.20.0",
+          "npm": "11.19.0",
+          "typescript": "6.0.3",
+          "eslint": "10.9.0",
+          "vitest": "4.1.11",
+          "playwright": "1.63.0",
+          "react-three-test-renderer": "9.1.1",
+          "gitleaks": "8.30.1",
+          "actionlint": "1.7.12",
+          "zizmor": "1.25.2",
+          "osv-scanner": "2.6.0",
+          "opengrep-core": "1.30.0",
+          "pre-commit": "4.5.1"
+        }
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/ci-validation.md",
+        "sha256": "da0f53671fadbd15194d6695359fce8dcf8bc721f38feb5ca1aed7e5861d95bd"
+      },
+      "inputs": [
+        {
+          "path": ".github/.copilot-instructions.md",
+          "sha256": "af7c5e1bf5655378562e52a61da65788015ce260fcce3e349943f90382e79be7"
+        },
+        {
+          "path": ".github/FUNDING.yml",
+          "sha256": "bae242d028ca1f0a3a5ca6ad67bf3f612dd24d3abc85c573d12f89816a4e0d75"
+        },
+        {
+          "path": "AGENTS.md",
+          "sha256": "01a91adc3f559834a0825dbbc6bd6d435b6b2333737db0036fabc44fb6aa822b"
+        },
+        {
+          "path": "CHANGELOG.md",
+          "sha256": "3e67a8f051ab0c36dc380cac724d70f70661c7a592cdc057b9bb4c4eacf544bf"
+        },
+        {
+          "path": "CONTRIBUTING.md",
+          "sha256": "8b397f1a9bed3d1f4952e9df63f729e39cd1d0a9864f276b3553d9356c855153"
+        },
+        {
+          "path": "README.md",
+          "sha256": "e0829e537211a7fde4e68f31011752b41eb97b1fc98eea1c6caf91b588fc1c97"
+        },
+        {
+          "path": "docs/CONTENT.md",
+          "sha256": "c12f8c96c7214099c59507162914e64cf270004bba177909d98123d326bbd019"
+        },
+        {
+          "path": "docs/DEPLOYMENT.md",
+          "sha256": "cbe111f810777cde002b21680010fa7b13b43135dbe53b3eb41b5b4a5e02326b"
+        },
+        {
+          "path": "docs/QUALITY-RETROFIT.md",
+          "sha256": "772c6adfdf8bc47067cd43a2f97878db9c8a80267b7a7813f3c554b8894d3bb2"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "5bf787f9190a6b4688fbed7226fbf7414684d03d9021976c93945bf20ec88ff9"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "68324f1b18c451d10aa71c2aab9a19cd715541dd567f7ae4980ec9e1b33737af",
+      "red": null,
+      "reason": null
     }
   ],
   "checkpoint": {
@@ -2089,7 +2177,7 @@ The owner explicitly requested frequent commits, open pull requests, and local g
       },
       {
         "path": "CHANGELOG.md",
-        "sha256": "fa5326e6b3edfb8461c7179bbbe6eec5d964cc09ab4ee7b3f08eaf7112efd13e"
+        "sha256": "3e67a8f051ab0c36dc380cac724d70f70661c7a592cdc057b9bb4c4eacf544bf"
       },
       {
         "path": "CONTRIBUTING.md",
@@ -2113,7 +2201,7 @@ The owner explicitly requested frequent commits, open pull requests, and local g
       },
       {
         "path": "docs/QUALITY-RETROFIT.md",
-        "sha256": "2920249ce7f077a2affe9caab330d19fdc1ad43bd6046c2f2b6d6089c2226542"
+        "sha256": "772c6adfdf8bc47067cd43a2f97878db9c8a80267b7a7813f3c554b8894d3bb2"
       },
       {
         "path": "eslint.config.mjs",
@@ -2297,8 +2385,8 @@ The owner explicitly requested frequent commits, open pull requests, and local g
       "TASK-DOCS"
     ],
     "pending_operations": [],
-    "next_action": "Observe final PR CI at the pushed head; resolve the historical Icons8 credential and obtain explicit history-remediation authorization before release or merge clearance.",
-    "source_revision": "a6b484519b1f88c4cd6fcec7fc6bc352b9485532"
+    "next_action": "Observe the pushed documentation head checks; resolve the Icons8 credential and explicitly authorize reviewed history remediation before merge/release clearance.",
+    "source_revision": "89b17a1dc38603228ebeb42502494c6143d0d4ed"
   }
 }
 ```

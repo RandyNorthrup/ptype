@@ -19,5 +19,7 @@
   the newer main branch's GitHub Sponsors configuration and dead-link removal.
 - Force the documented interactive test command into watch mode in every
   environment.
+- Verify matching code gates in hosted Linux CI and successful Windows/macOS/
+  Linux builds; record the shared historical-key failure without suppressing it.
 - Preserve production warnings/errors and reconcile canonical rules and evidence.
 - Keep the historical Icons8 incident open; no history rewrite or release was made.
