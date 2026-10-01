@@ -7,6 +7,7 @@ import type { ProgrammingLanguage } from "../types";
 import { GameMode, LANGUAGE_FILE_MAP } from "../types";
 import { load as loadYAML } from "js-yaml";
 import { warn, error as logError } from "./logger";
+import { publicAssetUrl } from "./publicAssetUrl";
 
 export interface WordData {
   keywords: {
@@ -82,7 +83,9 @@ export class WordDictionary {
   private async fetchDictionary(language: string): Promise<WordData> {
     try {
       // Try to load from data folder
-      const response = await fetch(`/data/${language}_words.yaml`);
+      const response = await fetch(
+        publicAssetUrl(`data/${language}_words.yaml`),
+      );
 
       if (!response.ok) {
         throw new Error(

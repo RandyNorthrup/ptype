@@ -7,9 +7,13 @@ function record(value: unknown): Record<string, unknown> {
   return value as Record<string, unknown>;
 }
 
-function workflowJob(file: string, name: string) {
+function workflow(file: string) {
   const yaml: unknown = load(readFileSync(file, "utf8"));
-  return record(record(record(yaml)["jobs"])[name]);
+  return record(yaml);
+}
+
+function workflowJob(file: string, name: string) {
+  return record(record(workflow(file)["jobs"])[name]);
 }
 
 function steps(job: Record<string, unknown>) {
@@ -44,6 +48,12 @@ for (const file of [
   ".github/workflows/quality.yml",
   ".github/workflows/build-multiplatform.yml",
 ]) {
+  const tags = record(record(workflow(file)["on"])["push"])["tags"];
+  if (!Array.isArray(tags) || !tags.includes("v*")) {
+    throw new Error(
+      `CI parity: release tags must run required gates in ${file}`,
+    );
+  }
   requireCommand(
     workflowJob(file, file.includes("multiplatform") ? "build" : "quality"),
     "npm ci --ignore-scripts",
@@ -55,6 +65,19 @@ requireCommand(
   "npm run build",
   "CI parity: platform matrix must use the unconditional local build gate",
 );
+const pagesBuild = workflowJob(".github/workflows/pages.yml", "build");
+if (
+  steps(pagesBuild).every((step) => step["run"] !== "npm run build") ||
+  steps(pagesBuild).every(
+    (step) =>
+      typeof step["run"] !== "string" ||
+      !step["run"].includes("node tests/deployment-gate.ts"),
+  )
+) {
+  throw new Error(
+    "CI parity: Pages must verify required checks and use the local build",
+  );
+}
 
 const packageData: unknown = JSON.parse(readFileSync("package.json", "utf8"));
 const scripts = record(record(packageData)["scripts"]);

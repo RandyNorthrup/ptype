@@ -46,6 +46,7 @@ import { useGameStore } from "./store/gameContext";
 import { GameMode, type Achievement, type BonusItem } from "./types";
 import { wordDictionary } from "./utils/wordDictionary";
 import { triviaDatabase } from "./utils/triviaDatabase";
+import { publicAssetUrl } from "./utils/publicAssetUrl";
 import { getAudioManager } from "./utils/audioManager";
 import {
   achievementsManager,
@@ -159,8 +160,12 @@ function App() {
         void loadBackgroundGameData();
 
         // Queue additional assets for background loading
-        resourcePreloader.queueAsset("/assets/models/ships/enemy-fast.glb");
-        resourcePreloader.queueAsset("/assets/models/ships/enemy-boss.glb");
+        resourcePreloader.queueAsset(
+          publicAssetUrl("assets/models/ships/enemy-fast.glb"),
+        );
+        resourcePreloader.queueAsset(
+          publicAssetUrl("assets/models/ships/enemy-boss.glb"),
+        );
 
         // Initialize achievements manager with saved data
         setLoadingStatus("Loading achievements...");

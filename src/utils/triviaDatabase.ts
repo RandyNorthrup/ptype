@@ -13,6 +13,7 @@ import {
 } from "../types";
 import { load as loadYAML } from "js-yaml";
 import { info, warn, error as logError } from "./logger";
+import { publicAssetUrl } from "./publicAssetUrl";
 
 type TriviaDifficulty = "beginner" | "intermediate" | "advanced";
 type TriviaCategoryData = Partial<Record<TriviaDifficulty, TriviaQuestion[]>>;
@@ -145,7 +146,7 @@ export class TriviaDatabase {
 
     this.loadPromise = (async () => {
       try {
-        const response = await fetch("/data/trivia.yaml");
+        const response = await fetch(publicAssetUrl("data/trivia.yaml"));
         if (!response.ok) {
           throw new Error(
             `Failed to load trivia: ${response.status.toString()}`,

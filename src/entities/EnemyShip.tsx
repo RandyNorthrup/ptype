@@ -9,6 +9,7 @@ import { useGLTF, Text } from "@react-three/drei";
 import * as THREE from "three";
 import type { Enemy as EnemyType } from "../types";
 import { getEnemyLetterId } from "../utils/testIds";
+import { publicAssetUrl } from "../utils/publicAssetUrl";
 
 const TUNING = {
   letterParticleCount: 3,
@@ -142,12 +143,12 @@ function cloneParticleForFrame<
 // Map enemy types to model files
 function getEnemyModelPath(enemy: EnemyType): string {
   if (enemy.isBoss) {
-    return "/assets/models/ships/enemy-boss.glb";
+    return publicAssetUrl("assets/models/ships/enemy-boss.glb");
   }
 
   // Use the enemy type from the enemy object
   const type = enemy.enemyType ?? "basic";
-  return `/assets/models/ships/enemy-${type}.glb`;
+  return publicAssetUrl(`assets/models/ships/enemy-${type}.glb`);
 }
 
 const EnemyShipComponent = ({
@@ -599,7 +600,7 @@ const EnemyShipComponent = ({
                   anchorY="middle"
                   outlineWidth={TUNING.wordOutlineRatio * (dynamicFontSize / 1)}
                   outlineColor="#ff4400"
-                  font="/assets/fonts/Orbitron-Regular.ttf"
+                  font={publicAssetUrl("assets/fonts/Orbitron-Regular.ttf")}
                   userData={{
                     testId: getEnemyLetterId(enemy, actualIndex),
                   }}
@@ -625,7 +626,7 @@ const EnemyShipComponent = ({
                 anchorY="middle"
                 outlineWidth={TUNING.particleOutlineRatio * particle.scale}
                 outlineColor="#ff4400"
-                font="/assets/fonts/Orbitron-Regular.ttf"
+                font={publicAssetUrl("assets/fonts/Orbitron-Regular.ttf")}
               >
                 {particle.letter}
               </Text>

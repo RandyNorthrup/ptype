@@ -6,6 +6,7 @@ import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import type * as THREE from "three";
+import { publicAssetUrl } from "../utils/publicAssetUrl";
 
 const TUNING = {
   verticalBobAmplitude: 0.2,
@@ -13,7 +14,7 @@ const TUNING = {
   playerDepth: -20,
 } as const;
 
-const MODEL_PATH = "/assets/models/ships/player-ship.glb";
+const MODEL_PATH = publicAssetUrl("assets/models/ships/player-ship.glb");
 
 export function PlayerShip() {
   const groupReference = useRef<THREE.Group>(null);

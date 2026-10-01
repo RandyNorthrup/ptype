@@ -3,6 +3,7 @@ name: Quality
 on:
   push:
     branches: [main, master]
+    tags: ["v*"]
   pull_request:
     branches: [main, master]
   workflow_dispatch:
@@ -31,7 +32,7 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
-          cache: npm
+          package-manager-cache: false
 
       - name: Install locked dependencies
         run: npm ci --ignore-scripts
@@ -68,3 +69,16 @@ jobs:
 
       - name: Run the same required gates as local
         run: npm run quality
+
+  pages:
+    name: Publish verified Pages site
+    needs: quality
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    permissions:
+      contents: read
+      checks: read # The reusable workflow verifies completed required checks.
+      pages: write # Only its deployment job publishes the Pages artifact.
+      id-token: write # Pages requires OIDC bound to the protected environment.
+    uses: ./.github/workflows/pages.yml

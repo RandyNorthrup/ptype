@@ -10,7 +10,7 @@ export default defineConfig({
   retries: 0,
   reporter: "list",
   use: {
-    baseURL: "http://127.0.0.1:4173",
+    baseURL: "http://127.0.0.1:4173/ptype/",
     trace: "retain-on-failure",
     launchOptions: {
       args: [
@@ -27,7 +27,7 @@ export default defineConfig({
   ],
   webServer: {
     command: "npm run preview -- --host 127.0.0.1 --port 4173 --strictPort",
-    url: "http://127.0.0.1:4173",
+    url: "http://127.0.0.1:4173/ptype/",
     reuseExistingServer: false,
   },
 });

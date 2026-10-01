@@ -3,6 +3,8 @@
  * Handles background music and sound effects using a single shared AudioContext
  */
 
+import { publicAssetUrl } from "./publicAssetUrl";
+
 const AUDIO_CONFIG = {
   defaultMusicVolume: 0.5,
   defaultSfxVolume: 0.7,
@@ -59,7 +61,7 @@ export class AudioManager {
 
   constructor() {
     // Initialize background music
-    this.bgMusic = new Audio("/assets/sounds/game_music.mp3");
+    this.bgMusic = new Audio(publicAssetUrl("assets/sounds/game_music.mp3"));
     this.bgMusic.loop = true;
     this.bgMusic.volume = this.musicVolume;
 

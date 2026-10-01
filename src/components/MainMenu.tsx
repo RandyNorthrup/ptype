@@ -17,6 +17,8 @@ import { SettingsMenu } from "./SettingsMenu";
 import { error as logError } from "../utils/logger";
 import { ModalShell } from "./ModalShell";
 import { NeonButton } from "./NeonButton";
+import { version } from "../../package.json";
+import { publicAssetUrl } from "../utils/publicAssetUrl";
 
 const TUNING = {
   unselectedModeOpacity: 0.85,
@@ -154,7 +156,7 @@ const MainMenuComponent = () => {
           }}
         >
           <img
-            src="/assets/images/ptype_logo.png"
+            src={publicAssetUrl("assets/images/ptype_logo.png")}
             alt="P-Type Logo"
             data-testid="main-menu-logo"
             style={{
@@ -516,7 +518,7 @@ const MainMenuComponent = () => {
               P-Type
             </h1>
             <p style={{ color: "#00d4ff", marginBottom: "0.25rem" }}>
-              Version 2.0.0
+              Version {version}
             </p>
             <p
               style={{

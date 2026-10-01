@@ -181,3 +181,7 @@ secrets/
 .quality-tools/
 docs/verification/*.log
 docs/verification/*-summary.json
+
+
+# Temporary Stuff
+temp/

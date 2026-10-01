@@ -8,6 +8,7 @@
     "tests/red-drills.ts",
     "tests/code-scan.ts",
     "tests/ci-parity.ts",
+    "tests/deployment-gate.ts",
     "tests/e2e/**/*.spec.ts",
     "tests/**/*.{test,spec}.{ts,tsx}",
   ],

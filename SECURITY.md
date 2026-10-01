@@ -18,8 +18,8 @@ reasonable time for triage and remediation before disclosure.
 
 ## Supported versions
 
-Security fixes target the current default branch and the current Vercel
-deployment. Historical commits and locally modified builds are not maintained
+Security fixes target the current default branch and the verified GitHub Pages
+deployment when published. Historical commits and locally modified builds are not maintained
 as separate supported release lines.
 
 ## Project security boundaries
@@ -29,8 +29,11 @@ scores, and achievement progress in browser storage; this data is not a secure
 or authoritative record. The application requires no backend credentials.
 
 The repository enforces dependency auditing and secret scanning in its quality
-workflow and pre-commit hooks. Browser security headers are defined in
-`vercel.json`. Dependency audit results do not certify third-party models,
+workflow and pre-commit hooks. HTML CSP/referrer policies are defined in
+`index.html`; Pages does not reproduce retired Vercel custom response headers.
+WebAssembly permission supports the font renderer, and blob connections support
+embedded GLTF textures. JavaScript string evaluation remains blocked.
+Dependency audit results do not certify third-party models,
 audio, browser engines, hosting infrastructure, or user-installed extensions.
 
 ## Historical credential checkpoint

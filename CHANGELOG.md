@@ -1,6 +1,18 @@
 # Changelog
 
-## Unreleased — 2026-09-30
+## 2.0.1 — prepared 2026-10-01
+
+Publication remains pending the required historical-credential gate.
+
+- Bump package/lock metadata to 2.0.1 and make About consume that canonical
+  version; verify stale display and missing release-tag checks fail.
+- Run Quality on version tags and retain new build artifacts for seven days.
+- Remove four obsolete failed/cancelled legacy GitHub Actions runs while
+  preserving current PR evidence and published release assets.
+- Prepare Pages project-path assets, scoped PWA, trusted-main deployment gate,
+  and branch protection. Retire Vercel configuration and thirteen old GitHub
+  deployment records; live deployment remains pending.
+- Move validation and complete commit hooks to an isolated Win11 VM.
 
 - Fix trivia retry and failure propagation; reject blank questions, invalid
   answer choices/indexes, and empty datasets.

@@ -4,6 +4,7 @@
 import { useGLTF } from "@react-three/drei";
 import { performanceMonitor } from "./performanceMonitor";
 import { info, warn, debug } from "./logger";
+import { publicAssetUrl } from "./publicAssetUrl";
 
 interface CacheEntry {
   path: string;
@@ -63,7 +64,7 @@ class ResourcePreloader {
         "/assets/models/ships/player-ship.glb",
         "/assets/models/ships/enemy-basic.glb",
         "/assets/fonts/Orbitron-Regular.ttf",
-      ];
+      ].map((asset) => publicAssetUrl(asset));
 
       // Preload in parallel with priority
       await Promise.all(

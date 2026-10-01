@@ -1,117 +1,96 @@
 # Deployment and operations
 
-P-Type is a static Vite application. It has no server-side API, database,
-secrets, or required environment variables. The production artifact is `dist/`.
+P-Type is a static Vite/PWA app with no backend API or required credentials.
+Output is `dist/`. Actions-based GitHub Pages is configured at
+https://randynorthrup.github.io/ptype/; content deployment and live proof remain
+pending verified source on protected main.
 
-## Release validation
-
-Use the locked toolchain declared in `package.json`:
+## Validation and release
 
 ```bash
 npm ci --ignore-scripts
 npm run quality
 ```
 
-This must complete before a release. The quality workflow uses Node.js 24 and
-repeats formatting, lint, strict types, measured coverage, full-graph and strict
-dead-code checks, cycles, duplication, dependency/lockfile audits, native SAST,
-workflow security, builds, red drills, and muted browser journeys. The history
-secret scan remains a required final gate; its open incident is recorded in
-[the audit](QUALITY-RETROFIT.md).
+The same source/type/style, tests/coverage, dependency/security, workflow,
+production-build, red-drill, and muted-browser aggregate runs on VM and CI.
+Reachable-history clearance remains required. Removing the current script or
+redacting scan logs does not revoke or remove an old credential from commits.
+Quality and platform builds also run on version tags.
 
-## Vercel
+About consumes canonical package version, synchronized with its lock. Version
+2.0.1 is prepared. Publish only with required clearance; its web ZIP must contain
+complete output, source/version identity, and verified SHA-256 checksums.
+This codebase does not create native desktop installers.
 
-Import `RandyNorthrup/ptype` as a Vercel project. The checked-in
-`vercel.json` selects the static build, uses `dist` as the output, applies
-long-lived caching to immutable assets, and adds Content Security Policy,
-permissions, referrer, framing, and MIME-sniffing protections.
+## Pages workflow and branch policy
 
-Expected project settings:
+Vite's base is `/ptype/`. Runtime URLs use `publicAssetUrl`; Vite handles HTML/CSS
+URLs. Manifest start/scope/icons are project-relative. No path router or extra
+navigation fallback is needed.
 
-| Setting          | Value                     |
-| ---------------- | ------------------------- |
-| Framework preset | Vite                      |
-| Install command  | `npm ci --ignore-scripts` |
-| Build command    | `npm run build`           |
-| Output directory | `dist`                    |
-| Node.js runtime  | 24.x                      |
+The Pages workflow follows successful Quality on main or a manual main dispatch.
+Its deployment gate requires exact current main source and latest successful
+Quality and Windows/macOS/Linux checks from GitHub Actions. Missing, failed,
+stale, spoofed, or incomplete checks reject deployment. Actions are pinned;
+checkout credentials are not persisted. Only deploy receives Pages write/OIDC.
 
-No redirects or API rewrites are required. The PWA configuration deliberately
-does not install a navigation fallback; static hosting must serve `/` as the
-application entry point.
+The github-pages environment permits only main. Main requires all four trusted
+checks, an up-to-date branch, resolved conversations, and enforcement for admins.
+Force pushes and deletion are blocked. Preserve PR #4's work through merge before
+removing its branch. Actions deployment does not introduce a gh-pages branch.
 
-## Local production smoke test
+## Preview and live checks
 
 ```bash
 npm run build
 npm run preview -- --host 127.0.0.1
+npm run test:browser
 ```
 
-Verify at minimum:
+Open `/ptype/`. Verify version, keyboard focus/restoration, desktop/narrow layout,
+normal/programming gameplay, pause/quit, manifest icons, scoped service worker,
+models, fonts, audio, and YAML responses. Isolated test Chromium uses --mute-audio
+and zero fixture volumes. This proves software WebGL, not audible/physical GPU
+behavior. Repeat key flows on actual HTTPS and match deployment/source/version;
+local preview or green CI alone does not prove live hosting.
 
-1. The loading status advances to the main menu without console errors.
-2. Normal and programming modes enter the WebGL game.
-3. Settings, statistics, About, pause, quit confirmation, and game-over dialogs
-   work by keyboard; cancelling quit returns to the paused game.
-4. Layout remains usable at desktop and narrow sizes; Tab stays inside dialogs.
-   Browser automation must launch with `--mute-audio` and isolated profiles.
-5. The manifest and service worker load from the same origin.
+HTML supplies CSP/no-referrer. Pages does not reproduce former Vercel framing,
+permissions, MIME, or cache response headers; meta CSP is not equivalent to
+header-only framing controls. Hashed bundles retain distinct update identity.
+The font renderer needs WebAssembly and GLTF textures need blob connections;
+the policy permits these while retaining the restriction on JavaScript string
+evaluation. Production browser checks reject actual CSP/asset errors.
 
-Audio playback may wait for the first user gesture because of browser autoplay
-policies. On the first visit, large GLB models are fetched from the same origin
-and added to the runtime cache.
+## Cleanup and rollback
 
-## PWA update recovery
+Four obsolete completed legacy Actions runs and thirteen retired Vercel GitHub
+deployment records were removed. Current PR evidence and published release
+assets remain; inaccessible Vercel provider resources are not claimed deleted.
+Build artifacts retain seven days. Roll back through a verified revert PR and
+exact main deployment, then repeat live/PWA checks. For stale mixed versions,
+close tabs, clear that site's storage/service worker, and reload.
 
-The service worker uses automatic updates and immediate activation. If a user
-reports a stale mixed-version client after a release, close all P-Type tabs,
-clear the site's storage/service worker, and reload. Do not work around stale
-clients by weakening immutable-asset caching; hashed bundle filenames make that
-cache safe.
+## VM and tools
 
-## Rollback
+Per owner request, tests and complete hooks run on WIN-11-VM at
+`C:\Users\Randy\Coding\ptype-release-20261001`. Credentials/temp/dependency/tool
+directories are excluded from source transfer. Preserve other host workloads.
 
-Use Vercel's deployment history to promote the last verified deployment. After
-rollback, repeat the production smoke test and confirm the service worker has
-activated the expected release.
-
-## Quality tool setup
-
-Use Python 3.12+ for the portable quality tools. Install the exact hash-locked
-requirements in an isolated environment; the CI job repeats the hash check:
+Python 3.12+ installs hash-locked requirements in an isolated environment:
 
 ```powershell
 python -m venv .quality-tools/python
-. .quality-tools/python/Scripts/Activate.ps1
-python -m pip install --require-hashes -r requirements-quality.txt
+.quality-tools/python/Scripts/python.exe -m pip install --require-hashes -r requirements-quality.txt
 ```
 
-Native tools must be available on PATH: actionlint 1.7.12, Gitleaks 8.30.1,
-and OSV-Scanner 2.6.0. Their CI downloads are checked against pinned SHA-256
-values in `.github/workflows/quality.yml`. Download Windows builds from their
-respective release pages and verify published checksums before running them:
-[actionlint](https://github.com/rhysd/actionlint/releases/tag/v1.7.12),
-[Gitleaks](https://github.com/gitleaks/gitleaks/releases/tag/v8.30.1), and
-[OSV-Scanner](https://github.com/google/osv-scanner/releases/tag/v2.6.0).
-
-The source gate uses the native Opengrep 1.30.0 engine with checked-in rules,
-not an authenticated Python CLI. Semgrep 1.177/1.178 pin vulnerable PyJWT 2.13;
-the native engine avoids adding that dependency to the project toolchain while
-retaining and drilling the same rules. Install its Windows archive together
-with its DLLs in `%LOCALAPPDATA%/ptype-quality-tools/opengrep/`:
-
-| Artifact                                                                                                                 | SHA-256                                                            |
-| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| [Opengrep Windows archive](https://github.com/opengrep/opengrep/releases/download/v1.30.0/opengrep-core_windows_x86.zip) | `d21382af5eb1a99c637af08abc1e45ff0d35f7e749c66f12534207479abc780f` |
-| [OSV Windows executable](https://github.com/google/osv-scanner/releases/download/v2.6.0/osv-scanner_windows_amd64.exe)   | `e0ed7644118b717b028c249ee9d3515024e55e8510747ca08906eb96765354d6` |
-
-On Linux the CI job installs `opengrep-core` on PATH. `PTYPE_OPENGREP` can
-explicitly select a different verified engine location. The native adapter
-requires a nonempty source inventory, complete rule/file execution, valid
-machine output, no parse errors or skipped rules, and no findings. A finding
-fails the gate even when the underlying engine itself returns zero.
-
-Install the pinned browser once before production verification:
+Pinned native tools: actionlint 1.7.12, Gitleaks 8.30.1, OSV-Scanner 2.6.0,
+Opengrep 1.30.0. VM/CI check published archive hashes. Windows Opengrep SHA-256:
+`d21382af5eb1a99c637af08abc1e45ff0d35f7e749c66f12534207479abc780f`;
+OSV: `e0ed7644118b717b028c249ee9d3515024e55e8510747ca08906eb96765354d6`.
+PTYPE_OPENGREP selects the verified engine/DLLs. Nonempty complete source/rule
+execution is required; findings fail even if the engine returns zero. Native
+execution avoids the vulnerable Python JWT lock encountered with Semgrep.
 
 ```bash
 npm exec -- playwright install chromium
@@ -121,14 +100,7 @@ npm run test:browser
 npm run security:secrets
 ```
 
-`quality:static` runs the source/dependency/workflow/build gates.
-`quality:code` adds maintained red drills and desktop/narrow Chromium journeys.
-`quality` adds the required history scan. Never treat a failing history scan as
-release clearance. Browser tests mute the browser and seed zero test volumes;
-they verify rendering and interaction, not audible playback. Close owned
-manual browser sessions and preview servers after verification.
-
-`npm run ci:parity` checks that workflows use the unconditional local aggregate,
-locked installs, and build command, and that every commit runs the complete code
-aggregate. The parity drills deliberately skip CI and commit gates and require
-rejection. Keep unresolved release gates visible in a draft PR.
+quality:code combines static/build checks, drills, and browsers; quality adds
+history clearance. ci:parity verifies aggregates, locked installs, tags,
+always-running commit code gates, and Pages deployment/build commands.
+Close only owned browsers/test/preview processes.

@@ -492,6 +492,54 @@ try {
   );
   const frames = ["run", "test:unit", "--", "tests/unit/sceneFrames.test.tsx"];
   drill(
+    "Pages project asset base",
+    ["src/utils/publicAssetUrl.ts"],
+    ["run", "test:unit", "--", "tests/unit/publicAssetUrl.test.ts"],
+    () => {
+      replace(
+        "src/utils/publicAssetUrl.ts",
+        "${import.meta.env.BASE_URL}",
+        "/",
+      );
+    },
+    /keeps models, data, and icons[\s\S]*AssertionError/,
+  );
+  drill(
+    "Pages required Quality gate",
+    ["tests/deployment-gate.ts"],
+    ["run", "test:unit", "--", "tests/unit/deploymentGate.test.ts"],
+    () => {
+      replace(
+        "tests/deployment-gate.ts",
+        '  "Quality and production browser checks",',
+        '  "Build on Linux",',
+      );
+    },
+    /refuses a failed required Quality check[\s\S]*AssertionError/,
+  );
+  drill(
+    "release tag coverage",
+    [".github/workflows/quality.yml"],
+    ["run", "ci:parity"],
+    () => {
+      replace(".github/workflows/quality.yml", '    tags: ["v*"]\n', "");
+    },
+    /CI parity: release tags must run required gates/,
+  );
+  drill(
+    "About version metadata",
+    ["src/components/MainMenu.tsx"],
+    ["run", "test:unit", "--", "tests/unit/MainMenu.test.tsx"],
+    () => {
+      replace(
+        "src/components/MainMenu.tsx",
+        "Version {version}",
+        "Version stale",
+      );
+    },
+    /accessible responsive About dialog[\s\S]*Unable to find an element with the text: Version/,
+  );
+  drill(
     "CI parity",
     [".github/workflows/quality.yml"],
     ["run", "ci:parity"],

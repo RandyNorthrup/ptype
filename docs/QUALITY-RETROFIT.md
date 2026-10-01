@@ -86,7 +86,7 @@ Python dependency. The user's pre-existing global environments were preserved.
 
 ## Verification scope
 
-The current unit baseline is 25 files and 118 tests. Measured coverage is
+The verified retrofit baseline at `89b17a1` is 25 files and 118 tests. Measured coverage is
 95.27% statements, 83.54% branches, 97.30% functions, and 95.94% lines. Enforced
 floors are 94/82/97/95 respectively, raised from the inherited 80% floors.
 Scene tests advance production callbacks through the official React Three test
@@ -119,6 +119,9 @@ node_modules; it never mutates the user's checkout.
 
 Final receipts and task status are recorded in `PLAN.md`. A deferred check is
 unverified, not green.
+
+The table below records that verified retrofit baseline. The subsequent release
+and Pages delta has separate current evidence and pending gates below.
 
 Hosted checks at `89b17a1dc38603228ebeb42502494c6143d0d4ed` match the local code
 gate results: all 118 tests, 33 drills, and both browser journeys passed.
@@ -163,3 +166,33 @@ before merge/release clearance. Keep browser automation muted and close owned
 processes. Current proof is [code validation](verification/code-validation.md)
 and [maintained drills](verification/red-drills.md); PLAN.md owns verified tasks
 and the real history blocker.
+
+## Release and Pages delta (2026-10-01)
+
+Version 2.0.1 now has one package metadata owner; About consumes it. Runtime
+assets and the PWA are mounted at /ptype/. A pinned reusable Pages workflow
+requires exact current main and all four trusted GitHub Actions checks before
+publishing. Main protection and main-only Pages environment policy are active.
+The site is configured but has not been deployed; PR #4 remains a draft until
+required history clearance can be established.
+
+On WIN-11-VM, the initial full code run passed static/build gates, 27 files with
+124 tests, coverage 95.28/83.54/97.32/95.95, and 37 maintained drills. Both final
+browser journeys rejected the new CSP because it blocked WebAssembly font
+rendering and blob model textures. The specific permissions were corrected;
+a fresh build and both desktop/narrow browser journeys then passed, including
+project-path assets, manifest, service-worker scope, keyboard focus, and gameplay.
+A complete normal commit-hook run remains pending at this checkpoint. Raw VM
+logs are ignored; current receipts will bind independently reviewed outcomes.
+
+The owner's temporary 20-minute host testing allowance was exercised with the
+unchanged types fixture. Its Vitest worker failed startup with zero tests;
+this is not counted as behavior verification. Full hooks continue on the VM.
+No host project, service, or unrelated process was restarted.
+
+Scoped cleanup removed four obsolete completed legacy Actions runs and thirteen
+retired Vercel GitHub deployment records. No self-hosted runner registrations
+remain. Current CI artifacts and published releases were preserved. Provider-side
+Vercel cleanup is not claimed. The historical Icons8 finding still blocks merge,
+Pages publication, release publication, and deletion of the unmerged feature
+branch; deleting or redacting current source did not resolve reachable history.

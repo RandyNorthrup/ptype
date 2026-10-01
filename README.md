@@ -52,7 +52,7 @@ npm ci --ignore-scripts
 npm run dev
 ```
 
-Vite serves the application at `http://localhost:5173`. Other useful commands:
+Vite serves the application at `http://localhost:5173/ptype/`. Other useful commands:
 
 ```bash
 npm run build          # type-check and create dist/
@@ -90,7 +90,7 @@ remain inside the coverage gate.
 - Three.js 0.185, React Three Fiber 9.7, and Drei 10.7
 - Vitest 4.1, Testing Library, and axe-core
 - ESLint 10, Stylelint 17, Prettier 3, Knip, dpdm, and jscpd
-- Vercel static hosting with cache and browser-security headers
+- GitHub Pages Actions hosting with project-scoped assets and PWA metadata
 
 Runtime state uses React Context and hooks. Persistent data is validated before
 it enters the application state; no backend or environment variables are

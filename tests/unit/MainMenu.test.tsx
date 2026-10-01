@@ -2,6 +2,7 @@ import axe from "axe-core";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { GameMode, ProgrammingLanguage } from "../../src/types";
+import packageMetadata from "../../package.json";
 
 const mocks = vi.hoisted(() => ({
   logError: vi.fn(),
@@ -116,6 +117,9 @@ describe("main menu", () => {
     fireEvent.click(screen.getByRole("button", { name: "About" }));
 
     expect(screen.getByRole("dialog", { name: "P-Type" })).toBeVisible();
+    expect(
+      screen.getByText(`Version ${packageMetadata.version}`),
+    ).toBeVisible();
     expect(screen.getByText(/Created by Randy Northrup/)).toBeInTheDocument();
     const results = await axe.run(container);
     expect(results.violations).toEqual([]);

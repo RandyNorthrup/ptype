@@ -117,6 +117,9 @@ export default tseslint.config(
   },
   {
     ignores: [
+      ".quality-tools/**",
+      "temp/**",
+      "tep/**",
       "build/**",
       "coverage/**",
       "dist/**",

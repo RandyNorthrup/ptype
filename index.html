@@ -9,7 +9,11 @@
       content="P-Type: 3D Typing Game - Defend against enemy spaceships by typing words in this immersive 3D typing game"
     />
     <meta name="theme-color" content="#0f172a" />
-    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; connect-src 'self' blob: ws:; font-src 'self' data:; img-src 'self' data: blob:; manifest-src 'self'; media-src 'self'; object-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:"
+    />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta
       name="apple-mobile-web-app-status-bar-style"

@@ -11,6 +11,7 @@ const projectRoot = fileURLToPath(new URL(".", import.meta.url));
 @public Consumed by Vite's configuration loader.
 */
 export default defineConfig({
+  base: "/ptype/",
   plugins: [
     react(),
     VitePWA({
@@ -25,23 +26,23 @@ export default defineConfig({
         background_color: "#0f172a",
         display: "fullscreen",
         orientation: "landscape",
-        start_url: "/",
-        scope: "/",
+        start_url: ".",
+        scope: ".",
         icons: [
           {
-            src: "/icons/icon-192x192.png",
+            src: "icons/icon-192x192.png",
             sizes: "192x192",
             type: "image/png",
             purpose: "any",
           },
           {
-            src: "/icons/icon-512x512.png",
+            src: "icons/icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any",
           },
           {
-            src: "/icons/icon-512x512.png",
+            src: "icons/icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",

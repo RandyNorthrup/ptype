@@ -5,6 +5,7 @@
 import { resourcePreloader } from "./resourcePreloader";
 import { performanceMonitor } from "./performanceMonitor";
 import { info, debug } from "./logger";
+import { publicAssetUrl } from "./publicAssetUrl";
 
 const INITIAL_STATS_DELAY_MILLISECONDS = 1000;
 
@@ -33,7 +34,7 @@ export async function initializePerformanceOptimizations() {
     [
       "/assets/models/ships/enemy-fast.glb",
       "/assets/models/ships/enemy-boss.glb",
-    ],
+    ].map((asset) => publicAssetUrl(asset)),
     "medium",
   );
 

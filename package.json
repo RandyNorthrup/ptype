@@ -1,6 +1,6 @@
 {
   "name": "ptype",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "P-Type: 3D Typing Game - Defend against enemy spaceships by typing words in this immersive 3D typing game",
   "type": "module",
   "engines": {

@@ -1,6 +1,6 @@
 # Project instructions
 
-Rules revision: 3 (2026-09-30).
+Rules revision: 4 (2026-10-01).
 
 - Always use the `/caveman` skill for conversation. Write code, comments,
   documentation, and commit messages in normal English.
@@ -12,6 +12,11 @@ Rules revision: 3 (2026-09-30).
   owned browsers and test/preview servers when done; preserve the user's browser.
 - Keep documentation aligned with actual behavior and evidence. Do not claim
   release, hosted CI, browser, offline, or hardware verification from unit tests.
+- Run tests and complete hooks on the isolated Win11 VM, preserving other host
+  projects and services. Exclude credentials/temp files from Git and transfers.
+- Land verified work on protected main, close its PR through preserving merge,
+  and remove the feature branch afterward. Pages deploys exact verified main
+  source without an additional deployment branch.
 - Scan canonical source, consumers, tests, and configuration before creating
   another implementation. Extend existing responsibilities; remove stale callers.
 - Keep changes in reviewable phases. Preserve existing strict rules, fix root
@@ -43,3 +48,7 @@ their speakers. It adds the muted-browser rule and affects browser verification.
 Revision 3 follows the owner's explicit request for frequent commits, pull
 requests, and local/CI gate parity. It adds that delivery rule and affects the
 retrofit's verification and PR workflow.
+
+Revision 4 follows the authorized release, cleanup, Pages migration, protected
+main, single-branch consolidation, and VM offloading requests. Required history
+and application gates remain in force.

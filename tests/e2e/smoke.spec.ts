@@ -22,7 +22,7 @@ test("production menu, focus, responsive layout, and game pause journeys", async
   page.on("console", (message) => {
     if (message.type() === "error") errors.push(message.text());
   });
-  await page.goto("/");
+  await page.goto("./");
   await expect(
     page.getByRole("button", { name: "Settings", exact: true }),
   ).toBeVisible({ timeout: 30_000 });
@@ -48,6 +48,12 @@ test("production menu, focus, responsive layout, and game pause journeys", async
     ),
   ).toBe(true);
   await page.screenshot({ path: testInfo.outputPath("menu.png") });
+
+  await page.getByRole("button", { name: "About", exact: true }).click();
+  await expect(page.getByRole("dialog", { name: "P-Type" })).toContainText(
+    "Version 2.0.1",
+  );
+  await page.keyboard.press("Escape");
 
   for (const mode of ["Normal", "Python"]) {
     await page.getByTestId("mode-selector-button").click();
@@ -80,16 +86,36 @@ test("production menu, focus, responsive layout, and game pause journeys", async
       page.getByRole("button", { name: "NEW GAME", exact: true }),
     ).toBeVisible();
   }
-  const manifest = await page.request.get("/manifest.webmanifest");
+  const manifest = await page.request.get("manifest.webmanifest");
   expect(manifest.ok()).toBe(true);
-  expect(await manifest.json()).toMatchObject({
+  const manifestData: unknown = await manifest.json();
+  expect(manifestData).toMatchObject({
     name: "P-Type: 3D Typing Game",
+    start_url: ".",
+    scope: ".",
   });
+  for (const icon of ["icons/icon-192x192.png", "icons/icon-512x512.png"]) {
+    const response = await page.request.get(icon);
+    expect(response.ok()).toBe(true);
+    expect(response.headers()["content-type"]).toContain("image/png");
+  }
+  for (const asset of [
+    "assets/fonts/Orbitron-Regular.ttf",
+    "assets/models/ships/player-ship.glb",
+    "data/python_words.yaml",
+    "data/trivia.yaml",
+  ]) {
+    const response = await page.request.get(asset);
+    expect(response.ok()).toBe(true);
+    expect(response.headers()["content-type"]).not.toContain("text/html");
+  }
   await expect
     .poll(() =>
       page.evaluate(async () => {
         const registrations = await navigator.serviceWorker.getRegistrations();
-        return registrations.length;
+        return registrations.filter((registration) =>
+          registration.scope.endsWith("/ptype/"),
+        ).length;
       }),
     )
     .toBeGreaterThan(0);
