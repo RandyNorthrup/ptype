@@ -45,14 +45,14 @@ use runtime caching. Full offline recovery has not been certified.
 
 ### Controls
 
-| Key          | Action                                    |
-| ------------ | ----------------------------------------- |
-| Letter keys  | Type the targeted enemy word              |
-| `Tab`        | Cycle targets                             |
-| `Enter`      | Fire the EMP when ready                   |
-| `Arrow Up`   | Select the next collected bonus item      |
-| `Arrow Down` | Use the selected bonus item               |
-| `Escape`     | Pause/resume or dismiss the active dialog |
+| Key            | Action                                                     |
+| -------------- | ---------------------------------------------------------- |
+| Character keys | Type the target, including digits, punctuation, and spaces |
+| `Tab`          | Cycle targets                                              |
+| `Enter`        | Fire the EMP when ready                                    |
+| `Arrow Up`     | Select the next collected bonus item                       |
+| `Arrow Down`   | Use the selected bonus item                                |
+| `Escape`       | Pause/resume or close dismissible dialogs                  |
 
 Menus and dialogs support keyboard navigation, visible focus, focus containment
 and restoration, and reduced-motion preferences. Dialogs and HUD adapt to narrow
@@ -129,7 +129,7 @@ checks exact source and all four trusted Actions checks before publishing.
 Manifest and service-worker scope follow the project path. Vercel configuration
 and retired GitHub deployment records were removed.
 
-Version 2.0.1 targets a static web/PWA distribution. Its release ZIP carries the
+Version [2.0.1](https://github.com/RandyNorthrup/ptype/releases/tag/v2.0.1) is a published static web/PWA distribution. Its release ZIP carries the
 complete build and source identity, with SHA-256 checksums. Older release assets
 remain available; the current build does not produce native desktop installers.
 See [releases](https://github.com/RandyNorthrup/ptype/releases) for published status.

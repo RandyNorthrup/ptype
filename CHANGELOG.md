@@ -1,8 +1,9 @@
 # Changelog
 
-## 2.0.1 — prepared 2026-10-01
+## 2.0.1 — 2026-10-01
 
-Publication remains pending final required checks and verified rollout.
+Published with passing main/tag Quality and Windows/macOS/Linux checks.
+The web ZIP, embedded source manifest, and downloaded asset hashes were verified.
 
 - Bump package/lock metadata to 2.0.1 and make About consume that canonical
   version; verify stale display and missing release-tag checks fail.
