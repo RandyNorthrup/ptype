@@ -21,8 +21,9 @@ redacting scan logs does not revoke or remove an old credential from commits.
 Quality and platform builds also run on version tags.
 
 About consumes canonical package version, synchronized with its lock. Version
-2.0.1 is prepared. Publish only with required clearance; its web ZIP must contain
-complete output, source/version identity, and verified SHA-256 checksums.
+[2.0.1 is published](https://github.com/RandyNorthrup/ptype/releases/tag/v2.0.1).
+Its web ZIP contains complete output and exact source/version identity. ZIP
+contents, uploaded digests, and downloaded SHA-256 checksums were verified.
 This codebase does not create native desktop installers.
 
 ## Pages workflow and branch policy
@@ -76,7 +77,8 @@ evaluation. Production browser checks reject actual CSP/asset errors.
 ## Cleanup and rollback
 
 Four obsolete completed legacy Actions runs and thirteen retired Vercel GitHub
-deployment records were removed. Current PR evidence and published release
+deployment records were removed. Thirteen additional obsolete bot/duplicate/maintenance runs and two old build
+artifacts were subsequently removed. Current verification evidence and published release
 assets remain; inaccessible Vercel provider resources are not claimed deleted.
 Build artifacts retain seven days. Roll back through a verified revert PR and
 exact main deployment, then repeat live/PWA checks. For stale mixed versions,

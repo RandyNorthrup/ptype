@@ -52,8 +52,55 @@ GitHub reported only main remotely and zero self-hosted runner registrations.
 Thirteen retired Vercel GitHub deployments and four obsolete legacy runs were
 removed; published assets and current verification evidence were retained.
 
-## Publication status
+## Published release and consolidation
 
-2.0.1 package/lock/About metadata agree. The release tag, verified web ZIP,
-checksums, and GitHub release still require final publication checks. README
-refresh will land through a checked PR before choosing the release source.
+[v2.0.1](https://github.com/RandyNorthrup/ptype/releases/tag/v2.0.1) is published from `019ed1b05b0e8350122be0b83173e41c8d79b0b3`.
+Its 64 build files and embedded RELEASE.json were verified against SOURCE.json;
+uploaded digests and all three downloaded assets match local bytes.
+Web ZIP SHA-256: `fa133cc6f1e25529332f01ac5c2e83029eef5501a63fed0f34f2d6809fec0923`.
+
+Exact-source main [Quality/Pages](https://github.com/RandyNorthrup/ptype/actions/runs/36936281047)
+and [platform builds](https://github.com/RandyNorthrup/ptype/actions/runs/36936280552),
+plus tag [Quality](https://github.com/RandyNorthrup/ptype/actions/runs/36936368021)
+and [platform builds](https://github.com/RandyNorthrup/ptype/actions/runs/36936367644), passed.
+[README PR #8](https://github.com/RandyNorthrup/ptype/pull/8) merged after normal
+VM hooks/history and all four required CI checks passed. Actual GitHub README
+rendering passed with working images/link, and desktop/narrow captures were reviewed.
+
+After #8, no PRs remained open and host/VM/remote each had only main. Protection
+remained enforced for admins with four trusted strict checks and no force/deletion.
+Thirteen additional obsolete bot/duplicate/maintenance runs and two old build
+artifacts were removed; original four legacy runs, thirteen retired Vercel
+deployment records, current proof, and preserved releases are accounted for.
+This final documentation reconciliation travels through a checked PR; its branch
+must be removed and external state re-observed before session completion.
+
+The docs commit hook retry passed in 936.6 seconds. All forty maintained outcomes
+were independently inspected: baseline/restored exits zero, intended positive
+failure exits, and exact before/after hashes. Retained history scanned 157 commits
+with no leaks. Application/gate inputs remain byte-identical to the release tree;
+these are evidence bindings, not claims of audible/GPU/offline certification.
+
+## Representative intended failures
+
+Exact diagnostic fragments from the successful forty-case VM harness. Baseline
+and restored exits were zero; mutations failed intentionally and restored bytes
+exactly. Full fingerprints are bound in the native receipts.
+
+CI parity
+
+```text
+CI parity: quality workflow
+```
+
+Pages project asset base
+
+```text
+AssertionError: expected '/assets/models/ships/player-ship.glb' to be
+```
+
+inactive actor frames
+
+```text
+AssertionError: expected -20 to be 10 // Object.is equality
+```

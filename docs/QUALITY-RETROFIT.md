@@ -239,5 +239,9 @@ the actual hosted browser gate is complete through standard Playwright.
 Obsolete bot PRs were closed; only protected main remained locally/remotely.
 The README refresh removes the stale unresolved-key claim, uses an actual menu
 screenshot, and documents complete setup, controls, browser-local progress,
-distribution, operations, and tested limits. Release publication remains a
-separate final obligation. See [current rollout evidence](verification/release-rollout.md).
+distribution, operations, and tested limits. The v2.0.1 release is published after successful exact-source main/tag checks;
+all three downloaded assets match their local and uploaded SHA-256 digests. See [current rollout evidence](verification/release-rollout.md).
+
+The first README commit attempt stopped when a concurrent tool-context refresh
+rewrote ignored JSON during the formatting drill. Context formatting was restored
+and the normal complete hook retry passed; no gate or hook was bypassed.
