@@ -2,8 +2,10 @@
 
 P-Type is a static Vite/PWA app with no backend API or required credentials.
 Output is `dist/`. Actions-based GitHub Pages is configured at
-https://randynorthrup.github.io/ptype/; content deployment and live proof remain
-pending verified source on protected main.
+https://randynorthrup.github.io/ptype/. Protected main source `03469c4` deployed
+successfully on 2026-10-01. Both actual HTTPS desktop/narrow browser journeys
+passed: version, focus, gameplay, pause/quit, layout, assets, manifest, service
+worker, and console checks. See [rollout evidence](verification/release-rollout.md).
 
 ## Validation and release
 
@@ -37,8 +39,9 @@ checkout credentials are not persisted. Only deploy receives Pages write/OIDC.
 
 The github-pages environment permits only main. Main requires all four trusted
 checks, an up-to-date branch, resolved conversations, and enforcement for admins.
-Force pushes and deletion are blocked. Preserve PR #4's work through merge before
-removing its branch. Actions deployment does not introduce a gh-pages branch.
+Force pushes and deletion are blocked. PR #4 was merged preserving its work,
+obsolete bot PRs were closed, and only main remained locally/remotely afterward.
+Actions deployment does not introduce a gh-pages branch.
 
 ## Preview and live checks
 

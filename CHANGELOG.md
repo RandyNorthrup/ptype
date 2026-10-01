@@ -11,7 +11,8 @@ Publication remains pending final required checks and verified rollout.
   preserving current PR evidence and published release assets.
 - Prepare Pages project-path assets, scoped PWA, trusted-main deployment gate,
   and branch protection. Retire Vercel configuration and thirteen old GitHub
-  deployment records; live deployment remains pending.
+  deployment records. Verified main deployed successfully; actual HTTPS desktop
+  and narrow Chromium journeys passed.
 - Move validation and complete commit hooks to an isolated Win11 VM.
 - Verify the development page with fresh CSP nonces while keeping the static
   production script policy strict. Prevent automatic unowned browser opening.
@@ -41,3 +42,6 @@ Publication remains pending final required checks and verified rollout.
 - Record owner-confirmed Icons8 revocation/rotation and explicitly authorized
   key-only branch-history cleanup. Preserve old release tags/assets, update only
   exact expired screenshot fingerprints, and verify the retained history gate.
+- Merge PR #4, close obsolete dependency PRs, and retain only protected main.
+- Refresh the README with the live play link, real menu screenshot, controls,
+  setup, distribution details, and explicit verification limits.
