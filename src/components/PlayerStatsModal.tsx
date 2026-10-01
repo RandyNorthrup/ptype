@@ -10,13 +10,22 @@ import { error as logError } from "../utils/logger";
 import { ModalShell } from "./ModalShell";
 import { NeonButton } from "./NeonButton";
 
+const TUNING = {
+  secondsPerHour: 3600,
+  secondsPerMinute: 60,
+  highScoreLimit: 10,
+  podiumSize: 3,
+} as const;
+
 interface PlayerStatsModalProperties {
   onClose: () => void;
 }
 
 function formatPlayTime(seconds: number): string {
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
+  const hours = Math.floor(seconds / TUNING.secondsPerHour);
+  const minutes = Math.floor(
+    (seconds % TUNING.secondsPerHour) / TUNING.secondsPerMinute,
+  );
   if (hours > 0) {
     return `${hours.toString()}h ${minutes.toString()}m`;
   }
@@ -243,42 +252,46 @@ const PlayerStatsModalComponent = ({ onClose }: PlayerStatsModalProperties) => {
                 gap: "0.5rem",
               }}
             >
-              {sortedHighScores.slice(0, 10).map((score, index) => (
-                <div
-                  key={index}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    padding: "0.5rem",
-                    background:
-                      index < 3 ? "rgba(9, 255, 0, 0.1)" : "transparent",
-                    borderRadius: "6px",
-                    fontSize: "0.85rem",
-                  }}
-                >
-                  <span style={{ color: "#64748b", width: "30px" }}>
-                    #{index + 1}
-                  </span>
-                  <span
-                    style={{ color: "#09ff00", fontWeight: "600", flex: 1 }}
-                  >
-                    {score.score.toLocaleString()}
-                  </span>
-                  <span style={{ color: "#94a3b8", fontSize: "0.8rem" }}>
-                    Level {score.level}
-                  </span>
-                  <span
+              {sortedHighScores
+                .slice(0, TUNING.highScoreLimit)
+                .map((score, index) => (
+                  <div
+                    key={index}
                     style={{
-                      color: "#64748b",
-                      fontSize: "0.75rem",
-                      marginLeft: "0.5rem",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "0.5rem",
+                      background:
+                        index < TUNING.podiumSize
+                          ? "rgba(9, 255, 0, 0.1)"
+                          : "transparent",
+                      borderRadius: "6px",
+                      fontSize: "0.85rem",
                     }}
                   >
-                    {score.mode}
-                  </span>
-                </div>
-              ))}
+                    <span style={{ color: "#64748b", width: "30px" }}>
+                      #{index + 1}
+                    </span>
+                    <span
+                      style={{ color: "#09ff00", fontWeight: "600", flex: 1 }}
+                    >
+                      {score.score.toLocaleString()}
+                    </span>
+                    <span style={{ color: "#94a3b8", fontSize: "0.8rem" }}>
+                      Level {score.level}
+                    </span>
+                    <span
+                      style={{
+                        color: "#64748b",
+                        fontSize: "0.75rem",
+                        marginLeft: "0.5rem",
+                      }}
+                    >
+                      {score.mode}
+                    </span>
+                  </div>
+                ))}
             </div>
           )}
         </div>

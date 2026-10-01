@@ -8,9 +8,67 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF, Text } from "@react-three/drei";
 import * as THREE from "three";
 import type { Enemy as EnemyType } from "../types";
+import { getEnemyLetterId } from "../utils/testIds";
+
+const TUNING = {
+  letterParticleCount: 3,
+  letterMinimumSpeed: 0.8,
+  letterSpeedRange: 0.6,
+  bossWordDepth: -4,
+  regularWordDepth: -3,
+  letterVerticalSpeedRange: 0.4,
+  letterMinimumScaleRatio: 0.8,
+  letterScaleRatioRange: 0.4,
+  letterMinimumLifeFrames: 12,
+  letterLifeRangeFrames: 8,
+  minimumFacingDistance: 0.1,
+  bossSeparationRadius: 6,
+  regularSeparationRadius: 4,
+  wordSeparationBuffer: 5,
+  separationStrength: 3,
+  separationSpeed: 10,
+  bossCollisionRadius: 4,
+  regularCollisionRadius: 2.5,
+  damagePulseFrequency: 10,
+  damagePulseAmplitude: 0.1,
+  bossPulseScale: 3,
+  regularPulseScale: 1.5,
+  particleUpdateFrames: 3,
+  minimumVisibleOpacity: 0.01,
+  debrisGravity: 0.015,
+  debrisDrag: 0.96,
+  bossDebrisCount: 20,
+  regularDebrisCount: 12,
+  minimumDebrisSpeed: 0.4,
+  minimumDebrisUpwardSpeed: 0.1,
+  debrisUpwardSpeedRange: 0.2,
+  debrisVerticalSpeedRange: 0.3,
+  minimumDebrisScale: 0.3,
+  minimumDebrisLifeFrames: 25,
+  debrisLifeRangeFrames: 15,
+  destructionDurationMs: 500,
+  bossModelScale: 2.5,
+  regularModelScale: 1.5,
+  wordOutlineRatio: 0.08,
+  particleOutlineRatio: 0.05,
+  progressRingHeight: -2,
+  progressRingInnerRadius: 1.5,
+  progressRingSegments: 32,
+  bossHealthBarHeight: 4,
+  bossHealthBarWidth: 6,
+  bossHealthBarDepth: 0.01,
+  bossHealthBarFillHeight: 0.4,
+  bossGlowIntensity: 3,
+  regularGlowIntensity: 1.5,
+  letterGravity: 0.01,
+  letterScaleDecay: 0.88,
+  letterFadePerUpdate: 0.08,
+  debrisFadePerUpdate: 0.035,
+} as const;
 
 interface EnemyShipProperties {
   enemy: EnemyType;
+  isActive: boolean;
   onReachPlayer: (id: string) => void;
   onDestroy?: (id: string) => void;
   onPositionUpdate?: (
@@ -63,6 +121,18 @@ function createParticleRotation(): Pick<
   };
 }
 
+function cloneParticleForFrame<
+  T extends Pick<DebrisParticle, "position" | "velocity" | "rotation">,
+>(particle: T): T {
+  // React retains prior props; mutate only fresh vectors so rendered transforms update.
+  return {
+    ...particle,
+    position: particle.position.clone(),
+    velocity: particle.velocity.clone(),
+    rotation: particle.rotation.clone(),
+  };
+}
+
 // Map enemy types to model files
 function getEnemyModelPath(enemy: EnemyType): string {
   if (enemy.isBoss) {
@@ -76,6 +146,7 @@ function getEnemyModelPath(enemy: EnemyType): string {
 
 const EnemyShipComponent = ({
   enemy,
+  isActive,
   onReachPlayer,
   onDestroy,
   onPositionUpdate,
@@ -139,22 +210,32 @@ const EnemyShipComponent = ({
 
       // Create explosion particles
       const particles: ExplodingLetter[] = [];
-      for (let index = 0; index < 3; index++) {
-        const angle = (Math.PI * 2 * index) / 3;
-        const speed = 0.8 + Math.random() * 0.6; // Fast dispersal
+      for (let index = 0; index < TUNING.letterParticleCount; index++) {
+        const angle = (Math.PI * 2 * index) / TUNING.letterParticleCount;
+        const speed =
+          TUNING.letterMinimumSpeed + Math.random() * TUNING.letterSpeedRange; // Fast dispersal
 
         particles.push({
           letter: letter,
-          position: new THREE.Vector3(xPos, 0, enemy.isBoss ? -4 : -3),
+          position: new THREE.Vector3(
+            xPos,
+            0,
+            enemy.isBoss ? TUNING.bossWordDepth : TUNING.regularWordDepth,
+          ),
           velocity: new THREE.Vector3(
             Math.cos(angle) * speed,
-            (Math.random() - 0.5) * 0.4,
+            (Math.random() - 0.5) * TUNING.letterVerticalSpeedRange,
             Math.sin(angle) * speed,
           ),
           ...createParticleRotation(),
-          scale: fontSize * (0.8 + Math.random() * 0.4),
+          scale:
+            fontSize *
+            (TUNING.letterMinimumScaleRatio +
+              Math.random() * TUNING.letterScaleRatioRange),
           opacity: 1,
-          life: 12 + Math.random() * 8, // Short life — clears quickly
+          life:
+            TUNING.letterMinimumLifeFrames +
+            Math.random() * TUNING.letterLifeRangeFrames, // Short life — clears quickly
         });
       }
 
@@ -172,170 +253,193 @@ const EnemyShipComponent = ({
   }, [enemy.id]);
 
   useFrame((state, delta) => {
-    if (!groupReference.current || isDestroyingReference.current) return;
+    if (!isActive || !groupReference.current) return;
 
-    // Move enemy toward player - calculate direction each frame for tracking
-    // Player is at z = -20, x = 0, y = 0
-    const playerPos = { x: 0, y: 0, z: -20 };
-    const currentPos = groupReference.current.position;
+    if (!isDestroyingReference.current) {
+      // Move enemy toward player - calculate direction each frame for tracking
+      // Player is at z = -20, x = 0, y = 0
+      const playerPos = { x: 0, y: 0, z: -20 };
+      const currentPos = groupReference.current.position;
 
-    // Calculate direction vector from enemy to player
-    const dx = playerPos.x - currentPos.x;
-    const dy = playerPos.y - currentPos.y;
-    const dz = playerPos.z - currentPos.z;
-    const distance = Math.hypot(dx, dy, dz);
+      // Calculate direction vector from enemy to player
+      const dx = playerPos.x - currentPos.x;
+      const dy = playerPos.y - currentPos.y;
+      const dz = playerPos.z - currentPos.z;
+      const distance = Math.hypot(dx, dy, dz);
 
-    // Dynamic rotation - gradually turn to face the player
-    if (distance > 0.1) {
-      // Calculate the angle to face the player (Y-axis rotation)
-      // Since ships spawn at rotation 0 facing forward (toward -Z), we need to adjust
-      const targetAngle = Math.atan2(-dx, -dz); // Negative values because forward is -Z
-      const currentAngle = groupReference.current.rotation.y;
+      // Dynamic rotation - gradually turn to face the player
+      if (distance > TUNING.minimumFacingDistance) {
+        // Calculate the angle to face the player (Y-axis rotation)
+        // Since ships spawn at rotation 0 facing forward (toward -Z), we need to adjust
+        const targetAngle = Math.atan2(-dx, -dz); // Negative values because forward is -Z
+        const currentAngle = groupReference.current.rotation.y;
 
-      // Smoothly interpolate rotation
-      const rotationSpeed = 2 * delta; // Adjust this to control turn speed
-      const angleDiff = targetAngle - currentAngle;
+        // Smoothly interpolate rotation
+        const rotationSpeed = 2 * delta; // Adjust this to control turn speed
+        const angleDiff = targetAngle - currentAngle;
 
-      // Normalize angle difference to [-PI, PI]
-      let normalizedDiff = ((angleDiff + Math.PI) % (Math.PI * 2)) - Math.PI;
-      if (normalizedDiff < -Math.PI) normalizedDiff += Math.PI * 2;
+        // Normalize angle difference to [-PI, PI]
+        let normalizedDiff = ((angleDiff + Math.PI) % (Math.PI * 2)) - Math.PI;
+        if (normalizedDiff < -Math.PI) normalizedDiff += Math.PI * 2;
 
-      // Apply smooth rotation
-      groupReference.current.rotation.y +=
-        normalizedDiff * Math.min(1, rotationSpeed);
-    }
+        // Apply smooth rotation
+        groupReference.current.rotation.y +=
+          normalizedDiff * Math.min(1, rotationSpeed);
+      }
 
-    // Enemy-to-enemy collision avoidance with very strong boundaries
-    // Match ship scales: 1.5 for regular, 2.5 for boss
-    const myRadius = enemy.isBoss ? 6 : 4; // Increased collision radius
-    const separationForce = { x: 0, y: 0, z: 0 };
+      // Enemy-to-enemy collision avoidance with very strong boundaries
+      // Match ship scales: 1.5 for regular, 2.5 for boss
+      const myRadius = enemy.isBoss
+        ? TUNING.bossSeparationRadius
+        : TUNING.regularSeparationRadius; // Increased collision radius
+      const separationForce = { x: 0, y: 0, z: 0 };
 
-    // Calculate word width for boundary consideration with dynamic scaling
-    const playerZ = -20;
-    const myDistanceFromPlayer = currentPos.z - playerZ;
-    const maxDistance = 55;
-    const myNormalizedDistance = Math.max(
-      0,
-      Math.min(1, myDistanceFromPlayer / maxDistance),
-    );
-    const minSize = 0.5;
-    const maxSize = 1.8;
-    const myFontSize = minSize + (maxSize - minSize) * myNormalizedDistance;
-    const baseLetterSpacing = 1.2;
-    const myLetterSpacing = baseLetterSpacing * (myFontSize / 1);
-    const myWordWidth = enemy.word.length * myLetterSpacing;
-
-    for (const otherEnemy of allEnemies) {
-      if (otherEnemy.id === enemy.id) continue; // Skip self
-
-      const odx = currentPos.x - otherEnemy.position.x;
-      const ody = currentPos.y - otherEnemy.position.y;
-      const odz = currentPos.z - otherEnemy.position.z;
-      const otherDistance = Math.hypot(odx, ody, odz);
-
-      const otherRadius = otherEnemy.isBoss ? 6 : 4; // Increased collision radius
-      // Calculate other enemy's dynamic word width
-      const otherDistanceFromPlayer = otherEnemy.position.z - playerZ;
-      const otherNormalizedDistance = Math.max(
+      // Calculate word width for boundary consideration with dynamic scaling
+      const playerZ = -20;
+      const myDistanceFromPlayer = currentPos.z - playerZ;
+      const maxDistance = 55;
+      const myNormalizedDistance = Math.max(
         0,
-        Math.min(1, otherDistanceFromPlayer / maxDistance),
+        Math.min(1, myDistanceFromPlayer / maxDistance),
       );
-      const otherFontSize =
-        minSize + (maxSize - minSize) * otherNormalizedDistance;
-      const otherLetterSpacing = baseLetterSpacing * (otherFontSize / 1);
-      const otherWordWidth = otherEnemy.word.length * otherLetterSpacing;
+      const minSize = 0.5;
+      const maxSize = 1.8;
+      const myFontSize = minSize + (maxSize - minSize) * myNormalizedDistance;
+      const baseLetterSpacing = 1.2;
+      const myLetterSpacing = baseLetterSpacing * (myFontSize / 1);
+      const myWordWidth = enemy.word.length * myLetterSpacing;
 
-      // Consider both ship size and word width for separation with larger buffer
-      const wordSeparation = (myWordWidth + otherWordWidth) / 2;
-      const minSeparation = myRadius + otherRadius + wordSeparation + 5; // Increased buffer to prevent clumping
+      for (const otherEnemy of allEnemies) {
+        if (otherEnemy.id === enemy.id) continue; // Skip self
 
-      // If too close, add very strong repulsion force
-      if (otherDistance < minSeparation && otherDistance > 0.1) {
-        const repulsionStrength =
-          (minSeparation - otherDistance) / minSeparation;
-        // Much stronger repulsion force (increased to 3.0)
-        const forceMultiplier = 3 * (1 + repulsionStrength); // Stronger when closer
-        separationForce.x +=
-          (odx / otherDistance) * repulsionStrength * forceMultiplier;
-        separationForce.y +=
-          (ody / otherDistance) * repulsionStrength * forceMultiplier;
-        separationForce.z +=
-          (odz / otherDistance) * repulsionStrength * forceMultiplier;
+        const odx = currentPos.x - otherEnemy.position.x;
+        const ody = currentPos.y - otherEnemy.position.y;
+        const odz = currentPos.z - otherEnemy.position.z;
+        const otherDistance = Math.hypot(odx, ody, odz);
+
+        const otherRadius = otherEnemy.isBoss
+          ? TUNING.bossSeparationRadius
+          : TUNING.regularSeparationRadius; // Increased collision radius
+        // Calculate other enemy's dynamic word width
+        const otherDistanceFromPlayer = otherEnemy.position.z - playerZ;
+        const otherNormalizedDistance = Math.max(
+          0,
+          Math.min(1, otherDistanceFromPlayer / maxDistance),
+        );
+        const otherFontSize =
+          minSize + (maxSize - minSize) * otherNormalizedDistance;
+        const otherLetterSpacing = baseLetterSpacing * (otherFontSize / 1);
+        const otherWordWidth = otherEnemy.word.length * otherLetterSpacing;
+
+        // Consider both ship size and word width for separation with larger buffer
+        const wordSeparation = (myWordWidth + otherWordWidth) / 2;
+        const minSeparation =
+          myRadius + otherRadius + wordSeparation + TUNING.wordSeparationBuffer; // Increased buffer to prevent clumping
+
+        // If too close, add very strong repulsion force
+        if (
+          otherDistance < minSeparation &&
+          otherDistance > TUNING.minimumFacingDistance
+        ) {
+          const repulsionStrength =
+            (minSeparation - otherDistance) / minSeparation;
+          // Much stronger repulsion force (increased to 3.0)
+          const forceMultiplier =
+            TUNING.separationStrength * (1 + repulsionStrength); // Stronger when closer
+          separationForce.x +=
+            (odx / otherDistance) * repulsionStrength * forceMultiplier;
+          separationForce.y +=
+            (ody / otherDistance) * repulsionStrength * forceMultiplier;
+          separationForce.z +=
+            (odz / otherDistance) * repulsionStrength * forceMultiplier;
+        }
       }
-    }
 
-    if (distance > 0.5) {
-      // Move at constant speed toward player
-      const normalizedDx = (dx / distance) * enemy.speed * delta;
-      const normalizedDy = (dy / distance) * enemy.speed * delta;
-      const normalizedDz = (dz / distance) * enemy.speed * delta;
+      if (distance > 0.5) {
+        // Move at constant speed toward player
+        const normalizedDx = (dx / distance) * enemy.speed * delta;
+        const normalizedDy = (dy / distance) * enemy.speed * delta;
+        const normalizedDz = (dz / distance) * enemy.speed * delta;
 
-      // Move toward player with separation force applied
-      groupReference.current.position.x +=
-        normalizedDx + separationForce.x * delta * 10;
-      groupReference.current.position.y +=
-        normalizedDy + separationForce.y * delta * 10;
-      groupReference.current.position.z +=
-        normalizedDz + separationForce.z * delta * 10;
+        // Move toward player with separation force applied
+        groupReference.current.position.x +=
+          normalizedDx + separationForce.x * delta * TUNING.separationSpeed;
+        groupReference.current.position.y +=
+          normalizedDy + separationForce.y * delta * TUNING.separationSpeed;
+        groupReference.current.position.z +=
+          normalizedDz + separationForce.z * delta * TUNING.separationSpeed;
 
-      // Update position in store for accurate separation calculations
-      if (onPositionUpdate) {
-        onPositionUpdate(enemy.id, {
-          x: groupReference.current.position.x,
-          y: groupReference.current.position.y,
-          z: groupReference.current.position.z,
-        });
-      }
+        // Update position in store for accurate separation calculations
+        if (onPositionUpdate) {
+          onPositionUpdate(enemy.id, {
+            x: groupReference.current.position.x,
+            y: groupReference.current.position.y,
+            z: groupReference.current.position.z,
+          });
+        }
 
-      // Recalculate distance AFTER movement for accurate collision detection
-      const newDx = playerPos.x - groupReference.current.position.x;
-      const newDy = playerPos.y - groupReference.current.position.y;
-      const newDz = playerPos.z - groupReference.current.position.z;
-      const newDistance = Math.hypot(newDx, newDy, newDz);
+        // Recalculate distance AFTER movement for accurate collision detection
+        const newDx = playerPos.x - groupReference.current.position.x;
+        const newDy = playerPos.y - groupReference.current.position.y;
+        const newDz = playerPos.z - groupReference.current.position.z;
+        const newDistance = Math.hypot(newDx, newDy, newDz);
 
-      // Check collision with player (ship radii overlap)
-      const playerRadius = 3;
-      const enemyRadius = enemy.isBoss ? 4 : 2.5;
-      if (newDistance < playerRadius + enemyRadius) {
+        // Check collision with player (ship radii overlap)
+        const playerRadius = 3;
+        const enemyRadius = enemy.isBoss
+          ? TUNING.bossCollisionRadius
+          : TUNING.regularCollisionRadius;
+        if (newDistance < playerRadius + enemyRadius) {
+          isDestroyingReference.current = true;
+          setIsDestroying(true);
+          onReachPlayerReference.current(enemy.id);
+        }
+      } else {
+        // Reached player position
         isDestroyingReference.current = true;
         setIsDestroying(true);
         onReachPlayerReference.current(enemy.id);
       }
-    } else {
-      // Reached player position
-      isDestroyingReference.current = true;
-      setIsDestroying(true);
-      onReachPlayerReference.current(enemy.id);
-    }
 
-    // Pulsing effect based on typing progress
-    if (enemy.typedCharacters > 0) {
-      const progress = enemy.typedCharacters / enemy.word.length;
-      const scale = 1 + Math.sin(state.clock.elapsedTime * 10) * 0.1 * progress;
-      groupReference.current.scale.setScalar(scale * (enemy.isBoss ? 3 : 1.5));
-    } else {
-      groupReference.current.scale.setScalar(enemy.isBoss ? 3 : 1.5);
+      // Pulsing effect based on typing progress
+      if (enemy.typedCharacters > 0) {
+        const progress = enemy.typedCharacters / enemy.word.length;
+        const scale =
+          1 +
+          Math.sin(state.clock.elapsedTime * TUNING.damagePulseFrequency) *
+            TUNING.damagePulseAmplitude *
+            progress;
+        groupReference.current.scale.setScalar(
+          scale *
+            (enemy.isBoss ? TUNING.bossPulseScale : TUNING.regularPulseScale),
+        );
+      } else {
+        groupReference.current.scale.setScalar(
+          enemy.isBoss ? TUNING.bossPulseScale : TUNING.regularPulseScale,
+        );
+      }
     }
-
-    // Update exploding letters and debris particles (throttled to every 3rd frame)
+    // Destruction stops movement, while its particles continue animating.
     const hasParticles =
       explodingLetters.length > 0 || debrisParticles.length > 0;
     if (hasParticles) {
       frameCounter.current++;
-      if (frameCounter.current % 3 === 0) {
+      if (frameCounter.current % TUNING.particleUpdateFrames === 0) {
         if (explodingLetters.length > 0) {
           setExplodingLetters((previous) => {
             const alive: ExplodingLetter[] = [];
-            for (const p of previous) {
+            for (const particle of previous) {
+              const p = cloneParticleForFrame(particle);
               p.position.add(p.velocity);
-              p.velocity.y -= 0.01;
+              p.velocity.y -= TUNING.letterGravity;
               p.rotation.x += p.rotationSpeed.x;
               p.rotation.y += p.rotationSpeed.y;
               p.rotation.z += p.rotationSpeed.z;
-              p.scale *= 0.88;
-              p.opacity -= 0.08;
+              p.scale *= TUNING.letterScaleDecay;
+              p.opacity -= TUNING.letterFadePerUpdate;
               p.life -= 1;
-              if (p.life > 0 && p.opacity > 0.01) alive.push(p);
+              if (p.life > 0 && p.opacity > TUNING.minimumVisibleOpacity)
+                alive.push(p);
             }
             return alive;
           });
@@ -344,17 +448,20 @@ const EnemyShipComponent = ({
         if (debrisParticles.length > 0) {
           setDebrisParticles((previous) => {
             const alive: DebrisParticle[] = [];
-            for (const p of previous) {
+            for (const particle of previous) {
+              const p = cloneParticleForFrame(particle);
               p.position.add(p.velocity);
-              p.velocity.x *= 0.96;
-              p.velocity.y = (p.velocity.y - 0.015) * 0.96;
-              p.velocity.z *= 0.96;
+              p.velocity.x *= TUNING.debrisDrag;
+              p.velocity.y =
+                (p.velocity.y - TUNING.debrisGravity) * TUNING.debrisDrag;
+              p.velocity.z *= TUNING.debrisDrag;
               p.rotation.x += p.rotationSpeed.x;
               p.rotation.y += p.rotationSpeed.y;
               p.rotation.z += p.rotationSpeed.z;
-              p.opacity -= 0.035;
+              p.opacity -= TUNING.debrisFadePerUpdate;
               p.life -= 1;
-              if (p.life > 0 && p.opacity > 0.01) alive.push(p);
+              if (p.life > 0 && p.opacity > TUNING.minimumVisibleOpacity)
+                alive.push(p);
             }
             return alive;
           });
@@ -374,25 +481,31 @@ const EnemyShipComponent = ({
 
     // Create debris explosion particles
     const debris: DebrisParticle[] = [];
-    const debrisCount = enemy.isBoss ? 20 : 12;
+    const debrisCount = enemy.isBoss
+      ? TUNING.bossDebrisCount
+      : TUNING.regularDebrisCount;
     const shipColor = enemy.isBoss ? "#ff00ff" : "#09ff00";
 
     for (let index = 0; index < debrisCount; index++) {
       const angle = (Math.PI * 2 * index) / debrisCount;
-      const speed = 0.4 + Math.random() * 0.5;
-      const upwardBias = 0.1 + Math.random() * 0.2;
+      const speed = TUNING.minimumDebrisSpeed + Math.random() * 0.5;
+      const upwardBias =
+        TUNING.minimumDebrisUpwardSpeed +
+        Math.random() * TUNING.debrisUpwardSpeedRange;
 
       debris.push({
         position: new THREE.Vector3(0, 0, 0),
         velocity: new THREE.Vector3(
           Math.cos(angle) * speed,
-          upwardBias + (Math.random() - 0.5) * 0.3,
+          upwardBias + (Math.random() - 0.5) * TUNING.debrisVerticalSpeedRange,
           Math.sin(angle) * speed,
         ),
         ...createParticleRotation(),
-        scale: 0.3 + Math.random() * 0.5,
+        scale: TUNING.minimumDebrisScale + Math.random() * 0.5,
         opacity: 1,
-        life: 25 + Math.random() * 15,
+        life:
+          TUNING.minimumDebrisLifeFrames +
+          Math.random() * TUNING.debrisLifeRangeFrames,
         color: Math.random() > 0.5 ? shipColor : "#ff4444",
       });
     }
@@ -404,7 +517,7 @@ const EnemyShipComponent = ({
       if (onDestroyReference.current) {
         onDestroyReference.current(enemy.id);
       }
-    }, 500);
+    }, TUNING.destructionDurationMs);
   }, [enemy.health, enemy.id, enemy.isBoss]);
 
   // Color based on enemy type and health
@@ -437,7 +550,9 @@ const EnemyShipComponent = ({
   const baseLetterSpacing = 1.2;
   const dynamicLetterSpacing = baseLetterSpacing * (dynamicFontSize / 1);
 
-  const shipScale = enemy.isBoss ? 2.5 : 1.5;
+  const shipScale = enemy.isBoss
+    ? TUNING.bossModelScale
+    : TUNING.regularModelScale;
 
   return (
     <group
@@ -449,7 +564,11 @@ const EnemyShipComponent = ({
       {/* Word Display - Individual letters centered on front of ship */}
       {!isDestroying && (
         <group
-          position={[0, 0, enemy.isBoss ? -4 : -3]}
+          position={[
+            0,
+            0,
+            enemy.isBoss ? TUNING.bossWordDepth : TUNING.regularWordDepth,
+          ]}
           rotation={[0, Math.PI, 0]}
         >
           {letters.slice(enemy.typedCharacters).map((letter, index) => {
@@ -470,12 +589,13 @@ const EnemyShipComponent = ({
                   color="#ff9800"
                   anchorX="center"
                   anchorY="middle"
-                  outlineWidth={0.08 * (dynamicFontSize / 1)}
+                  outlineWidth={TUNING.wordOutlineRatio * (dynamicFontSize / 1)}
                   outlineColor="#ff4400"
                   font="/assets/fonts/Orbitron-Regular.ttf"
                   userData={{
-                    testId: `${enemy.isBoss ? "boss-word" : "enemy-word"}-${enemy.id}-${actualIndex.toString()}`,
+                    testId: getEnemyLetterId(enemy, actualIndex),
                   }}
+                  name={getEnemyLetterId(enemy, actualIndex)}
                 >
                   {letter}
                 </Text>
@@ -495,7 +615,7 @@ const EnemyShipComponent = ({
                 color="#ff9800"
                 anchorX="center"
                 anchorY="middle"
-                outlineWidth={0.05 * particle.scale}
+                outlineWidth={TUNING.particleOutlineRatio * particle.scale}
                 outlineColor="#ff4400"
                 font="/assets/fonts/Orbitron-Regular.ttf"
               >
@@ -508,8 +628,17 @@ const EnemyShipComponent = ({
 
       {/* Typing progress indicator ring */}
       {!isDestroying && enemy.typedCharacters > 0 && (
-        <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[1.5, 2, 32]} />
+        <mesh
+          position={[0, TUNING.progressRingHeight, 0]}
+          rotation={[-Math.PI / 2, 0, 0]}
+        >
+          <ringGeometry
+            args={[
+              TUNING.progressRingInnerRadius,
+              2,
+              TUNING.progressRingSegments,
+            ]}
+          />
           <meshBasicMaterial
             color="#09ff00"
             opacity={0.7}
@@ -521,21 +650,29 @@ const EnemyShipComponent = ({
 
       {/* Health bar for boss */}
       {!isDestroying && enemy.isBoss && (
-        <group position={[0, 4, 0]}>
+        <group position={[0, TUNING.bossHealthBarHeight, 0]}>
           {/* Background */}
           <mesh>
-            <planeGeometry args={[6, 0.5]} />
+            <planeGeometry args={[TUNING.bossHealthBarWidth, 0.5]} />
             <meshBasicMaterial color="#333333" />
           </mesh>
           {/* Health fill */}
           <mesh
             position={[
-              -(6 - (6 * enemy.health) / enemy.maxHealth) / 2,
+              -(
+                TUNING.bossHealthBarWidth -
+                (TUNING.bossHealthBarWidth * enemy.health) / enemy.maxHealth
+              ) / 2,
               0,
-              0.01,
+              TUNING.bossHealthBarDepth,
             ]}
           >
-            <planeGeometry args={[(6 * enemy.health) / enemy.maxHealth, 0.4]} />
+            <planeGeometry
+              args={[
+                (TUNING.bossHealthBarWidth * enemy.health) / enemy.maxHealth,
+                TUNING.bossHealthBarFillHeight,
+              ]}
+            />
             <meshBasicMaterial color="#ff0000" />
           </mesh>
         </group>
@@ -545,7 +682,11 @@ const EnemyShipComponent = ({
       {!isDestroying && (
         <pointLight
           color={getColor()}
-          intensity={enemy.isBoss ? 3 : 1.5}
+          intensity={
+            enemy.isBoss
+              ? TUNING.bossGlowIntensity
+              : TUNING.regularGlowIntensity
+          }
           distance={15}
           decay={2}
         />
@@ -575,21 +716,6 @@ const EnemyShipComponent = ({
 
 // Memoize component to prevent unnecessary re-renders
 // Position changes are handled via Three.js refs, not React re-renders
-export const EnemyShip = memo(
-  EnemyShipComponent,
-  (previousProperties, nextProperties) => {
-    return (
-      previousProperties.enemy.id === nextProperties.enemy.id &&
-      previousProperties.enemy.typedCharacters ===
-        nextProperties.enemy.typedCharacters &&
-      previousProperties.enemy.health === nextProperties.enemy.health &&
-      previousProperties.onReachPlayer === nextProperties.onReachPlayer &&
-      previousProperties.onDestroy === nextProperties.onDestroy &&
-      previousProperties.onPositionUpdate === nextProperties.onPositionUpdate &&
-      (previousProperties.allEnemies?.length ?? 0) ===
-        (nextProperties.allEnemies?.length ?? 0)
-    );
-  },
-);
+export const EnemyShip = memo(EnemyShipComponent);
 
 EnemyShip.displayName = "EnemyShip";

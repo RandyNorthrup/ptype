@@ -24,7 +24,9 @@ pre-commit run --all-files
    visibility, reduced motion, and narrow as well as desktop layouts.
 5. Update README or `docs/` whenever behavior, configuration, controls,
    dependencies, deployment, or content changes.
-6. Run `npm run quality` and `pre-commit run --all-files`.
+6. Follow [AGENTS.md](AGENTS.md), update the canonical [PLAN.md](PLAN.md), and
+   run `npm run quality` and `pre-commit run --all-files`. Do not suppress an
+   unresolved historical credential to manufacture a passing release gate.
 7. Open a pull request that explains the outcome, risk, and verification.
 
 Formatting-only changes should remain separate from behavioral refactors when
@@ -33,10 +35,11 @@ possible so review history stays useful. Do not commit generated `dist/`,
 
 ## Tests and coverage
 
-Vitest enforces 80% global thresholds for statements, branches, functions, and
-lines. jsdom covers application orchestration, UI, state, content loaders, and
-domain logic. WebGL render loops require a production-browser smoke test because
-jsdom does not provide a graphics context.
+Vitest enforces measured global floors: 94% statements, 82% branches, 97%
+functions, and 95% lines. jsdom covers application orchestration, UI, state, content loaders, and
+domain logic. Scene tests exercise real frame callbacks with the React Three test renderer;
+GPU rendering still requires the production-browser gate. Browser automation
+must use isolated profiles, `--mute-audio`, and zero test audio volumes.
 
 An accessibility regression is a functional regression. Component tests use
 axe-core where a meaningful rendered surface exists, but automated checks do not
@@ -49,3 +52,8 @@ replace keyboard and responsive browser verification.
 - Keep the lockfile synchronized with `package.json`.
 - Never commit credentials, private keys, tokens, or production user data.
 - Report any release or browser verification limitation explicitly.
+
+Run `npm run test:red` after gate, behavior, fixture, or tool changes. The harness
+uses a disposable repository, verifies intended diagnostics and nonzero exits,
+restores exact bytes in all outcomes, and proves restored green. A focused drill
+can be selected by name, for example `npm run test:red -- "trivia retry"`.

@@ -8,6 +8,17 @@ import { triviaDatabase } from "../utils/triviaDatabase";
 import { TEST_IDS } from "../utils/testIds";
 import { error as logError } from "../utils/logger";
 
+const TUNING = {
+  answerDurationSeconds: 15,
+  timeoutFeedbackMs: 2000,
+  timerTickMs: 1000,
+  answerFeedbackMs: 3000,
+  safeTimeSeconds: 10,
+  warningTimeSeconds: 5,
+  answeredOpacity: 0.8,
+  firstOptionCodePoint: 65,
+} as const;
+
 interface TriviaOverlayProperties {
   question: TriviaQuestion;
   onAnswer: (
@@ -27,7 +38,9 @@ const TriviaOverlayComponent = ({
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [bonusItem, setBonusItem] = useState<BonusItem | null>(null);
-  const [timeLeft, setTimeLeft] = useState(15); // 15 seconds to answer
+  const [timeLeft, setTimeLeft] = useState<number>(
+    TUNING.answerDurationSeconds,
+  );
   const [showResult, setShowResult] = useState(false);
 
   // Timer countdown
@@ -43,12 +56,12 @@ const TriviaOverlayComponent = ({
           setShowResult(true);
           setTimeout(() => {
             onTimeout();
-          }, 2000);
+          }, TUNING.timeoutFeedbackMs);
           return 0;
         }
         return previous - 1;
       });
-    }, 1000);
+    }, TUNING.timerTickMs);
 
     return () => {
       clearInterval(timer);
@@ -77,15 +90,15 @@ const TriviaOverlayComponent = ({
       // Show result for 3 seconds, then call parent callback
       setTimeout(() => {
         onAnswer(answerIndex, isAnswerCorrect, reward);
-      }, 3000);
+      }, TUNING.answerFeedbackMs);
     } catch (error) {
       logError("Failed to handle trivia answer", error, "TriviaOverlay");
     }
   };
 
   const getTimerColor = () => {
-    if (timeLeft > 10) return "#09ff00";
-    if (timeLeft > 5) return "#fbbf24";
+    if (timeLeft > TUNING.safeTimeSeconds) return "#09ff00";
+    if (timeLeft > TUNING.warningTimeSeconds) return "#fbbf24";
     return "#ef4444";
   };
 
@@ -293,7 +306,7 @@ const TriviaOverlayComponent = ({
                 fontWeight: "600",
                 cursor: isAnswered ? "not-allowed" : "pointer",
                 transition: "all 0.2s",
-                opacity: isAnswered ? 0.8 : 1,
+                opacity: isAnswered ? TUNING.answeredOpacity : 1,
                 textAlign: "left",
                 display: "flex",
                 alignItems: "center",
@@ -332,7 +345,7 @@ const TriviaOverlayComponent = ({
                   fontWeight: "700",
                 }}
               >
-                {String.fromCodePoint(65 + index)}
+                {String.fromCodePoint(TUNING.firstOptionCodePoint + index)}
               </span>
               {option}
             </button>

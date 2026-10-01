@@ -32,10 +32,7 @@ export enum TriviaCategory {
   POP_CULTURE = "pop_culture",
   SPORTS = "sports",
   HISTORY = "history",
-  GEOGRAPHY = "geography",
   MATHEMATICS = "mathematics",
-  ART = "art",
-  NATURE = "nature",
 }
 
 export interface TriviaQuestion {
@@ -141,6 +138,8 @@ export interface Achievement {
 // Game constants
 export const GAME_CONSTANTS = {
   FPS: 60,
+  POINTS_PER_CHARACTER: 10,
+  BOSS_SCORE_MULTIPLIER: 5,
   MAX_LEVEL: 100,
   BASE_WPM: 20,
   MAX_WPM: 400,

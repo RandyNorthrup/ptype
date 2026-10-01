@@ -38,7 +38,9 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function isStringArray(value: unknown): value is string[] {
   return (
-    Array.isArray(value) && value.every((item) => typeof item === "string")
+    Array.isArray(value) &&
+    value.length >= 2 &&
+    value.every((item) => typeof item === "string" && item.trim().length > 0)
   );
 }
 
@@ -50,6 +52,7 @@ function parseQuestion(
   if (
     !isRecord(value) ||
     typeof value["question"] !== "string" ||
+    value["question"].trim().length === 0 ||
     !isStringArray(value["options"]) ||
     typeof value["correct"] !== "number" ||
     !Number.isSafeInteger(value["correct"]) ||
@@ -159,12 +162,17 @@ export class TriviaDatabase {
         );
       } catch (error) {
         logError("Failed to load trivia database", error, "triviaDatabase");
-        this.triviaData = {}; // Empty data on error
-        this.loadPromise = null; // Allow retry on next call
+        this.triviaData = null;
+        throw error;
       }
     })();
 
-    await this.loadPromise;
+    try {
+      await this.loadPromise;
+    } finally {
+      // Clear failed and successful requests, including synchronous fetch errors.
+      this.loadPromise = null;
+    }
   }
 
   /**
@@ -279,7 +287,7 @@ export class TriviaDatabase {
       options: ["3", "4", "5"],
       correctAnswer: 1,
       difficulty: "beginner",
-      category: "mathematics",
+      category: TriviaCategory.MATHEMATICS,
     };
   }
 
@@ -308,6 +316,7 @@ export class TriviaDatabase {
     }
 
     const result: TriviaData = {};
+    let questionCount = 0;
     for (const [category, categoryValue] of Object.entries(parsedData)) {
       if (!isRecord(categoryValue)) {
         throw new TypeError(`Trivia category ${category} must be a mapping`);
@@ -325,11 +334,14 @@ export class TriviaDatabase {
           categoryData[difficulty] = questions.map((question) =>
             parseQuestion(question, difficulty, category),
           );
+          questionCount += questions.length;
         }
       }
       result[category] = categoryData;
     }
 
+    if (questionCount === 0)
+      throw new TypeError("Trivia data must contain at least one question");
     return result;
   }
 }

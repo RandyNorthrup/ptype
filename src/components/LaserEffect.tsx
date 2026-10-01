@@ -8,6 +8,23 @@ import { getLaserTarget } from "./LaserTargetHelper";
 import { useGameStore } from "../store/gameContext";
 import { GameMode } from "../types";
 
+const TUNING = {
+  outerGlowAlpha: 0.3,
+  middleBeamAlpha: 0.6,
+  coreWidthRatio: 0.4,
+  defaultTargetHeightRatio: 0.3,
+  playerBottomOffsetPx: 120,
+  particleCount: 12,
+  particleSpreadRadiansRatio: 0.8,
+  minimumParticleSpeed: 3,
+  particleSpeedRange: 5,
+  particleSizeRange: 3,
+  minimumParticleLifeFrames: 30,
+  particleLifeRangeFrames: 20,
+  minimumBeamWidthPx: 8,
+  beamWidthRangePx: 4,
+} as const;
+
 interface BeamBurst {
   x: number;
   y: number;
@@ -75,7 +92,7 @@ export function LaserEffect() {
         context.save();
 
         // Outer glow
-        context.globalAlpha = beam.opacity * 0.3;
+        context.globalAlpha = beam.opacity * TUNING.outerGlowAlpha;
         context.shadowBlur = 40;
         context.shadowColor = beam.color;
         context.beginPath();
@@ -87,7 +104,7 @@ export function LaserEffect() {
         context.stroke();
 
         // Middle beam
-        context.globalAlpha = beam.opacity * 0.6;
+        context.globalAlpha = beam.opacity * TUNING.middleBeamAlpha;
         context.shadowBlur = 25;
         context.beginPath();
         context.moveTo(beam.x, beam.y);
@@ -104,7 +121,7 @@ export function LaserEffect() {
         context.moveTo(beam.x, beam.y);
         context.lineTo(currentX, currentY);
         context.strokeStyle = "#ffffff";
-        context.lineWidth = beam.width * 0.4;
+        context.lineWidth = beam.width * TUNING.coreWidthRatio;
         context.stroke();
 
         // Particles
@@ -160,7 +177,7 @@ export function LaserEffect() {
       audioManager.playLaser();
 
       let targetX = canvas.width / 2;
-      let targetY = canvas.height * 0.3;
+      let targetY = canvas.height * TUNING.defaultTargetHeightRatio;
       const target = getLaserTarget();
       if (target) {
         targetX = target.x;
@@ -168,24 +185,30 @@ export function LaserEffect() {
       }
 
       const wingOffsetX = 40;
-      const playerY = canvas.height - 120;
+      const playerY = canvas.height - TUNING.playerBottomOffsetPx;
       const isUseLeftWing = Math.random() > 0.5;
       const startX =
         canvas.width / 2 + (isUseLeftWing ? -wingOffsetX : wingOffsetX);
       const startY = playerY;
 
       const particles: Particle[] = [];
-      for (let index = 0; index < 12; index++) {
-        const angle = (Math.random() - 0.5) * Math.PI * 0.8 - Math.PI / 2;
-        const speed = 3 + Math.random() * 5;
+      for (let index = 0; index < TUNING.particleCount; index++) {
+        const angle =
+          (Math.random() - 0.5) * Math.PI * TUNING.particleSpreadRadiansRatio -
+          Math.PI / 2;
+        const speed =
+          TUNING.minimumParticleSpeed +
+          Math.random() * TUNING.particleSpeedRange;
         particles.push({
           x: targetX,
           y: targetY,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
-          size: 2 + Math.random() * 3,
+          size: 2 + Math.random() * TUNING.particleSizeRange,
           opacity: 1,
-          life: 30 + Math.random() * 20,
+          life:
+            TUNING.minimumParticleLifeFrames +
+            Math.random() * TUNING.particleLifeRangeFrames,
         });
       }
 
@@ -195,7 +218,8 @@ export function LaserEffect() {
         targetX,
         targetY,
         progress: 0,
-        width: 8 + Math.random() * 4,
+        width:
+          TUNING.minimumBeamWidthPx + Math.random() * TUNING.beamWidthRangePx,
         opacity: 1,
         life: 30,
         color: "#09ff00",

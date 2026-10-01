@@ -19,15 +19,17 @@ export default tseslint.config(
     rules: {
       ...unicorn.configs.recommended.rules,
       "no-unused-private-class-members": "error",
+      "no-self-compare": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
           argsIgnorePattern: "^_",
           caughtErrors: "all",
-          varsIgnorePattern: "^_",
+          reportUsedIgnorePattern: true,
         },
       ],
       "@typescript-eslint/no-floating-promises": "error",
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
       "@typescript-eslint/no-misused-promises": "error",
       "@typescript-eslint/await-thenable": "error",
       "@typescript-eslint/require-await": "error",
@@ -47,7 +49,7 @@ export default tseslint.config(
         {
           detectObjects: false,
           enforceConst: true,
-          ignore: [-1, 0, 1, 2, 100],
+          ignore: [-1, 0, 0.5, 1, 2, 100],
           ignoreArrayIndexes: true,
           ignoreEnums: true,
           ignoreReadonlyClassProperties: true,
@@ -93,17 +95,11 @@ export default tseslint.config(
     },
     rules: {
       ...hooks.configs.flat["recommended-latest"].rules,
-      // JSX numeric props are declarative layout/3D data, not hidden logic.
-      "@typescript-eslint/no-magic-numbers": "off",
     },
   },
   {
-    files: ["tests/**/*.ts", "*.config.ts", "web/*.config.ts"],
+    files: ["tests/**/*.ts", "*.config.ts"],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
-    rules: { "@typescript-eslint/no-magic-numbers": "off" },
-  },
-  {
-    files: ["src/config.ts", "src/constants.ts"],
     rules: { "@typescript-eslint/no-magic-numbers": "off" },
   },
   {
@@ -111,11 +107,10 @@ export default tseslint.config(
     rules: {
       "@typescript-eslint/no-magic-numbers": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
     },
   },
   {
-    files: ["**/*.mjs"],
+    files: ["eslint.config.mjs"],
     extends: [tseslint.configs.disableTypeChecked],
     languageOptions: { globals: globals.node },
     rules: { "@typescript-eslint/no-magic-numbers": "off" },

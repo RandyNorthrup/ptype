@@ -7,6 +7,9 @@ import { fileURLToPath } from "node:url";
 const projectRoot = fileURLToPath(new URL(".", import.meta.url));
 
 // https://vitejs.dev/config/
+/**
+@public Consumed by Vite's configuration loader.
+*/
 export default defineConfig({
   plugins: [
     react(),
@@ -126,14 +129,9 @@ export default defineConfig({
     minify: "terser",
     terserOptions: {
       compress: {
-        drop_console: true,
+        drop_console: ["log", "debug", "info"],
         drop_debugger: true,
-        pure_funcs: [
-          "console.log",
-          "console.debug",
-          "console.info",
-          "console.warn",
-        ],
+        pure_funcs: ["console.log", "console.debug", "console.info"],
         passes: 2, // More aggressive compression
       },
       mangle: {

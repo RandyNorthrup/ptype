@@ -18,6 +18,10 @@ import { error as logError } from "../utils/logger";
 import { ModalShell } from "./ModalShell";
 import { NeonButton } from "./NeonButton";
 
+const TUNING = {
+  unselectedModeOpacity: 0.85,
+} as const;
+
 const SECONDARY_BUTTON_STYLE: CSSProperties = {
   padding: "0.6rem 0.8rem",
   fontSize: "0.8rem",
@@ -207,7 +211,10 @@ const MainMenuComponent = () => {
               cursor:
                 selectedMode === "Choose a Mode" ? "not-allowed" : "pointer",
               transition: "all 0.3s",
-              opacity: selectedMode === "Choose a Mode" ? 0.85 : 1,
+              opacity:
+                selectedMode === "Choose a Mode"
+                  ? TUNING.unselectedModeOpacity
+                  : 1,
               textAlign: "center",
               boxShadow:
                 selectedMode === "Choose a Mode"

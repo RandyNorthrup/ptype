@@ -54,6 +54,15 @@ import {
 import { resourcePreloader } from "./utils/resourcePreloader";
 import { error as logError, debug } from "./utils/logger";
 
+const TUNING = {
+  musicStartDelayMs: 1000,
+  triviaDismissDelayMs: 500,
+  initialCameraHeight: 12,
+  initialCameraDepth: -35,
+  keyLightOffset: 10,
+  keyLightDepth: 5,
+} as const;
+
 const ACTIVE_GAME_MODES = new Set<GameMode>([
   GameMode.NORMAL,
   GameMode.PROGRAMMING,
@@ -168,7 +177,7 @@ function App() {
         // Start background music after a short delay
         musicTimer = setTimeout(() => {
           if (!abortController.signal.aborted) audioManager.playMusic();
-        }, 1000);
+        }, TUNING.musicStartDelayMs);
 
         setLoadingStatus("Ready!");
         if (!isSignalAborted(abortController.signal)) setIsLoading(false);
@@ -201,7 +210,7 @@ function App() {
       answerTrivia(selectedAnswer, isCorrect, bonusItem);
       setTimeout(() => {
         hideTrivia();
-      }, 500);
+      }, TUNING.triviaDismissDelayMs);
     },
     [answerTrivia, hideTrivia],
   );
@@ -210,7 +219,7 @@ function App() {
     answerTrivia(0, false, null);
     setTimeout(() => {
       hideTrivia();
-    }, 500);
+    }, TUNING.triviaDismissDelayMs);
   }, [answerTrivia, hideTrivia]);
 
   const handlePauseMainMenu = useCallback(() => {
@@ -267,7 +276,14 @@ function App() {
         }}
       >
         <Canvas
-          camera={{ position: [0, 12, -35], fov: 75 }}
+          camera={{
+            position: [
+              0,
+              TUNING.initialCameraHeight,
+              TUNING.initialCameraDepth,
+            ],
+            fov: 75,
+          }}
           gl={{
             preserveDrawingBuffer: true,
             powerPreference: "high-performance",
@@ -283,7 +299,14 @@ function App() {
 
             {/* Base lighting - always present */}
             <ambientLight intensity={0.3} />
-            <directionalLight position={[10, 10, 5]} intensity={0.5} />
+            <directionalLight
+              position={[
+                TUNING.keyLightOffset,
+                TUNING.keyLightOffset,
+                TUNING.keyLightDepth,
+              ]}
+              intensity={0.5}
+            />
 
             {/* Always show space background */}
             <SpaceScene />

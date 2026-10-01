@@ -5,9 +5,13 @@
 import { memo } from "react";
 import { Html } from "@react-three/drei";
 import { useGameStore } from "../store/gameContext";
-import { GameMode, getTargetWPM, getWPMColor } from "../types";
+import { GameMode, GAME_CONSTANTS, getTargetWPM, getWPMColor } from "../types";
 import { TEST_IDS } from "../utils/testIds";
 import { getDifficultyColor } from "../utils/difficultyManager";
+
+const TUNING = {
+  healthyThresholdHp: 60,
+} as const;
 
 const CanvasHUDComponent = () => {
   const {
@@ -144,7 +148,8 @@ const CanvasHUDComponent = () => {
             <div
               style={{
                 fontSize: "0.875rem",
-                color: health > 60 ? "#39ff14" : "#ff9800",
+                color:
+                  health > TUNING.healthyThresholdHp ? "#39ff14" : "#ff9800",
                 marginBottom: "4px",
               }}
             >
@@ -170,7 +175,7 @@ const CanvasHUDComponent = () => {
                   width: `${healthPercent.toString()}%`,
                   height: "100%",
                   background:
-                    health > 60
+                    health > TUNING.healthyThresholdHp
                       ? "linear-gradient(90deg, #39ff14 0%, #32dd10 100%)"
                       : "linear-gradient(90deg, #ff9800 0%, #ff6f00 100%)",
                   transition: "width 0.3s, background 0.3s",
@@ -324,7 +329,7 @@ const CanvasHUDComponent = () => {
                   color: "#ffffff",
                 }}
               >
-                {Math.ceil(empCooldown / 60)}s
+                {Math.ceil(empCooldown / GAME_CONSTANTS.FPS)}s
               </div>
             </>
           ) : (

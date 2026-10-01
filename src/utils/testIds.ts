@@ -2,6 +2,7 @@
  * Centralized Test ID Constants
  * Define all test IDs in one place for consistency
  */
+import type { Enemy } from "../types";
 
 export const TEST_IDS = {
   // Main Menu
@@ -81,4 +82,12 @@ export const TEST_IDS = {
   BOSS_SHIP: "boss-ship", // Use with userData.testId
 } as const;
 
-export type TestId = (typeof TEST_IDS)[keyof typeof TEST_IDS];
+/**
+ * Identify the rendered letter used by scene targeting and test metadata.
+ */
+export function getEnemyLetterId(
+  enemy: Pick<Enemy, "id" | "isBoss">,
+  index: number,
+): string {
+  return `${enemy.isBoss ? "boss-word" : "enemy-word"}-${enemy.id}-${index.toString()}`;
+}

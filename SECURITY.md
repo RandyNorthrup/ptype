@@ -32,3 +32,14 @@ The repository enforces dependency auditing and secret scanning in its quality
 workflow and pre-commit hooks. Browser security headers are defined in
 `vercel.json`. Dependency audit results do not certify third-party models,
 audio, browser engines, hosting infrastructure, or user-installed extensions.
+
+## Historical credential checkpoint
+
+The 2026-09-30 audit found a historical hardcoded Icons8 key in a discontinued
+asset script. Its revocation status has not been established. The required
+history gate remains failing; the working source and dependency gates are
+separate so independent remediation can continue. Credential rotation requires
+provider account access; history rewriting requires an explicit instruction.
+No credential values are retained in the audit. Exact fingerprints of expired
+signed GitHub screenshot URLs are documented false positives, not a general
+README or JWT exclusion. See [the audit](docs/QUALITY-RETROFIT.md).

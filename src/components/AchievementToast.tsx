@@ -5,6 +5,11 @@ import { useState, useEffect, useRef, memo } from "react";
 import { type Achievement } from "../types";
 import { TEST_IDS } from "../utils/testIds";
 
+const TUNING = {
+  exitAnimationMs: 300,
+  visibleDurationMs: 3000,
+} as const;
+
 interface AchievementToastProperties {
   achievement: Achievement;
   onDismiss: () => void;
@@ -31,8 +36,8 @@ const AchievementToastComponent = ({
       // Wait for fade out animation before calling onDismiss
       innerTimer = setTimeout(() => {
         onDismissReference.current();
-      }, 300);
-    }, 3000);
+      }, TUNING.exitAnimationMs);
+    }, TUNING.visibleDurationMs);
 
     return () => {
       clearTimeout(timer);

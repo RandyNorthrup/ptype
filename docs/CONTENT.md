@@ -57,7 +57,9 @@ questions.
 
 1. Preserve the existing YAML mappings and list shapes.
 2. Keep every word value a string.
-3. Give each trivia item a question, a string-option list, and a zero-based
-   integer `correct` index within that list.
+3. Give each trivia item a nonempty question, at least two nonempty string
+   options, and a zero-based integer `correct` index within that list. Empty
+   trivia datasets fail loading. Failed requests are rejected and may be retried;
+   concurrent requests share one fetch.
 4. Run `npm test` to execute loader validation and `npm run quality` before
    submitting the change.

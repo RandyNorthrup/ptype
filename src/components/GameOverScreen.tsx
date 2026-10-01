@@ -6,6 +6,10 @@ import { useGameStore } from "../store/gameContext";
 import { TEST_IDS } from "../utils/testIds";
 import { NeonButton } from "./NeonButton";
 
+const TUNING = {
+  highScoreLimit: 10,
+} as const;
+
 const GameOverScreenComponent = () => {
   const {
     score,
@@ -37,7 +41,7 @@ const GameOverScreenComponent = () => {
       relevantScores.findIndex((s) => s.score === score && s.level === level) +
       1;
 
-    return position > 0 && position <= 10 ? position : 0;
+    return position > 0 && position <= TUNING.highScoreLimit ? position : 0;
   }, [
     highScores,
     score,

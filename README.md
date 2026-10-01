@@ -44,6 +44,7 @@ Requirements:
 
 - Node.js 24.4 or newer
 - npm 11.4.2 or newer
+- Python 3.12+ and the pinned native quality tools for the full gates
 - A current browser with WebGL enabled
 
 Install the locked dependency graph and start Vite:
@@ -60,15 +61,25 @@ npm run build          # type-check and create dist/
 npm run preview        # serve the production build locally
 npm test               # unit/component tests with coverage
 npm run test:watch     # interactive Vitest watch mode
-npm run quality        # every local release gate
-npm run build:analyze  # build and emit Rollup bundle analysis
+npm run quality        # code gates plus the required history secret scan
+npm run quality:code   # source, dependency, workflow, drill, and browser gates
+npm run test:red       # isolated defect injection and exact restoration
+npm run test:browser   # muted desktop and narrow Chromium journeys
 ```
 
 `npm run quality` checks formatting, TypeScript/React lint, CSS, HTML, strict
-types, tests and 80% global coverage thresholds, unused code, dependency cycles,
-duplication, dependency vulnerabilities, and the production build.
+types, tests with measured coverage floors (94% statements, 82% branches, 97%
+functions, 95% lines), unused code and dependencies, cycles, duplication, native
+SAST, OSV across both lockfiles, workflow security, the production build, red
+drills, and muted production-browser journeys. `quality:code` runs those gates;
+`quality` also requires a clean reachable-history secret scan. The historical
+Icons8 credential remains unresolved, so the latter is deliberately failing.
+See [the audit](docs/QUALITY-RETROFIT.md) and [tool setup](docs/DEPLOYMENT.md).
 
-WebGL render-loop components are not executed inside jsdom coverage. Their
+The scene-frame suite advances production callbacks with the React Three test
+renderer to verify pause, targeting, and particle motion. It mocks model/font
+I/O and does not certify GPU rendering. WebGL components remain outside the
+jsdom coverage denominator. Their
 integration is checked against the production application in a real browser;
 the application orchestration, accessible UI, state, loaders, and domain logic
 remain inside the coverage gate.
@@ -122,6 +133,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the change workflow and
 
 - [Content inventory](docs/CONTENT.md)
 - [Deployment and operations](docs/DEPLOYMENT.md)
+- [Quality audit and verification scope](docs/QUALITY-RETROFIT.md)
+- [Canonical delivery plan](PLAN.md)
 
 ## License
 

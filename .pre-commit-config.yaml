@@ -27,6 +27,12 @@ repos:
 
   - repo: local
     hooks:
+      - id: release-code-gates
+        name: Complete code gates (same aggregate used by CI)
+        entry: npm run quality:code
+        language: system
+        pass_filenames: false
+        always_run: true
       - id: eslint
         name: eslint (strict and type-checked)
         entry: npm run lint:staged --
@@ -66,3 +72,24 @@ repos:
         language: system
         pass_filenames: false
         files: ^package(-lock)?\.json$
+
+      - id: workflow-lint
+        name: GitHub Actions syntax and security
+        entry: npm run lint:workflows
+        language: system
+        pass_filenames: false
+        files: ^\.github/
+
+      - id: semgrep
+        name: Browser security patterns
+        entry: npm run security:code
+        language: system
+        pass_filenames: false
+        files: ^(src/|\.semgrep\.yml$)
+
+      - id: osv
+        name: OSV lockfile audit
+        entry: npm run security:osv
+        language: system
+        pass_filenames: false
+        files: ^(package-lock\.json|requirements-quality\.(in|txt))$

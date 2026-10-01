@@ -10,22 +10,22 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   quality:
+    name: Quality and production browser checks
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-
-      - name: Scan repository for secrets
-        uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_ENABLE_COMMENTS: "false"
+          persist-credentials: false
 
       - name: Set up Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -34,37 +34,37 @@ jobs:
           cache: npm
 
       - name: Install locked dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
-      - name: Check formatting
-        run: npm run format:check
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
 
-      - name: Lint TypeScript and React
-        run: npm run lint
+      - name: Install locked security tools
+        run: python -m pip install --require-hashes -r requirements-quality.txt
 
-      - name: Lint CSS
-        run: npm run lint:css
+      - name: Install verified native scanners
+        shell: bash
+        run: |
+          tool_dir="$RUNNER_TEMP/ptype-quality-tools"
+          mkdir -p "$tool_dir"
+          curl --fail --location --silent --show-error https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz --output "$tool_dir/actionlint.tar.gz"
+          printf '%s  %s\n' '8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8' "$tool_dir/actionlint.tar.gz" | sha256sum --check
+          tar -xzf "$tool_dir/actionlint.tar.gz" -C "$tool_dir" actionlint
+          curl --fail --location --silent --show-error https://github.com/google/osv-scanner/releases/download/v2.6.0/osv-scanner_linux_amd64 --output "$tool_dir/osv-scanner"
+          printf '%s  %s\n' 'ca69b3d3cd08f889a49dc0a383122f71cc528b83803671df5fd874d97485b108' "$tool_dir/osv-scanner" | sha256sum --check
+          chmod +x "$tool_dir/actionlint" "$tool_dir/osv-scanner"
+          curl --fail --location --silent --show-error https://github.com/opengrep/opengrep/releases/download/v1.30.0/opengrep-core_linux_x86.tar.gz --output "$tool_dir/opengrep.tar.gz"
+          printf '%s  %s\n' '2a8a6c2f87541b9af04a3902eae6e17e5a87865f05b0eaf3955a5ae0e47ad432' "$tool_dir/opengrep.tar.gz" | sha256sum --check
+          tar -xzf "$tool_dir/opengrep.tar.gz" -C "$tool_dir"
+          curl --fail --location --silent --show-error https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz --output "$tool_dir/gitleaks.tar.gz"
+          printf '%s  %s\n' '551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb' "$tool_dir/gitleaks.tar.gz" | sha256sum --check
+          tar -xzf "$tool_dir/gitleaks.tar.gz" -C "$tool_dir" gitleaks
+          printf '%s\n' "$tool_dir" >> "$GITHUB_PATH"
 
-      - name: Lint HTML
-        run: npm run lint:html
+      - name: Install browser
+        run: npm exec -- playwright install --with-deps chromium
 
-      - name: Check types
-        run: npm run typecheck
-
-      - name: Run tests with coverage
-        run: npm test
-
-      - name: Detect dead code and unused dependencies
-        run: npm run deadcode
-
-      - name: Detect circular dependencies
-        run: npm run cycles
-
-      - name: Detect duplication
-        run: npm run duplicates
-
-      - name: Audit dependencies
-        run: npm run security:deps
-
-      - name: Build production bundle
-        run: npm run build
+      - name: Run the same required gates as local
+        run: npm run quality

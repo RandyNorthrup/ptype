@@ -4,7 +4,13 @@
  * No longer creates its own Canvas - eliminates WebGL context switching
  */
 import { useFrame } from "@react-three/fiber";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from "react";
 import { useGameStore } from "../store/gameContext";
 import { enemySpawner } from "../utils/enemySpawner";
 import { EnemyShip } from "../entities/EnemyShip";
@@ -14,6 +20,25 @@ import { LaserTargetHelper } from "./LaserTargetHelper";
 import { getAudioManager } from "../utils/audioManager";
 import { GameMode, isBossLevel } from "../types";
 import { debug, error as logError, info } from "../utils/logger";
+
+const TUNING = {
+  firstSpawnDelayMs: 1000,
+  statsUpdateIntervalMs: 1000,
+  millisecondsPerMinute: 60_000,
+  secondsPerMinute: 60,
+  accuracyTenthsScale: 1000,
+  accuracyDecimalScale: 10,
+  positionSyncFrames: 5,
+  fatalBossCollisionDamage: 99_999,
+  regularCollisionDamage: 10,
+  keyLightHorizontalOffset: 10,
+  keyLightHeight: 20,
+  pinkLightX: 20,
+  pinkLightY: 5,
+  pinkLightZ: -10,
+  blueLightY: 15,
+  blueLightZ: -30,
+} as const;
 
 function GameLogic() {
   const store = useGameStore();
@@ -36,7 +61,10 @@ function GameLogic() {
     startTime,
   } = store;
 
-  const spawnerInitialized = useRef(false);
+  const isActive =
+    !isPaused &&
+    !isGameOver &&
+    (mode === GameMode.NORMAL || mode === GameMode.PROGRAMMING);
   const firstSpawnTimeoutReference = useRef<
     ReturnType<typeof setTimeout> | undefined
   >(undefined);
@@ -55,38 +83,29 @@ function GameLogic() {
   // Ref for stats calculation
   const lastStatsUpdateReference = useRef(0);
 
+  const spawnFirstEnemy = useEffectEvent(() => {
+    if (!isActive) return;
+    const isBoss = isBossLevel(level);
+    const firstEnemy = enemySpawner.forceSpawn(
+      level,
+      mode,
+      programmingLanguage,
+      isBoss,
+      currentDifficulty,
+    );
+    if (firstEnemy) addEnemy(firstEnemy);
+    else logError("Failed to spawn first enemy", undefined, "GameCanvas");
+  });
+
   // Initialize spawner when game starts
   useEffect(() => {
     if (mode === GameMode.NORMAL || mode === GameMode.PROGRAMMING) {
       enemySpawner.reset();
-      spawnerInitialized.current = true;
       info("Enemy spawner initialized", { mode }, "GameCanvas");
 
       firstSpawnTimeoutReference.current = setTimeout(() => {
-        const isBoss = isBossLevel(level);
-        debug(
-          "Force spawning first enemy",
-          { level, isBoss, difficulty: currentDifficulty },
-          "GameCanvas",
-        );
-        const firstEnemy = enemySpawner.forceSpawn(
-          level,
-          mode,
-          programmingLanguage,
-          isBoss,
-          currentDifficulty,
-        );
-        if (firstEnemy) {
-          debug(
-            "First enemy spawned",
-            { word: firstEnemy.word, isBoss: firstEnemy.isBoss },
-            "GameCanvas",
-          );
-          addEnemy(firstEnemy);
-        } else {
-          logError("Failed to spawn first enemy", undefined, "GameCanvas");
-        }
-      }, 1000);
+        spawnFirstEnemy();
+      }, TUNING.firstSpawnDelayMs);
     }
 
     return () => {
@@ -98,33 +117,36 @@ function GameLogic() {
   // Game loop - spawning, updates, and stats calculation
   useFrame((_state, delta) => {
     // Only run if in active game mode
-    if (mode !== GameMode.NORMAL && mode !== GameMode.PROGRAMMING) {
-      return;
-    }
-    if (isPaused || isGameOver) {
-      return;
-    }
+    if (!isActive) return;
 
     // Tick EMP cooldown each frame
     decrementEmpCooldown();
 
     // Calculate WPM and accuracy every second
     const now = Date.now();
-    if (now - lastStatsUpdateReference.current >= 1000) {
+    if (
+      now - lastStatsUpdateReference.current >=
+      TUNING.statsUpdateIntervalMs
+    ) {
       lastStatsUpdateReference.current = now;
-      const elapsedMinutes = Math.max((now - startTime) / 60_000, 1 / 60); // min 1 second
+      const elapsedMinutes = Math.max(
+        (now - startTime) / TUNING.millisecondsPerMinute,
+        1 / TUNING.secondsPerMinute,
+      ); // min 1 second
       const wpm = Math.round(wordsCorrect / elapsedMinutes);
       const totalAttempts = wordsCorrect + wordsMissed;
       const accuracy =
         totalAttempts > 0
-          ? Math.round((wordsCorrect / totalAttempts) * 1000) / 10
+          ? Math.round(
+              (wordsCorrect / totalAttempts) * TUNING.accuracyTenthsScale,
+            ) / TUNING.accuracyDecimalScale
           : 100;
       updateStats(wpm, accuracy);
     }
 
     // Every 5 frames, merge live positions into the enemy list for collision avoidance
     liveEnemiesUpdateReference.current++;
-    if (liveEnemiesUpdateReference.current % 5 === 0) {
+    if (liveEnemiesUpdateReference.current % TUNING.positionSyncFrames === 0) {
       const posMap = livePositionsReference.current;
       if (posMap.size > 0) {
         setLiveEnemies(
@@ -164,7 +186,9 @@ function GameLogic() {
     (enemyId: string) => {
       const enemy = enemiesReference.current.find((e) => e.id === enemyId);
       if (enemy) {
-        const damage = enemy.isBoss ? 99_999 : 10;
+        const damage = enemy.isBoss
+          ? TUNING.fatalBossCollisionDamage
+          : TUNING.regularCollisionDamage;
         debug(
           "Enemy reached player",
           { damage, isBoss: enemy.isBoss },
@@ -206,6 +230,7 @@ function GameLogic() {
         <EnemyShip
           key={enemy.id}
           enemy={enemy}
+          isActive={isActive}
           onReachPlayer={handleEnemyReachPlayer}
           onDestroy={handleEnemyDestroy}
           onPositionUpdate={handlePositionUpdate}
@@ -222,15 +247,23 @@ export function GameCanvas() {
   return (
     <>
       {/* Game lighting */}
-      <directionalLight position={[10, 20, 10]} intensity={1} castShadow />
+      <directionalLight
+        position={[
+          TUNING.keyLightHorizontalOffset,
+          TUNING.keyLightHeight,
+          TUNING.keyLightHorizontalOffset,
+        ]}
+        intensity={1}
+        castShadow
+      />
       <pointLight
-        position={[20, 5, -10]}
+        position={[TUNING.pinkLightX, TUNING.pinkLightY, TUNING.pinkLightZ]}
         color="#ff0088"
         intensity={0.8}
         distance={50}
       />
       <pointLight
-        position={[0, 15, -30]}
+        position={[0, TUNING.blueLightY, TUNING.blueLightZ]}
         color="#0088ff"
         intensity={0.8}
         distance={50}

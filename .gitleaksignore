@@ -1,0 +1,14 @@
+# Exact fingerprints of expired signed GitHub screenshot URLs.
+# JWT expiry: 2025-09-25T20:18:52Z. See docs/QUALITY-RETROFIT.md.
+032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:aws-access-token:169
+032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:aws-access-token:170
+032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:aws-access-token:171
+032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:aws-access-token:172
+032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:aws-access-token:173
+032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:aws-access-token:174
+032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:jwt:169
+032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:jwt:170
+032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:jwt:171
+032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:jwt:172
+032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:jwt:173
+032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:jwt:174

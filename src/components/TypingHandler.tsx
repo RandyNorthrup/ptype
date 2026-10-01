@@ -7,8 +7,13 @@ import { useGameStore } from "../store/gameContext";
 import { getAudioManager } from "../utils/audioManager";
 import { triviaDatabase } from "../utils/triviaDatabase";
 import { achievementsManager } from "../utils/achievementsManager";
-import { BonusItemType, GameMode } from "../types";
+import { BonusItemType, GameMode, GAME_CONSTANTS } from "../types";
 import { error as logError } from "../utils/logger";
+
+const TUNING = {
+  triviaBossLevelInterval: 6,
+  bossTriviaDelayMs: 600,
+} as const;
 
 export function TypingHandler() {
   const {
@@ -87,8 +92,10 @@ export function TypingHandler() {
       updateEnemy(enemyId, { health: 0 });
 
       // Calculate score: word.length × 10, bosses ×5
-      const basePoints = word.length * 10;
-      const points = isBoss ? basePoints * 5 : basePoints;
+      const basePoints = word.length * GAME_CONSTANTS.POINTS_PER_CHARACTER;
+      const points = isBoss
+        ? basePoints * GAME_CONSTANTS.BOSS_SCORE_MULTIPLIER
+        : basePoints;
       incrementScore(points);
 
       // Update word counters + clear currentWord
@@ -110,7 +117,7 @@ export function TypingHandler() {
           mode,
           programmingLanguage,
         } = liveStateReference.current;
-        if (currentBossLevel % 6 === 0) {
+        if (currentBossLevel % TUNING.triviaBossLevelInterval === 0) {
           const question = triviaDatabase.getQuestion(
             mode,
             programmingLanguage ?? null,
@@ -119,7 +126,7 @@ export function TypingHandler() {
           // Small delay so level-up is visible before trivia
           setTimeout(() => {
             showTrivia(question);
-          }, 600);
+          }, TUNING.bossTriviaDelayMs);
         }
       }
     },

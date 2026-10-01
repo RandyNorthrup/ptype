@@ -1,0 +1,33 @@
+import { defineConfig, devices } from "@playwright/test";
+
+/**
+@public Consumed by Playwright's configuration loader.
+*/
+export default defineConfig({
+  testDir: "./tests/e2e",
+  fullyParallel: false,
+  workers: 1,
+  retries: 0,
+  reporter: "list",
+  use: {
+    baseURL: "http://127.0.0.1:4173",
+    trace: "retain-on-failure",
+    launchOptions: {
+      args: [
+        "--mute-audio",
+        "--use-gl=angle",
+        "--use-angle=swiftshader",
+        "--enable-unsafe-swiftshader",
+      ],
+    },
+  },
+  projects: [
+    { name: "desktop", use: { ...devices["Desktop Chrome"] } },
+    { name: "narrow", use: { viewport: { width: 390, height: 844 } } },
+  ],
+  webServer: {
+    command: "npm run preview -- --host 127.0.0.1 --port 4173 --strictPort",
+    url: "http://127.0.0.1:4173",
+    reuseExistingServer: false,
+  },
+});

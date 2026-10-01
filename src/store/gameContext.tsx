@@ -31,6 +31,10 @@ import {
   getStartingDifficulty,
 } from "../utils/difficultyManager";
 
+const TUNING = {
+  millisecondsPerSecond: 1000,
+} as const;
+
 interface HighScoreEntry {
   playerName: string;
   score: number;
@@ -497,7 +501,7 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
 
     const playTimeSeconds = Math.max(
       0,
-      Math.floor((Date.now() - state.startTime) / 1000),
+      Math.floor((Date.now() - state.startTime) / TUNING.millisecondsPerSecond),
     );
     achievementsManager.onGameEnd({
       score: state.score,
@@ -740,7 +744,7 @@ export const GameStoreProvider = ({ children }: { children: ReactNode }) => {
     // Remove non-boss enemies (separate setState, not nested)
     if (nonBossEnemies.length > 0) {
       const totalPoints = nonBossEnemies.reduce(
-        (sum, e) => sum + e.word.length * 10,
+        (sum, e) => sum + e.word.length * GAME_CONSTANTS.POINTS_PER_CHARACTER,
         0,
       );
       setEnemies((previousEnemies) => previousEnemies.filter((e) => e.isBoss));

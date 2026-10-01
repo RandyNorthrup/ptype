@@ -178,3 +178,6 @@ secrets/
 # ============================================
 .playwright-mcp/
 .mcp-cache/
+.quality-tools/
+docs/verification/*.log
+docs/verification/*-summary.json

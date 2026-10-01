@@ -6,10 +6,50 @@ import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+const TUNING = {
+  particleTextureRadiusPx: 16,
+  particleGlowStop: 0.4,
+  particleTextureSizePx: 32,
+  randomIndexFrequency: 12.9898,
+  randomSaltFrequency: 78.233,
+  randomAmplitude: 43_758.5453,
+  starCount: 5000,
+  vectorComponents: 3,
+  starMinimumRadius: 200,
+  starRadiusRange: 800,
+  starLatitudeSalt: 3,
+  starDepthOffset: 400,
+  starColorSalt: 4,
+  whiteStarProbability: 0.7,
+  blueStarCumulativeProbability: 0.85,
+  starYawRadiansPerSecond: 0.01,
+  starPitchRadiansPerSecond: 0.005,
+  cloudAngleSalt: 5,
+  cloudRadiusSalt: 6,
+  cloudHeightSalt: 7,
+  cloudHeightRange: 60,
+  cloudRotationRadiansPerSecond: 0.05,
+  cloudInitialDepth: 80,
+  cloudDepthSpacing: 40,
+  asteroidXSalt: 8,
+  asteroidWidth: 1000,
+  asteroidYSalt: 9,
+  asteroidHeight: 600,
+  asteroidInitialDepth: -300,
+  asteroidDepthSalt: 10,
+  asteroidDepthRange: 800,
+  asteroidPitchSalt: 12,
+  asteroidYawSalt: 13,
+  asteroidRollSalt: 14,
+  minimumAsteroidSize: 3,
+  asteroidSizeSalt: 11,
+  asteroidSizeRange: 8,
+} as const;
+
 const NEBULA_CLOUD_COLORS = [
-  [0.7, 0.2, 1],
-  [0.2, 0.8, 1],
-  [1, 0.3, 0.8],
+  { red: 0.7, green: 0.2, blue: 1 },
+  { red: 0.2, green: 0.8, blue: 1 },
+  { red: 1, green: 0.3, blue: 0.8 },
 ] as const;
 
 function createParticleTexture(): THREE.CanvasTexture {
@@ -18,17 +58,32 @@ function createParticleTexture(): THREE.CanvasTexture {
   canvas.height = 32;
   const context = canvas.getContext("2d");
   if (!context) throw new Error("Canvas 2D context is unavailable");
-  const gradient = context.createRadialGradient(16, 16, 0, 16, 16, 16);
+  const gradient = context.createRadialGradient(
+    TUNING.particleTextureRadiusPx,
+    TUNING.particleTextureRadiusPx,
+    0,
+    TUNING.particleTextureRadiusPx,
+    TUNING.particleTextureRadiusPx,
+    TUNING.particleTextureRadiusPx,
+  );
   gradient.addColorStop(0, "rgba(255,255,255,1)");
-  gradient.addColorStop(0.4, "rgba(255,255,255,0.6)");
+  gradient.addColorStop(TUNING.particleGlowStop, "rgba(255,255,255,0.6)");
   gradient.addColorStop(1, "rgba(255,255,255,0)");
   context.fillStyle = gradient;
-  context.fillRect(0, 0, 32, 32);
+  context.fillRect(
+    0,
+    0,
+    TUNING.particleTextureSizePx,
+    TUNING.particleTextureSizePx,
+  );
   return new THREE.CanvasTexture(canvas);
 }
 
 function deterministicRandom(index: number, salt: number): number {
-  const value = Math.sin(index * 12.9898 + salt * 78.233) * 43_758.5453;
+  const value =
+    Math.sin(
+      index * TUNING.randomIndexFrequency + salt * TUNING.randomSaltFrequency,
+    ) * TUNING.randomAmplitude;
   return value - Math.floor(value);
 }
 
@@ -38,29 +93,35 @@ function StarField() {
   const starTexture = useMemo(() => createParticleTexture(), []);
 
   const [positions, colors] = useMemo(() => {
-    const positions = new Float32Array(5000 * 3);
-    const colors = new Float32Array(5000 * 3);
+    const positions = new Float32Array(
+      TUNING.starCount * TUNING.vectorComponents,
+    );
+    const colors = new Float32Array(TUNING.starCount * TUNING.vectorComponents);
 
-    for (let index = 0; index < 5000; index++) {
-      const index3 = index * 3;
+    for (let index = 0; index < TUNING.starCount; index++) {
+      const index3 = index * TUNING.vectorComponents;
 
       // Random position in a large sphere - works for both menu and game cameras
-      const radius = 200 + deterministicRandom(index, 1) * 800;
+      const radius =
+        TUNING.starMinimumRadius +
+        deterministicRandom(index, 1) * TUNING.starRadiusRange;
       const theta = deterministicRandom(index, 2) * Math.PI * 2;
-      const phi = Math.acos(2 * deterministicRandom(index, 3) - 1);
+      const phi = Math.acos(
+        2 * deterministicRandom(index, TUNING.starLatitudeSalt) - 1,
+      );
 
       positions[index3] = radius * Math.sin(phi) * Math.cos(theta);
       positions[index3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-      positions[index3 + 2] = radius * Math.cos(phi) - 400; // Centered around origin
+      positions[index3 + 2] = radius * Math.cos(phi) - TUNING.starDepthOffset; // Centered around origin
 
       // Star colors - white, blue, yellow tints
-      const colorType = deterministicRandom(index, 4);
-      if (colorType < 0.7) {
+      const colorType = deterministicRandom(index, TUNING.starColorSalt);
+      if (colorType < TUNING.whiteStarProbability) {
         // White stars
         colors[index3] = 1;
         colors[index3 + 1] = 1;
         colors[index3 + 2] = 1;
-      } else if (colorType < 0.85) {
+      } else if (colorType < TUNING.blueStarCumulativeProbability) {
         // Blue stars
         colors[index3] = 0.7;
         colors[index3 + 1] = 0.8;
@@ -82,8 +143,9 @@ function StarField() {
       return;
     }
 
-    starsReference.current.rotation.y += delta * 0.01;
-    starsReference.current.rotation.x += delta * 0.005;
+    starsReference.current.rotation.y += delta * TUNING.starYawRadiansPerSecond;
+    starsReference.current.rotation.x +=
+      delta * TUNING.starPitchRadiansPerSecond;
   });
 
   return (
@@ -91,17 +153,17 @@ function StarField() {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={positions.length / 3}
+          count={positions.length / TUNING.vectorComponents}
           array={positions}
           itemSize={3}
-          args={[positions, 3]}
+          args={[positions, TUNING.vectorComponents]}
         />
         <bufferAttribute
           attach="attributes-color"
-          count={colors.length / 3}
+          count={colors.length / TUNING.vectorComponents}
           array={colors}
           itemSize={3}
-          args={[colors, 3]}
+          args={[colors, TUNING.vectorComponents]}
         />
       </bufferGeometry>
       <pointsMaterial
@@ -164,29 +226,35 @@ function NebulaClouds() {
   const clouds = useMemo(() => {
     return Array.from({ length: 3 }, (_, cloudIndex) => {
       const particleCount = 1000;
-      const positions = new Float32Array(particleCount * 3);
-      const colors = new Float32Array(particleCount * 3);
+      const positions = new Float32Array(
+        particleCount * TUNING.vectorComponents,
+      );
+      const colors = new Float32Array(particleCount * TUNING.vectorComponents);
 
       // Cloud colors - richer and more vibrant
       const cloudColors =
         NEBULA_CLOUD_COLORS[cloudIndex] ?? NEBULA_CLOUD_COLORS[0];
 
       for (let index = 0; index < particleCount; index++) {
-        const index3 = index * 3;
+        const index3 = index * TUNING.vectorComponents;
 
         // Cluster particles in a cloud shape - centered at origin, each cloud at different depth
         const randomIndex = cloudIndex * particleCount + index;
-        const angle = deterministicRandom(randomIndex, 5) * Math.PI * 2;
-        const radius = deterministicRandom(randomIndex, 6) * 100;
-        const height = (deterministicRandom(randomIndex, 7) - 0.5) * 60;
+        const angle =
+          deterministicRandom(randomIndex, TUNING.cloudAngleSalt) * Math.PI * 2;
+        const radius =
+          deterministicRandom(randomIndex, TUNING.cloudRadiusSalt) * 100;
+        const height =
+          (deterministicRandom(randomIndex, TUNING.cloudHeightSalt) - 0.5) *
+          TUNING.cloudHeightRange;
 
         positions[index3] = Math.cos(angle) * radius;
         positions[index3 + 1] = height;
         positions[index3 + 2] = Math.sin(angle) * radius;
 
-        colors[index3] = cloudColors[0];
-        colors[index3 + 1] = cloudColors[1];
-        colors[index3 + 2] = cloudColors[2];
+        colors[index3] = cloudColors.red;
+        colors[index3 + 1] = cloudColors.green;
+        colors[index3 + 2] = cloudColors.blue;
       }
 
       return { positions, colors };
@@ -196,7 +264,10 @@ function NebulaClouds() {
   useFrame((_state, delta) => {
     for (const [index, cloud] of cloudReferences.current.entries()) {
       if (cloud) {
-        cloud.rotation.z += delta * 0.05 * (index % 2 === 0 ? 1 : -1);
+        cloud.rotation.z +=
+          delta *
+          TUNING.cloudRotationRadiansPerSecond *
+          (index % 2 === 0 ? 1 : -1);
       }
     }
   });
@@ -206,7 +277,11 @@ function NebulaClouds() {
       {clouds.map((cloud, index) => (
         <points
           key={index}
-          position={[0, 0, 80 + index * 40]} // Nebula clouds in the distance
+          position={[
+            0,
+            0,
+            TUNING.cloudInitialDepth + index * TUNING.cloudDepthSpacing,
+          ]} // Nebula clouds in the distance
           ref={(element) => {
             if (element) cloudReferences.current[index] = element;
           }}
@@ -214,17 +289,17 @@ function NebulaClouds() {
           <bufferGeometry>
             <bufferAttribute
               attach="attributes-position"
-              count={cloud.positions.length / 3}
+              count={cloud.positions.length / TUNING.vectorComponents}
               array={cloud.positions}
               itemSize={3}
-              args={[cloud.positions, 3]}
+              args={[cloud.positions, TUNING.vectorComponents]}
             />
             <bufferAttribute
               attach="attributes-color"
-              count={cloud.colors.length / 3}
+              count={cloud.colors.length / TUNING.vectorComponents}
               array={cloud.colors}
               itemSize={3}
-              args={[cloud.colors, 3]}
+              args={[cloud.colors, TUNING.vectorComponents]}
             />
           </bufferGeometry>
           <pointsMaterial
@@ -249,18 +324,25 @@ export function SpaceScene() {
   const asteroids = useMemo(() => {
     return Array.from({ length: 50 }, (_, index) => {
       const position: [number, number, number] = [
-        (deterministicRandom(index, 8) - 0.5) * 1000,
-        (deterministicRandom(index, 9) - 0.5) * 600,
-        -300 - deterministicRandom(index, 10) * 800,
+        (deterministicRandom(index, TUNING.asteroidXSalt) - 0.5) *
+          TUNING.asteroidWidth,
+        (deterministicRandom(index, TUNING.asteroidYSalt) - 0.5) *
+          TUNING.asteroidHeight,
+        TUNING.asteroidInitialDepth -
+          deterministicRandom(index, TUNING.asteroidDepthSalt) *
+            TUNING.asteroidDepthRange,
       ];
       const rotationSpeed: [number, number, number] = [
-        (deterministicRandom(index, 12) - 0.5) * 0.5,
-        (deterministicRandom(index, 13) - 0.5) * 0.5,
-        (deterministicRandom(index, 14) - 0.5) * 0.5,
+        (deterministicRandom(index, TUNING.asteroidPitchSalt) - 0.5) * 0.5,
+        (deterministicRandom(index, TUNING.asteroidYawSalt) - 0.5) * 0.5,
+        (deterministicRandom(index, TUNING.asteroidRollSalt) - 0.5) * 0.5,
       ];
       return {
         position,
-        size: 3 + deterministicRandom(index, 11) * 8,
+        size:
+          TUNING.minimumAsteroidSize +
+          deterministicRandom(index, TUNING.asteroidSizeSalt) *
+            TUNING.asteroidSizeRange,
         rotationSpeed,
       };
     });
