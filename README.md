@@ -1,147 +1,155 @@
-# P-Type
+<p align="center">
+  <img src="public/assets/images/ptype_logo.png" width="320" alt="P-Type">
+</p>
 
-[![Quality](https://github.com/RandyNorthrup/ptype/actions/workflows/quality.yml/badge.svg)](https://github.com/RandyNorthrup/ptype/actions/workflows/quality.yml)
+<p align="center"><strong>Type fast. Defend your ship. Survive the next wave.</strong></p>
 
-P-Type is a browser-based 3D typing game. Type the words attached to incoming
-ships, survive boss waves, answer trivia, and earn power-ups and achievements.
-The application is a React and Three.js progressive web app with all game data
-and assets stored in this repository.
+<p align="center">
+  <a href="https://randynorthrup.github.io/ptype/">Play in your browser</a> ·
+  <a href="https://github.com/RandyNorthrup/ptype/releases">Releases</a> ·
+  <a href="#development">Development</a> ·
+  <a href="https://github.com/RandyNorthrup/ptype/issues">Report an issue</a>
+</p>
 
-## Gameplay
+<p align="center">
+  <a href="https://github.com/RandyNorthrup/ptype/actions/workflows/quality.yml"><img src="https://github.com/RandyNorthrup/ptype/actions/workflows/quality.yml/badge.svg?branch=main" alt="Main quality checks"></a>
+  <a href="https://github.com/RandyNorthrup/ptype/actions/workflows/build-multiplatform.yml"><img src="https://github.com/RandyNorthrup/ptype/actions/workflows/build-multiplatform.yml/badge.svg?branch=main" alt="Platform builds"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-00d4ff" alt="MIT license"></a>
+</p>
 
-- Normal mode uses tiered English word lists.
-- Programming mode includes Python, JavaScript, Java, C#, C++, CSS, and HTML.
-- Bosses appear every three levels. Every second boss opens a trivia round.
-- Five starting difficulty settings progress through Easy, Normal, Hard,
-  Expert, and Master tiers.
-- Local persistence retains settings, aggregate statistics, high scores, and 19
-  achievements.
-- The installable PWA caches application resources. Large 3D models are cached
-  on first use rather than included in the initial precache.
+P-Type is a 3D typing game built with React and Three.js. Type incoming words to
+destroy enemy ships, fight bosses, answer trivia, and collect power-ups. Game
+content, fonts, models, and audio ship with this repository; no account, backend,
+API key, or environment file is required.
 
-### Keyboard controls
+![P-Type menu with neon controls and animated space background](docs/assets/menu.png)
 
-| Key          | Action                                                  |
-| ------------ | ------------------------------------------------------- |
-| Letter keys  | Type the targeted enemy word                            |
-| `Tab`        | Cycle through available targets                         |
-| `Enter`      | Fire the EMP when its cooldown is ready                 |
-| `Arrow Up`   | Select the next collected bonus item                    |
-| `Arrow Down` | Use the selected bonus item                             |
-| `Escape`     | Pause or resume; close or back out of the active dialog |
+## Play
 
-The interface supports keyboard navigation, visible focus, reduced-motion
-preferences, responsive dialogs and HUD layouts, and labelled dialog, status,
-timer, health, and shield semantics. Gameplay still requires a keyboard and a
-WebGL-capable browser. Leaving an active game uses an in-app confirmation dialog
-that supports keyboard focus and cancellation.
+Open **[P-Type on GitHub Pages](https://randynorthrup.github.io/ptype/)**, choose a
+mode, then select **New Game**. Use a hardware keyboard and a browser with WebGL
+enabled. Settings control music, sound effects, and starting difficulty.
 
-## Local development
+| Feature           | What to expect                                               |
+| ----------------- | ------------------------------------------------------------ |
+| Normal mode       | Tiered English word lists                                    |
+| Programming modes | Python, JavaScript, Java, C#, C++, CSS, and HTML             |
+| Difficulty        | Easy, Normal, Hard, Expert, and Master                       |
+| Bosses and trivia | Boss every three levels; trivia every six levels             |
+| Progress          | Local statistics, high scores, settings, and 19 achievements |
+| PWA               | Install where supported; resources cached as they load       |
 
-Requirements:
+Progress belongs to this browser and site origin. Clearing site storage removes
+saved progress; there is no account sync or cloud backup. Large models and media
+use runtime caching. Full offline recovery has not been certified.
 
-- Node.js 24.4 or newer
-- npm 11.4.2 or newer
-- Python 3.12+ and the pinned native quality tools for the full gates
-- A current browser with WebGL enabled
+### Controls
 
-Install the locked dependency graph and start Vite:
+| Key          | Action                                    |
+| ------------ | ----------------------------------------- |
+| Letter keys  | Type the targeted enemy word              |
+| `Tab`        | Cycle targets                             |
+| `Enter`      | Fire the EMP when ready                   |
+| `Arrow Up`   | Select the next collected bonus item      |
+| `Arrow Down` | Use the selected bonus item               |
+| `Escape`     | Pause/resume or dismiss the active dialog |
+
+Menus and dialogs support keyboard navigation, visible focus, focus containment
+and restoration, and reduced-motion preferences. Dialogs and HUD adapt to narrow
+screens. Gameplay needs a keyboard; responsive layout does not supply touch-only
+controls. Leaving a game requires an in-app confirmation.
+
+## Development
+
+Use **Node.js 24.4+** and **npm 11.4.2+**, matching the declared engine ranges.
+The full quality toolchain also needs Python 3.12+ and pinned native scanners;
+see [tool setup and operations](docs/DEPLOYMENT.md#vm-and-tools).
 
 ```bash
 npm ci --ignore-scripts
 npm run dev
 ```
 
-Vite serves the application at `http://localhost:5173/ptype/`. Other useful commands:
+Visit `http://localhost:5173/ptype/`. Vite does not open a browser automatically.
+On Windows, use `npm.cmd` if PowerShell blocks `npm.ps1`.
 
-```bash
-npm run build          # type-check and create dist/
-npm run preview        # serve the production build locally
-npm test               # unit/component tests with coverage
-npm run test:watch     # interactive Vitest watch mode
-npm run quality        # code gates plus the required history secret scan
-npm run quality:code   # source, dependency, workflow, drill, and browser gates
-npm run test:red       # isolated defect injection and exact restoration
-npm run test:browser   # muted desktop and narrow Chromium journeys
+| Command                    | Purpose                                                            |
+| -------------------------- | ------------------------------------------------------------------ |
+| `npm run build`            | Type-check and create `dist/`                                      |
+| `npm run preview`          | Serve the build at `http://localhost:4173/ptype/`                  |
+| `npm test`                 | Unit/component tests with coverage floors                          |
+| `npm run test:watch`       | Interactive Vitest watch mode                                      |
+| `npm run quality`          | Complete code gates and reachable-history secret scan              |
+| `npm run quality:code`     | Static/build gates, red drills, and browser journeys               |
+| `npm run test:red`         | Inject defects in isolation; require failure and exact restoration |
+| `npm run test:browser`     | Muted desktop, narrow, and development Chromium journeys           |
+| `npm run test:browser:dev` | Build and check development HTML/CSP behavior                      |
+
+Install hooks in an isolated Python environment after installing the native
+tools and making their verified executables available on `PATH`:
+
+```powershell
+python -m venv .quality-tools/python
+.quality-tools/python/Scripts/python.exe -m pip install --require-hashes -r requirements-quality.txt
+.quality-tools/python/Scripts/pre-commit.exe install
 ```
 
-`npm run quality` checks formatting, TypeScript/React lint, CSS, HTML, strict
-types, tests with measured coverage floors (94% statements, 82% branches, 97%
-functions, 95% lines), unused code and dependencies, cycles, duplication, native
-SAST, OSV across both lockfiles, workflow security, the production build, red
-drills, and muted production-browser journeys. `quality:code` runs those gates;
-`quality` also requires a clean reachable-history secret scan. The historical
-Icons8 credential remains unresolved, so the latter is deliberately failing.
-See [the audit](docs/QUALITY-RETROFIT.md) and [tool setup](docs/DEPLOYMENT.md).
+Every commit runs `quality:code` and staged-secret hooks. CI runs the same code
+aggregate plus the retained history scan on PRs, default-branch pushes, and
+version tags. `ci:parity` rejects omitted/conditional gates and skipped commit
+aggregates. Main requires successful Quality and Windows/macOS/Linux builds.
 
-The scene-frame suite advances production callbacks with the React Three test
-renderer to verify pause, targeting, and particle motion. It mocks model/font
-I/O and does not certify GPU rendering. WebGL components remain outside the
-jsdom coverage denominator. Their
-integration is checked against the production application in a real browser;
-the application orchestration, accessible UI, state, loaders, and domain logic
-remain inside the coverage gate.
+The enforced coverage floors are 94% statements, 82% branches, 97% functions,
+and 95% lines. WebGL render-loop files are outside the jsdom coverage denominator;
+scene tests advance production callbacks with model/font I/O mocked. Real browser
+journeys use software WebGL. These checks do not certify physical GPUs, audible
+playback, every browser engine, or full offline behavior. See
+[verification scope](docs/QUALITY-RETROFIT.md).
 
-## Current stack
+## Architecture and distribution
 
-- React 19.2 and React DOM 19.2
-- TypeScript 6.0 in strict mode
-- Vite 8.2 and `vite-plugin-pwa` 1.3
-- Three.js 0.185, React Three Fiber 9.7, and Drei 10.7
-- Vitest 4.1, Testing Library, and axe-core
-- ESLint 10, Stylelint 17, Prettier 3, Knip, dpdm, and jscpd
-- GitHub Pages Actions hosting with project-scoped assets and PWA metadata
-
-Runtime state uses React Context and hooks. Persistent data is validated before
-it enters the application state; no backend or environment variables are
-required.
-
-## Repository layout
+React 19, strict TypeScript 6, Vite 8, Three.js, React Three Fiber, and Drei power
+the app. React Context owns runtime state; validated browser storage retains
+progress. Vitest, Testing Library, axe-core, and Playwright cover tested behavior.
+The lockfile records exact dependency versions.
 
 ```text
-public/
-  assets/       Local fonts, icons, images, audio, and GLB models
-  data/         Eight word dictionaries and the trivia database
-src/
-  components/   Accessible UI and WebGL scene components
-  entities/     Player and enemy 3D entities
-  store/        React Context game state and persistence
-  utils/        Content loaders and game-domain managers
-tests/unit/     Vitest unit and component coverage
-docs/           Content and deployment documentation
+public/assets/   Fonts, icons, images, audio, and GLB models
+public/data/     Eight word dictionaries and trivia
+src/components/ Accessible UI and WebGL scene components
+src/entities/   Player and enemy entities
+src/store/      Game state and local persistence
+src/utils/      Content loaders, asset URLs, and game-domain managers
+tests/          Unit, scene, browser, parity, and red-drill checks
+docs/           Content inventory, operations, and verification evidence
 ```
 
-## Quality workflow
+GitHub Pages serves the static build under `/ptype/`. A main-only deployment gate
+checks exact source and all four trusted Actions checks before publishing.
+Manifest and service-worker scope follow the project path. Vercel configuration
+and retired GitHub deployment records were removed.
 
-Install the repository hooks after cloning:
+Version 2.0.1 targets a static web/PWA distribution. Its release ZIP carries the
+complete build and source identity, with SHA-256 checksums. Older release assets
+remain available; the current build does not produce native desktop installers.
+See [releases](https://github.com/RandyNorthrup/ptype/releases) for published status.
 
-```bash
-python -m pip install --require-hashes -r requirements-quality.txt
-pre-commit install
-pre-commit run --all-files
-```
+The historical Icons8 key was owner-confirmed revoked/rotated, then removed by
+an explicitly authorized exact-value history scrub. Required history scanning
+passes. Existing release tags/assets were preserved. Old clones must
+resynchronize; see [security guidance](SECURITY.md).
 
-Every commit runs the complete `quality:code` aggregate and staged-secret hooks.
-CI runs the same `quality` aggregate as local, including the required history
-scan. `ci:parity` rejects missing or conditional CI gates and skipped commit
-aggregates. Keep commits reviewable, open pull requests during delivery, and
-leave unresolved gates visible in a draft PR. CI runs on every pull request and
-push to the default branches.
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the change workflow and
-[SECURITY.md](SECURITY.md) for private vulnerability reporting.
+## Contribute and learn more
 
-## Documentation
-
+- [Contribution workflow](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
 - [Content inventory](docs/CONTENT.md)
-- [Deployment and operations](docs/DEPLOYMENT.md)
-- [Quality audit and verification scope](docs/QUALITY-RETROFIT.md)
+- [Deployment, release, rollback, and tool setup](docs/DEPLOYMENT.md)
+- [Quality audit and evidence](docs/QUALITY-RETROFIT.md)
 - [Canonical delivery plan](PLAN.md)
+- [Private vulnerability reporting](SECURITY.md)
 
-## License
-
-P-Type is released under the [MIT License](LICENSE).
-
-Created by Randy Northrup.
-
-If this project helps you, you can
-[support it through PayPal](https://www.paypal.com/donate/?hosted_button_id=Q9VC7B42R7K82).
+Created by Randy Northrup. Released under the [MIT License](LICENSE).
+If you would like to support the project,
+[donate through PayPal](https://www.paypal.com/donate/?hosted_button_id=Q9VC7B42R7K82)
+or use the repository's Sponsor link.

@@ -16,13 +16,15 @@ The owner confirmed the Icons8 key was revoked/rotated and explicitly authorized
 
 The normal clearance commit hook stopped because the coverage drill baseline App journey exceeded five seconds while using real dismissal timers. Replace only its waits with independent 499/500 ms fake-clock assertions, retaining the timeout and coverage floors. Installed Vite/React sources show inline development preamble injection, which the new production CSP would block. Extend canonical Vite and Playwright configuration for fresh development nonces and a real development page check; keep production policy strict. Vite automatic browser opening must be disabled and guarded so automation cannot create an unmuted user browser. Add controlled timing, missing-nonce, and browser-ownership drills before relying on these fixes.
 
+The owner requested a modern, complete, visually pleasing and accurate README and reiterated that all PRs must be settled. PR #4 is now merged; exact main Quality, all platform builds, and Pages deployment passed. Actual HTTPS desktop/narrow journeys passed with muted isolated Chromium under explicit hosted-check authorization. Extend README and canonical operations/audit records with those observed outcomes and a real menu screenshot; keep publication pending until tag/artifact/release checks pass. Reuse TASK-DOCS and existing acceptance rather than adding another documentation plan. Final documentation and closure work must merge and delete its branch before finishing.
+
 ```quality-ledger
 {
   "schema_version": 1,
   "work": {
     "id": "WORK-RETROFIT",
     "title": "P-Type quality retrofit, v2.0.1 release, and GitHub Pages migration",
-    "scope_revision": 8,
+    "scope_revision": 9,
     "brief": null,
     "brief_reason": "Bounded quality retrofit and authorized release/Pages migration of the documented existing browser game; requested outcomes and product scope are already established.",
     "rules": [
@@ -77,7 +79,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
     },
     {
       "id": "REQ-DOCS",
-      "statement": "Documentation and evidence describe actual commands, results, exceptions, and remaining risks.",
+      "statement": "Documentation is modern, visually clear, complete for play/development/distribution, and accurate about actual commands, outcomes, exceptions, and verification limits.",
       "priority": "normal",
       "acceptance": [
         "AC-DOCS"
@@ -152,7 +154,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
       "requirement": "REQ-DOCS",
       "given": "The checked-out P-Type application and pinned toolchain",
       "when": "The owning task is implemented and its declared checks run",
-      "then": "Documentation and evidence describe actual commands, results, exceptions, and remaining risks.",
+      "then": "Documentation is modern, visually clear, complete for play/development/distribution, and accurate about actual commands, outcomes, exceptions, and verification limits.",
       "checks": [
         "manual"
       ],
@@ -350,7 +352,9 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "EV-COMMIT3-READY-TASK-GATES-AC-GATES",
         "EV-COMMIT3-READY-TASK-GATES-AC-PAGES-BASE",
         "EV-COMMIT4-READY-TASK-GATES-AC-GATES",
-        "EV-COMMIT4-READY-TASK-GATES-AC-PAGES-BASE"
+        "EV-COMMIT4-READY-TASK-GATES-AC-PAGES-BASE",
+        "EV-DOCS9-READY-TASK-GATES-AC-GATES",
+        "EV-DOCS9-READY-TASK-GATES-AC-PAGES-BASE"
       ],
       "blocker": null,
       "superseded_by": null
@@ -517,14 +521,16 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "EV-COMMIT3-READY-TASK-BEHAVIOR-AC-BEHAVIOR",
         "EV-COMMIT3-READY-TASK-BEHAVIOR-AC-PAGES-BASE",
         "EV-COMMIT4-READY-TASK-BEHAVIOR-AC-BEHAVIOR",
-        "EV-COMMIT4-READY-TASK-BEHAVIOR-AC-PAGES-BASE"
+        "EV-COMMIT4-READY-TASK-BEHAVIOR-AC-PAGES-BASE",
+        "EV-DOCS9-READY-TASK-BEHAVIOR-AC-BEHAVIOR",
+        "EV-DOCS9-READY-TASK-BEHAVIOR-AC-PAGES-BASE"
       ],
       "blocker": null,
       "superseded_by": null
     },
     {
       "id": "TASK-DOCS",
-      "purpose": "Documentation and evidence describe actual commands, results, exceptions, and remaining risks.",
+      "purpose": "Documentation is modern, visually clear, complete for play/development/distribution, and accurate about actual commands, outcomes, exceptions, and verification limits.",
       "acceptance": [
         "AC-DOCS"
       ],
@@ -569,6 +575,10 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         {
           "path": "vercel.json",
           "action": "delete"
+        },
+        {
+          "path": "docs/assets/menu.png",
+          "action": "create"
         }
       ],
       "status": "implemented",
@@ -585,7 +595,8 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "EV-SCRUB-READY-TASK-DOCS-AC-DOCS",
         "EV-DEV-READY-TASK-DOCS-AC-DOCS",
         "EV-COMMIT3-READY-TASK-DOCS-AC-DOCS",
-        "EV-COMMIT4-READY-TASK-DOCS-AC-DOCS"
+        "EV-COMMIT4-READY-TASK-DOCS-AC-DOCS",
+        "EV-DOCS9-READY-TASK-DOCS-AC-DOCS"
       ],
       "blocker": null,
       "superseded_by": null
@@ -617,7 +628,8 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "EV-SCRUB-HISTORY",
         "EV-DEV-READY-TASK-HISTORY-AC-HISTORY",
         "EV-COMMIT3-READY-TASK-HISTORY-AC-HISTORY",
-        "EV-COMMIT4-READY-TASK-HISTORY-AC-HISTORY"
+        "EV-COMMIT4-READY-TASK-HISTORY-AC-HISTORY",
+        "EV-DOCS9-READY-TASK-HISTORY-AC-HISTORY"
       ],
       "blocker": null,
       "superseded_by": null
@@ -651,7 +663,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
           "action": "modify"
         }
       ],
-      "status": "planned",
+      "status": "implemented",
       "evidence": [
         "EV-RELEASE-READY-AC-RELEASE",
         "EV-PAGES-READY-TASK-RELEASE-AC-RELEASE",
@@ -659,7 +671,8 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "EV-SCRUB-READY-TASK-RELEASE-AC-RELEASE",
         "EV-DEV-READY-TASK-RELEASE-AC-RELEASE",
         "EV-COMMIT3-READY-TASK-RELEASE-AC-RELEASE",
-        "EV-COMMIT4-READY-TASK-RELEASE-AC-RELEASE"
+        "EV-COMMIT4-READY-TASK-RELEASE-AC-RELEASE",
+        "EV-DOCS9-READY-TASK-RELEASE-AC-RELEASE"
       ],
       "blocker": null,
       "superseded_by": null
@@ -677,14 +690,15 @@ The normal clearance commit hook stopped because the coverage drill baseline App
           "action": "modify"
         }
       ],
-      "status": "planned",
+      "status": "implemented",
       "evidence": [
         "EV-PAGES-READY-TASK-PAGES-AC-PAGES-LIVE",
         "EV-VM-READY-TASK-PAGES-AC-PAGES-LIVE",
         "EV-SCRUB-READY-TASK-PAGES-AC-PAGES-LIVE",
         "EV-DEV-READY-TASK-PAGES-AC-PAGES-LIVE",
         "EV-COMMIT3-READY-TASK-PAGES-AC-PAGES-LIVE",
-        "EV-COMMIT4-READY-TASK-PAGES-AC-PAGES-LIVE"
+        "EV-COMMIT4-READY-TASK-PAGES-AC-PAGES-LIVE",
+        "EV-DOCS9-READY-TASK-PAGES-AC-PAGES-LIVE"
       ],
       "blocker": null,
       "superseded_by": null
@@ -702,13 +716,14 @@ The normal clearance commit hook stopped because the coverage drill baseline App
           "action": "modify"
         }
       ],
-      "status": "planned",
+      "status": "implemented",
       "evidence": [
         "EV-VM-READY-TASK-MAIN-AC-MAIN",
         "EV-SCRUB-READY-TASK-MAIN-AC-MAIN",
         "EV-DEV-READY-TASK-MAIN-AC-MAIN",
         "EV-COMMIT3-READY-TASK-MAIN-AC-MAIN",
-        "EV-COMMIT4-READY-TASK-MAIN-AC-MAIN"
+        "EV-COMMIT4-READY-TASK-MAIN-AC-MAIN",
+        "EV-DOCS9-READY-TASK-MAIN-AC-MAIN"
       ],
       "blocker": null,
       "superseded_by": null
@@ -5170,7 +5185,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "AC-GATES"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Reviewed current canonical ownership after duplicate-gate repair: shared fixture owns quiet settings and actual runtime error collection for both browser specs; typed imports and requested fixture guarantee it runs. Focused VM lint/types, zero duplicates, strict/full-graph dead code and all three real browser journeys passed. Three new controlled defects already failed intentionally and restored. Full hooks, history, external refs/CI, Pages, release and branch end-state still need direct outcomes.",
       "environment": {
@@ -5217,7 +5232,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
       ],
       "scope_sha256": "7d49157fd2a3a8c602df6d8097a6fa5a2ed12601ead9be348a0419abdffcd369",
       "red": null,
-      "reason": null
+      "reason": "Scope 9 adds owner-requested README presentation and accuracy review; rebind current documentation and actual rollout outcomes, retaining historical results."
     },
     {
       "id": "EV-COMMIT4-READY-TASK-GATES-AC-PAGES-BASE",
@@ -5225,7 +5240,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "AC-PAGES-BASE"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Reviewed current canonical ownership after duplicate-gate repair: shared fixture owns quiet settings and actual runtime error collection for both browser specs; typed imports and requested fixture guarantee it runs. Focused VM lint/types, zero duplicates, strict/full-graph dead code and all three real browser journeys passed. Three new controlled defects already failed intentionally and restored. Full hooks, history, external refs/CI, Pages, release and branch end-state still need direct outcomes.",
       "environment": {
@@ -5272,7 +5287,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
       ],
       "scope_sha256": "6ed306fdcaddbd33ee523c2863c25f7fc797424aa6bbb94c76bff6ffc5a325e3",
       "red": null,
-      "reason": null
+      "reason": "Scope 9 adds owner-requested README presentation and accuracy review; rebind current documentation and actual rollout outcomes, retaining historical results."
     },
     {
       "id": "EV-COMMIT4-READY-TASK-BEHAVIOR-AC-BEHAVIOR",
@@ -5280,7 +5295,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "AC-BEHAVIOR"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Reviewed current canonical ownership after duplicate-gate repair: shared fixture owns quiet settings and actual runtime error collection for both browser specs; typed imports and requested fixture guarantee it runs. Focused VM lint/types, zero duplicates, strict/full-graph dead code and all three real browser journeys passed. Three new controlled defects already failed intentionally and restored. Full hooks, history, external refs/CI, Pages, release and branch end-state still need direct outcomes.",
       "environment": {
@@ -5327,7 +5342,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
       ],
       "scope_sha256": "6866c05a6964dc6278b8f4407cc6aa9d59260f0a50b0df252cac61d4461c413a",
       "red": null,
-      "reason": null
+      "reason": "Scope 9 adds owner-requested README presentation and accuracy review; rebind current documentation and actual rollout outcomes, retaining historical results."
     },
     {
       "id": "EV-COMMIT4-READY-TASK-BEHAVIOR-AC-PAGES-BASE",
@@ -5335,7 +5350,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "AC-PAGES-BASE"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Reviewed current canonical ownership after duplicate-gate repair: shared fixture owns quiet settings and actual runtime error collection for both browser specs; typed imports and requested fixture guarantee it runs. Focused VM lint/types, zero duplicates, strict/full-graph dead code and all three real browser journeys passed. Three new controlled defects already failed intentionally and restored. Full hooks, history, external refs/CI, Pages, release and branch end-state still need direct outcomes.",
       "environment": {
@@ -5382,7 +5397,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
       ],
       "scope_sha256": "6ed306fdcaddbd33ee523c2863c25f7fc797424aa6bbb94c76bff6ffc5a325e3",
       "red": null,
-      "reason": null
+      "reason": "Scope 9 adds owner-requested README presentation and accuracy review; rebind current documentation and actual rollout outcomes, retaining historical results."
     },
     {
       "id": "EV-COMMIT4-READY-TASK-DOCS-AC-DOCS",
@@ -5390,7 +5405,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "AC-DOCS"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Reviewed current canonical ownership after duplicate-gate repair: shared fixture owns quiet settings and actual runtime error collection for both browser specs; typed imports and requested fixture guarantee it runs. Focused VM lint/types, zero duplicates, strict/full-graph dead code and all three real browser journeys passed. Three new controlled defects already failed intentionally and restored. Full hooks, history, external refs/CI, Pages, release and branch end-state still need direct outcomes.",
       "environment": {
@@ -5437,7 +5452,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
       ],
       "scope_sha256": "2befac8992924681d98ed2e9c0c15511ebc6b9d718c14cf5c71748fbbb2e2af8",
       "red": null,
-      "reason": null
+      "reason": "Scope 9 adds owner-requested README presentation and accuracy review; rebind current documentation and actual rollout outcomes, retaining historical results."
     },
     {
       "id": "EV-COMMIT4-READY-TASK-HISTORY-AC-HISTORY",
@@ -5445,7 +5460,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "AC-HISTORY"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Reviewed current canonical ownership after duplicate-gate repair: shared fixture owns quiet settings and actual runtime error collection for both browser specs; typed imports and requested fixture guarantee it runs. Focused VM lint/types, zero duplicates, strict/full-graph dead code and all three real browser journeys passed. Three new controlled defects already failed intentionally and restored. Full hooks, history, external refs/CI, Pages, release and branch end-state still need direct outcomes.",
       "environment": {
@@ -5492,7 +5507,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
       ],
       "scope_sha256": "ba814bcbf719c02f2455507c72a555296f4a8d9a147634168fc14959d778ed72",
       "red": null,
-      "reason": null
+      "reason": "Scope 9 adds owner-requested README presentation and accuracy review; rebind current documentation and actual rollout outcomes, retaining historical results."
     },
     {
       "id": "EV-COMMIT4-READY-TASK-RELEASE-AC-RELEASE",
@@ -5500,7 +5515,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "AC-RELEASE"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Reviewed current canonical ownership after duplicate-gate repair: shared fixture owns quiet settings and actual runtime error collection for both browser specs; typed imports and requested fixture guarantee it runs. Focused VM lint/types, zero duplicates, strict/full-graph dead code and all three real browser journeys passed. Three new controlled defects already failed intentionally and restored. Full hooks, history, external refs/CI, Pages, release and branch end-state still need direct outcomes.",
       "environment": {
@@ -5547,7 +5562,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
       ],
       "scope_sha256": "74dbfbbca87954f1a70c8ace9d0afb4f5ed95e6c81a0f49dc20eae7304a6df28",
       "red": null,
-      "reason": null
+      "reason": "Scope 9 adds owner-requested README presentation and accuracy review; rebind current documentation and actual rollout outcomes, retaining historical results."
     },
     {
       "id": "EV-COMMIT4-READY-TASK-PAGES-AC-PAGES-LIVE",
@@ -5555,7 +5570,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "AC-PAGES-LIVE"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Reviewed current canonical ownership after duplicate-gate repair: shared fixture owns quiet settings and actual runtime error collection for both browser specs; typed imports and requested fixture guarantee it runs. Focused VM lint/types, zero duplicates, strict/full-graph dead code and all three real browser journeys passed. Three new controlled defects already failed intentionally and restored. Full hooks, history, external refs/CI, Pages, release and branch end-state still need direct outcomes.",
       "environment": {
@@ -5602,7 +5617,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
       ],
       "scope_sha256": "edaa8489c4eb06fcd9478c3b258fe15ea376de1887c90c05b317544df3898fe2",
       "red": null,
-      "reason": null
+      "reason": "Scope 9 adds owner-requested README presentation and accuracy review; rebind current documentation and actual rollout outcomes, retaining historical results."
     },
     {
       "id": "EV-COMMIT4-READY-TASK-MAIN-AC-MAIN",
@@ -5610,7 +5625,7 @@ The normal clearance commit hook stopped because the coverage drill baseline App
         "AC-MAIN"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Reviewed current canonical ownership after duplicate-gate repair: shared fixture owns quiet settings and actual runtime error collection for both browser specs; typed imports and requested fixture guarantee it runs. Focused VM lint/types, zero duplicates, strict/full-graph dead code and all three real browser journeys passed. Three new controlled defects already failed intentionally and restored. Full hooks, history, external refs/CI, Pages, release and branch end-state still need direct outcomes.",
       "environment": {
@@ -5657,324 +5672,504 @@ The normal clearance commit hook stopped because the coverage drill baseline App
       ],
       "scope_sha256": "f0bb84664863de511c7249a3951a5afa62b1931572eaf6e1f28c4759a951577c",
       "red": null,
+      "reason": "Scope 9 adds owner-requested README presentation and accuracy review; rebind current documentation and actual rollout outcomes, retaining historical results."
+    },
+    {
+      "id": "EV-DOCS9-READY-TASK-GATES-AC-GATES",
+      "acceptance": [
+        "AC-GATES"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed canonical source, actual VM hook outcomes, exact main CI/Pages identities, direct muted HTTPS journeys, branch policy, and remaining release publication obligations. README uses existing logo and real screenshot; no invented counts, certification, offline guarantee, account sync, or native installer claims.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/release-rollout.md",
+        "sha256": "ad17dc152e577201699dcd60507a0db932c898fb17a75b9f6f984752923075a3"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "56ad891ea2b4ac07dec8334f423e0c78e75ec0bac2df504856884b3ad7ae1a7f",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-DOCS9-READY-TASK-GATES-AC-PAGES-BASE",
+      "acceptance": [
+        "AC-PAGES-BASE"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed canonical source, actual VM hook outcomes, exact main CI/Pages identities, direct muted HTTPS journeys, branch policy, and remaining release publication obligations. README uses existing logo and real screenshot; no invented counts, certification, offline guarantee, account sync, or native installer claims.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/release-rollout.md",
+        "sha256": "ad17dc152e577201699dcd60507a0db932c898fb17a75b9f6f984752923075a3"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "294b1e6484dfc9f35d922f64d5e37203cc6542c757d3823665933ed3e32edff1",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-DOCS9-READY-TASK-BEHAVIOR-AC-BEHAVIOR",
+      "acceptance": [
+        "AC-BEHAVIOR"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed canonical source, actual VM hook outcomes, exact main CI/Pages identities, direct muted HTTPS journeys, branch policy, and remaining release publication obligations. README uses existing logo and real screenshot; no invented counts, certification, offline guarantee, account sync, or native installer claims.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/release-rollout.md",
+        "sha256": "ad17dc152e577201699dcd60507a0db932c898fb17a75b9f6f984752923075a3"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "976b28ddfb32e359b2a6343c928607441c628d645d5d5b984ee2c5b6425f2441",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-DOCS9-READY-TASK-BEHAVIOR-AC-PAGES-BASE",
+      "acceptance": [
+        "AC-PAGES-BASE"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed canonical source, actual VM hook outcomes, exact main CI/Pages identities, direct muted HTTPS journeys, branch policy, and remaining release publication obligations. README uses existing logo and real screenshot; no invented counts, certification, offline guarantee, account sync, or native installer claims.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/release-rollout.md",
+        "sha256": "ad17dc152e577201699dcd60507a0db932c898fb17a75b9f6f984752923075a3"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "294b1e6484dfc9f35d922f64d5e37203cc6542c757d3823665933ed3e32edff1",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-DOCS9-READY-TASK-DOCS-AC-DOCS",
+      "acceptance": [
+        "AC-DOCS"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed canonical source, actual VM hook outcomes, exact main CI/Pages identities, direct muted HTTPS journeys, branch policy, and remaining release publication obligations. README uses existing logo and real screenshot; no invented counts, certification, offline guarantee, account sync, or native installer claims.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/release-rollout.md",
+        "sha256": "ad17dc152e577201699dcd60507a0db932c898fb17a75b9f6f984752923075a3"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "76ff52de2003f42b71074e8d45a3c3eb82abf2e08d8858d7fc02785dec7086a6",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-DOCS9-READY-TASK-HISTORY-AC-HISTORY",
+      "acceptance": [
+        "AC-HISTORY"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed canonical source, actual VM hook outcomes, exact main CI/Pages identities, direct muted HTTPS journeys, branch policy, and remaining release publication obligations. README uses existing logo and real screenshot; no invented counts, certification, offline guarantee, account sync, or native installer claims.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/release-rollout.md",
+        "sha256": "ad17dc152e577201699dcd60507a0db932c898fb17a75b9f6f984752923075a3"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "bb4215de724e57795adf50b61000efe028e071cc78af3988fa19502187a5e5b3",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-DOCS9-READY-TASK-RELEASE-AC-RELEASE",
+      "acceptance": [
+        "AC-RELEASE"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed canonical source, actual VM hook outcomes, exact main CI/Pages identities, direct muted HTTPS journeys, branch policy, and remaining release publication obligations. README uses existing logo and real screenshot; no invented counts, certification, offline guarantee, account sync, or native installer claims.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/release-rollout.md",
+        "sha256": "ad17dc152e577201699dcd60507a0db932c898fb17a75b9f6f984752923075a3"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "4671c1109907c69e9aeb8a46bcd00610a65c91be87d31b8590d9804b28793a4f",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-DOCS9-READY-TASK-PAGES-AC-PAGES-LIVE",
+      "acceptance": [
+        "AC-PAGES-LIVE"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed canonical source, actual VM hook outcomes, exact main CI/Pages identities, direct muted HTTPS journeys, branch policy, and remaining release publication obligations. README uses existing logo and real screenshot; no invented counts, certification, offline guarantee, account sync, or native installer claims.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/release-rollout.md",
+        "sha256": "ad17dc152e577201699dcd60507a0db932c898fb17a75b9f6f984752923075a3"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "786b703af66685463f7342c5e4de0b61abb0754b58b5647446a07582a7b9f1fb",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-DOCS9-READY-TASK-MAIN-AC-MAIN",
+      "acceptance": [
+        "AC-MAIN"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed canonical source, actual VM hook outcomes, exact main CI/Pages identities, direct muted HTTPS journeys, branch policy, and remaining release publication obligations. README uses existing logo and real screenshot; no invented counts, certification, offline guarantee, account sync, or native installer claims.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/release-rollout.md",
+        "sha256": "ad17dc152e577201699dcd60507a0db932c898fb17a75b9f6f984752923075a3"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "954bbfdb1d720d05cedc09d9819b876bc463424d00b83c85eb0915c93608b721",
+      "red": null,
       "reason": null
     }
   ],
-  "checkpoint": {
-    "scope_sha256": "6ba14c236e4c1b062e8824459f4416f4807cd4ecd6d91df000da7db207958653",
-    "inputs": [
-      {
-        "path": ".github/.copilot-instructions.md",
-        "sha256": "af7c5e1bf5655378562e52a61da65788015ce260fcce3e349943f90382e79be7"
-      },
-      {
-        "path": ".github/FUNDING.yml",
-        "sha256": "bae242d028ca1f0a3a5ca6ad67bf3f612dd24d3abc85c573d12f89816a4e0d75"
-      },
-      {
-        "path": ".github/dependabot.yml",
-        "sha256": "2ac0f4eedc85cd7257690030d69de019cf53af459539657a601605d22d638f23"
-      },
-      {
-        "path": ".github/workflows/build-multiplatform.yml",
-        "sha256": "2d7be630f6e943747b1d1b48dfbfe5a424e4acb2ccf0382b1b63f58c87d4a73d"
-      },
-      {
-        "path": ".github/workflows/pages.yml",
-        "sha256": "03e76aa3c3f4f29dc3c3d4f35de7a8615ba01ec1afcda5513703df955efc5d7e"
-      },
-      {
-        "path": ".github/workflows/quality.yml",
-        "sha256": "1d43554c08cf875972806347f6d08467ad57403f10ff2b7b1251698dab136df9"
-      },
-      {
-        "path": ".gitignore",
-        "sha256": "79b24aac07be8fe0b628ee10c4442b64714866b3b105c995fa8b6df777bf7785"
-      },
-      {
-        "path": ".gitleaksignore",
-        "sha256": "5929eefaabde4193a1f9b96e39b83d31a9104bd906bf5e572fef74abaaa52f24"
-      },
-      {
-        "path": ".pre-commit-config.yaml",
-        "sha256": "a739eb6d9ff7c8e3bb02d28923d2bff6828616ad0b756ab9011666ac3f44dd15"
-      },
-      {
-        "path": ".semgrep.yml",
-        "sha256": "99e8b7b99911504941680041747174759585e2d359c379b3208fa8a4f66c3e9f"
-      },
-      {
-        "path": "AGENTS.md",
-        "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
-      },
-      {
-        "path": "CHANGELOG.md",
-        "sha256": "627bd3f581186b19de3525a0740b50dfe124614aeed6f1e75ef8d59ddb0ce553"
-      },
-      {
-        "path": "CONTRIBUTING.md",
-        "sha256": "8b397f1a9bed3d1f4952e9df63f729e39cd1d0a9864f276b3553d9356c855153"
-      },
-      {
-        "path": "README.md",
-        "sha256": "5e161b89240919600f99838ca7bae5bf13af0a9a727a3e4bccfcadd6200c75d4"
-      },
-      {
-        "path": "SECURITY.md",
-        "sha256": "427bc9dc8c694f5e414cc6737c18a5bdb838de5dc0752c9066289f42d48a37a8"
-      },
-      {
-        "path": "docs/CONTENT.md",
-        "sha256": "c12f8c96c7214099c59507162914e64cf270004bba177909d98123d326bbd019"
-      },
-      {
-        "path": "docs/DEPLOYMENT.md",
-        "sha256": "617ce462d376edbbb0eb8cf2de93a66eaa8938698c3bc83ca6fd500b40d10f98"
-      },
-      {
-        "path": "docs/QUALITY-RETROFIT.md",
-        "sha256": "6ff3b1653580aa492211b722c2c2cda8e5e504b409064d9795c032a8ea166c0f"
-      },
-      {
-        "path": "eslint.config.mjs",
-        "sha256": "a9a32260099754907bd7d122c47d2a6177dc51be0a938d37ef04dca9368f16ce"
-      },
-      {
-        "path": "index.html",
-        "sha256": "47963cdcc6a2d22da213d1607fc00e0be43053e19c68b952dc4268d1f806f206"
-      },
-      {
-        "path": "knip.jsonc",
-        "sha256": "457115a45d56bf9bb4eca2bd0fa5e1187fb3e40707b7ff308093422b2c204eff"
-      },
-      {
-        "path": "package-lock.json",
-        "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
-      },
-      {
-        "path": "package.json",
-        "sha256": "e6ff92d7f50065f8681865709f506c0784a5c353ca83eda89eef1684f155d6a3"
-      },
-      {
-        "path": "playwright.config.ts",
-        "sha256": "cd0cc43ee2d6759b1498f01e805ce24d7cdfa0fae08fceb82f225b0c77973643"
-      },
-      {
-        "path": "requirements-quality.in",
-        "sha256": "0d865bbd734ee4bc2a928bd66f4d2f0d21dd84d5c13781a31f8c7a9bb7f04297"
-      },
-      {
-        "path": "requirements-quality.txt",
-        "sha256": "546575b9b4920fb90b69b34e46993ed03387558ae806c73cddf1236da8b8d56e"
-      },
-      {
-        "path": "src/App.tsx",
-        "sha256": "5900842b079776802dcbcf83c3303506c668ef0ab4f5dc1623868ed751dba8d9"
-      },
-      {
-        "path": "src/components/AchievementToast.tsx",
-        "sha256": "39560e0016723e8cc81a1f5f7d19ff7b85f879da896bd6fad7ba4de6c50df807"
-      },
-      {
-        "path": "src/components/CameraController.tsx",
-        "sha256": "c86ccdd2214ac458cab1d6acab2ed39fd19f65c9c811deaeb7b530d80ddc3efe"
-      },
-      {
-        "path": "src/components/CanvasHUD.tsx",
-        "sha256": "a926eddf7c9b4bd5c1ec61858363dd8d2640c9d7e7109140befa5495f892f97d"
-      },
-      {
-        "path": "src/components/GameCanvas.tsx",
-        "sha256": "b31e5c4ca5613e84599bc5488e79c5bb99ca3e7833c565feda6096ddb720cfe3"
-      },
-      {
-        "path": "src/components/GameOverScreen.tsx",
-        "sha256": "24ce00cb347deeef8e5cf4ba8dafde90809991ec0d2ea0fd78b185d5abe27114"
-      },
-      {
-        "path": "src/components/LaserEffect.tsx",
-        "sha256": "d5f74e0f52e1b99db14460393e2acf5ecec7fd4d431311ec3cdbda0e91d86847"
-      },
-      {
-        "path": "src/components/LaserTargetHelper.tsx",
-        "sha256": "d18da761f538fa9bc3d1250c037c5a1a469d14273d6e47bee27c3e528f8cc9b3"
-      },
-      {
-        "path": "src/components/MainMenu.tsx",
-        "sha256": "a9af54c96712c5ae256fb8f9a692be7f80720ebc38c74cb0d1657e67a882c7cd"
-      },
-      {
-        "path": "src/components/ModalShell.tsx",
-        "sha256": "47453faf2baee90e4a6b77dc9f5286016aac6bccb4d7b87f2c5be87f31d7bf34"
-      },
-      {
-        "path": "src/components/PlayerStatsModal.tsx",
-        "sha256": "a0d3dc71de543d1c51627f5e805c7ba155c90ae747824c145ecc55b6b2f3b6a4"
-      },
-      {
-        "path": "src/components/SpaceScene.tsx",
-        "sha256": "da584bf3c0af977979dbdb145918b31c1aeecc0bcae8587f915f5a1d36866517"
-      },
-      {
-        "path": "src/components/TriviaOverlay.tsx",
-        "sha256": "2e24da954b161c19785d855f54b4f90a102c1977d372e86fc914c9a0144e362c"
-      },
-      {
-        "path": "src/components/TypingHandler.tsx",
-        "sha256": "f90c72ae0a0cf3a7a3b987ad48e1eb23fab88594333bb869301adb8b0d557a51"
-      },
-      {
-        "path": "src/entities/EnemyShip.tsx",
-        "sha256": "6169101c41d2587f2ffbf82e5d7bb4fb7c6b1bcc7a0599cd65b7cb3a7842d982"
-      },
-      {
-        "path": "src/entities/PlayerShip.tsx",
-        "sha256": "50a21a751f1d005d0ecc413ca94d176d8cafa6ba9fd61a9a9d802bf56d245e2f"
-      },
-      {
-        "path": "src/store/gameContext.tsx",
-        "sha256": "f40c4ea10a3f2aa4b4ba7a1ea6a9c7b5778a14adc541b01975882560ce9e263c"
-      },
-      {
-        "path": "src/types.ts",
-        "sha256": "2c0af52b1282d7979ad6a1b718b7da82971865e29e1b6bfe45f0b56ff1d8e161"
-      },
-      {
-        "path": "src/utils/achievementsManager.ts",
-        "sha256": "ce71972d38530d9cda29c88cf38f003f41f9b859f45568d901e53f71dad5fb9d"
-      },
-      {
-        "path": "src/utils/audioManager.ts",
-        "sha256": "279f2ce25e7030508017dd7ea3946cbfb2610022a59133b0049529f87461fad3"
-      },
-      {
-        "path": "src/utils/performanceInit.ts",
-        "sha256": "85e12f0ef674949ba8ad4651af02b5f0a636e6f5470c0c40b4ddf7319e147e2e"
-      },
-      {
-        "path": "src/utils/publicAssetUrl.ts",
-        "sha256": "600821733700330b5a6f700adec27b333fa4dc98deb5fd5ce45f859516beb9b9"
-      },
-      {
-        "path": "src/utils/resourcePreloader.ts",
-        "sha256": "69aa3421099382bfc4588852da0d233bf65b91a6f8673374279daa9f92423469"
-      },
-      {
-        "path": "src/utils/testIds.ts",
-        "sha256": "8416d50f8928bec7da5fabbff821a1647a15dcb1e4e9b1a2be675f89eb636cea"
-      },
-      {
-        "path": "src/utils/triviaDatabase.ts",
-        "sha256": "e2da380911aabf0773e6efdd2f78931edfbaae4a9b50edadc2d6621930a5b5b5"
-      },
-      {
-        "path": "src/utils/wordDictionary.ts",
-        "sha256": "0f9558084f10c75170422c71bad250c02a26f7a3db5a0d4685db369061dee1f9"
-      },
-      {
-        "path": "tests/ci-parity.ts",
-        "sha256": "78a7b8b444646c2ff7991186314caaabc9aade3ba7e0df0127eba71a31e04372"
-      },
-      {
-        "path": "tests/code-scan.ts",
-        "sha256": "cee0f261c8f0b030372a2fec78ac1920f59aa13b5b1c5e734c8ceabc300f1032"
-      },
-      {
-        "path": "tests/deployment-gate.ts",
-        "sha256": "438cb17033249bca15d4521d0d75e4d04499695230d0ff462cb0051cc664b973"
-      },
-      {
-        "path": "tests/e2e/development.spec.ts",
-        "sha256": "e337b81f4eaaa9461e407fd9d761ac62db6ee83e630627ce0a7e06046097f277"
-      },
-      {
-        "path": "tests/e2e/fixtures.ts",
-        "sha256": "b65ea2bf17623b0099f1c1083f8f16911491fed82bfd67670a8d7a44874829cf"
-      },
-      {
-        "path": "tests/e2e/smoke.spec.ts",
-        "sha256": "9bcafdeffdf6458b0c7fb65b8d280f6cf2f0c39727b93a289c20836e7b9f57a2"
-      },
-      {
-        "path": "tests/red-drills.ts",
-        "sha256": "14745c2ef72dd91fee7a0d16cf3194bd61a564a94534016db1ed774596a9788b"
-      },
-      {
-        "path": "tests/tsconfig.json",
-        "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
-      },
-      {
-        "path": "tests/unit/App.test.tsx",
-        "sha256": "ef9366d486398af25920e84de5595a8ad22d028b13ccd27d8500c04f96da416c"
-      },
-      {
-        "path": "tests/unit/MainMenu.test.tsx",
-        "sha256": "84616cb53df09b2689098084ad9c78984e89b92a02cbc613b6d0f271a9169582"
-      },
-      {
-        "path": "tests/unit/deploymentGate.test.ts",
-        "sha256": "6173789d2326235174c3a443d75eacbe3af776f371877df0d75bd7084a5d68dd"
-      },
-      {
-        "path": "tests/unit/publicAssetUrl.test.ts",
-        "sha256": "fb9e0fca2c6f95313238f22712d910e559638c8322b062e07dcc79e1632decf1"
-      },
-      {
-        "path": "tests/unit/sceneFrames.test.tsx",
-        "sha256": "e49ddfcf9e838bbaec8d35b9d2eae45775fb60b1e9ae79fcab42171c86eb7103"
-      },
-      {
-        "path": "tests/unit/triviaDatabase.test.ts",
-        "sha256": "300fbe4c3928570d2234bb3dedf4f0b2eed6f39b3241a143abfd070a83e88529"
-      },
-      {
-        "path": "tests/unit/uiPrimitives.test.tsx",
-        "sha256": "f759885389a54dd5996e40c2228f16d47a54c5410d88d794faadeafdb92ec28c"
-      },
-      {
-        "path": "tsconfig.json",
-        "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
-      },
-      {
-        "path": "tsconfig.node.json",
-        "sha256": "eae28b457e36032113b04b86feaedb7be1fb063b2ce26247142976f9bb6016be"
-      },
-      {
-        "path": "vercel.json",
-        "sha256": null
-      },
-      {
-        "path": "vite.config.ts",
-        "sha256": "0dca6d47e87189cc0b16b6f583631ece03a84064c23d0b098594c92a85b849fb"
-      },
-      {
-        "path": "vitest.config.ts",
-        "sha256": "5eac76ca4a13b7d951d40b3ab71be7dddb516257c50f859d1af337621ef4e710"
-      }
-    ],
-    "environment": {
-      "tools": {
-        "vitest": "4.1.11",
-        "eslint": "10.9.0",
-        "opengrep-core": "1.30.0",
-        "osv-scanner": "2.6.0",
-        "react-three-test-renderer": "9.1.1",
-        "node": "v24.21.0",
-        "zizmor": "1.25.2",
-        "actionlint": "1.7.12",
-        "typescript": "6.0.3",
-        "python": "3.14.7",
-        "gitleaks": "8.30.1",
-        "pre-commit": "4.5.1",
-        "npm": "11.19.0",
-        "playwright": "1.63.0"
-      },
-      "platform": "windows"
-    },
-    "verified_tasks": [],
-    "pending_operations": [],
-    "next_action": "Observe fresh complete VM commit hooks and retained history gate before exporting commit; publish reviewed sanitized refs with explicit leases and immediately restore protection, then observe CI, merge, Pages, release, and branch cleanup.",
-    "source_revision": "be2d9ad9256fccb42a32a8f9edddd45b2d358cbe"
-  }
+  "checkpoint": null
 }
 ```

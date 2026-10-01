@@ -175,8 +175,8 @@ Version 2.0.1 now has one package metadata owner; About consumes it. Runtime
 assets and the PWA are mounted at /ptype/. A pinned reusable Pages workflow
 requires exact current main and all four trusted GitHub Actions checks before
 publishing. Main protection and main-only Pages environment policy are active.
-The site is configured but has not been deployed; PR #4 remains a draft until
-required history clearance can be established.
+At the initial Pages checkpoint the site was configured but not deployed;
+PR #4 stayed draft until required history clearance could be established.
 
 On WIN-11-VM, the initial full code run passed static/build gates, 27 files with
 124 tests, coverage 95.28/83.54/97.32/95.95, and 37 maintained drills. Both final
@@ -211,7 +211,33 @@ Development HTML uses Vite's complete transform and fresh request nonces; static
 production CSP remains strict. Both servers disable automatic unowned browser
 opening. Three new maintained drills caught immediate trivia dismissal, missing
 development script nonces, and re-enabled browser opening, then restored exactly.
-The complete set is now forty cases; its final aggregate still requires a fresh
-normal hook run. Automatic approval review rejected both proposed remote CDP
+The complete set became forty cases; a fresh normal hook run was still required
+at that checkpoint. Automatic approval review rejected both proposed remote CDP
 agent-browser probes with only "blocked by policy"; that extra CLI inspection
 is deferred, separately from the passing real Playwright development journey.
+
+## Current consolidation and hosted results
+
+The final normal VM commit hooks passed at `d9a2bd1`: every applicable hook,
+124 tests, all forty green/red/restored drills, and three actual Chromium
+journeys. The separate retained history scan passed with zero leaks across
+156 scanned commits. No timeout or coverage floor was increased and no hook
+was bypassed.
+
+The reviewed exact-value history scrub was published with branch leases and
+main protection restored. All ten prior tag identities and current app trees
+were preserved. PR #4 merged as `03469c4`; its exact main Quality and all three
+platform builds passed. Pages build and deployment also succeeded.
+
+Actual HTTPS desktop/narrow production journeys then passed under the owner's
+explicit quiet hosted-check authorization, including focus, version, both modes,
+pause/quit, layout, manifest, service-worker scope, asset responses, and zero
+page/console errors. This does not imply hardware, audible, other-engine, or
+full offline certification. The optional remote CDP probe remains deferred;
+the actual hosted browser gate is complete through standard Playwright.
+
+Obsolete bot PRs were closed; only protected main remained locally/remotely.
+The README refresh removes the stale unresolved-key claim, uses an actual menu
+screenshot, and documents complete setup, controls, browser-local progress,
+distribution, operations, and tested limits. Release publication remains a
+separate final obligation. See [current rollout evidence](verification/release-rollout.md).
