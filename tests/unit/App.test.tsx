@@ -275,18 +275,31 @@ describe("application orchestration", () => {
     mocks.store.currentTrivia = TRIVIA;
     mocks.store.isPaused = false;
     rendered.rerender(<App />);
-    fireEvent.click(
-      await screen.findByRole("button", { name: "Answer trivia" }),
-    );
-    expect(mocks.answerTrivia).toHaveBeenCalledWith(1, true, null);
-    await waitFor(() => {
-      expect(mocks.hideTrivia).toHaveBeenCalledOnce();
+    const answerTrivia = await screen.findByRole("button", {
+      name: "Answer trivia",
     });
+    vi.useFakeTimers();
+    fireEvent.click(answerTrivia);
+    expect(mocks.answerTrivia).toHaveBeenCalledWith(1, true, null);
+    act(() => {
+      vi.advanceTimersByTime(499);
+    });
+    expect(mocks.hideTrivia).not.toHaveBeenCalled();
+    act(() => {
+      vi.advanceTimersByTime(1);
+    });
+    expect(mocks.hideTrivia).toHaveBeenCalledOnce();
     fireEvent.click(screen.getByRole("button", { name: "Time out trivia" }));
     expect(mocks.answerTrivia).toHaveBeenLastCalledWith(0, false, null);
-    await waitFor(() => {
-      expect(mocks.hideTrivia).toHaveBeenCalledTimes(2);
+    act(() => {
+      vi.advanceTimersByTime(499);
     });
+    expect(mocks.hideTrivia).toHaveBeenCalledOnce();
+    act(() => {
+      vi.advanceTimersByTime(1);
+    });
+    expect(mocks.hideTrivia).toHaveBeenCalledTimes(2);
+    vi.useRealTimers();
 
     mocks.store.mode = GameMode.GAME_OVER;
     mocks.store.currentTrivia = null;

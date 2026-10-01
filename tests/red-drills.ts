@@ -505,6 +505,41 @@ try {
     /keeps models, data, and icons[\s\S]*AssertionError/,
   );
   drill(
+    "development CSP nonce",
+    ["vite.config.ts"],
+    ["run", "test:browser:dev"],
+    () => {
+      replace(
+        "vite.config.ts",
+        "html: isDevelopment ? { cspNonce: DEVELOPMENT_NONCE_PLACEHOLDER } : {},",
+        "html: {},",
+      );
+    },
+    /development page loads[\s\S]*Expected: > 0/,
+  );
+  drill(
+    "server browser ownership",
+    ["vite.config.ts"],
+    ["run", "ci:parity"],
+    () => {
+      replace("vite.config.ts", "open: false", "open: true");
+    },
+    /CI parity: development and preview must not open a user browser/,
+  );
+  drill(
+    "trivia dismissal deadline",
+    ["src/App.tsx"],
+    ["run", "test:unit", "--", "tests/unit/App.test.tsx"],
+    () => {
+      replace(
+        "src/App.tsx",
+        "triviaDismissDelayMs: 500",
+        "triviaDismissDelayMs: 0",
+      );
+    },
+    /coordinates game, trivia[\s\S]*to not be called/,
+  );
+  drill(
     "Pages required Quality gate",
     ["tests/deployment-gate.ts"],
     ["run", "test:unit", "--", "tests/unit/deploymentGate.test.ts"],

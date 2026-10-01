@@ -1,6 +1,6 @@
 # Project instructions
 
-Rules revision: 4 (2026-10-01).
+Rules revision: 5 (2026-10-01).
 
 - Always use the `/caveman` skill for conversation. Write code, comments,
   documentation, and commit messages in normal English.
@@ -52,3 +52,10 @@ retrofit's verification and PR workflow.
 Revision 4 follows the authorized release, cleanup, Pages migration, protected
 main, single-branch consolidation, and VM offloading requests. Required history
 and application gates remain in force.
+
+Revision 5 records the owner's confirmation that the Icons8 key was revoked or
+rotated and explicit authorization to scrub only that value from the two branch
+histories. Preserve existing release tags/assets, verify exact content changes
+and reachable history, publish with branch leases, and immediately restore main
+protection after its bounded maintenance update. Old clones must resynchronize
+before contributing; cached provider commit pages are a separate cleanup surface.

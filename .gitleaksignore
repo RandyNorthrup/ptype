@@ -12,3 +12,17 @@
 032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:jwt:172
 032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:jwt:173
 032ccd8d1e9de2a78d808e7d6c7f880bb2fcf770:README.md:jwt:174
+
+# Same expired URLs after the authorized key-only branch-history scrub.
+b2ffcf5aef9ed7839a679d6c91e75c95c1f0a2e8:README.md:aws-access-token:169
+b2ffcf5aef9ed7839a679d6c91e75c95c1f0a2e8:README.md:aws-access-token:170
+b2ffcf5aef9ed7839a679d6c91e75c95c1f0a2e8:README.md:aws-access-token:171
+b2ffcf5aef9ed7839a679d6c91e75c95c1f0a2e8:README.md:aws-access-token:172
+b2ffcf5aef9ed7839a679d6c91e75c95c1f0a2e8:README.md:aws-access-token:173
+b2ffcf5aef9ed7839a679d6c91e75c95c1f0a2e8:README.md:aws-access-token:174
+b2ffcf5aef9ed7839a679d6c91e75c95c1f0a2e8:README.md:jwt:169
+b2ffcf5aef9ed7839a679d6c91e75c95c1f0a2e8:README.md:jwt:170
+b2ffcf5aef9ed7839a679d6c91e75c95c1f0a2e8:README.md:jwt:171
+b2ffcf5aef9ed7839a679d6c91e75c95c1f0a2e8:README.md:jwt:172
+b2ffcf5aef9ed7839a679d6c91e75c95c1f0a2e8:README.md:jwt:173
+b2ffcf5aef9ed7839a679d6c91e75c95c1f0a2e8:README.md:jwt:174

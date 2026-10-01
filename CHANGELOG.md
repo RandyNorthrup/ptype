@@ -2,7 +2,7 @@
 
 ## 2.0.1 — prepared 2026-10-01
 
-Publication remains pending the required historical-credential gate.
+Publication remains pending final required checks and verified rollout.
 
 - Bump package/lock metadata to 2.0.1 and make About consume that canonical
   version; verify stale display and missing release-tag checks fail.
@@ -13,6 +13,10 @@ Publication remains pending the required historical-credential gate.
   and branch protection. Retire Vercel configuration and thirteen old GitHub
   deployment records; live deployment remains pending.
 - Move validation and complete commit hooks to an isolated Win11 VM.
+- Verify the development page with fresh CSP nonces while keeping the static
+  production script policy strict. Prevent automatic unowned browser opening.
+- Replace wall-clock trivia waits with 499/500 ms deadline assertions without
+  increasing the five-second test limit or lowering coverage floors.
 
 - Fix trivia retry and failure propagation; reject blank questions, invalid
   answer choices/indexes, and empty datasets.
@@ -34,4 +38,6 @@ Publication remains pending the required historical-credential gate.
 - Verify matching code gates in hosted Linux CI and successful Windows/macOS/
   Linux builds; record the shared historical-key failure without suppressing it.
 - Preserve production warnings/errors and reconcile canonical rules and evidence.
-- Keep the historical Icons8 incident open; no history rewrite or release was made.
+- Record owner-confirmed Icons8 revocation/rotation and explicitly authorized
+  key-only branch-history cleanup. Preserve old release tags/assets, update only
+  exact expired screenshot fingerprints, and verify the retained history gate.

@@ -39,10 +39,15 @@ audio, browser engines, hosting infrastructure, or user-installed extensions.
 ## Historical credential checkpoint
 
 The 2026-09-30 audit found a historical hardcoded Icons8 key in a discontinued
-asset script. Its revocation status has not been established. The required
-history gate remains failing; the working source and dependency gates are
-separate so independent remediation can continue. Credential rotation requires
-provider account access; history rewriting requires an explicit instruction.
+asset script. On 2026-10-01 the owner confirmed revocation/rotation and explicitly
+authorized a key-only scrub of both branch histories, preserving release tags
+and assets. Fresh VM audit found no copy of that value in any reachable blob;
+the application history gate passed with no findings. External ref publication
+and hosted checks still require observation before rollout.
+
 No credential values are retained in the audit. Exact fingerprints of expired
-signed GitHub screenshot URLs are documented false positives, not a general
-README or JWT exclusion. See [the audit](docs/QUALITY-RETROFIT.md).
+signed GitHub screenshot URLs remain documented false positives, with both
+original and rewritten commit identities covered. They are not a general README
+or JWT exclusion. Re-synchronize old clones before contributing so superseded
+history is not reintroduced. GitHub cached commit pages are separate from
+reachable branch/tag history. See [the audit](docs/QUALITY-RETROFIT.md).

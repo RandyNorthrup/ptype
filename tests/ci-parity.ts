@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { load } from "js-yaml";
+import { resolveConfig } from "vite";
 
 function record(value: unknown): Record<string, unknown> {
   if (typeof value !== "object" || value === null || Array.isArray(value))
@@ -141,6 +142,12 @@ if (
 ) {
   throw new Error(
     "CI parity: commit hooks must always run the complete code gate aggregate",
+  );
+}
+const resolved = await resolveConfig({}, "serve");
+if (resolved.server.open !== false || resolved.preview.open !== false) {
+  throw new Error(
+    "CI parity: development and preview must not open a user browser",
   );
 }
 process.stdout.write(

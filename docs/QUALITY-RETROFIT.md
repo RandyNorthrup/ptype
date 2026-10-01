@@ -68,15 +68,17 @@ URLs. Their decoded JWT expiry is 2025-09-25T20:18:52Z. Twelve unique exact
 fingerprints cover those expired image URLs and are documented in
 `.gitleaksignore`; future README/JWT findings remain scanned.
 
-One genuine unresolved historical finding remains: a hardcoded Icons8 key in
+At the original checkpoint, one genuine historical finding remained in
 `scripts/get-achievement-icons.ts:29` at
-`11e011461c3e75c69f2c9539799d87eda83ca42a`. No credential value was displayed,
-used, or suppressed. Its validity/revocation has not been established. Removing
-the old script from HEAD does not remove history. `security:secrets` still exits
-
-1. Provider revocation requires account access; history rewriting needs an
-   explicit instruction. No history rewrite or deployment was made. Topic
-   commits are pushed to [draft PR #4](https://github.com/RandyNorthrup/ptype/pull/4).
+`11e011461c3e75c69f2c9539799d87eda83ca42a`. On 2026-10-01 the owner confirmed
+revocation/rotation and explicitly authorized key-only branch-history cleanup.
+Fresh VM audit now finds no revoked value in any reachable blob; the normal
+history gate exits zero with no findings. Both original and rewritten identities
+for the same expired screenshot URLs are bounded in `.gitleaksignore` (24 exact
+entries); no credential exception was added. Current app/main trees and all ten
+release tag objects remain unchanged. See
+[local cleanup evidence](verification/history-remediation.md). External ref
+publication, CI, Pages, and release still require their own observed outcomes.
 
 Npm and OSV scans of the project locks are clean. An attempted Semgrep Python
 lock exposed 13 PyJWT advisories and an upstream incompatible dependency pin.
@@ -157,7 +159,7 @@ at the required history scan with the same one finding. See
 | Changelog                                                      | Pass     | Unreleased entry matches fixes, main integration, and open incident.                                                                       |
 | Audible playback / hardware / other engines / offline recovery | Deferred | Muted software Chromium and unit evidence do not certify these surfaces.                                                                   |
 
-## Next steps
+## Next steps at the original retrofit checkpoint
 
 Review [draft PR #4](https://github.com/RandyNorthrup/ptype/pull/4), observe the
 final pushed CI head, and resolve the Icons8 credential through its provider.
@@ -182,8 +184,11 @@ browser journeys rejected the new CSP because it blocked WebAssembly font
 rendering and blob model textures. The specific permissions were corrected;
 a fresh build and both desktop/narrow browser journeys then passed, including
 project-path assets, manifest, service-worker scope, keyboard focus, and gameplay.
-A complete normal commit-hook run remains pending at this checkpoint. Raw VM
-logs are ignored; current receipts will bind independently reviewed outcomes.
+Normal VM commit hooks then passed every applicable check, including the full
+code aggregate, and created c6c4b08. The authorized history transform leaves its
+source tree unchanged (remapped be2d9ad). Rules and exact screenshot identities
+now changed; a fresh normal hook run will verify that final delta. Raw VM logs
+are ignored; current receipts bind independently reviewed outcomes.
 
 The owner's temporary 20-minute host testing allowance was exercised with the
 unchanged types fixture. Its Vitest worker failed startup with zero tests;
@@ -193,6 +198,20 @@ No host project, service, or unrelated process was restarted.
 Scoped cleanup removed four obsolete completed legacy Actions runs and thirteen
 retired Vercel GitHub deployment records. No self-hosted runner registrations
 remain. Current CI artifacts and published releases were preserved. Provider-side
-Vercel cleanup is not claimed. The historical Icons8 finding still blocks merge,
-Pages publication, release publication, and deletion of the unmerged feature
-branch; deleting or redacting current source did not resolve reachable history.
+Vercel cleanup is not claimed. Owner-confirmed revocation and authorized key-only history cleanup now clear
+the local incident gate. Remote ref publication and current required CI still
+precede preserving merge, Pages/release publication, and branch removal.
+
+The subsequent normal clearance commit correctly stopped during the coverage
+drill baseline: the App orchestration case exceeded its five-second limit while
+waiting on real trivia timers. Its independent 499/500 ms fake-clock assertions
+now pass without retiming gameplay or increasing that limit. Focused VM lint,
+types, parity, five App tests, build, and the actual development page pass.
+Development HTML uses Vite's complete transform and fresh request nonces; static
+production CSP remains strict. Both servers disable automatic unowned browser
+opening. Three new maintained drills caught immediate trivia dismissal, missing
+development script nonces, and re-enabled browser opening, then restored exactly.
+The complete set is now forty cases; its final aggregate still requires a fresh
+normal hook run. Automatic approval review rejected both proposed remote CDP
+agent-browser probes with only "blocked by policy"; that extra CLI inspection
+is deferred, separately from the passing real Playwright development journey.

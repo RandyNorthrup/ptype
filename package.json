@@ -36,6 +36,7 @@
     "security:secrets": "gitleaks git --redact --no-banner",
     "test:red": "node tests/red-drills.ts",
     "test:browser": "playwright test",
+    "test:browser:dev": "npm run build && playwright test --project=development",
     "quality:code": "npm run quality:static && npm run test:red && npm run test:browser",
     "security:files": "gitleaks dir src --redact --no-banner --verbose",
     "quality:static": "npm run ci:parity && npm run format:check && npm run lint && npm run lint:css && npm run lint:html && npm run typecheck && npm run test && npm run deadcode && npm run cycles && npm run duplicates && npm run security:deps && npm run lint:workflows && npm run security:files && npm run security:code && npm run security:osv && npm run build",

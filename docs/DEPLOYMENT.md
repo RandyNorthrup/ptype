@@ -55,6 +55,14 @@ and zero fixture volumes. This proves software WebGL, not audible/physical GPU
 behavior. Repeat key flows on actual HTTPS and match deployment/source/version;
 local preview or green CI alone does not prove live hosting.
 
+The browser gate also opens an owned development server on port 4184. Its HTML
+reuses Vite's complete transform and supplies a fresh random request nonce with
+no-store caching, allowing the React development preamble. Builds retain the
+static production policy. This single-page app has no path router; development
+uses MPA behavior instead of an extra SPA fallback. Both dev and preview disable
+automatic browser opening, and the parity gate rejects re-enabling it.
+Use `npm run test:browser:dev` for the focused build/development journey.
+
 HTML supplies CSP/no-referrer. Pages does not reproduce former Vercel framing,
 permissions, MIME, or cache response headers; meta CSP is not equivalent to
 header-only framing controls. Hashed bundles retain distinct update identity.

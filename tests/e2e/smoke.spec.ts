@@ -1,28 +1,24 @@
-import { test, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { test } from "./fixtures";
 
 test("production menu, focus, responsive layout, and game pause journeys", async ({
   page,
+  errors,
 }, testInfo) => {
-  const errors: string[] = [];
-  await page.addInitScript(() => {
-    if (location.hostname === "127.0.0.1") {
-      localStorage.setItem(
-        "game-settings",
-        JSON.stringify({
-          musicVolume: 0,
-          sfxVolume: 0,
-          difficulty: "Normal",
-        }),
-      );
-    }
-  });
-  page.on("pageerror", (error) => {
-    errors.push(error.message);
-  });
-  page.on("console", (message) => {
-    if (message.type() === "error") errors.push(message.text());
-  });
   await page.goto("./");
+  const scriptPolicy = await page
+    .locator('meta[http-equiv="Content-Security-Policy"]')
+    .evaluate(
+      (meta) =>
+        meta
+          .getAttribute("content")
+          ?.split(";")
+          .find((directive) =>
+            directive.trimStart().startsWith("script-src"),
+          ) ?? "",
+    );
+  expect(scriptPolicy).toContain("'wasm-unsafe-eval'");
+  expect(scriptPolicy).not.toMatch(/'unsafe-(?:eval|inline)'|'nonce-/u);
   await expect(
     page.getByRole("button", { name: "Settings", exact: true }),
   ).toBeVisible({ timeout: 30_000 });

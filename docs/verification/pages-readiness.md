@@ -31,5 +31,19 @@ unchanged fixture. No failed startup counts as behavior/red proof. Per the
 owner, further tests/hooks run in a new isolated WIN-11-VM workspace; existing
 host projects/processes are preserved. The VM is authenticated Windows 11 with
 Node 24.21.0, npm 11.19.0, Python 3.14.7, and Git 2.55.0, with ample free memory.
-Observe the remaining pinned tools and bind actual VM context before final
-receipts. Historical Icons8 credential clearance still remains unresolved.
+Pinned tools and VM context have been independently observed. The owner confirmed
+key revocation/rotation and authorized exact-value history cleanup. Preserve all
+release tags/assets, require branch leases and immediate protection restoration,
+and observe remote outcomes before merge/Pages/release publication. The key-only
+transform leaves current app source unchanged; expired screenshot exceptions need
+their rewritten commit identities because their original source is unchanged.
+
+The clearance commit gate actually failed on the App orchestration test during
+the coverage drill baseline: its real dismissal waits exceeded five seconds.
+Preserve every assertion and the timeout; use independent 499/500 ms clock
+boundaries. Canonical Vite/React development HTML injects an inline preamble.
+Use Vite nonce placeholders and its complete HTML transform, replacing the
+placeholder with fresh random request identity in an owned development-only
+response. Keep static production policy unchanged. Extend existing Playwright
+projects with a real development journey and add intended missing-nonce and
+automatic-browser-opening drills; both servers must preserve the user browser.

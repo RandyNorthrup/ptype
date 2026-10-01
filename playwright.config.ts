@@ -22,12 +22,35 @@ export default defineConfig({
     },
   },
   projects: [
-    { name: "desktop", use: { ...devices["Desktop Chrome"] } },
-    { name: "narrow", use: { viewport: { width: 390, height: 844 } } },
+    {
+      name: "desktop",
+      testMatch: "**/smoke.spec.ts",
+      use: { ...devices["Desktop Chrome"] },
+    },
+    {
+      name: "narrow",
+      testMatch: "**/smoke.spec.ts",
+      use: { viewport: { width: 390, height: 844 } },
+    },
+    {
+      name: "development",
+      testMatch: "**/development.spec.ts",
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: "http://127.0.0.1:4184/ptype/",
+      },
+    },
   ],
-  webServer: {
-    command: "npm run preview -- --host 127.0.0.1 --port 4173 --strictPort",
-    url: "http://127.0.0.1:4173/ptype/",
-    reuseExistingServer: false,
-  },
+  webServer: [
+    {
+      command: "npm run preview -- --host 127.0.0.1 --port 4173 --strictPort",
+      url: "http://127.0.0.1:4173/ptype/",
+      reuseExistingServer: false,
+    },
+    {
+      command: "npm run dev -- --host 127.0.0.1 --port 4184 --strictPort",
+      url: "http://127.0.0.1:4184/ptype/",
+      reuseExistingServer: false,
+    },
+  ],
 });
