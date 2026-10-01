@@ -33,7 +33,6 @@ pnpm-debug.log*
 # ============================================
 .env
 .env*.local
-!.env.example
 
 # ============================================
 # Build Output
@@ -42,6 +41,9 @@ dist/
 build/
 out/
 .cache/
+.eslintcache
+.stylelintcache
+.vitest/
 *.tsbuildinfo
 vite.config.ts.timestamp-*
 
@@ -68,6 +70,8 @@ python-version/.venv/
 
 # Python Testing
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .coverage
 htmlcov/
 .tox/
@@ -174,3 +178,10 @@ secrets/
 # ============================================
 .playwright-mcp/
 .mcp-cache/
+.quality-tools/
+docs/verification/*.log
+docs/verification/*-summary.json
+
+
+# Temporary Stuff
+temp/

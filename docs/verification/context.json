@@ -1,0 +1,19 @@
+{
+  "platform": "windows",
+  "tools": {
+    "python": "3.14.0",
+    "node": "v24.20.0",
+    "npm": "11.19.0",
+    "typescript": "6.0.3",
+    "eslint": "10.9.0",
+    "vitest": "4.1.11",
+    "playwright": "1.63.0",
+    "react-three-test-renderer": "9.1.1",
+    "gitleaks": "8.30.1",
+    "actionlint": "1.7.12",
+    "zizmor": "1.25.2",
+    "osv-scanner": "2.6.0",
+    "opengrep-core": "1.30.0",
+    "pre-commit": "4.5.1"
+  }
+}

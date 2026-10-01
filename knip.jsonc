@@ -1,0 +1,47 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "src/main.tsx",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "tests/red-drills.ts",
+    "tests/code-scan.ts",
+    "tests/ci-parity.ts",
+    "tests/deployment-gate.ts",
+    "tests/e2e/**/*.spec.ts",
+    "tests/**/*.{test,spec}.{ts,tsx}",
+  ],
+  "project": [
+    "src/**/*.{ts,tsx}",
+    "tests/**/*.{ts,tsx}",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "playwright.config.ts",
+  ],
+  "ignore": ["**/*.d.ts", "build/**", "coverage/**", "dist/**"],
+  "ignoreDependencies": [
+    "prettier",
+    "stylelint-config-standard",
+    // Knip 6.39 still reports this as unused. --trace-dependency resolves both
+    // YAML loaders and the production bundle includes js-yaml; remove on fix.
+    "js-yaml",
+  ],
+  "ignoreExportsUsedInFile": true,
+  "includeEntryExports": true,
+  "tags": ["-public"],
+  // External tools are pinned in the hash-locked Python tools or verified CI archives.
+  "ignoreBinaries": ["actionlint", "zizmor", "osv-scanner", "gitleaks"],
+  "rules": {
+    "binaries": "error",
+    "dependencies": "error",
+    "devDependencies": "error",
+    "duplicates": "error",
+    "enumMembers": "error",
+    "exports": "error",
+    "files": "error",
+    "types": "error",
+    "unlisted": "error",
+    "unresolved": "error",
+  },
+}

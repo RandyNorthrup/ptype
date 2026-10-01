@@ -1,20 +1,25 @@
-
 name: Build P-Type Multi-Platform
-
-permissions:
-  contents: write
 
 on:
   push:
-    branches: [ main, master ]
-    tags: [ 'v*' ]
+    branches: [main, master]
+    tags: ["v*"]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
+    name: Build on ${{ matrix.platform }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -22,104 +27,33 @@ jobs:
           - os: windows-latest
             platform: Windows
           - os: macos-latest
-            platform: macOS-ARM
-          - os: macos-13
-            platform: macOS-Intel
+            platform: macOS
           - os: ubuntu-latest
             platform: Linux
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Cache pip
-        uses: actions/cache@v3
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          persist-credentials: false
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          python-version: '3.11'
+          node-version: 24
+          package-manager-cache: false
 
-      - name: Install Linux dependencies
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
 
-      - name: Install Python packages
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install pygame pyinstaller pillow numpy pytablericons
+      - name: Build production bundle
+        run: npm run build
 
-      # Cross-platform icon generation
-      - name: Generate Icons
-        run: |
-          echo "from PIL import Image" > make_icons.py
-          echo "import os, sys" >> make_icons.py
-          echo "os.makedirs('assets/images', exist_ok=True)" >> make_icons.py
-          echo "img_path = 'assets/images/spaceship_icon.png'" >> make_icons.py
-          echo "ico_path = 'assets/images/ptype.ico'" >> make_icons.py
-          echo "try:" >> make_icons.py
-          echo "    img = Image.open(img_path)" >> make_icons.py
-          echo "except:" >> make_icons.py
-          echo "    img = Image.new('RGBA', (512, 512), (138, 43, 226, 255))" >> make_icons.py
-          echo "img.save(ico_path, format='ICO', sizes=[(16,16),(32,32),(64,64),(128,128),(256,256),(512,512)])" >> make_icons.py
-          echo "if sys.platform == 'darwin':" >> make_icons.py
-          echo "    icns_path = 'assets/images/ptype.icns'" >> make_icons.py
-          echo "    iconset = 'assets/images/iconset'" >> make_icons.py
-          echo "    os.makedirs(iconset, exist_ok=True)" >> make_icons.py
-          echo "    for size in [16,32,64,128,256,512,1024]:" >> make_icons.py
-          echo "        resized = img.resize((size, size))" >> make_icons.py
-          echo "        resized.save(f'{iconset}/icon_{size}x{size}.png')" >> make_icons.py
-          echo "    os.system(f'iconutil -c icns {iconset} -o {icns_path}')" >> make_icons.py
-          python make_icons.py
-
-      - name: Build Executable
-        run: pyinstaller ptype.spec
-
-      - name: Package Executable (Windows)
-        if: matrix.platform == 'Windows'
-        run: tar -czvf PType-Windows.tar.gz dist/ptype.exe
-
-      - name: Package Executable (Linux/macOS)
-        if: matrix.platform != 'Windows'
-        run: tar -czvf PType-${{ matrix.platform }}.tar.gz dist/ptype*
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload web bundle
+        if: matrix.platform == 'Linux'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: PType-${{ matrix.platform }}
-          path: PType-${{ matrix.platform }}.tar.gz
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: PType-Windows
-      - uses: actions/download-artifact@v4
-        with:
-          name: PType-macOS-Intel
-      - uses: actions/download-artifact@v4
-        with:
-          name: PType-macOS-ARM
-      - uses: actions/download-artifact@v4
-        with:
-          name: PType-Linux
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            PType-Windows.tar.gz
-            PType-macOS-Intel.tar.gz
-            PType-macOS-ARM.tar.gz
-            PType-Linux.tar.gz
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: ptype-web-dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7

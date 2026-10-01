@@ -1,7 +1,7 @@
 /**
  * Performance Monitor - Track FPS, memory usage, and render times
  */
-import { debug } from './logger';
+import { debug } from "./logger";
 
 interface PerformanceMetrics {
   fps: number;
@@ -15,6 +15,18 @@ interface PerformanceMetrics {
   triangles?: number;
 }
 
+interface BrowserMemoryInfo {
+  usedJSHeapSize: number;
+  totalJSHeapSize: number;
+  jsHeapSizeLimit: number;
+}
+
+declare global {
+  interface Performance {
+    readonly memory?: BrowserMemoryInfo;
+  }
+}
+
 interface PerformanceStats {
   current: PerformanceMetrics;
   average: PerformanceMetrics;
@@ -22,14 +34,22 @@ interface PerformanceStats {
   max: PerformanceMetrics;
 }
 
+const PERFORMANCE_CONFIG = {
+  sampleFrames: 60,
+  millisecondsPerSecond: 1000,
+  bytesPerKibibyte: 1024,
+  goodFps: 30,
+  ratings: { excellent: 55, good: 40, fair: 25 },
+} as const;
+
 class PerformanceMonitor {
-  private enabled: boolean = false;
+  private enabled = false;
   private frames: number[] = [];
-  private maxFrames = 60;
+  private maxFrames = PERFORMANCE_CONFIG.sampleFrames;
   private lastTime = performance.now();
   private frameCount = 0;
   private callbacks: ((stats: PerformanceStats) => void)[] = [];
-  
+
   // Statistics
   private stats: PerformanceStats = {
     current: this.getEmptyMetrics(),
@@ -42,7 +62,6 @@ class PerformanceMonitor {
     return {
       fps: 0,
       frameTime: 0,
-      memory: undefined,
       drawCalls: 0,
       triangles: 0,
     };
@@ -51,7 +70,7 @@ class PerformanceMonitor {
   /**
    * Start monitoring performance
    */
-  start() {
+  start(): void {
     if (this.enabled) return;
     this.enabled = true;
     this.lastTime = performance.now();
@@ -75,45 +94,45 @@ class PerformanceMonitor {
 
     const currentTime = performance.now();
     const deltaTime = currentTime - this.lastTime;
-    
+
     // Calculate FPS
-    const fps = 1000 / deltaTime;
+    const fps = PERFORMANCE_CONFIG.millisecondsPerSecond / deltaTime;
     this.frames.push(fps);
-    
+
     // Keep only last N frames
     if (this.frames.length > this.maxFrames) {
       this.frames.shift();
     }
-    
+
     // Update current metrics
     this.stats.current.fps = fps;
     this.stats.current.frameTime = deltaTime;
-    
+
     // Get memory info if available
-    if ((performance as any).memory) {
-      const memory = (performance as any).memory;
+    if (performance.memory) {
+      const { memory } = performance;
       this.stats.current.memory = {
         usedJSHeapSize: memory.usedJSHeapSize,
         totalJSHeapSize: memory.totalJSHeapSize,
         jsHeapSizeLimit: memory.jsHeapSizeLimit,
       };
     }
-    
+
     // Calculate average
     const avgFps = this.frames.reduce((a, b) => a + b, 0) / this.frames.length;
     this.stats.average.fps = avgFps;
-    
+
     // Calculate min/max
     this.stats.min.fps = Math.min(...this.frames);
     this.stats.max.fps = Math.max(...this.frames);
-    
+
     // Notify callbacks every 60 frames (about once per second at 60fps)
     this.frameCount++;
-    if (this.frameCount >= 60) {
+    if (this.frameCount >= PERFORMANCE_CONFIG.sampleFrames) {
       this.frameCount = 0;
       this.notifyCallbacks();
     }
-    
+
     this.lastTime = currentTime;
     requestAnimationFrame(this.update);
   };
@@ -123,11 +142,11 @@ class PerformanceMonitor {
    */
   subscribe(callback: (stats: PerformanceStats) => void): () => void {
     this.callbacks.push(callback);
-    
+
     // Return unsubscribe function
     return () => {
       const index = this.callbacks.indexOf(callback);
-      if (index > -1) {
+      if (index !== -1) {
         this.callbacks.splice(index, 1);
       }
     };
@@ -137,7 +156,7 @@ class PerformanceMonitor {
    * Notify all subscribers
    */
   private notifyCallbacks() {
-    this.callbacks.forEach(callback => callback(this.stats));
+    for (const callback of this.callbacks) callback(this.stats);
   }
 
   /**
@@ -152,7 +171,11 @@ class PerformanceMonitor {
    */
   getMemoryUsageMB(): number {
     if (this.stats.current.memory) {
-      return Math.round(this.stats.current.memory.usedJSHeapSize / 1024 / 1024);
+      return Math.round(
+        this.stats.current.memory.usedJSHeapSize /
+          PERFORMANCE_CONFIG.bytesPerKibibyte /
+          PERFORMANCE_CONFIG.bytesPerKibibyte,
+      );
     }
     return 0;
   }
@@ -161,18 +184,18 @@ class PerformanceMonitor {
    * Check if performance is acceptable (>= 30 FPS)
    */
   isPerformanceGood(): boolean {
-    return this.stats.average.fps >= 30;
+    return this.stats.average.fps >= PERFORMANCE_CONFIG.goodFps;
   }
 
   /**
    * Get performance rating
    */
-  getPerformanceRating(): 'excellent' | 'good' | 'fair' | 'poor' {
+  getPerformanceRating(): "excellent" | "good" | "fair" | "poor" {
     const fps = this.stats.average.fps;
-    if (fps >= 55) return 'excellent';
-    if (fps >= 40) return 'good';
-    if (fps >= 25) return 'fair';
-    return 'poor';
+    if (fps >= PERFORMANCE_CONFIG.ratings.excellent) return "excellent";
+    if (fps >= PERFORMANCE_CONFIG.ratings.good) return "good";
+    if (fps >= PERFORMANCE_CONFIG.ratings.fair) return "fair";
+    return "poor";
   }
 
   /**
@@ -181,36 +204,51 @@ class PerformanceMonitor {
   logStats(): void {
     const rating = this.getPerformanceRating();
     const memory = this.getMemoryUsageMB();
-    
-    debug('Performance Stats', {
-      rating,
-      currentFPS: this.stats.current.fps.toFixed(1),
-      averageFPS: this.stats.average.fps.toFixed(1),
-      minFPS: this.stats.min.fps.toFixed(1),
-      maxFPS: this.stats.max.fps.toFixed(1),
-      frameTime: this.stats.current.frameTime.toFixed(2) + 'ms',
-      memoryMB: memory || 'N/A'
-    }, 'PerformanceMonitor');
+
+    debug(
+      "Performance Stats",
+      {
+        rating,
+        currentFPS: this.stats.current.fps.toFixed(1),
+        averageFPS: this.stats.average.fps.toFixed(1),
+        minFPS: this.stats.min.fps.toFixed(1),
+        maxFPS: this.stats.max.fps.toFixed(1),
+        frameTime: this.stats.current.frameTime.toFixed(2) + "ms",
+        memoryMB: memory || "N/A",
+      },
+      "PerformanceMonitor",
+    );
   }
 
   /**
    * Measure execution time of a function
    */
-  async measureAsync(label: string, fn: () => Promise<void>): Promise<void> {
+  async measureAsync(
+    label: string,
+    function_: () => Promise<void>,
+  ): Promise<void> {
     const start = performance.now();
-    await fn();
+    await function_();
     const duration = performance.now() - start;
-    debug(`Measure Async: ${label}`, { duration: duration.toFixed(2) + 'ms' }, 'PerformanceMonitor');
+    debug(
+      `Measure Async: ${label}`,
+      { duration: duration.toFixed(2) + "ms" },
+      "PerformanceMonitor",
+    );
   }
 
   /**
    * Measure synchronous function execution time
    */
-  measure(label: string, fn: () => void): void {
+  measure(label: string, function_: () => void): void {
     const start = performance.now();
-    fn();
+    function_();
     const duration = performance.now() - start;
-    debug(`Measure: ${label}`, { duration: duration.toFixed(2) + 'ms' }, 'PerformanceMonitor');
+    debug(
+      `Measure: ${label}`,
+      { duration: duration.toFixed(2) + "ms" },
+      "PerformanceMonitor",
+    );
   }
 }
 

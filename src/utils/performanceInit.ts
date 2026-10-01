@@ -2,43 +2,59 @@
  * Performance Optimization Initialization
  */
 
-import { resourcePreloader } from './resourcePreloader';
-import { performanceMonitor } from './performanceMonitor';
-import { info, debug } from './logger';
+import { resourcePreloader } from "./resourcePreloader";
+import { performanceMonitor } from "./performanceMonitor";
+import { info, debug } from "./logger";
+import { publicAssetUrl } from "./publicAssetUrl";
+
+const INITIAL_STATS_DELAY_MILLISECONDS = 1000;
 
 /**
  * Initialize all performance optimizations
  */
 export async function initializePerformanceOptimizations() {
-  info('Initializing performance optimizations', undefined, 'PerformanceInit');
+  info("Initializing performance optimizations", undefined, "PerformanceInit");
 
   // Start performance monitoring in development
-  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+  if (
+    typeof window !== "undefined" &&
+    window.location.hostname === "localhost"
+  ) {
     performanceMonitor.start();
-    info('Performance monitoring active', undefined, 'PerformanceInit');
+    info("Performance monitoring active", undefined, "PerformanceInit");
   }
 
   // Preload critical 3D assets
-  await performanceMonitor.measureAsync('Critical Assets', async () => {
+  await performanceMonitor.measureAsync("Critical Assets", async () => {
     await resourcePreloader.preloadCriticalAssets();
   });
 
   // Queue non-critical game assets for background loading
-  resourcePreloader.queueAssets([
-    '/assets/models/ships/enemy-fast.glb',
-    '/assets/models/ships/enemy-boss.glb',
-  ], 'medium');
+  resourcePreloader.queueAssets(
+    [
+      "/assets/models/ships/enemy-fast.glb",
+      "/assets/models/ships/enemy-boss.glb",
+    ].map((asset) => publicAssetUrl(asset)),
+    "medium",
+  );
 
   // Log initial cache stats
-  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+  if (
+    typeof window !== "undefined" &&
+    window.location.hostname === "localhost"
+  ) {
     setTimeout(() => {
-      debug('Initial Cache Stats', {
-        resources: resourcePreloader.getCacheStats(),
-      }, 'PerformanceInit');
-    }, 1000);
+      debug(
+        "Initial Cache Stats",
+        {
+          resources: resourcePreloader.getCacheStats(),
+        },
+        "PerformanceInit",
+      );
+    }, INITIAL_STATS_DELAY_MILLISECONDS);
   }
 
-  info('Performance optimizations initialized', undefined, 'PerformanceInit');
+  info("Performance optimizations initialized", undefined, "PerformanceInit");
 }
 
 /**
@@ -60,6 +76,6 @@ export function getPerformanceStatus() {
     rating,
     memory,
     cache: cacheStats,
-    isGood: rating === 'excellent' || rating === 'good',
+    isGood: rating === "excellent" || rating === "good",
   };
 }

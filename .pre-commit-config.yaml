@@ -1,0 +1,95 @@
+fail_fast: false
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-symlinks
+      - id: destroyed-symlinks
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+        exclude: ^public/assets/(models|sounds)/
+      - id: check-json
+        exclude: (^|/)tsconfig(\.[^/]*)?\.json$
+      - id: check-yaml
+      - id: detect-private-key
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
+  - repo: local
+    hooks:
+      - id: release-code-gates
+        name: Complete code gates (same aggregate used by CI)
+        entry: npm run quality:code
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: eslint
+        name: eslint (strict and type-checked)
+        entry: npm run lint:staged --
+        language: system
+        types_or: [javascript, jsx, ts, tsx]
+
+      - id: prettier
+        name: prettier
+        entry: npm exec -- prettier --write
+        language: system
+        types_or:
+          [javascript, jsx, ts, tsx, css, scss, html, json, yaml, markdown]
+
+      - id: stylelint
+        name: stylelint (strict)
+        entry: npm exec -- stylelint --max-warnings=0
+        language: system
+        types_or: [css, scss]
+
+      - id: typecheck
+        name: TypeScript (strict)
+        entry: npm run typecheck
+        language: system
+        pass_filenames: false
+        types_or: [ts, tsx]
+
+      - id: knip
+        name: knip (unused files, exports, and dependencies)
+        entry: npm run deadcode
+        language: system
+        pass_filenames: false
+        files: ^(package\.json|src/|tests/|.*\.config\.)
+
+      - id: npm-audit
+        name: npm audit (all severities)
+        entry: npm run security:deps
+        language: system
+        pass_filenames: false
+        files: ^package(-lock)?\.json$
+
+      - id: workflow-lint
+        name: GitHub Actions syntax and security
+        entry: npm run lint:workflows
+        language: system
+        pass_filenames: false
+        files: ^\.github/
+
+      - id: semgrep
+        name: Browser security patterns
+        entry: npm run security:code
+        language: system
+        pass_filenames: false
+        files: ^(src/|\.semgrep\.yml$)
+
+      - id: osv
+        name: OSV lockfile audit
+        entry: npm run security:osv
+        language: system
+        pass_filenames: false
+        files: ^(package-lock\.json|requirements-quality\.(in|txt))$

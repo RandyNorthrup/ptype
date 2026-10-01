@@ -1,0 +1,19 @@
+rules:
+  - id: browser-code-execution
+    languages: [typescript, javascript]
+    message: Do not execute strings as code in the browser application.
+    severity: ERROR
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: new Function(...)
+      - pattern: setTimeout("...", ...)
+      - pattern: setInterval("...", ...)
+  - id: browser-unsafe-html
+    languages: [typescript, javascript]
+    message: Render untrusted content through React text nodes, not raw HTML.
+    severity: ERROR
+    pattern-either:
+      - pattern: $EL.innerHTML = $VALUE
+      - pattern: $EL.outerHTML = $VALUE
+      - pattern: $EL.insertAdjacentHTML(...)
+      - pattern: <$TAG ... dangerouslySetInnerHTML={$VALUE} ... />

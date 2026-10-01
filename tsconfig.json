@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2023",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
 
@@ -16,20 +16,29 @@
 
     /* Linting */
     "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+    "useUnknownInCatchVariables": true,
+    "verbatimModuleSyntax": true,
 
     /* Path aliases */
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@engine/*": ["src/engine/*"],
-      "@entities/*": ["src/entities/*"],
-      "@components/*": ["src/components/*"],
-      "@store/*": ["src/store/*"],
-      "@utils/*": ["src/utils/*"],
-      "@api/*": ["src/api/*"]
+      "@/*": ["./src/*"],
+      "@engine/*": ["./src/engine/*"],
+      "@entities/*": ["./src/entities/*"],
+      "@components/*": ["./src/components/*"],
+      "@store/*": ["./src/store/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@api/*": ["./src/api/*"]
     }
   },
   "include": ["src"],

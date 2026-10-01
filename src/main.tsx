@@ -1,25 +1,28 @@
 /**
  * Main entry point for P-Type Web
  */
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { ErrorBoundary } from './components/ErrorBoundary';
-import { GameStoreProvider } from './store/gameContext';
-import App from './App';
-import './index.css';
-import { initializePerformanceOptimizations } from './utils/performanceInit';
-import { error } from './utils/logger';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { ErrorBoundary } from "./components/ErrorBoundary";
+import { GameStoreProvider } from "./store/gameContext";
+import App from "./App";
+import "./index.css";
+import { initializePerformanceOptimizations } from "./utils/performanceInit";
+import { error } from "./utils/logger";
 
-// Initialize performance optimizations
-initializePerformanceOptimizations().catch(err => {
-  error('Failed to initialize performance optimizations', err, 'Main');
-});
+async function bootstrap(): Promise<void> {
+  try {
+    await initializePerformanceOptimizations();
+  } catch (error_: unknown) {
+    error("Failed to initialize performance optimizations", error_, "Main");
+  }
 
-// Service worker registration is handled by vite-plugin-pwa
-// No manual registration needed
+  const root = document.querySelector("#root");
+  if (!root) {
+    error("Root element was not found", undefined, "Main");
+    return;
+  }
 
-const root = document.getElementById('root');
-if (root) {
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
       <ErrorBoundary>
@@ -27,6 +30,9 @@ if (root) {
           <App />
         </GameStoreProvider>
       </ErrorBoundary>
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 }
+
+// Service worker registration is handled by vite-plugin-pwa.
+void bootstrap();

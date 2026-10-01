@@ -2,27 +2,35 @@
  * CameraController Component
  * Smoothly transitions camera between menu and game positions
  */
-import { useFrame, useThree } from '@react-three/fiber';
-import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import { useFrame, useThree } from "@react-three/fiber";
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
 
-interface CameraControllerProps {
+const TUNING = {
+  gameHeight: 15,
+  gameDepth: -30,
+  menuHeight: 20,
+  menuDepth: -35,
+  menuLookAtDepth: 80,
+} as const;
+
+interface CameraControllerProperties {
   isGame: boolean;
 }
 
-export function CameraController({ isGame }: CameraControllerProps) {
+export function CameraController({ isGame }: CameraControllerProperties) {
   const { camera } = useThree();
   const targetPosition = useRef(new THREE.Vector3());
   const targetLookAt = useRef(new THREE.Vector3());
-  const lerpSpeed = 2.0;
+  const lerpSpeed = 2;
 
   useEffect(() => {
     if (isGame) {
-      targetPosition.current.set(0, 15, -30);
+      targetPosition.current.set(0, TUNING.gameHeight, TUNING.gameDepth);
       targetLookAt.current.set(0, 0, 0);
     } else {
-      targetPosition.current.set(0, 20, -35);
-      targetLookAt.current.set(0, 0, 80);
+      targetPosition.current.set(0, TUNING.menuHeight, TUNING.menuDepth);
+      targetLookAt.current.set(0, 0, TUNING.menuLookAtDepth);
     }
   }, [isGame, camera]);
 
