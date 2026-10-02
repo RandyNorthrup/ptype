@@ -8,24 +8,17 @@ import { GameMode, LANGUAGE_FILE_MAP } from "../types";
 import { load as loadYAML } from "js-yaml";
 import { warn, error as logError } from "./logger";
 import { publicAssetUrl } from "./publicAssetUrl";
+import {
+  getWordTier,
+  prepareWordPools,
+  type WordData,
+  type PreparedWordData,
+  type WordSource,
+} from "./wordPools";
+import { WiktionarySource, type WiktionaryLanguage } from "./wiktionary";
 
-export interface WordData {
-  keywords: {
-    beginner: string[];
-    intermediate: string[];
-    advanced: string[];
-  };
-  boss_words: {
-    beginner: string[];
-    intermediate: string[];
-    advanced: string[];
-  };
-}
-
-const WORD_DIFFICULTY_THRESHOLDS = {
-  beginnerMaximum: 30,
-  intermediateMaximum: 70,
-} as const;
+const WIKTIONARY_KEY_PREFIX = "wiktionary:";
+const DICTIONARY_CACHE_LIMITS = { wiktionaryLanguages: 8 } as const;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -47,6 +40,57 @@ export class WordDictionary {
   private cache = new Map<string, WordData>();
   private loadingPromises = new Map<string, Promise<WordData>>();
   private availableWords = new Map<string, string[]>(); // Remaining words to use
+  private wiktionary = new WiktionarySource();
+  private preparedWiktionary = new Map<string, PreparedWordData>();
+
+  async getWiktionaryLanguages(
+    signal?: AbortSignal,
+  ): Promise<WiktionaryLanguage[]> {
+    return await this.wiktionary.getLanguages(signal);
+  }
+
+  /**
+  Font eligibility is required; unsupported titles cannot silently start a game.
+  */
+  async loadWiktionary(
+    code: string,
+    canRenderText: (text: string) => boolean,
+    signal?: AbortSignal,
+  ): Promise<WordData> {
+    const entries = await this.wiktionary.getEntries(code, signal);
+    if (signal?.aborted)
+      throw new DOMException("Wiktionary preparation aborted", "AbortError");
+    const prepared = prepareWordPools(entries, code, canRenderText);
+    const key = `${WIKTIONARY_KEY_PREFIX}${code}`;
+    if (
+      !this.preparedWiktionary.has(key) &&
+      this.preparedWiktionary.size >=
+        DICTIONARY_CACHE_LIMITS.wiktionaryLanguages
+    ) {
+      const oldest = this.preparedWiktionary.keys().next().value;
+      if (oldest !== undefined) {
+        this.preparedWiktionary.delete(oldest);
+        this.cache.delete(oldest);
+        for (const pool of this.availableWords.keys()) {
+          if (pool.startsWith(`${oldest}-`)) this.availableWords.delete(pool);
+        }
+      }
+    }
+    for (const pool of this.availableWords.keys()) {
+      if (pool.startsWith(`${key}-`)) this.availableWords.delete(pool);
+    }
+    this.preparedWiktionary.set(key, prepared);
+    this.cache.set(key, prepared.data);
+    return prepared.data;
+  }
+
+  getWordSources(language: string, word: string): WordSource[] {
+    return this.preparedWiktionary.get(language)?.sources.get(word) ?? [];
+  }
+
+  isGeneratedPractice(language: string, word: string): boolean {
+    return this.preparedWiktionary.get(language)?.generated.has(word) ?? false;
+  }
 
   /**
    * Load a word dictionary from the data folder
@@ -146,7 +190,7 @@ export class WordDictionary {
       throw new Error(`Dictionary for ${language} not loaded`);
     }
 
-    const difficulty = this.getDifficultyFromLevel(level);
+    const difficulty = getWordTier(level);
     const poolKey = `${language}-${isBoss ? "boss" : "regular"}-${difficulty}`;
 
     // Get the word pool
@@ -184,21 +228,18 @@ export class WordDictionary {
   }
 
   /**
-   * Determine difficulty tier based on level
-   */
-  private getDifficultyFromLevel(
-    level: number,
-  ): "beginner" | "intermediate" | "advanced" {
-    if (level <= WORD_DIFFICULTY_THRESHOLDS.beginnerMaximum) return "beginner";
-    if (level <= WORD_DIFFICULTY_THRESHOLDS.intermediateMaximum)
-      return "intermediate";
-    return "advanced";
-  }
-
-  /**
    * Get the appropriate language key for the game mode
    */
-  getLanguageKey(mode: GameMode, language?: ProgrammingLanguage): string {
+  getLanguageKey(
+    mode: GameMode,
+    language?: ProgrammingLanguage,
+    wordLanguage?: string,
+  ): string {
+    if (mode === GameMode.WIKTIONARY) {
+      if (!wordLanguage)
+        throw new Error("Wiktionary requires a selected word language");
+      return `${WIKTIONARY_KEY_PREFIX}${wordLanguage}`;
+    }
     if (mode === GameMode.NORMAL) {
       return "normal";
     }

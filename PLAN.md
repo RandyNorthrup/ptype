@@ -20,15 +20,21 @@ The owner requested a modern, complete, visually pleasing and accurate README an
 
 Release 2.0.1 is published from 019ed1b with passing exact-source main/tag checks, verified ZIP contents, and matching uploaded/downloaded assets. PR #8 merged; main-only consolidation and enforced protection were observed. Final documentation reconciliation records these completed outcomes and uses unchanged application/gate inputs from the normal successful VM hook run. Complete hooks and CI still apply to the reconciliation commit, and its transient branch must merge/delete before the final independent audit.
 
+On 2026-10-01 the owner invoked feature_delivery for a Wiktionary mode and full internationalization/accessibility. Clarification selects every language with playable entries, an independent UI language, and machine UI coverage wherever a chosen provider supports it. Verified live MediaWiki CORS/query and language JSON exports; selected offline Argos generation with 49 currently indexed direct English targets, preserving static Pages and avoiding runtime secrets/backend. Current tracked stack and canonical owners were scanned; reused pools/tier/difficulty/lifecycle/selection/rendering responsibilities are recorded in wiktionary-readiness.md. Preserve completed 2.0.1 evidence/IDs; the historical release obligation is superseded by feature delivery, not reopened as another release. New provider/Unicode/localization contracts need fresh implementation and proof.
+
+The owner then clarified that UI should use major languages, while gameplay words retain every playable language. Select 13 UI locales (en, es, fr, de, pt, it, ar, ru, hi, zh-Hans, zh-Hant, ja, ko) independently of the complete word catalogue; machine generation/provenance and full UI coverage remain required. This narrows translation/model work without truncating word-language support.
+
+Owner clarification also requires actual character availability: dictionary membership alone is insufficient. Gate playable words on supported glyphs/fonts and Unicode input, surface unavailable scripts/pools clearly, and never call tofu, transliteration, or an English substitution native-language support. Font shaping/coverage needs real browser evidence.
+
 ```quality-ledger
 {
   "schema_version": 1,
   "work": {
     "id": "WORK-RETROFIT",
-    "title": "P-Type quality retrofit, v2.0.1 release, and GitHub Pages migration",
-    "scope_revision": 9,
+    "title": "P-Type Wiktionary mode, Unicode gameplay, and independent machine-translated UI",
+    "scope_revision": 12,
     "brief": null,
-    "brief_reason": "Bounded quality retrofit and authorized release/Pages migration of the documented existing browser game; requested outcomes and product scope are already established.",
+    "brief_reason": "Owner clarified all playable Wiktionary word languages, independent UI selection for major languages, and machine translation. Initial UI coverage is en, es, fr, de, pt, it, ar, ru, hi, zh-Hans, zh-Hant, ja, ko; dictionary coverage remains provider-wide.",
     "rules": [
       {
         "path": "AGENTS.md",
@@ -81,7 +87,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
     },
     {
       "id": "REQ-DOCS",
-      "statement": "Documentation is modern, visually clear, complete for play/development/distribution, and accurate about actual commands, outcomes, exceptions, and verification limits.",
+      "statement": "Documentation accurately describes the new provider-backed mode, independent machine-localized UI, Unicode/accessibility behavior, commands, coverage, attribution and actual verification limits.",
       "priority": "normal",
       "acceptance": [
         "AC-DOCS"
@@ -104,7 +110,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       "acceptance": [
         "AC-RELEASE"
       ],
-      "superseded_by": null
+      "superseded_by": "REQ-WIKI-DELIVERY"
     },
     {
       "id": "REQ-PAGES",
@@ -122,6 +128,42 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       "priority": "critical",
       "acceptance": [
         "AC-MAIN"
+      ],
+      "superseded_by": null
+    },
+    {
+      "id": "REQ-WIKI-DATA",
+      "statement": "A validated, cached, anonymous Wiktionary adapter exposes the complete paginated catalogue of languages with entries and real-language practice pools. Level <=30, <=70 and >70 tiers, regular/boss distinction, provenance, Unicode typing complexity and clear tiny/empty/invalid/throttled/aborted failure behavior remain explicit. Never silently use English or wrong-language data.",
+      "priority": "critical",
+      "acceptance": [
+        "AC-WIKI-DATA"
+      ],
+      "superseded_by": null
+    },
+    {
+      "id": "REQ-WIKI-PLAY",
+      "statement": "Wiktionary is selectable with an independently chosen word language; start/restart waits for the correct data. NFC graphemes, case/diacritic-aware input and once-only IME commits drive targeting/progress/score/speed. Shaped RTL/CJK/Indic/astral words, accessible target status, live lasers, keyboard focus and narrow/desktop layouts work while classic modes retain their contracts. Only actual entries with usable supported glyphs/fonts and text input may start; reject/filter unsupported characters and report an unavailable language when compliant pools cannot be built. Never substitute tofu, transliteration or English for the selected native script.",
+      "priority": "critical",
+      "acceptance": [
+        "AC-WIKI-PLAY"
+      ],
+      "superseded_by": null
+    },
+    {
+      "id": "REQ-WIKI-I18N",
+      "statement": "Every UI/accessibility/dynamic game-copy message uses one independent locale owner with correct language/direction, localized numbers/dates, and complete machine-generated catalogues for en, es, fr, de, pt, it, ar, ru, hi, zh-Hans, zh-Hant, ja and ko. Preserve placeholders/code/word spelling, disclose machine translation and actual model provenance, and never label missing English fallback as translated. Word-language selection remains the full playable Wiktionary catalogue.",
+      "priority": "critical",
+      "acceptance": [
+        "AC-WIKI-I18N"
+      ],
+      "superseded_by": null
+    },
+    {
+      "id": "REQ-WIKI-DELIVERY",
+      "statement": "Document actual feature behavior, provider coverage/attribution, cache/failure/Unicode limitations and setup. Normal VM hooks and all required CI/drills pass; checked feature PR work lands on protected main, only main remains locally/remotely/VM, and exact main Pages/live behavior is observed without altering published 2.0.1 tags/assets or implicitly cutting another release.",
+      "priority": "critical",
+      "acceptance": [
+        "AC-WIKI-DELIVERY"
       ],
       "superseded_by": null
     }
@@ -156,7 +198,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       "requirement": "REQ-DOCS",
       "given": "The checked-out P-Type application and pinned toolchain",
       "when": "The owning task is implemented and its declared checks run",
-      "then": "Documentation is modern, visually clear, complete for play/development/distribution, and accurate about actual commands, outcomes, exceptions, and verification limits.",
+      "then": "Documentation accurately describes the new provider-backed mode, independent machine-localized UI, Unicode/accessibility behavior, commands, coverage, attribution and actual verification limits.",
       "checks": [
         "manual"
       ],
@@ -217,6 +259,55 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "manual"
       ],
       "manual_reason": "External GitHub PR/branch/protection/cleanup outcomes require direct observation, not local source tests."
+    },
+    {
+      "id": "AC-WIKI-DATA",
+      "requirement": "REQ-WIKI-DATA",
+      "given": "The current scoped source, validated provider data, and observed isolated VM toolchain",
+      "when": "The declared feature behavior and boundary checks execute",
+      "then": "A validated, cached, anonymous Wiktionary adapter exposes the complete paginated catalogue of languages with entries and real-language practice pools. Level <=30, <=70 and >70 tiers, regular/boss distinction, provenance, Unicode typing complexity and clear tiny/empty/invalid/throttled/aborted failure behavior remain explicit. Never silently use English or wrong-language data.",
+      "checks": [
+        "behavior",
+        "red"
+      ],
+      "manual_reason": null
+    },
+    {
+      "id": "AC-WIKI-PLAY",
+      "requirement": "REQ-WIKI-PLAY",
+      "given": "The current scoped source, validated provider data, and observed isolated VM toolchain",
+      "when": "The declared feature behavior and boundary checks execute",
+      "then": "Wiktionary is selectable with an independently chosen word language; start/restart waits for the correct data. NFC graphemes, case/diacritic-aware input and once-only IME commits drive targeting/progress/score/speed. Shaped RTL/CJK/Indic/astral words, accessible target status, live lasers, keyboard focus and narrow/desktop layouts work while classic modes retain their contracts. Only actual entries with usable supported glyphs/fonts and text input may start; reject/filter unsupported characters and report an unavailable language when compliant pools cannot be built. Never substitute tofu, transliteration or English for the selected native script.",
+      "checks": [
+        "behavior",
+        "red",
+        "manual"
+      ],
+      "manual_reason": "Actual browser shaping, layout/focus and live provider/CORS behavior cannot be certified by transport mocks or jsdom; physical IME/hardware claims remain separate."
+    },
+    {
+      "id": "AC-WIKI-I18N",
+      "requirement": "REQ-WIKI-I18N",
+      "given": "The current scoped source, validated provider data, and observed isolated VM toolchain",
+      "when": "The declared feature behavior and boundary checks execute",
+      "then": "Every UI/accessibility/dynamic game-copy message uses one independent locale owner with correct language/direction, localized numbers/dates, and complete machine-generated catalogues for en, es, fr, de, pt, it, ar, ru, hi, zh-Hans, zh-Hant, ja and ko. Preserve placeholders/code/word spelling, disclose machine translation and actual model provenance, and never label missing English fallback as translated. Word-language selection remains the full playable Wiktionary catalogue.",
+      "checks": [
+        "behavior",
+        "red",
+        "manual"
+      ],
+      "manual_reason": "Actual offline model execution, catalogue coverage and independent translation/layout review require direct observation; mock service success does not prove translations exist."
+    },
+    {
+      "id": "AC-WIKI-DELIVERY",
+      "requirement": "REQ-WIKI-DELIVERY",
+      "given": "The current scoped source, validated provider data, and observed isolated VM toolchain",
+      "when": "The declared feature behavior and boundary checks execute",
+      "then": "Document actual feature behavior, provider coverage/attribution, cache/failure/Unicode limitations and setup. Normal VM hooks and all required CI/drills pass; checked feature PR work lands on protected main, only main remains locally/remotely/VM, and exact main Pages/live behavior is observed without altering published 2.0.1 tags/assets or implicitly cutting another release.",
+      "checks": [
+        "manual"
+      ],
+      "manual_reason": "External PR/protection/branch/deployment identities and actual HTTPS app behavior require direct observation."
     }
   ],
   "tasks": [
@@ -332,9 +423,17 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         {
           "path": "tests/e2e/fixtures.ts",
           "action": "create"
+        },
+        {
+          "path": "tests/e2e/wiktionary.spec.ts",
+          "action": "create"
+        },
+        {
+          "path": "tests/unit/catalogues.test.ts",
+          "action": "create"
         }
       ],
-      "status": "verified",
+      "status": "implemented",
       "evidence": [
         "EV-READY-AC-GATES",
         "EV-READY2-AC-GATES",
@@ -362,7 +461,13 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "EV-FINAL-RED-TASK-GATES-AC-GATES",
         "EV-FINAL-READY-TASK-GATES-AC-PAGES-BASE",
         "EV-FINAL-CODE-TASK-GATES-AC-PAGES-BASE",
-        "EV-FINAL-RED-TASK-GATES-AC-PAGES-BASE"
+        "EV-FINAL-RED-TASK-GATES-AC-PAGES-BASE",
+        "EV-WIKI-READY-TASK-GATES-AC-GATES",
+        "EV-WIKI-READY-TASK-GATES-AC-PAGES-BASE",
+        "EV-WIKI11-READY-TASK-GATES-AC-GATES",
+        "EV-WIKI11-READY-TASK-GATES-AC-PAGES-BASE",
+        "EV-WIKI12-READY-TASK-GATES-AC-GATES",
+        "EV-WIKI12-READY-TASK-GATES-AC-PAGES-BASE"
       ],
       "blocker": null,
       "superseded_by": null
@@ -509,7 +614,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
           "action": "modify"
         }
       ],
-      "status": "verified",
+      "status": "superseded",
       "evidence": [
         "EV-READY-AC-BEHAVIOR",
         "EV-READY2-AC-BEHAVIOR",
@@ -540,7 +645,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "EV-FINAL-RED-TASK-BEHAVIOR-AC-PAGES-BASE"
       ],
       "blocker": null,
-      "superseded_by": null
+      "superseded_by": "TASK-WIKI-UI"
     },
     {
       "id": "TASK-DOCS",
@@ -595,7 +700,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
           "action": "create"
         }
       ],
-      "status": "verified",
+      "status": "implemented",
       "evidence": [
         "EV-READY-AC-DOCS",
         "EV-READY2-AC-DOCS",
@@ -612,7 +717,10 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "EV-COMMIT4-READY-TASK-DOCS-AC-DOCS",
         "EV-DOCS9-READY-TASK-DOCS-AC-DOCS",
         "EV-FINAL-READY-TASK-DOCS-AC-DOCS",
-        "EV-FINAL-MANUAL-TASK-DOCS-AC-DOCS"
+        "EV-FINAL-MANUAL-TASK-DOCS-AC-DOCS",
+        "EV-WIKI-READY-TASK-DOCS-AC-DOCS",
+        "EV-WIKI11-READY-TASK-DOCS-AC-DOCS",
+        "EV-WIKI12-READY-TASK-DOCS-AC-DOCS"
       ],
       "blocker": null,
       "superseded_by": null
@@ -630,7 +738,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
           "action": "modify"
         }
       ],
-      "status": "verified",
+      "status": "implemented",
       "evidence": [
         "EV-READY-AC-HISTORY",
         "EV-READY2-AC-HISTORY",
@@ -647,7 +755,10 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "EV-COMMIT4-READY-TASK-HISTORY-AC-HISTORY",
         "EV-DOCS9-READY-TASK-HISTORY-AC-HISTORY",
         "EV-FINAL-READY-TASK-HISTORY-AC-HISTORY",
-        "EV-FINAL-MANUAL-TASK-HISTORY-AC-HISTORY"
+        "EV-FINAL-MANUAL-TASK-HISTORY-AC-HISTORY",
+        "EV-WIKI-READY-TASK-HISTORY-AC-HISTORY",
+        "EV-WIKI11-READY-TASK-HISTORY-AC-HISTORY",
+        "EV-WIKI12-READY-TASK-HISTORY-AC-HISTORY"
       ],
       "blocker": null,
       "superseded_by": null
@@ -681,7 +792,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
           "action": "modify"
         }
       ],
-      "status": "verified",
+      "status": "superseded",
       "evidence": [
         "EV-RELEASE-READY-AC-RELEASE",
         "EV-PAGES-READY-TASK-RELEASE-AC-RELEASE",
@@ -695,7 +806,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "EV-FINAL-MANUAL-TASK-RELEASE-AC-RELEASE"
       ],
       "blocker": null,
-      "superseded_by": null
+      "superseded_by": "TASK-WIKI-SHIP"
     },
     {
       "id": "TASK-PAGES",
@@ -710,7 +821,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
           "action": "modify"
         }
       ],
-      "status": "verified",
+      "status": "implemented",
       "evidence": [
         "EV-PAGES-READY-TASK-PAGES-AC-PAGES-LIVE",
         "EV-VM-READY-TASK-PAGES-AC-PAGES-LIVE",
@@ -720,7 +831,10 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "EV-COMMIT4-READY-TASK-PAGES-AC-PAGES-LIVE",
         "EV-DOCS9-READY-TASK-PAGES-AC-PAGES-LIVE",
         "EV-FINAL-READY-TASK-PAGES-AC-PAGES-LIVE",
-        "EV-FINAL-MANUAL-TASK-PAGES-AC-PAGES-LIVE"
+        "EV-FINAL-MANUAL-TASK-PAGES-AC-PAGES-LIVE",
+        "EV-WIKI-READY-TASK-PAGES-AC-PAGES-LIVE",
+        "EV-WIKI11-READY-TASK-PAGES-AC-PAGES-LIVE",
+        "EV-WIKI12-READY-TASK-PAGES-AC-PAGES-LIVE"
       ],
       "blocker": null,
       "superseded_by": null
@@ -738,7 +852,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
           "action": "modify"
         }
       ],
-      "status": "verified",
+      "status": "implemented",
       "evidence": [
         "EV-VM-READY-TASK-MAIN-AC-MAIN",
         "EV-SCRUB-READY-TASK-MAIN-AC-MAIN",
@@ -747,7 +861,323 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "EV-COMMIT4-READY-TASK-MAIN-AC-MAIN",
         "EV-DOCS9-READY-TASK-MAIN-AC-MAIN",
         "EV-FINAL-READY-TASK-MAIN-AC-MAIN",
-        "EV-FINAL-MANUAL-TASK-MAIN-AC-MAIN"
+        "EV-FINAL-MANUAL-TASK-MAIN-AC-MAIN",
+        "EV-WIKI-READY-TASK-MAIN-AC-MAIN",
+        "EV-WIKI11-READY-TASK-MAIN-AC-MAIN",
+        "EV-WIKI12-READY-TASK-MAIN-AC-MAIN"
+      ],
+      "blocker": null,
+      "superseded_by": null
+    },
+    {
+      "id": "TASK-WIKI-DATA",
+      "purpose": "Extend dictionary ownership with real provider transport/provenance, complete language pagination, bounded cache/failure handling, Unicode text semantics and language-relative practice pools.",
+      "acceptance": [
+        "AC-WIKI-DATA"
+      ],
+      "depends_on": [],
+      "changes": [
+        {
+          "path": "src/utils/text.ts",
+          "action": "create"
+        },
+        {
+          "path": "src/utils/wordPools.ts",
+          "action": "create"
+        },
+        {
+          "path": "src/utils/wiktionary.ts",
+          "action": "create"
+        },
+        {
+          "path": "src/utils/wordDictionary.ts",
+          "action": "modify"
+        },
+        {
+          "path": "src/types.ts",
+          "action": "modify"
+        },
+        {
+          "path": "tests/unit/text.test.ts",
+          "action": "create"
+        },
+        {
+          "path": "tests/unit/wiktionary.test.ts",
+          "action": "create"
+        },
+        {
+          "path": "tests/unit/wordPools.test.ts",
+          "action": "create"
+        },
+        {
+          "path": "tests/unit/wordDictionary.test.ts",
+          "action": "modify"
+        }
+      ],
+      "status": "active",
+      "evidence": [
+        "EV-WIKI-READY-TASK-WIKI-DATA-AC-WIKI-DATA",
+        "EV-WIKI11-READY-TASK-WIKI-DATA-AC-WIKI-DATA",
+        "EV-WIKI12-READY-TASK-WIKI-DATA-AC-WIKI-DATA"
+      ],
+      "blocker": null,
+      "superseded_by": null
+    },
+    {
+      "id": "TASK-WIKI-UI",
+      "purpose": "Deliver independent UI/word selection, complete provider-generated localized copy, Unicode/IME and shaped accessible gameplay through the existing lifecycle/rendering owners.",
+      "acceptance": [
+        "AC-WIKI-PLAY",
+        "AC-WIKI-I18N",
+        "AC-BEHAVIOR",
+        "AC-PAGES-BASE"
+      ],
+      "depends_on": [
+        "TASK-WIKI-DATA"
+      ],
+      "changes": [
+        {
+          "path": "src/components/ModalShell.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "tests/unit/uiPrimitives.test.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/App.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/AchievementToast.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/CameraController.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/CanvasHUD.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/GameCanvas.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/GameOverScreen.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/LaserEffect.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/LaserTargetHelper.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/MainMenu.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/PlayerStatsModal.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/SpaceScene.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/TriviaOverlay.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/TypingHandler.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/entities/EnemyShip.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/entities/PlayerShip.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/store/gameContext.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/utils/testIds.ts",
+          "action": "modify"
+        },
+        {
+          "path": "tests/unit/sceneFrames.test.tsx",
+          "action": "create"
+        },
+        {
+          "path": "vite.config.ts",
+          "action": "modify"
+        },
+        {
+          "path": "tests/unit/MainMenu.test.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/utils/audioManager.ts",
+          "action": "modify"
+        },
+        {
+          "path": "src/utils/achievementsManager.ts",
+          "action": "modify"
+        },
+        {
+          "path": "src/utils/resourcePreloader.ts",
+          "action": "modify"
+        },
+        {
+          "path": "src/utils/performanceInit.ts",
+          "action": "modify"
+        },
+        {
+          "path": "src/utils/publicAssetUrl.ts",
+          "action": "create"
+        },
+        {
+          "path": "tests/unit/publicAssetUrl.test.ts",
+          "action": "create"
+        },
+        {
+          "path": "tests/unit/App.test.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/i18n/messages.ts",
+          "action": "create"
+        },
+        {
+          "path": "src/i18n/LocaleProvider.tsx",
+          "action": "create"
+        },
+        {
+          "path": "src/components/WiktionarySelection.tsx",
+          "action": "create"
+        },
+        {
+          "path": "src/components/UnicodeWordLabel.tsx",
+          "action": "create"
+        },
+        {
+          "path": "tools/generate-ui-catalogues.ts",
+          "action": "create"
+        },
+        {
+          "path": "public/locales/manifest.json",
+          "action": "create"
+        },
+        {
+          "path": "tests/unit/locale.test.tsx",
+          "action": "create"
+        },
+        {
+          "path": "tests/unit/WiktionarySelection.test.tsx",
+          "action": "create"
+        },
+        {
+          "path": "tests/unit/UnicodeWordLabel.test.tsx",
+          "action": "create"
+        },
+        {
+          "path": "tests/unit/catalogueGenerator.test.ts",
+          "action": "create"
+        },
+        {
+          "path": "src/main.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/index.css",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/SettingsMenu.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/PauseMenu.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/ErrorBoundary.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "src/components/NeonButton.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "tests/unit/TypingHandler.test.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "tests/unit/gameContext.test.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "tests/unit/PauseMenu.test.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "tests/unit/SettingsMenu.test.tsx",
+          "action": "modify"
+        },
+        {
+          "path": "tests/unit/enemySpawner.test.ts",
+          "action": "modify"
+        }
+      ],
+      "status": "planned",
+      "evidence": [
+        "EV-WIKI-READY-TASK-WIKI-UI-AC-WIKI-PLAY",
+        "EV-WIKI-READY-TASK-WIKI-UI-AC-WIKI-I18N",
+        "EV-WIKI-READY-TASK-WIKI-UI-AC-BEHAVIOR",
+        "EV-WIKI-READY-TASK-WIKI-UI-AC-PAGES-BASE",
+        "EV-WIKI11-READY-TASK-WIKI-UI-AC-WIKI-PLAY",
+        "EV-WIKI11-READY-TASK-WIKI-UI-AC-WIKI-I18N",
+        "EV-WIKI11-READY-TASK-WIKI-UI-AC-BEHAVIOR",
+        "EV-WIKI11-READY-TASK-WIKI-UI-AC-PAGES-BASE",
+        "EV-WIKI12-READY-TASK-WIKI-UI-AC-WIKI-PLAY",
+        "EV-WIKI12-READY-TASK-WIKI-UI-AC-WIKI-I18N",
+        "EV-WIKI12-READY-TASK-WIKI-UI-AC-BEHAVIOR",
+        "EV-WIKI12-READY-TASK-WIKI-UI-AC-PAGES-BASE"
+      ],
+      "blocker": null,
+      "superseded_by": null
+    },
+    {
+      "id": "TASK-WIKI-SHIP",
+      "purpose": "Preserve published artifacts, land checked feature work, consolidate branches and observe exact main Pages feature behavior.",
+      "acceptance": [
+        "AC-WIKI-DELIVERY"
+      ],
+      "depends_on": [
+        "TASK-WIKI-DATA",
+        "TASK-WIKI-UI",
+        "TASK-GATES",
+        "TASK-DOCS"
+      ],
+      "changes": [
+        {
+          "path": "docs/DEPLOYMENT.md",
+          "action": "modify"
+        }
+      ],
+      "status": "planned",
+      "evidence": [
+        "EV-WIKI-READY-TASK-WIKI-SHIP-AC-WIKI-DELIVERY",
+        "EV-WIKI11-READY-TASK-WIKI-SHIP-AC-WIKI-DELIVERY",
+        "EV-WIKI12-READY-TASK-WIKI-SHIP-AC-WIKI-DELIVERY"
       ],
       "blocker": null,
       "superseded_by": null
@@ -6199,7 +6629,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-GATES"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Re-reviewed completed canonical owners, actual release/main/tag/Pages outcomes, clean history, unchanged application/gate inputs, accurate published documentation, current VM tool context, and final preserving PR/branch cleanup contract.",
       "environment": {
@@ -6246,7 +6676,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "c0b020d08ce175400e24dbb8ec36fa1a7779619ef4fe5baff91017631261b657",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-CODE-TASK-GATES-AC-GATES",
@@ -6254,7 +6684,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-GATES"
       ],
       "kind": "behavior",
-      "status": "pass",
+      "status": "stale",
       "command": [
         "npm",
         "run",
@@ -6405,7 +6835,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "c0b020d08ce175400e24dbb8ec36fa1a7779619ef4fe5baff91017631261b657",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-RED-TASK-GATES-AC-GATES",
@@ -6413,7 +6843,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-GATES"
       ],
       "kind": "red",
-      "status": "pass",
+      "status": "stale",
       "command": [
         "npm",
         "run",
@@ -6589,7 +7019,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "expected_diagnostic": "CI parity: quality workflow",
         "observed_diagnostic": "CI parity: quality workflow"
       },
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-READY-TASK-GATES-AC-PAGES-BASE",
@@ -6597,7 +7027,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-PAGES-BASE"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Re-reviewed completed canonical owners, actual release/main/tag/Pages outcomes, clean history, unchanged application/gate inputs, accurate published documentation, current VM tool context, and final preserving PR/branch cleanup contract.",
       "environment": {
@@ -6644,7 +7074,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "c74e2c37cbbe969fe93d9762c28991c42810442c8017e47fec1309403e6ca82a",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-CODE-TASK-GATES-AC-PAGES-BASE",
@@ -6652,7 +7082,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-PAGES-BASE"
       ],
       "kind": "behavior",
-      "status": "pass",
+      "status": "stale",
       "command": [
         "npm",
         "run",
@@ -6935,7 +7365,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "c74e2c37cbbe969fe93d9762c28991c42810442c8017e47fec1309403e6ca82a",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-RED-TASK-GATES-AC-PAGES-BASE",
@@ -6943,7 +7373,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-PAGES-BASE"
       ],
       "kind": "red",
-      "status": "pass",
+      "status": "stale",
       "command": [
         "npm",
         "run",
@@ -7251,7 +7681,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "expected_diagnostic": "AssertionError: expected '/assets/models/ships/player-ship.glb' to be",
         "observed_diagnostic": "AssertionError: expected '/assets/models/ships/player-ship.glb' to be"
       },
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-READY-TASK-BEHAVIOR-AC-BEHAVIOR",
@@ -7259,7 +7689,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-BEHAVIOR"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Re-reviewed completed canonical owners, actual release/main/tag/Pages outcomes, clean history, unchanged application/gate inputs, accurate published documentation, current VM tool context, and final preserving PR/branch cleanup contract.",
       "environment": {
@@ -7306,7 +7736,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "cbdf18b831141d862d39458f0403555a970f64b132cffe3057a58bec723d7869",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-CODE-TASK-BEHAVIOR-AC-BEHAVIOR",
@@ -7314,7 +7744,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-BEHAVIOR"
       ],
       "kind": "behavior",
-      "status": "pass",
+      "status": "stale",
       "command": [
         "npm",
         "run",
@@ -7497,7 +7927,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "cbdf18b831141d862d39458f0403555a970f64b132cffe3057a58bec723d7869",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-RED-TASK-BEHAVIOR-AC-BEHAVIOR",
@@ -7505,7 +7935,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-BEHAVIOR"
       ],
       "kind": "red",
-      "status": "pass",
+      "status": "stale",
       "command": [
         "npm",
         "run",
@@ -7713,7 +8143,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "expected_diagnostic": "AssertionError: expected -20 to be 10 // Object.is equality",
         "observed_diagnostic": "AssertionError: expected -20 to be 10 // Object.is equality"
       },
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-READY-TASK-BEHAVIOR-AC-PAGES-BASE",
@@ -7721,7 +8151,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-PAGES-BASE"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Re-reviewed completed canonical owners, actual release/main/tag/Pages outcomes, clean history, unchanged application/gate inputs, accurate published documentation, current VM tool context, and final preserving PR/branch cleanup contract.",
       "environment": {
@@ -7768,7 +8198,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "c74e2c37cbbe969fe93d9762c28991c42810442c8017e47fec1309403e6ca82a",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-CODE-TASK-BEHAVIOR-AC-PAGES-BASE",
@@ -7776,7 +8206,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-PAGES-BASE"
       ],
       "kind": "behavior",
-      "status": "pass",
+      "status": "stale",
       "command": [
         "npm",
         "run",
@@ -8059,7 +8489,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "c74e2c37cbbe969fe93d9762c28991c42810442c8017e47fec1309403e6ca82a",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-RED-TASK-BEHAVIOR-AC-PAGES-BASE",
@@ -8067,7 +8497,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-PAGES-BASE"
       ],
       "kind": "red",
-      "status": "pass",
+      "status": "stale",
       "command": [
         "npm",
         "run",
@@ -8375,7 +8805,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "expected_diagnostic": "AssertionError: expected '/assets/models/ships/player-ship.glb' to be",
         "observed_diagnostic": "AssertionError: expected '/assets/models/ships/player-ship.glb' to be"
       },
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-READY-TASK-DOCS-AC-DOCS",
@@ -8383,7 +8813,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-DOCS"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Re-reviewed completed canonical owners, actual release/main/tag/Pages outcomes, clean history, unchanged application/gate inputs, accurate published documentation, current VM tool context, and final preserving PR/branch cleanup contract.",
       "environment": {
@@ -8430,7 +8860,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "742b873f7e4b792c7dbfae22f315b046439e3734db70ad2cb0b88a29260295c5",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-MANUAL-TASK-DOCS-AC-DOCS",
@@ -8438,7 +8868,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-DOCS"
       ],
       "kind": "manual",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Reviewed current source controls, settings, persistence, asset/PWA configuration, declared engines/scripts, actual GitHub README desktop/narrow rendering, published metadata, verified distribution and documented limits. Current documentation states completed outcomes without native/GPU/audible/offline certification claims.",
       "environment": {
@@ -8525,7 +8955,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "742b873f7e4b792c7dbfae22f315b046439e3734db70ad2cb0b88a29260295c5",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-READY-TASK-HISTORY-AC-HISTORY",
@@ -8533,7 +8963,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-HISTORY"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Re-reviewed completed canonical owners, actual release/main/tag/Pages outcomes, clean history, unchanged application/gate inputs, accurate published documentation, current VM tool context, and final preserving PR/branch cleanup contract.",
       "environment": {
@@ -8580,7 +9010,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "a801ffee8425275984b7816008744b63a432bf96ccf08b376a58443112c1b8aa",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-MANUAL-TASK-HISTORY-AC-HISTORY",
@@ -8588,7 +9018,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-HISTORY"
       ],
       "kind": "manual",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Owner confirmed revocation/rotation and authorized exact-value scrub. Reachable blobs and normal VM/CI history scans are clean; ten original tag identities and current application trees were preserved. No real-key scan exception was introduced.",
       "environment": {
@@ -8639,7 +9069,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "a801ffee8425275984b7816008744b63a432bf96ccf08b376a58443112c1b8aa",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-READY-TASK-RELEASE-AC-RELEASE",
@@ -8647,7 +9077,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-RELEASE"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Re-reviewed completed canonical owners, actual release/main/tag/Pages outcomes, clean history, unchanged application/gate inputs, accurate published documentation, current VM tool context, and final preserving PR/branch cleanup contract.",
       "environment": {
@@ -8694,7 +9124,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "39c4d042e14e945d17f63158e0352fd212807006a642c09a08ac13b29380fd91",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-MANUAL-TASK-RELEASE-AC-RELEASE",
@@ -8702,7 +9132,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-RELEASE"
       ],
       "kind": "manual",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Observed published v2.0.1, successful exact-source main/tag Quality and all platform builds, synchronized package/lock/About, 64 ZIP files plus embedded identity, and all three downloaded/uploaded/local digests. Scoped run/artifact cleanup retained current proof and published assets.",
       "environment": {
@@ -8765,7 +9195,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "39c4d042e14e945d17f63158e0352fd212807006a642c09a08ac13b29380fd91",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-READY-TASK-PAGES-AC-PAGES-LIVE",
@@ -8773,7 +9203,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-PAGES-LIVE"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Re-reviewed completed canonical owners, actual release/main/tag/Pages outcomes, clean history, unchanged application/gate inputs, accurate published documentation, current VM tool context, and final preserving PR/branch cleanup contract.",
       "environment": {
@@ -8820,7 +9250,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "5d5cab3975e6421c07e04bf093bbb166d2a3c2e849c7b1df7a2bc62d7e81d0a9",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-MANUAL-TASK-PAGES-AC-PAGES-LIVE",
@@ -8828,7 +9258,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-PAGES-LIVE"
       ],
       "kind": "manual",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Observed main-only exact-source Pages deployment success and actual muted HTTPS desktop/narrow journeys covering version, both modes, focus, pause/quit, layout, assets, manifest/service worker, and zero console errors. Application inputs are unchanged; header/hardware/offline limitations remain explicit.",
       "environment": {
@@ -8879,7 +9309,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "5d5cab3975e6421c07e04bf093bbb166d2a3c2e849c7b1df7a2bc62d7e81d0a9",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-READY-TASK-MAIN-AC-MAIN",
@@ -8887,7 +9317,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-MAIN"
       ],
       "kind": "readiness",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Re-reviewed completed canonical owners, actual release/main/tag/Pages outcomes, clean history, unchanged application/gate inputs, accurate published documentation, current VM tool context, and final preserving PR/branch cleanup contract.",
       "environment": {
@@ -8934,7 +9364,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "8d83e5ed13afbecea8b80fdff09e5bea1503e73b7620b9bde2b47e8899a71b36",
       "red": null,
-      "reason": null
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
     },
     {
       "id": "EV-FINAL-MANUAL-TASK-MAIN-AC-MAIN",
@@ -8942,7 +9372,7 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
         "AC-MAIN"
       ],
       "kind": "manual",
-      "status": "pass",
+      "status": "stale",
       "command": [],
       "method": "Observed preserving merges of PRs 4 and 8, obsolete bot PR closure, no open PRs, and only main on host/VM/remote before this record-only reconciliation branch. Four trusted strict checks, admin enforcement, conversation resolution, and no force/deletion policy remain. Final branch merge/delete requires independent end-state observation.",
       "environment": {
@@ -8989,336 +9419,1989 @@ Release 2.0.1 is published from 019ed1b with passing exact-source main/tag check
       ],
       "scope_sha256": "8d83e5ed13afbecea8b80fdff09e5bea1503e73b7620b9bde2b47e8899a71b36",
       "red": null,
+      "reason": "Authorized Wiktionary/Unicode/i18n scope changes global narrative and owning contracts. Historical completed release/retrofit evidence is retained; current affected inputs and feature outcomes require fresh proof."
+    },
+    {
+      "id": "EV-WIKI-READY-TASK-GATES-AC-GATES",
+      "acceptance": [
+        "AC-GATES"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Reviewed clarified provider/language/i18n scope, real API response and CORS observations, canonical ownership, level/tier boundaries, Unicode/IME/shaping, catalogue/model provenance, accessibility/cache/error cases and VM/CI/main/Pages preservation. This is requirements readiness, not implementation or model/font certification.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e8bab5e22a50689868969816719fba1a2a1dc88552a6d99b9d2dfe2949d8cdf1"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "b0a88cb388d8d5ea95851ac4d014f94886a8a52d95e8ada9e3709c370804aabc",
+      "red": null,
+      "reason": "Owner narrowed UI to major languages while retaining all playable dictionary languages. Re-reviewed this clarification before implementation; no code outcome is inferred."
+    },
+    {
+      "id": "EV-WIKI-READY-TASK-GATES-AC-PAGES-BASE",
+      "acceptance": [
+        "AC-PAGES-BASE"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Reviewed clarified provider/language/i18n scope, real API response and CORS observations, canonical ownership, level/tier boundaries, Unicode/IME/shaping, catalogue/model provenance, accessibility/cache/error cases and VM/CI/main/Pages preservation. This is requirements readiness, not implementation or model/font certification.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e8bab5e22a50689868969816719fba1a2a1dc88552a6d99b9d2dfe2949d8cdf1"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "a1359076f2a7d82b5465f4e6ef7384899ac77524929874bc40c89d338ba2426c",
+      "red": null,
+      "reason": "Owner narrowed UI to major languages while retaining all playable dictionary languages. Re-reviewed this clarification before implementation; no code outcome is inferred."
+    },
+    {
+      "id": "EV-WIKI-READY-TASK-DOCS-AC-DOCS",
+      "acceptance": [
+        "AC-DOCS"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Reviewed clarified provider/language/i18n scope, real API response and CORS observations, canonical ownership, level/tier boundaries, Unicode/IME/shaping, catalogue/model provenance, accessibility/cache/error cases and VM/CI/main/Pages preservation. This is requirements readiness, not implementation or model/font certification.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e8bab5e22a50689868969816719fba1a2a1dc88552a6d99b9d2dfe2949d8cdf1"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "a14fa779f21819e8cf9590a6829a16394b6f7794e97d54093c653b93a17e1b60",
+      "red": null,
+      "reason": "Owner narrowed UI to major languages while retaining all playable dictionary languages. Re-reviewed this clarification before implementation; no code outcome is inferred."
+    },
+    {
+      "id": "EV-WIKI-READY-TASK-HISTORY-AC-HISTORY",
+      "acceptance": [
+        "AC-HISTORY"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Reviewed clarified provider/language/i18n scope, real API response and CORS observations, canonical ownership, level/tier boundaries, Unicode/IME/shaping, catalogue/model provenance, accessibility/cache/error cases and VM/CI/main/Pages preservation. This is requirements readiness, not implementation or model/font certification.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e8bab5e22a50689868969816719fba1a2a1dc88552a6d99b9d2dfe2949d8cdf1"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "18d152ba9cac3ddc67139537b835eec0d4ea706ba2518cc9e7527548d146ded5",
+      "red": null,
+      "reason": "Owner narrowed UI to major languages while retaining all playable dictionary languages. Re-reviewed this clarification before implementation; no code outcome is inferred."
+    },
+    {
+      "id": "EV-WIKI-READY-TASK-PAGES-AC-PAGES-LIVE",
+      "acceptance": [
+        "AC-PAGES-LIVE"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Reviewed clarified provider/language/i18n scope, real API response and CORS observations, canonical ownership, level/tier boundaries, Unicode/IME/shaping, catalogue/model provenance, accessibility/cache/error cases and VM/CI/main/Pages preservation. This is requirements readiness, not implementation or model/font certification.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e8bab5e22a50689868969816719fba1a2a1dc88552a6d99b9d2dfe2949d8cdf1"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "9c4422bffa99334a862dedcd4a4cd42aecb31abbee5b6aadd947e622d07a55e6",
+      "red": null,
+      "reason": "Owner narrowed UI to major languages while retaining all playable dictionary languages. Re-reviewed this clarification before implementation; no code outcome is inferred."
+    },
+    {
+      "id": "EV-WIKI-READY-TASK-MAIN-AC-MAIN",
+      "acceptance": [
+        "AC-MAIN"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Reviewed clarified provider/language/i18n scope, real API response and CORS observations, canonical ownership, level/tier boundaries, Unicode/IME/shaping, catalogue/model provenance, accessibility/cache/error cases and VM/CI/main/Pages preservation. This is requirements readiness, not implementation or model/font certification.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e8bab5e22a50689868969816719fba1a2a1dc88552a6d99b9d2dfe2949d8cdf1"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "aad20dfb2a414fdd71085b0f39d9a88114cb5dc0f53817de5775a199c8bc8bf2",
+      "red": null,
+      "reason": "Owner narrowed UI to major languages while retaining all playable dictionary languages. Re-reviewed this clarification before implementation; no code outcome is inferred."
+    },
+    {
+      "id": "EV-WIKI-READY-TASK-WIKI-DATA-AC-WIKI-DATA",
+      "acceptance": [
+        "AC-WIKI-DATA"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Reviewed clarified provider/language/i18n scope, real API response and CORS observations, canonical ownership, level/tier boundaries, Unicode/IME/shaping, catalogue/model provenance, accessibility/cache/error cases and VM/CI/main/Pages preservation. This is requirements readiness, not implementation or model/font certification.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e8bab5e22a50689868969816719fba1a2a1dc88552a6d99b9d2dfe2949d8cdf1"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "e527ca24616b4a29f104f5796c88e46ca488dc5620cb3918d9ac0c3b97cb4cc2",
+      "red": null,
+      "reason": "Owner narrowed UI to major languages while retaining all playable dictionary languages. Re-reviewed this clarification before implementation; no code outcome is inferred."
+    },
+    {
+      "id": "EV-WIKI-READY-TASK-WIKI-UI-AC-WIKI-PLAY",
+      "acceptance": [
+        "AC-WIKI-PLAY"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Reviewed clarified provider/language/i18n scope, real API response and CORS observations, canonical ownership, level/tier boundaries, Unicode/IME/shaping, catalogue/model provenance, accessibility/cache/error cases and VM/CI/main/Pages preservation. This is requirements readiness, not implementation or model/font certification.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e8bab5e22a50689868969816719fba1a2a1dc88552a6d99b9d2dfe2949d8cdf1"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "84762958fc1714bba6f5b05ee03797f3e1306792b7f1c8e52ebad949832f372b",
+      "red": null,
+      "reason": "Owner narrowed UI to major languages while retaining all playable dictionary languages. Re-reviewed this clarification before implementation; no code outcome is inferred."
+    },
+    {
+      "id": "EV-WIKI-READY-TASK-WIKI-UI-AC-WIKI-I18N",
+      "acceptance": [
+        "AC-WIKI-I18N"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Reviewed clarified provider/language/i18n scope, real API response and CORS observations, canonical ownership, level/tier boundaries, Unicode/IME/shaping, catalogue/model provenance, accessibility/cache/error cases and VM/CI/main/Pages preservation. This is requirements readiness, not implementation or model/font certification.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e8bab5e22a50689868969816719fba1a2a1dc88552a6d99b9d2dfe2949d8cdf1"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "84762958fc1714bba6f5b05ee03797f3e1306792b7f1c8e52ebad949832f372b",
+      "red": null,
+      "reason": "Owner narrowed UI to major languages while retaining all playable dictionary languages. Re-reviewed this clarification before implementation; no code outcome is inferred."
+    },
+    {
+      "id": "EV-WIKI-READY-TASK-WIKI-UI-AC-BEHAVIOR",
+      "acceptance": [
+        "AC-BEHAVIOR"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Reviewed clarified provider/language/i18n scope, real API response and CORS observations, canonical ownership, level/tier boundaries, Unicode/IME/shaping, catalogue/model provenance, accessibility/cache/error cases and VM/CI/main/Pages preservation. This is requirements readiness, not implementation or model/font certification.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e8bab5e22a50689868969816719fba1a2a1dc88552a6d99b9d2dfe2949d8cdf1"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "84762958fc1714bba6f5b05ee03797f3e1306792b7f1c8e52ebad949832f372b",
+      "red": null,
+      "reason": "Owner narrowed UI to major languages while retaining all playable dictionary languages. Re-reviewed this clarification before implementation; no code outcome is inferred."
+    },
+    {
+      "id": "EV-WIKI-READY-TASK-WIKI-UI-AC-PAGES-BASE",
+      "acceptance": [
+        "AC-PAGES-BASE"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Reviewed clarified provider/language/i18n scope, real API response and CORS observations, canonical ownership, level/tier boundaries, Unicode/IME/shaping, catalogue/model provenance, accessibility/cache/error cases and VM/CI/main/Pages preservation. This is requirements readiness, not implementation or model/font certification.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e8bab5e22a50689868969816719fba1a2a1dc88552a6d99b9d2dfe2949d8cdf1"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "a1359076f2a7d82b5465f4e6ef7384899ac77524929874bc40c89d338ba2426c",
+      "red": null,
+      "reason": "Owner narrowed UI to major languages while retaining all playable dictionary languages. Re-reviewed this clarification before implementation; no code outcome is inferred."
+    },
+    {
+      "id": "EV-WIKI-READY-TASK-WIKI-SHIP-AC-WIKI-DELIVERY",
+      "acceptance": [
+        "AC-WIKI-DELIVERY"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Reviewed clarified provider/language/i18n scope, real API response and CORS observations, canonical ownership, level/tier boundaries, Unicode/IME/shaping, catalogue/model provenance, accessibility/cache/error cases and VM/CI/main/Pages preservation. This is requirements readiness, not implementation or model/font certification.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e8bab5e22a50689868969816719fba1a2a1dc88552a6d99b9d2dfe2949d8cdf1"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "70bb172b656a8f93ac035ff47c082515a77b0d883e18d91dd3fb456f77e2a1d7",
+      "red": null,
+      "reason": "Owner narrowed UI to major languages while retaining all playable dictionary languages. Re-reviewed this clarification before implementation; no code outcome is inferred."
+    },
+    {
+      "id": "EV-WIKI11-READY-TASK-GATES-AC-GATES",
+      "acceptance": [
+        "AC-GATES"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Re-reviewed owner clarification: 13 major UI locales with complete machine catalogues; all playable dictionary languages remain independently selectable. Provider API/CORS, canonical owners, existing level/difficulty contracts, Unicode/IME/shaping, failures/provenance, accessibility and normal VM/CI/PR/Pages obligations are unchanged.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e65e56fac6301b116a07cbc4858d5bf643048bf5be0e354df4356ce59fffe6d5"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "521aa196c4697cecbd5ace7695089568a9328b8e85ba1af27fd3e463b28da784",
+      "red": null,
+      "reason": "Owner clarified that unsupported characters cannot be playable. Explicit glyph/font/input availability guard is now reviewed before implementation."
+    },
+    {
+      "id": "EV-WIKI11-READY-TASK-GATES-AC-PAGES-BASE",
+      "acceptance": [
+        "AC-PAGES-BASE"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Re-reviewed owner clarification: 13 major UI locales with complete machine catalogues; all playable dictionary languages remain independently selectable. Provider API/CORS, canonical owners, existing level/difficulty contracts, Unicode/IME/shaping, failures/provenance, accessibility and normal VM/CI/PR/Pages obligations are unchanged.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e65e56fac6301b116a07cbc4858d5bf643048bf5be0e354df4356ce59fffe6d5"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "844b7746175e862549631a55eac3860fbe54ecd86b26cd94db33f1e565b0240e",
+      "red": null,
+      "reason": "Owner clarified that unsupported characters cannot be playable. Explicit glyph/font/input availability guard is now reviewed before implementation."
+    },
+    {
+      "id": "EV-WIKI11-READY-TASK-DOCS-AC-DOCS",
+      "acceptance": [
+        "AC-DOCS"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Re-reviewed owner clarification: 13 major UI locales with complete machine catalogues; all playable dictionary languages remain independently selectable. Provider API/CORS, canonical owners, existing level/difficulty contracts, Unicode/IME/shaping, failures/provenance, accessibility and normal VM/CI/PR/Pages obligations are unchanged.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e65e56fac6301b116a07cbc4858d5bf643048bf5be0e354df4356ce59fffe6d5"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "f73d728c2dc170cf66cc0cc218b4f1d9ea18f4d1e4107b67c128c92985bac3f4",
+      "red": null,
+      "reason": "Owner clarified that unsupported characters cannot be playable. Explicit glyph/font/input availability guard is now reviewed before implementation."
+    },
+    {
+      "id": "EV-WIKI11-READY-TASK-HISTORY-AC-HISTORY",
+      "acceptance": [
+        "AC-HISTORY"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Re-reviewed owner clarification: 13 major UI locales with complete machine catalogues; all playable dictionary languages remain independently selectable. Provider API/CORS, canonical owners, existing level/difficulty contracts, Unicode/IME/shaping, failures/provenance, accessibility and normal VM/CI/PR/Pages obligations are unchanged.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e65e56fac6301b116a07cbc4858d5bf643048bf5be0e354df4356ce59fffe6d5"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "75a6bd3a82c9c2447d6166a1bcbcff00fdff5b56467966716f4b061014d9b3d3",
+      "red": null,
+      "reason": "Owner clarified that unsupported characters cannot be playable. Explicit glyph/font/input availability guard is now reviewed before implementation."
+    },
+    {
+      "id": "EV-WIKI11-READY-TASK-PAGES-AC-PAGES-LIVE",
+      "acceptance": [
+        "AC-PAGES-LIVE"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Re-reviewed owner clarification: 13 major UI locales with complete machine catalogues; all playable dictionary languages remain independently selectable. Provider API/CORS, canonical owners, existing level/difficulty contracts, Unicode/IME/shaping, failures/provenance, accessibility and normal VM/CI/PR/Pages obligations are unchanged.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e65e56fac6301b116a07cbc4858d5bf643048bf5be0e354df4356ce59fffe6d5"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "490b6e2c2db47ae728d5d2211f8927b1e3d5db5d0f10f526735d47bd8e23011b",
+      "red": null,
+      "reason": "Owner clarified that unsupported characters cannot be playable. Explicit glyph/font/input availability guard is now reviewed before implementation."
+    },
+    {
+      "id": "EV-WIKI11-READY-TASK-MAIN-AC-MAIN",
+      "acceptance": [
+        "AC-MAIN"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Re-reviewed owner clarification: 13 major UI locales with complete machine catalogues; all playable dictionary languages remain independently selectable. Provider API/CORS, canonical owners, existing level/difficulty contracts, Unicode/IME/shaping, failures/provenance, accessibility and normal VM/CI/PR/Pages obligations are unchanged.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e65e56fac6301b116a07cbc4858d5bf643048bf5be0e354df4356ce59fffe6d5"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "0c19431f5c74766ab9adc73fbbc5baa2de453c6e6e1e0dce371e7d21f3bf2b40",
+      "red": null,
+      "reason": "Owner clarified that unsupported characters cannot be playable. Explicit glyph/font/input availability guard is now reviewed before implementation."
+    },
+    {
+      "id": "EV-WIKI11-READY-TASK-WIKI-DATA-AC-WIKI-DATA",
+      "acceptance": [
+        "AC-WIKI-DATA"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Re-reviewed owner clarification: 13 major UI locales with complete machine catalogues; all playable dictionary languages remain independently selectable. Provider API/CORS, canonical owners, existing level/difficulty contracts, Unicode/IME/shaping, failures/provenance, accessibility and normal VM/CI/PR/Pages obligations are unchanged.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e65e56fac6301b116a07cbc4858d5bf643048bf5be0e354df4356ce59fffe6d5"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "0070755891125ce8d7bc28aa38fd59faeeb199d6bbf1cf44f652ebe043fbeba1",
+      "red": null,
+      "reason": "Owner clarified that unsupported characters cannot be playable. Explicit glyph/font/input availability guard is now reviewed before implementation."
+    },
+    {
+      "id": "EV-WIKI11-READY-TASK-WIKI-UI-AC-WIKI-PLAY",
+      "acceptance": [
+        "AC-WIKI-PLAY"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Re-reviewed owner clarification: 13 major UI locales with complete machine catalogues; all playable dictionary languages remain independently selectable. Provider API/CORS, canonical owners, existing level/difficulty contracts, Unicode/IME/shaping, failures/provenance, accessibility and normal VM/CI/PR/Pages obligations are unchanged.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e65e56fac6301b116a07cbc4858d5bf643048bf5be0e354df4356ce59fffe6d5"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "1154dfe32fed9717d645f590b4cedbd8e96c4cfd4818f86e98ee70e39abe7833",
+      "red": null,
+      "reason": "Owner clarified that unsupported characters cannot be playable. Explicit glyph/font/input availability guard is now reviewed before implementation."
+    },
+    {
+      "id": "EV-WIKI11-READY-TASK-WIKI-UI-AC-WIKI-I18N",
+      "acceptance": [
+        "AC-WIKI-I18N"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Re-reviewed owner clarification: 13 major UI locales with complete machine catalogues; all playable dictionary languages remain independently selectable. Provider API/CORS, canonical owners, existing level/difficulty contracts, Unicode/IME/shaping, failures/provenance, accessibility and normal VM/CI/PR/Pages obligations are unchanged.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e65e56fac6301b116a07cbc4858d5bf643048bf5be0e354df4356ce59fffe6d5"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "1154dfe32fed9717d645f590b4cedbd8e96c4cfd4818f86e98ee70e39abe7833",
+      "red": null,
+      "reason": "Owner clarified that unsupported characters cannot be playable. Explicit glyph/font/input availability guard is now reviewed before implementation."
+    },
+    {
+      "id": "EV-WIKI11-READY-TASK-WIKI-UI-AC-BEHAVIOR",
+      "acceptance": [
+        "AC-BEHAVIOR"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Re-reviewed owner clarification: 13 major UI locales with complete machine catalogues; all playable dictionary languages remain independently selectable. Provider API/CORS, canonical owners, existing level/difficulty contracts, Unicode/IME/shaping, failures/provenance, accessibility and normal VM/CI/PR/Pages obligations are unchanged.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e65e56fac6301b116a07cbc4858d5bf643048bf5be0e354df4356ce59fffe6d5"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "1154dfe32fed9717d645f590b4cedbd8e96c4cfd4818f86e98ee70e39abe7833",
+      "red": null,
+      "reason": "Owner clarified that unsupported characters cannot be playable. Explicit glyph/font/input availability guard is now reviewed before implementation."
+    },
+    {
+      "id": "EV-WIKI11-READY-TASK-WIKI-UI-AC-PAGES-BASE",
+      "acceptance": [
+        "AC-PAGES-BASE"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Re-reviewed owner clarification: 13 major UI locales with complete machine catalogues; all playable dictionary languages remain independently selectable. Provider API/CORS, canonical owners, existing level/difficulty contracts, Unicode/IME/shaping, failures/provenance, accessibility and normal VM/CI/PR/Pages obligations are unchanged.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e65e56fac6301b116a07cbc4858d5bf643048bf5be0e354df4356ce59fffe6d5"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "844b7746175e862549631a55eac3860fbe54ecd86b26cd94db33f1e565b0240e",
+      "red": null,
+      "reason": "Owner clarified that unsupported characters cannot be playable. Explicit glyph/font/input availability guard is now reviewed before implementation."
+    },
+    {
+      "id": "EV-WIKI11-READY-TASK-WIKI-SHIP-AC-WIKI-DELIVERY",
+      "acceptance": [
+        "AC-WIKI-DELIVERY"
+      ],
+      "kind": "readiness",
+      "status": "stale",
+      "command": [],
+      "method": "Re-reviewed owner clarification: 13 major UI locales with complete machine catalogues; all playable dictionary languages remain independently selectable. Provider API/CORS, canonical owners, existing level/difficulty contracts, Unicode/IME/shaping, failures/provenance, accessibility and normal VM/CI/PR/Pages obligations are unchanged.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "e65e56fac6301b116a07cbc4858d5bf643048bf5be0e354df4356ce59fffe6d5"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "aa2b8aa969dfb60c3bd15a068c25abb1b485feeb9667150f326943eb90b45dc0",
+      "red": null,
+      "reason": "Owner clarified that unsupported characters cannot be playable. Explicit glyph/font/input availability guard is now reviewed before implementation."
+    },
+    {
+      "id": "EV-WIKI12-READY-TASK-GATES-AC-GATES",
+      "acceptance": [
+        "AC-GATES"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed explicit character-availability boundary with the finalized 13 UI locales and all playable word languages. Native-script glyph coverage/shaping and once-only Unicode input must pass before game start; unsupported pools remain clearly unavailable. Existing canonical/source/provider/difficulty/failure/accessibility/VM/CI obligations remain.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "faa498c747a7a2707ed0d9a35af82412e11ee9b2db5860b1a0ca94a81c7e5720"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "65813c16f19807b86ca94146d160d97ca82ad3a9d8888264b3737cfe88dfd0d3",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-WIKI12-READY-TASK-GATES-AC-PAGES-BASE",
+      "acceptance": [
+        "AC-PAGES-BASE"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed explicit character-availability boundary with the finalized 13 UI locales and all playable word languages. Native-script glyph coverage/shaping and once-only Unicode input must pass before game start; unsupported pools remain clearly unavailable. Existing canonical/source/provider/difficulty/failure/accessibility/VM/CI obligations remain.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "faa498c747a7a2707ed0d9a35af82412e11ee9b2db5860b1a0ca94a81c7e5720"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "28b65baeb89b46ea7cfaea5671b1d2b691071c03819aa472a54b0d67e6205ff7",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-WIKI12-READY-TASK-DOCS-AC-DOCS",
+      "acceptance": [
+        "AC-DOCS"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed explicit character-availability boundary with the finalized 13 UI locales and all playable word languages. Native-script glyph coverage/shaping and once-only Unicode input must pass before game start; unsupported pools remain clearly unavailable. Existing canonical/source/provider/difficulty/failure/accessibility/VM/CI obligations remain.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "faa498c747a7a2707ed0d9a35af82412e11ee9b2db5860b1a0ca94a81c7e5720"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "125bfa606e27ed4aa621331d9af45847ace984053854255eb47a41401bd2d885",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-WIKI12-READY-TASK-HISTORY-AC-HISTORY",
+      "acceptance": [
+        "AC-HISTORY"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed explicit character-availability boundary with the finalized 13 UI locales and all playable word languages. Native-script glyph coverage/shaping and once-only Unicode input must pass before game start; unsupported pools remain clearly unavailable. Existing canonical/source/provider/difficulty/failure/accessibility/VM/CI obligations remain.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "faa498c747a7a2707ed0d9a35af82412e11ee9b2db5860b1a0ca94a81c7e5720"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "a6542ae087171615e64c1b7f7c9b8da76e7fa814296d2e2651e0586c9682fbed",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-WIKI12-READY-TASK-PAGES-AC-PAGES-LIVE",
+      "acceptance": [
+        "AC-PAGES-LIVE"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed explicit character-availability boundary with the finalized 13 UI locales and all playable word languages. Native-script glyph coverage/shaping and once-only Unicode input must pass before game start; unsupported pools remain clearly unavailable. Existing canonical/source/provider/difficulty/failure/accessibility/VM/CI obligations remain.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "faa498c747a7a2707ed0d9a35af82412e11ee9b2db5860b1a0ca94a81c7e5720"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "890e4178bf884885f4c637a77adb0d60e7197615c44b6aed5c6a32a85aab652a",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-WIKI12-READY-TASK-MAIN-AC-MAIN",
+      "acceptance": [
+        "AC-MAIN"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed explicit character-availability boundary with the finalized 13 UI locales and all playable word languages. Native-script glyph coverage/shaping and once-only Unicode input must pass before game start; unsupported pools remain clearly unavailable. Existing canonical/source/provider/difficulty/failure/accessibility/VM/CI obligations remain.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "faa498c747a7a2707ed0d9a35af82412e11ee9b2db5860b1a0ca94a81c7e5720"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "637ab270c1dd9b42535a92edc6b41ffdb7230e01a4eb86feb3c7b610d894e9ce",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-WIKI12-READY-TASK-WIKI-DATA-AC-WIKI-DATA",
+      "acceptance": [
+        "AC-WIKI-DATA"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed explicit character-availability boundary with the finalized 13 UI locales and all playable word languages. Native-script glyph coverage/shaping and once-only Unicode input must pass before game start; unsupported pools remain clearly unavailable. Existing canonical/source/provider/difficulty/failure/accessibility/VM/CI obligations remain.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "faa498c747a7a2707ed0d9a35af82412e11ee9b2db5860b1a0ca94a81c7e5720"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "c06923a30074588884fd351ec5894bd42cc062f326b068a07bb475c4d5c5bb43",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-WIKI12-READY-TASK-WIKI-UI-AC-WIKI-PLAY",
+      "acceptance": [
+        "AC-WIKI-PLAY"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed explicit character-availability boundary with the finalized 13 UI locales and all playable word languages. Native-script glyph coverage/shaping and once-only Unicode input must pass before game start; unsupported pools remain clearly unavailable. Existing canonical/source/provider/difficulty/failure/accessibility/VM/CI obligations remain.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "faa498c747a7a2707ed0d9a35af82412e11ee9b2db5860b1a0ca94a81c7e5720"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "661f2cca828e89246470e50b5d0bd3ad1eb912a5d75d67bc721ec169c1d0d20d",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-WIKI12-READY-TASK-WIKI-UI-AC-WIKI-I18N",
+      "acceptance": [
+        "AC-WIKI-I18N"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed explicit character-availability boundary with the finalized 13 UI locales and all playable word languages. Native-script glyph coverage/shaping and once-only Unicode input must pass before game start; unsupported pools remain clearly unavailable. Existing canonical/source/provider/difficulty/failure/accessibility/VM/CI obligations remain.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "faa498c747a7a2707ed0d9a35af82412e11ee9b2db5860b1a0ca94a81c7e5720"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "661f2cca828e89246470e50b5d0bd3ad1eb912a5d75d67bc721ec169c1d0d20d",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-WIKI12-READY-TASK-WIKI-UI-AC-BEHAVIOR",
+      "acceptance": [
+        "AC-BEHAVIOR"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed explicit character-availability boundary with the finalized 13 UI locales and all playable word languages. Native-script glyph coverage/shaping and once-only Unicode input must pass before game start; unsupported pools remain clearly unavailable. Existing canonical/source/provider/difficulty/failure/accessibility/VM/CI obligations remain.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "faa498c747a7a2707ed0d9a35af82412e11ee9b2db5860b1a0ca94a81c7e5720"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "661f2cca828e89246470e50b5d0bd3ad1eb912a5d75d67bc721ec169c1d0d20d",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-WIKI12-READY-TASK-WIKI-UI-AC-PAGES-BASE",
+      "acceptance": [
+        "AC-PAGES-BASE"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed explicit character-availability boundary with the finalized 13 UI locales and all playable word languages. Native-script glyph coverage/shaping and once-only Unicode input must pass before game start; unsupported pools remain clearly unavailable. Existing canonical/source/provider/difficulty/failure/accessibility/VM/CI obligations remain.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "faa498c747a7a2707ed0d9a35af82412e11ee9b2db5860b1a0ca94a81c7e5720"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "28b65baeb89b46ea7cfaea5671b1d2b691071c03819aa472a54b0d67e6205ff7",
+      "red": null,
+      "reason": null
+    },
+    {
+      "id": "EV-WIKI12-READY-TASK-WIKI-SHIP-AC-WIKI-DELIVERY",
+      "acceptance": [
+        "AC-WIKI-DELIVERY"
+      ],
+      "kind": "readiness",
+      "status": "pass",
+      "command": [],
+      "method": "Reviewed explicit character-availability boundary with the finalized 13 UI locales and all playable word languages. Native-script glyph coverage/shaping and once-only Unicode input must pass before game start; unsupported pools remain clearly unavailable. Existing canonical/source/provider/difficulty/failure/accessibility/VM/CI obligations remain.",
+      "environment": {
+        "tools": {
+          "vitest": "4.1.11",
+          "eslint": "10.9.0",
+          "opengrep-core": "1.30.0",
+          "osv-scanner": "2.6.0",
+          "react-three-test-renderer": "9.1.1",
+          "node": "v24.21.0",
+          "zizmor": "1.25.2",
+          "actionlint": "1.7.12",
+          "typescript": "6.0.3",
+          "python": "3.14.7",
+          "gitleaks": "8.30.1",
+          "pre-commit": "4.5.1",
+          "npm": "11.19.0",
+          "playwright": "1.63.0"
+        },
+        "platform": "windows"
+      },
+      "exit_code": null,
+      "artifact": {
+        "path": "docs/verification/wiktionary-readiness.md",
+        "sha256": "faa498c747a7a2707ed0d9a35af82412e11ee9b2db5860b1a0ca94a81c7e5720"
+      },
+      "inputs": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
+        }
+      ],
+      "scope_sha256": "e81fdb915ad7c52b348c8cfbc9bacb76e9c816836bbd0d0b1c4e249aa8ae5841",
+      "red": null,
       "reason": null
     }
   ],
-  "checkpoint": {
-    "scope_sha256": "9ac9ecbcb1fd4f22b3595804856813cc0acac4a83bbf8eb28829f0cccc23b342",
-    "inputs": [
-      {
-        "path": ".github/.copilot-instructions.md",
-        "sha256": "af7c5e1bf5655378562e52a61da65788015ce260fcce3e349943f90382e79be7"
-      },
-      {
-        "path": ".github/FUNDING.yml",
-        "sha256": "bae242d028ca1f0a3a5ca6ad67bf3f612dd24d3abc85c573d12f89816a4e0d75"
-      },
-      {
-        "path": ".github/dependabot.yml",
-        "sha256": "2ac0f4eedc85cd7257690030d69de019cf53af459539657a601605d22d638f23"
-      },
-      {
-        "path": ".github/workflows/build-multiplatform.yml",
-        "sha256": "2d7be630f6e943747b1d1b48dfbfe5a424e4acb2ccf0382b1b63f58c87d4a73d"
-      },
-      {
-        "path": ".github/workflows/pages.yml",
-        "sha256": "03e76aa3c3f4f29dc3c3d4f35de7a8615ba01ec1afcda5513703df955efc5d7e"
-      },
-      {
-        "path": ".github/workflows/quality.yml",
-        "sha256": "1d43554c08cf875972806347f6d08467ad57403f10ff2b7b1251698dab136df9"
-      },
-      {
-        "path": ".gitignore",
-        "sha256": "79b24aac07be8fe0b628ee10c4442b64714866b3b105c995fa8b6df777bf7785"
-      },
-      {
-        "path": ".gitleaksignore",
-        "sha256": "5929eefaabde4193a1f9b96e39b83d31a9104bd906bf5e572fef74abaaa52f24"
-      },
-      {
-        "path": ".pre-commit-config.yaml",
-        "sha256": "a739eb6d9ff7c8e3bb02d28923d2bff6828616ad0b756ab9011666ac3f44dd15"
-      },
-      {
-        "path": ".semgrep.yml",
-        "sha256": "99e8b7b99911504941680041747174759585e2d359c379b3208fa8a4f66c3e9f"
-      },
-      {
-        "path": "AGENTS.md",
-        "sha256": "ec7e6ca333bae7292f912e4571aa248883085c72c73b28b1cc0575b4d4cd4383"
-      },
-      {
-        "path": "CHANGELOG.md",
-        "sha256": "1ff3618249d65961b7b15d97d8a6be0e5db1fe14237d3fd1112329177b11383f"
-      },
-      {
-        "path": "CONTRIBUTING.md",
-        "sha256": "8b397f1a9bed3d1f4952e9df63f729e39cd1d0a9864f276b3553d9356c855153"
-      },
-      {
-        "path": "README.md",
-        "sha256": "2b5885f359aa0d1ea692673d0d79064797a043b383a29b1ba9f358b4a17cbc0f"
-      },
-      {
-        "path": "SECURITY.md",
-        "sha256": "427bc9dc8c694f5e414cc6737c18a5bdb838de5dc0752c9066289f42d48a37a8"
-      },
-      {
-        "path": "docs/CONTENT.md",
-        "sha256": "c12f8c96c7214099c59507162914e64cf270004bba177909d98123d326bbd019"
-      },
-      {
-        "path": "docs/DEPLOYMENT.md",
-        "sha256": "af1c0159c09f9e828a78ad2f89edf87d6a4d4a5dd79258c9d78f29780f3977ca"
-      },
-      {
-        "path": "docs/QUALITY-RETROFIT.md",
-        "sha256": "5a022039d368db7ce379ab13872b40e6a59c3223934a6e9ba1191975b5c328dd"
-      },
-      {
-        "path": "docs/assets/menu.png",
-        "sha256": "9162eacda40fc42ccf256406398819d33ef7b24f6cb1b3cf99dc3fabf4fbe62d"
-      },
-      {
-        "path": "eslint.config.mjs",
-        "sha256": "a9a32260099754907bd7d122c47d2a6177dc51be0a938d37ef04dca9368f16ce"
-      },
-      {
-        "path": "index.html",
-        "sha256": "47963cdcc6a2d22da213d1607fc00e0be43053e19c68b952dc4268d1f806f206"
-      },
-      {
-        "path": "knip.jsonc",
-        "sha256": "457115a45d56bf9bb4eca2bd0fa5e1187fb3e40707b7ff308093422b2c204eff"
-      },
-      {
-        "path": "package-lock.json",
-        "sha256": "4788f09181c74f4c10b394dd3dc005dd6fb5528cb30468cdc6bbae86e7f65a71"
-      },
-      {
-        "path": "package.json",
-        "sha256": "e6ff92d7f50065f8681865709f506c0784a5c353ca83eda89eef1684f155d6a3"
-      },
-      {
-        "path": "playwright.config.ts",
-        "sha256": "cd0cc43ee2d6759b1498f01e805ce24d7cdfa0fae08fceb82f225b0c77973643"
-      },
-      {
-        "path": "requirements-quality.in",
-        "sha256": "0d865bbd734ee4bc2a928bd66f4d2f0d21dd84d5c13781a31f8c7a9bb7f04297"
-      },
-      {
-        "path": "requirements-quality.txt",
-        "sha256": "546575b9b4920fb90b69b34e46993ed03387558ae806c73cddf1236da8b8d56e"
-      },
-      {
-        "path": "src/App.tsx",
-        "sha256": "5900842b079776802dcbcf83c3303506c668ef0ab4f5dc1623868ed751dba8d9"
-      },
-      {
-        "path": "src/components/AchievementToast.tsx",
-        "sha256": "39560e0016723e8cc81a1f5f7d19ff7b85f879da896bd6fad7ba4de6c50df807"
-      },
-      {
-        "path": "src/components/CameraController.tsx",
-        "sha256": "c86ccdd2214ac458cab1d6acab2ed39fd19f65c9c811deaeb7b530d80ddc3efe"
-      },
-      {
-        "path": "src/components/CanvasHUD.tsx",
-        "sha256": "a926eddf7c9b4bd5c1ec61858363dd8d2640c9d7e7109140befa5495f892f97d"
-      },
-      {
-        "path": "src/components/GameCanvas.tsx",
-        "sha256": "b31e5c4ca5613e84599bc5488e79c5bb99ca3e7833c565feda6096ddb720cfe3"
-      },
-      {
-        "path": "src/components/GameOverScreen.tsx",
-        "sha256": "24ce00cb347deeef8e5cf4ba8dafde90809991ec0d2ea0fd78b185d5abe27114"
-      },
-      {
-        "path": "src/components/LaserEffect.tsx",
-        "sha256": "d5f74e0f52e1b99db14460393e2acf5ecec7fd4d431311ec3cdbda0e91d86847"
-      },
-      {
-        "path": "src/components/LaserTargetHelper.tsx",
-        "sha256": "d18da761f538fa9bc3d1250c037c5a1a469d14273d6e47bee27c3e528f8cc9b3"
-      },
-      {
-        "path": "src/components/MainMenu.tsx",
-        "sha256": "a9af54c96712c5ae256fb8f9a692be7f80720ebc38c74cb0d1657e67a882c7cd"
-      },
-      {
-        "path": "src/components/ModalShell.tsx",
-        "sha256": "47453faf2baee90e4a6b77dc9f5286016aac6bccb4d7b87f2c5be87f31d7bf34"
-      },
-      {
-        "path": "src/components/PlayerStatsModal.tsx",
-        "sha256": "a0d3dc71de543d1c51627f5e805c7ba155c90ae747824c145ecc55b6b2f3b6a4"
-      },
-      {
-        "path": "src/components/SpaceScene.tsx",
-        "sha256": "da584bf3c0af977979dbdb145918b31c1aeecc0bcae8587f915f5a1d36866517"
-      },
-      {
-        "path": "src/components/TriviaOverlay.tsx",
-        "sha256": "2e24da954b161c19785d855f54b4f90a102c1977d372e86fc914c9a0144e362c"
-      },
-      {
-        "path": "src/components/TypingHandler.tsx",
-        "sha256": "f90c72ae0a0cf3a7a3b987ad48e1eb23fab88594333bb869301adb8b0d557a51"
-      },
-      {
-        "path": "src/entities/EnemyShip.tsx",
-        "sha256": "6169101c41d2587f2ffbf82e5d7bb4fb7c6b1bcc7a0599cd65b7cb3a7842d982"
-      },
-      {
-        "path": "src/entities/PlayerShip.tsx",
-        "sha256": "50a21a751f1d005d0ecc413ca94d176d8cafa6ba9fd61a9a9d802bf56d245e2f"
-      },
-      {
-        "path": "src/store/gameContext.tsx",
-        "sha256": "f40c4ea10a3f2aa4b4ba7a1ea6a9c7b5778a14adc541b01975882560ce9e263c"
-      },
-      {
-        "path": "src/types.ts",
-        "sha256": "2c0af52b1282d7979ad6a1b718b7da82971865e29e1b6bfe45f0b56ff1d8e161"
-      },
-      {
-        "path": "src/utils/achievementsManager.ts",
-        "sha256": "ce71972d38530d9cda29c88cf38f003f41f9b859f45568d901e53f71dad5fb9d"
-      },
-      {
-        "path": "src/utils/audioManager.ts",
-        "sha256": "279f2ce25e7030508017dd7ea3946cbfb2610022a59133b0049529f87461fad3"
-      },
-      {
-        "path": "src/utils/performanceInit.ts",
-        "sha256": "85e12f0ef674949ba8ad4651af02b5f0a636e6f5470c0c40b4ddf7319e147e2e"
-      },
-      {
-        "path": "src/utils/publicAssetUrl.ts",
-        "sha256": "600821733700330b5a6f700adec27b333fa4dc98deb5fd5ce45f859516beb9b9"
-      },
-      {
-        "path": "src/utils/resourcePreloader.ts",
-        "sha256": "69aa3421099382bfc4588852da0d233bf65b91a6f8673374279daa9f92423469"
-      },
-      {
-        "path": "src/utils/testIds.ts",
-        "sha256": "8416d50f8928bec7da5fabbff821a1647a15dcb1e4e9b1a2be675f89eb636cea"
-      },
-      {
-        "path": "src/utils/triviaDatabase.ts",
-        "sha256": "e2da380911aabf0773e6efdd2f78931edfbaae4a9b50edadc2d6621930a5b5b5"
-      },
-      {
-        "path": "src/utils/wordDictionary.ts",
-        "sha256": "0f9558084f10c75170422c71bad250c02a26f7a3db5a0d4685db369061dee1f9"
-      },
-      {
-        "path": "tests/ci-parity.ts",
-        "sha256": "78a7b8b444646c2ff7991186314caaabc9aade3ba7e0df0127eba71a31e04372"
-      },
-      {
-        "path": "tests/code-scan.ts",
-        "sha256": "cee0f261c8f0b030372a2fec78ac1920f59aa13b5b1c5e734c8ceabc300f1032"
-      },
-      {
-        "path": "tests/deployment-gate.ts",
-        "sha256": "438cb17033249bca15d4521d0d75e4d04499695230d0ff462cb0051cc664b973"
-      },
-      {
-        "path": "tests/e2e/development.spec.ts",
-        "sha256": "e337b81f4eaaa9461e407fd9d761ac62db6ee83e630627ce0a7e06046097f277"
-      },
-      {
-        "path": "tests/e2e/fixtures.ts",
-        "sha256": "b65ea2bf17623b0099f1c1083f8f16911491fed82bfd67670a8d7a44874829cf"
-      },
-      {
-        "path": "tests/e2e/smoke.spec.ts",
-        "sha256": "9bcafdeffdf6458b0c7fb65b8d280f6cf2f0c39727b93a289c20836e7b9f57a2"
-      },
-      {
-        "path": "tests/red-drills.ts",
-        "sha256": "14745c2ef72dd91fee7a0d16cf3194bd61a564a94534016db1ed774596a9788b"
-      },
-      {
-        "path": "tests/tsconfig.json",
-        "sha256": "127aeba35e3200543ac2a1f6a4c85f5496d9b14e65e928013111b23ea22309cf"
-      },
-      {
-        "path": "tests/unit/App.test.tsx",
-        "sha256": "ef9366d486398af25920e84de5595a8ad22d028b13ccd27d8500c04f96da416c"
-      },
-      {
-        "path": "tests/unit/MainMenu.test.tsx",
-        "sha256": "84616cb53df09b2689098084ad9c78984e89b92a02cbc613b6d0f271a9169582"
-      },
-      {
-        "path": "tests/unit/deploymentGate.test.ts",
-        "sha256": "6173789d2326235174c3a443d75eacbe3af776f371877df0d75bd7084a5d68dd"
-      },
-      {
-        "path": "tests/unit/publicAssetUrl.test.ts",
-        "sha256": "fb9e0fca2c6f95313238f22712d910e559638c8322b062e07dcc79e1632decf1"
-      },
-      {
-        "path": "tests/unit/sceneFrames.test.tsx",
-        "sha256": "e49ddfcf9e838bbaec8d35b9d2eae45775fb60b1e9ae79fcab42171c86eb7103"
-      },
-      {
-        "path": "tests/unit/triviaDatabase.test.ts",
-        "sha256": "300fbe4c3928570d2234bb3dedf4f0b2eed6f39b3241a143abfd070a83e88529"
-      },
-      {
-        "path": "tests/unit/uiPrimitives.test.tsx",
-        "sha256": "f759885389a54dd5996e40c2228f16d47a54c5410d88d794faadeafdb92ec28c"
-      },
-      {
-        "path": "tsconfig.json",
-        "sha256": "45103522a5fe2bb9b16e1973ba967caf831e3238f87124f3ea569dd4bea35ba7"
-      },
-      {
-        "path": "tsconfig.node.json",
-        "sha256": "eae28b457e36032113b04b86feaedb7be1fb063b2ce26247142976f9bb6016be"
-      },
-      {
-        "path": "vercel.json",
-        "sha256": null
-      },
-      {
-        "path": "vite.config.ts",
-        "sha256": "0dca6d47e87189cc0b16b6f583631ece03a84064c23d0b098594c92a85b849fb"
-      },
-      {
-        "path": "vitest.config.ts",
-        "sha256": "5eac76ca4a13b7d951d40b3ab71be7dddb516257c50f859d1af337621ef4e710"
-      }
-    ],
-    "environment": {
-      "tools": {
-        "vitest": "4.1.11",
-        "eslint": "10.9.0",
-        "opengrep-core": "1.30.0",
-        "osv-scanner": "2.6.0",
-        "react-three-test-renderer": "9.1.1",
-        "node": "v24.21.0",
-        "zizmor": "1.25.2",
-        "actionlint": "1.7.12",
-        "typescript": "6.0.3",
-        "python": "3.14.7",
-        "gitleaks": "8.30.1",
-        "pre-commit": "4.5.1",
-        "npm": "11.19.0",
-        "playwright": "1.63.0"
-      },
-      "platform": "windows"
-    },
-    "verified_tasks": [
-      "TASK-GATES",
-      "TASK-BEHAVIOR",
-      "TASK-DOCS",
-      "TASK-HISTORY",
-      "TASK-RELEASE",
-      "TASK-PAGES",
-      "TASK-MAIN"
-    ],
-    "pending_operations": [],
-    "next_action": "Observe normal reconciliation commit hooks and required CI, merge/delete its transient documentation branch, then independently verify main-only protection/PR/Pages/release state. Reopen any obligation if its actual gate or final external outcome fails.",
-    "source_revision": "019ed1b05b0e8350122be0b83173e41c8d79b0b3"
-  }
+  "checkpoint": null
 }
 ```
