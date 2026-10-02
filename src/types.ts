@@ -9,6 +9,7 @@ export enum GameMode {
   MENU = "menu",
   NORMAL = "normal",
   PROGRAMMING = "programming",
+  WIKTIONARY = "wiktionary",
   GAME_OVER = "game_over",
   TRIVIA = "trivia",
 }

@@ -678,6 +678,42 @@ try {
     },
     /animates destruction particles[\s\S]*AssertionError/,
   );
+  drill(
+    "Unicode grapheme count",
+    ["src/utils/text.ts"],
+    ["run", "test:unit", "--", "tests/unit/text.test.ts"],
+    () => {
+      replace(
+        "src/utils/text.ts",
+        "return getGraphemes(text).length;",
+        "return text.length;",
+      );
+    },
+    /normalizes accents and counts complete graphemes[\s\S]*AssertionError/,
+  );
+  drill(
+    "Wiktionary catalogue continuation",
+    ["src/utils/wiktionary.ts"],
+    ["run", "test:unit", "--", "tests/unit/wiktionary.test.ts"],
+    () => {
+      replace(
+        "src/utils/wiktionary.ts",
+        'token = continuation(data, "gcmcontinue");',
+        "token = undefined;",
+      );
+    },
+    /completes category pagination[\s\S]*AssertionError/,
+  );
+  drill(
+    "Wiktionary supported glyphs",
+    ["src/utils/wordPools.ts"],
+    ["run", "test:unit", "--", "tests/unit/wordPools.test.ts"],
+    () => {
+      replace("src/utils/wordPools.ts", "!canRenderText(title) ||", "false ||");
+      replace("src/utils/wordPools.ts", "!canRenderText(text) ||", "false ||");
+    },
+    /filters unavailable glyphs[\s\S]*AssertionError/,
+  );
   mkdirSync(path.join(root, "docs/verification"), { recursive: true });
   if (records.length === 0) throw new Error("No matching red drills selected");
   writeFileSync(
